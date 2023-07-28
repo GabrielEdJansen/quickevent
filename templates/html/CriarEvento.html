@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Evento</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!--<a class="navbar-brand" href="acesso">Home</a>-->
+        <a class="navbar-brand" aria-current="page" href="InicioBuscarEvento">Buscar Eventos</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="InicioCriarEvento">Criar Evento</a>
+                <a class="nav-link active" aria-current="page" href="InicioGerenciarEventos">Gerenciar Eventos</a>
+            </div>
+        </div>
+    </div>
+    <a class="nav-link active" aria-current="page" href="/">Sair</a>
+</nav>
+<section class="vh-100" style="background-color: #508bfc;">
+    <form action="CriarEvento" method="post">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+
+                            <h3 class="mb-5">Criar novo evento</h3>
+                            {% set mensagens = get_flashed_messages() %}
+                            {% if mensagens %}
+                            <div class="alert-danger">
+                                <strong>{{mensagens[0]}}</strong>
+                            </div>
+                            {% endif %}
+
+                            <div class="form-outline mb-4">
+                                <input name="nomeEventocad" type="text" id="nome" class="form-control form-control-lg"
+                                       placeholder="Digite o nome do evento" required/>
+                                <label class="form-label" for="nomeEventocad">Nome do evento</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <textarea rows="5" name="descricaocad" type="text" id="descricaocad"
+                                          class="form-control form-control-lg"
+                                          placeholder="Digite a descrição do evento" required></textarea>
+                                <label class="form-label" for="descricaocad">Descrição do evento</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <select name="categoriacad" class="form-control form-control-lg"
+                                        aria-label="Default select example" required>
+                                    <option selected disabled value="">Selecione a categoria</option>
+                                    <option value="1">Artes Dramáticas e Visuais</option>
+                                    <option value="2">Atividades Escolares</option>
+                                    <option value="3">Auto, Náutica e Aéreo</option>
+                                    <option value="4">Caridade e causas</option>
+                                    <option value="5">Casa e Estilo de Vida</option>
+                                    <option value="6">Ciência e Tecnologia</option>
+                                    <option value="7">Comida e bebida</option>
+                                    <option value="8">Comunidade e Cultura</option>
+                                    <option value="9">Esportes e Fitness</option>
+                                    <option value="10">Família e Educação</option>
+                                    <option value="11">Feriados e Festas Tradicionais</option>
+                                    <option value="12">Filmes, Mídia e Entretenimento</option>
+                                    <option value="13">Governo e Política</option>
+                                    <option value="14">Moda e Beleza</option>
+                                    <option value="15">Música</option>
+                                    <option value="16">Negócios e Profissional</option>
+                                    <option value="17">Outro</option>
+                                    <option value="18">Passatempos e Interesses Especiais</option>
+                                    <option value="19">Religião e Espiritualidade</option>
+                                    <option value="20">Saúde e bem-estar</option>
+                                    <option value="21">Viagens e Ao ar livre</option>
+                                </select>
+                                <label class="form-label" for="email">Categoria</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input name="localEventocad" type="text" id="localEventocad"
+                                       class="form-control form-control-lg"
+                                       placeholder="Digite o local do evento" required/>
+                                <label class="form-label" for="localEventocad">Local do evento</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input name="dataCad" type="date" id="dataCad"
+                                       class="form-control form-control-lg" placeholder="Digite a data do evento"
+                                       required/>
+                                <label class="form-label" for="dataCad">Data do evento</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input name="horCad" type="time" id="horCad"
+                                       class="form-control form-control-lg" placeholder="Digite a hora do evento"
+                                       required/>
+                                <label class="form-label" for="horCad">Hora do evento</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input name="totalParticipantescad" type="number" id="totalParticipantescad" class="form-control form-control-lg"
+                                       placeholder="Digite o total de participantes" required/>
+                                <label class="form-label" for="totalParticipantescad">Total de Participantes</label>
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
+                                Criar novo evento
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+</form>
+</body>
+</html>
