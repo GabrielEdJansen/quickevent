@@ -612,5 +612,5 @@ def EditarEventoEfetivo():
     return redirect("/InicioGerenciarEventos")
 
 
-if __name__ in '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
