@@ -8,7 +8,7 @@ from datetime import datetime
 import re
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "gerra123"
+#app.config['SECRET_KEY'] = "gerra123"
 
 
 @app.route("/")
