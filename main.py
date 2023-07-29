@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect
+from banco import configbanco
 import json
 import mysql.connector
 from mysql.connector import Error
@@ -8,8 +9,7 @@ from datetime import datetime
 import re
 
 app = Flask(__name__)
-#app.config['SECRET_KEY'] = "gerra123"
-
+app.config['SECRET_KEY'] = "gg123"
 
 @app.route("/")
 def home():
@@ -34,10 +34,11 @@ def cadastro():
         flash('A senha digitada diverge da senha de confirmação! ')
         return render_template("html/cadastro.html")
 
-    conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+   # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+    conexao = configbanco(db_type='pymysql')
     cursor = conexao.cursor()
     cursor.execute(
-        f"insert into quickevent.usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', '{senhacad}');")
+        f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', '{senhacad}');")
     conexao.commit()
     conexao.close()
 
@@ -51,13 +52,15 @@ def login():
     email = request.form.get('email')
     senha = request.form.get('senha')
 
-    connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+    #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+
+    connect_BD  = configbanco(db_type='mysql-connector')
 
     if connect_BD.is_connected():
         cont = 0
         print('conectado')
         cursur = connect_BD.cursor()
-        cursur.execute("select * from quickevent.usuarios;")
+        cursur.execute("select * from usuarios;")
         usuariosBD = cursur.fetchall()
 
     for usuarios in usuariosBD:
@@ -104,10 +107,11 @@ def CriarEvento():
         flash("A hora fornecida é menor que à hora atual.")
         return render_template("html/CriarEvento.html")
 
-    conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+    #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+    conexao = configbanco(db_type='pymysql')
     cursor = conexao.cursor()
     cursor.execute(
-        f"insert into quickevent.eventos values (default, '{descricaocad}', '{nomeEventocad}', '{dataCad}' , '{horCad}', {idlogado}, '{localEventocad}', {totalParticipantescad}, '{categoriacad}');")
+        f"insert into eventos values (default, '{descricaocad}', '{nomeEventocad}', '{dataCad}' , '{horCad}', {idlogado}, '{localEventocad}', {totalParticipantescad}, '{categoriacad}');")
     conexao.commit()
     conexao.close()
 
@@ -116,7 +120,8 @@ def CriarEvento():
 
 @app.route("/InicioBuscarEvento")
 def buscarEvento():
-    connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+    #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+    connect_BD  = configbanco(db_type='mysql-connector')
 
     if connect_BD.is_connected():
         print('conectado')
@@ -134,13 +139,13 @@ def buscarEvento():
             e.local_evento,\
             e.total_participantes\
             FROM\
-            quickevent.eventos AS e\
+            eventos AS e\
             LEFT JOIN\
-            quickevent.presencas AS p ON p.id_evento_presente = e.id_eventos\
+            presencas AS p ON p.id_evento_presente = e.id_eventos\
             INNER JOIN\
-            quickevent.categoria AS c ON c.id_categoria = e.categoria\
+            categoria AS c ON c.id_categoria = e.categoria\
             INNER JOIN\
-            quickevent.usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+            usuarios AS u ON u.id_usuario = e.id_usuario_evento\
             GROUP BY\
             e.total_participantes,\
             e.local_evento,\
@@ -163,14 +168,15 @@ def CancelarPresenca():
     botaoCancela = request.form.get('botaoCancela')
 
     if botaoCancela == 'true':
-        connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+       # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+        connect_BD  = configbanco(db_type='mysql-connector')
 
         if connect_BD.is_connected():
             cont = 0
             # print('conectado')
             cursur = connect_BD.cursor()
             cursur.execute(
-                f"select * from quickevent.presencas where id_evento_presente = '{eventoPresenca}' and id_usuario_presente = '{idlogado}';")
+                f"select * from presencas where id_evento_presente = '{eventoPresenca}' and id_usuario_presente = '{idlogado}';")
             presencasBD = cursur.fetchall()
 
         if len(presencasBD) == 0:
@@ -190,13 +196,13 @@ def CancelarPresenca():
                 e.local_evento,\
                 e.total_participantes\
                 FROM\
-                quickevent.eventos AS e\
+                eventos AS e\
                 LEFT JOIN\
-                quickevent.presencas AS p ON p.id_evento_presente = e.id_eventos\
+                presencas AS p ON p.id_evento_presente = e.id_eventos\
                 INNER JOIN\
-                quickevent.categoria AS c ON c.id_categoria = e.categoria\
+                categoria AS c ON c.id_categoria = e.categoria\
                 INNER JOIN\
-                quickevent.usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+                usuarios AS u ON u.id_usuario = e.id_usuario_evento\
                 GROUP BY\
                 e.total_participantes,\
                 e.local_evento,\
@@ -210,14 +216,18 @@ def CancelarPresenca():
             eventos = cursur.fetchall()
             return render_template("html/BuscarEventos.html", eventos=eventos)
         else:
-            conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+           # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+            conexao = configbanco(db_type='pymysql')
             cursor = conexao.cursor()
+            print(eventoPresenca)
+            print(idlogado)
             cursor.execute(
-                f"DELETE FROM quickevent.presencas WHERE ID_EVENTO_PRESENTE = '{eventoPresenca}' AND ID_USUARIO_PRESENTE = '{idlogado}';")
+                f"DELETE FROM presencas WHERE ID_EVENTO_PRESENTE = '{eventoPresenca}' AND ID_USUARIO_PRESENTE = '{idlogado}';")
             conexao.commit()
             conexao.close()
 
-            connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+            connect_BD  = configbanco(db_type='mysql-connector')
 
             if connect_BD.is_connected():
                 print('conectado')
@@ -235,13 +245,13 @@ def CancelarPresenca():
                     e.local_evento,\
                     e.total_participantes\
                     FROM\
-                    quickevent.eventos AS e\
+                    eventos AS e\
                     LEFT JOIN\
-                    quickevent.presencas AS p ON p.id_evento_presente = e.id_eventos\
+                    presencas AS p ON p.id_evento_presente = e.id_eventos\
                     INNER JOIN\
-                    quickevent.categoria AS c ON c.id_categoria = e.categoria\
+                    categoria AS c ON c.id_categoria = e.categoria\
                     INNER JOIN\
-                    quickevent.usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+                    usuarios AS u ON u.id_usuario = e.id_usuario_evento\
                     GROUP BY\
                     e.total_participantes,\
                     e.local_evento,\
@@ -263,17 +273,17 @@ def ConfirmarPresenca():
     eventoPresenca = request.form.get('eventoPresenca')
     botaoConfirma = request.form.get('botaoConfirma')
     botaoCancela = request.form.get('botaoCancela')
-    print(botaoConfirma)
+    #print(botaoConfirma)
     if botaoConfirma == 'true':
-        connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-
+        #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+        connect_BD  = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
             cont = 0
-            print('conectado')
+            #print('conectado')
 
             cursur = connect_BD.cursor()
             cursur.execute(
-                f"SELECT count(*) FROM quickevent.presencas where id_evento_presente ='{eventoPresenca}';")
+                f"SELECT count(*) FROM presencas where id_evento_presente ='{eventoPresenca}';")
             linhas = cursur.fetchall()
 
             for linha in linhas:
@@ -281,7 +291,7 @@ def ConfirmarPresenca():
 
             cursur = connect_BD.cursor()
             cursur.execute(
-                f"select total_participantes from quickevent.eventos where id_eventos = '{eventoPresenca}';")
+                f"select total_participantes from eventos where id_eventos = '{eventoPresenca}';")
             linhas = cursur.fetchall()
 
             for linha in linhas:
@@ -289,7 +299,7 @@ def ConfirmarPresenca():
 
             cursur = connect_BD.cursor()
             cursur.execute(
-                f"select * from quickevent.presencas where id_evento_presente = '{eventoPresenca}' and id_usuario_presente = '{idlogado}';")
+                f"select * from presencas where id_evento_presente = '{eventoPresenca}' and id_usuario_presente = '{idlogado}';")
             presencasBD = cursur.fetchall()
 
         if len(presencasBD) > 0 or numero_participantes == limite_participantes:
@@ -312,13 +322,13 @@ def ConfirmarPresenca():
                 e.local_evento,\
                 e.total_participantes\
                 FROM\
-                quickevent.eventos AS e\
+                eventos AS e\
                 LEFT JOIN\
-                quickevent.presencas AS p ON p.id_evento_presente = e.id_eventos\
+                presencas AS p ON p.id_evento_presente = e.id_eventos\
                 INNER JOIN\
-                quickevent.categoria AS c ON c.id_categoria = e.categoria\
+                categoria AS c ON c.id_categoria = e.categoria\
                 INNER JOIN\
-                quickevent.usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+                usuarios AS u ON u.id_usuario = e.id_usuario_evento\
                 GROUP BY\
                 e.total_participantes,\
                 e.local_evento,\
@@ -332,17 +342,20 @@ def ConfirmarPresenca():
             eventos = cursur.fetchall()
             return render_template("html/BuscarEventos.html", eventos=eventos)
         else:
-            conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+            #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+            conexao = configbanco(db_type='pymysql')
             cursor = conexao.cursor()
+            print(eventoPresenca)
+            print(idlogado)
             cursor.execute(
-                f"INSERT INTO quickevent.presencas VALUES ('{eventoPresenca}','{idlogado}');")
+                f"INSERT INTO presencas VALUES ('{eventoPresenca}','{idlogado}');")
             conexao.commit()
             conexao.close()
 
-            connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-
+           # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+            connect_BD  = configbanco(db_type='mysql-connector')
             if connect_BD.is_connected():
-                print('conectado')
+                #print('conectado')
                 cursur = connect_BD.cursor()
                 cursur.execute(
                     'SELECT\
@@ -357,13 +370,13 @@ def ConfirmarPresenca():
                     e.local_evento,\
                     e.total_participantes\
                     FROM\
-                    quickevent.eventos AS e\
+                    eventos AS e\
                     LEFT JOIN\
-                    quickevent.presencas AS p ON p.id_evento_presente = e.id_eventos\
+                    presencas AS p ON p.id_evento_presente = e.id_eventos\
                     INNER JOIN\
-                    quickevent.categoria AS c ON c.id_categoria = e.categoria\
+                    categoria AS c ON c.id_categoria = e.categoria\
                     INNER JOIN\
-                    quickevent.usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+                    usuarios AS u ON u.id_usuario = e.id_usuario_evento\
                     GROUP BY\
                     e.total_participantes,\
                     e.local_evento,\
@@ -381,8 +394,8 @@ def ConfirmarPresenca():
 @app.route("/InicioGerenciarEventos")
 def InicioGerenciarEventos():
     global idlogado
-    connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-
+    #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+    connect_BD  = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
         print('conectado')
         cursur = connect_BD.cursor()
@@ -399,13 +412,13 @@ def InicioGerenciarEventos():
             e.local_evento,\
             e.total_participantes\
             FROM\
-            quickevent.eventos AS e\
+            eventos AS e\
             LEFT JOIN\
-            quickevent.presencas AS p ON p.id_evento_presente = e.id_eventos\
+            presencas AS p ON p.id_evento_presente = e.id_eventos\
             INNER JOIN\
-            quickevent.categoria AS c ON c.id_categoria = e.categoria\
+            categoria AS c ON c.id_categoria = e.categoria\
             INNER JOIN\
-            quickevent.usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+            usuarios AS u ON u.id_usuario = e.id_usuario_evento\
             where e.id_usuario_evento = "{idlogado}" \
             GROUP BY\
             e.total_participantes,\
@@ -428,10 +441,11 @@ def EditarEvento():
     botaoEditar = request.form.get('botaoEditar')
     eventosList = []
     if botaoEditar == 'true':
-        connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+        #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+        connect_BD  = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor()
         cursur.execute(
-            f"SELECT * FROM quickevent.eventos e, quickevent.categoria c where e.categoria = c.id_categoria and e.id_eventos = '{eventoPresenca}';")
+            f"SELECT * FROM eventos e, categoria c where e.categoria = c.id_categoria and e.id_eventos = '{eventoPresenca}';")
         eventos = cursur.fetchall()
 
         for linha in eventos:
@@ -471,21 +485,24 @@ def ExcluirEvento():
 
     if botaoExcluirEvento == 'true':
 
-        conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+        #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+        conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
         cursor.execute(
-            f"DELETE FROM quickevent.presencas WHERE ID_EVENTO_PRESENTE = '{eventoPresenca}';")
+            f"DELETE FROM presencas WHERE ID_EVENTO_PRESENTE = '{eventoPresenca}';")
         conexao.commit()
         conexao.close()
 
-        conexao = pymysql.connect(db='usuarios', user='root', passwd='1234')
+        #conexao = pymysql.connect(db='usuarios', user='root', passwd='1234')
+        conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
         cursor.execute(
-            f"DELETE FROM quickevent.eventos WHERE ID_EVENTOS = '{eventoPresenca}' and ID_USUARIO_EVENTO = '{idlogado}';")
+            f"DELETE FROM eventos WHERE ID_EVENTOS = '{eventoPresenca}' and ID_USUARIO_EVENTO = '{idlogado}';")
         conexao.commit()
         conexao.close()
 
-        connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+        #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+        connect_BD  = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
             print('conectado')
             cursur = connect_BD.cursor()
@@ -502,13 +519,13 @@ def ExcluirEvento():
                 e.local_evento,\
                 e.total_participantes\
                 FROM\
-                quickevent.eventos AS e\
+                eventos AS e\
                 LEFT JOIN\
-                quickevent.presencas AS p ON p.id_evento_presente = e.id_eventos\
+                presencas AS p ON p.id_evento_presente = e.id_eventos\
                 INNER JOIN\
-                quickevent.categoria AS c ON c.id_categoria = e.categoria\
+                categoria AS c ON c.id_categoria = e.categoria\
                 INNER JOIN\
-                quickevent.usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+                usuarios AS u ON u.id_usuario = e.id_usuario_evento\
                 where e.id_usuario_evento = "{idlogado}" \
                 GROUP BY\
                 e.total_participantes,\
@@ -529,7 +546,8 @@ def ExcluirEvento():
 def Detalhes():
     global idlogado
     eventoPresenca = request.form.get('eventoPresenca')
-    connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+    #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+    connect_BD  = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
         print('conectado')
         cursur = connect_BD.cursor()
@@ -546,13 +564,13 @@ def Detalhes():
               e.local_evento,\
               e.total_participantes\
               FROM\
-              quickevent.eventos AS e\
+              eventos AS e\
               LEFT JOIN\
-              quickevent.presencas AS p ON p.id_evento_presente = e.id_eventos\
+              presencas AS p ON p.id_evento_presente = e.id_eventos\
               INNER JOIN\
-              quickevent.categoria AS c ON c.id_categoria = e.categoria\
+              categoria AS c ON c.id_categoria = e.categoria\
               INNER JOIN\
-              quickevent.usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+              usuarios AS u ON u.id_usuario = e.id_usuario_evento\
               where e.id_usuario_evento = "{idlogado}" and e.id_eventos = "{eventoPresenca}" \
               GROUP BY\
               e.total_participantes,\
@@ -566,12 +584,13 @@ def Detalhes():
               u.nome;')
         eventos = cursur.fetchall()
 
-        connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+       # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+        connect_BD  = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
             print('conectado')
             cursur = connect_BD.cursor()
             cursur.execute(
-                f'SELECT concat(u.nome, " ",u.sobrenome) as nomeCompleto FROM quickevent.presencas as p, quickevent.usuarios as u where p.id_usuario_presente = u.id_usuario and p.id_evento_presente = "{eventoPresenca}";')
+                f'SELECT concat(u.nome, " ",u.sobrenome) as nomeCompleto FROM presencas as p, usuarios as u where p.id_usuario_presente = u.id_usuario and p.id_evento_presente = "{eventoPresenca}";')
             presentes = cursur.fetchall()
 
     return render_template("html/Detalhes.html", eventos=eventos, presentes=presentes)
@@ -602,10 +621,11 @@ def EditarEventoEfetivo():
         return render_template("html/CriarEvento.html")
     elif dataCad == data_atual and horCad < hora_atual:
         flash("A hora fornecida é menor que à hora atual.")
-    conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+    #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+    conexao = configbanco(db_type='pymysql')
     cursor = conexao.cursor()
     cursor.execute(
-        f"UPDATE quickevent.eventos SET descricao_evento ='{descricaocad}',nome_evento = '{nomeEventocad}',categoria = '{categoriacad}',data_evento = '{dataCad}',hora_evento = '{horCad}',local_evento = '{localEventocad}',total_participantes = {totalParticipantescad} WHERE id_eventos = {eventoEditar};")
+        f"UPDATE eventos SET descricao_evento ='{descricaocad}',nome_evento = '{nomeEventocad}',categoria = '{categoriacad}',data_evento = '{dataCad}',hora_evento = '{horCad}',local_evento = '{localEventocad}',total_participantes = {totalParticipantescad} WHERE id_eventos = {eventoEditar};")
     conexao.commit()
     conexao.close()
 
@@ -614,3 +634,4 @@ def EditarEventoEfetivo():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
