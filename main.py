@@ -13,8 +13,11 @@ app.config['SECRET_KEY'] = "gg123"
 
 @app.route("/")
 def home():
-    return render_template("html/login.html")
+    return render_template("html/paginainicial.html")
 
+@app.route("/logininicio")
+def logininicio():
+    return render_template("html/login.html")
 
 @app.route("/cadastrar")
 def cadastrar():
