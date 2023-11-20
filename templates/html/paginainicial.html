@@ -5,10 +5,11 @@
     <title>PaginaInicial</title>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
-      <script>
+    <script>
+        import jwt_decode from 'jwt-decode';
         function handleCredentialResponse(response) {
-            const data = jwt_decode(response.credential)
-            console.log(data)
+          const data = jwt_decode(response.credential)
+          console.log(data)
         }
 
         window.onload = function() {
