@@ -5,8 +5,27 @@
     <title>PaginaInicial</title>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
+        function decodificarToken(token) {
+            var token = 'seu_token_jwt_aqui';
+
+            fetch('https://jwt.io/api/decode', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: token })
+        })
+        .then(response => response.json())
+        .then(data => {
+         console.log('Token decodificado:', data);
+         // Manipule os dados decodificados aqui
+        })
+        .catch(error => console.error('Erro:', error));
+        }
+
         function handleCredentialResponse(response) {
           console.log(response)
+          console.log(decodificarToken(response))
         }
 
         window.onload = function() {
