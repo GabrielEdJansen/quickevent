@@ -7,7 +7,6 @@
     <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
     <script>
         function handleCredentialResponse(response) {
-          console.log(response.credential)
           const data = jwt_decode(response.credential)
           console.log(data)
         }
