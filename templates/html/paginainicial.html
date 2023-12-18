@@ -5,9 +5,15 @@
     <title>PaginaInicial</title>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
+        function decodeJwt(token) {
+            var base64Payload = token.split(".")[1];
+            var payloadBuffer = Buffer.from(base64Payload, "base64");
+            return JSON.parse(payloadBuffer.toString());
+        }
         function handleCredentialResponse(response) {
-            document.getElementById("jwt").innerHTML = response;
-            console.log(response)
+            var payload = decodeJwt(response);
+            document.getElementById("jwt").innerHTML = payload;
+            console.log(payload)
         }
 
         window.onload = function() {
