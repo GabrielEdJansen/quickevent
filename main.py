@@ -23,6 +23,14 @@ def logininicio():
 def cadastrar():
     return render_template("html/cadastro.html")
 
+@app.route("/jwt")
+def jwt():
+    import jwt
+
+    #decoded = jwt.decode(token, segredo, algorithms=['HS256'])
+    #print('Token decodificado:', decoded)
+
+    return render_template("html/paginainicial.html")
 
 @app.route("/cadastro", methods=['POST'])
 def cadastro():
