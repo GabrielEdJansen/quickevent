@@ -5,17 +5,17 @@
     <title>PaginaInicial</title>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
-        function decodeJwt(token) {
-            var base64Payload = token.split(".")[1];
-            var payloadBuffer = Buffer.from(base64Payload, "base64");
-            return JSON.parse(payloadBuffer.toString());
-        }
         function handleCredentialResponse(response) {
-            var payload = decodeJwt(response);
-            document.getElementById("jwt").innerHTML = payload;
-            console.log(payload)
+            fetch('/chamar-funcao')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Aqui está a resposta da função Flask
+                    // Faça o que precisar com a resposta
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                });
         }
-
         window.onload = function() {
             google.accounts.id.initialize({
                 client_id: "1065269498355-b9lre71ptvnlqp5jombpjkg0snsctipe.apps.googleusercontent.com",

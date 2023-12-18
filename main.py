@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect
 from banco import configbanco
+from flask import Flask, jsonify
 import json
 import mysql.connector
 from mysql.connector import Error
@@ -22,6 +23,12 @@ def logininicio():
 @app.route("/cadastrar")
 def cadastrar():
     return render_template("html/cadastro.html")
+
+@app.route('/chamar-funcao')
+def funcao_flask():
+    # Sua função do Flask
+    resultado = "Olá do Flask!"
+    return jsonify({"resultado": resultado})
 
 @app.route("/jwt")
 def jwt():
