@@ -6,11 +6,12 @@
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
         function handleCredentialResponse(response) {
-            fetch('/chamar-funcao')
+            let token = response;
+
+            fetch(`/decode-token/${token}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data); // Aqui está a resposta da função Flask
-                    // Faça o que precisar com a resposta
+                    console.log(data);
                 })
                 .catch(error => {
                     console.error('Erro:', error);
@@ -92,7 +93,6 @@
                 <div id="buttonDiv"></div>
                 <a href="cadastrar" class="btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
                 <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
-                <label id="jwt">teste</label>
             </div>
         </div>
     </div>

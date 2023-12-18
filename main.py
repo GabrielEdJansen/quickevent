@@ -24,11 +24,17 @@ def logininicio():
 def cadastrar():
     return render_template("html/cadastro.html")
 
-@app.route('/chamar-funcao')
-def funcao_flask():
-    # Sua função do Flask
-    resultado = "Olá do Flask!"
-    return jsonify({"resultado": resultado})
+@app.route('/decode-token/<token>', methods=['GET'])
+def decode_token(token):
+    try:
+        # Aqui, você decodifica o token usando a chave secreta utilizada para criptografá-lo
+        decoded_token = jwt.decode(token, 'sua_chave_secreta', algorithms=['HS256'])
+        # Faça o que precisar com os dados decodificados (decoded_token)
+        return jsonify({"decoded_token": decoded_token})
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token expirado"})
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Token inválido"})
 
 @app.route("/jwt")
 def jwt():
