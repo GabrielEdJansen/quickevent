@@ -27,7 +27,6 @@ def cadastrar():
 
 @app.route('/decode-token/<token>', methods=['GET'])
 def decode_token(token):
-    try:
         # Aqui, você decodifica o token usando a chave secreta utilizada para criptografá-lo
         return token
         #decoded_token = jwt.decode(token, '9b0285c31bfd8b040e03157b19c4e960bdc10c6f', algorithms=['RS256'])
