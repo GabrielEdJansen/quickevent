@@ -29,6 +29,7 @@ def cadastrar():
 def decode_token(token):
     try:
         # Aqui, você decodifica o token usando a chave secreta utilizada para criptografá-lo
+        print(token)
         decoded_token = jwt.decode(token, '9b0285c31bfd8b040e03157b19c4e960bdc10c6f', algorithms=['RS256'])
         # Faça o que precisar com os dados decodificados (decoded_token)
         return jsonify({"decoded_token": decoded_token})

@@ -7,7 +7,6 @@
     <script>
         function handleCredentialResponse(response) {
             let token = response.credential;
-            console.log(token)
             fetch(`/decode-token/${token}`)
                 .then(response => response.json())
                 .then(data => {
