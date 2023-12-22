@@ -28,13 +28,12 @@ def cadastrar():
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
     try:
-        token = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjliMDI4NWMzMWJmZDhiMDQwZTAzMTU3YjE5YzRlOTYwYmRjMTBjNmYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxMDY1MjY5NDk4MzU1LWI5bHJlNzFwdHZubHFwNWpvbWJwamtnMHNuc2N0aXBlLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTA2NTI2OTQ5ODM1NS1iOWxyZTcxcHR2bmxxcDVqb21icGprZzBzbnNjdGlwZS5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExMTQ1MDkwNDMwNTE1MDE4NjQxMCIsImVtYWlsIjoiZ2FicmllbGphbnMxOEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwibmJmIjoxNzAzMjY2MzY4LCJuYW1lIjoiR2FicmllbCBFZHVhcmRvIEphbnNlbiIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NMczJSaUhqeFJtTjFvdkxiT0xDNGRGMEVtcndqbHFLWFdIZjNjY3lSVmZJUHM9czk2LWMiLCJnaXZlbl9uYW1lIjoiR2FicmllbCBFZHVhcmRvIiwiZmFtaWx5X25hbWUiOiJKYW5zZW4iLCJsb2NhbGUiOiJwdC1CUiIsImlhdCI6MTcwMzI2NjY2OCwiZXhwIjoxNzAzMjcwMjY4LCJqdGkiOiJmYTM4ZWEyMTI1ZTIwZTA2MTJjNzQ2YzY3MWZlOWNjNjM4ZjI3MmMxIn0.Ttw7tBDzmHe8u5CaGiECf_On75QJ4DucDQ0N3Xs6jH19_Kmh5_yhzKoP_1h-E7dAZ08Ew5d55xS_LSV0_d1kVX7U_S3at8geiCJ_IMGDG1lasH_bFN7ysnxPokKtADL85Ef7zYuXKreDV7_RYLrBxjQMpXAztn8-LVa_BmFA6sN_3ALZNkad_IrRPfZpG6fpFGAEHLYL2_qfqQ96u67_wAEPZw-FGKnWzRGZfzPYgoJMqYx01PnNToG4A5znrItSesD_jNjn7FQKVcUKJsEYXjeD4cjo9q7Scbj8OGQNu-am0NZ8g4qOMvH3ZNeXMnyZDwUqdZNHXA0TU0y1ra9sVA'
         decoded_token = jwt.decode(token, options={"verify_signature": False})
-        return decoded_token
+        return jsonify(decoded_token)
     except jwt.ExpiredSignatureError:
-        return {"error": "Token expirado"}
+        return jsonify({"error": "Token expirado"}), 400
     except jwt.InvalidTokenError:
-        return {"error": "Token inválido"}
+        return jsonify({"error": "Token inválido"}), 400
 
 
 @app.route("/cadastro", methods=['POST'])
