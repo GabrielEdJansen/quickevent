@@ -6,16 +6,30 @@
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
         function handleCredentialResponse(response) {
-            let token = response.credential;
-            console.log(token)
-            fetch(`/decode-token/${token}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                });
+
+            // Token JWT que você deseja decodificar
+            const tokenJWT = response.credential
+
+            // Realiza a requisição para o servidor Flask
+            fetch('http://seuservidor.com/decode-google-token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id_token: tokenJWT }) // Envia o token JWT no corpo da requisição
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Token decodificado:', data);
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
         }
         window.onload = function() {
             google.accounts.id.initialize({
