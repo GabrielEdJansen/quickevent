@@ -1,6 +1,5 @@
-from flask import Flask, render_template, request, flash, redirect
+from flask import Flask, render_template, request, flash, redirect, jsonify
 from banco import configbanco
-from flask import Flask, request, jsonify
 import jwt
 import mysql.connector
 from mysql.connector import Error
