@@ -8,9 +8,12 @@ import pandas as pd
 import pymysql
 from datetime import datetime
 import re
+from flask import Flask
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "gg123"
+CORS(app, resources={r"/decode-token/*": {"origins": "https://www.quickevent.com.br/"}})
 
 @app.route("/")
 def home():
