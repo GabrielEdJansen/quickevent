@@ -28,8 +28,6 @@ def cadastrar():
 @app.route('/decode-token/<token>', methods=['GET'])
 def decode_token(token):
     try:
-        token = request.json.get('id_token')  # Supondo que o token seja enviado no corpo da requisição com a chave 'id_token'
-
         if not token:
             return jsonify({"error": "Token não fornecido"}), 400
 
