@@ -5,9 +5,10 @@
     <title>PaginaInicial</title>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
-        function handleCredentialResponse(response) {
-            const token = response.credential
-            fetch(`/decode_token/${token}`, {
+         function handleCredentialResponse(response) {
+            const token = response.credential;
+
+            fetch(`/decode-token/${token}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
