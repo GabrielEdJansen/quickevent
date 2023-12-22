@@ -25,7 +25,7 @@ def logininicio():
 def cadastrar():
     return render_template("html/cadastro.html")
 
-@app.route('/decode-token/<token>', methods=['GET'])
+@app.route('/decode-token/<token>', methods=['POST''])
 def decode_token(token):
     try:
         decoded_token = jwt.decode(token, options={"verify_signature": False})
