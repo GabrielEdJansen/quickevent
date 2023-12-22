@@ -6,8 +6,7 @@
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
         function handleCredentialResponse(response) {
-            let token = response;
-            console.log(response)
+            let token = response.credential;
             fetch(`/decode-token/${token}`)
                 .then(response => response.json())
                 .then(data => {
@@ -93,6 +92,7 @@
                 <div id="buttonDiv"></div>
                 <a href="cadastrar" class="btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
                 <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
+                <p id="name"></p>
             </div>
         </div>
     </div>
