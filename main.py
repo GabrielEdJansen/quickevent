@@ -29,7 +29,7 @@ def cadastrar():
 def decode_token(token):
     try:
         # Aqui, você decodifica o token usando a chave secreta utilizada para criptografá-lo
-        decoded_token = jwt.decode(token, '1065269498355-b9lre71ptvnlqp5jombpjkg0snsctipe.apps.googleusercontent.com', algorithms=['HS256'])
+        decoded_token = jwt.decode(token, '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', algorithms=['RS256'])
         # Faça o que precisar com os dados decodificados (decoded_token)
         return jsonify({"decoded_token": decoded_token})
     except jwt.ExpiredSignatureError:
