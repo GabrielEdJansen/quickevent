@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect
 from banco import configbanco
 from flask import Flask, jsonify
-import jwt
-import json
 import mysql.connector
 from mysql.connector import Error
 import pandas as pd
