@@ -11,7 +11,7 @@
             const tokenJWT = response.credential
 
             // Realiza a requisição para o servidor Flask
-            fetch('http://seuservidor.com/decode-google-token', {
+            fetch('/decode-token/${token}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
