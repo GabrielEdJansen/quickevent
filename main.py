@@ -11,7 +11,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "gg123"
-#CORS(app, resources={r"/decode-token/*": {"origins": "https://www.quickevent.com.br/"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def home():
