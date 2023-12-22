@@ -32,7 +32,7 @@ def decode_token(token):
             return jsonify({"error": "Token não fornecido"}), 400
 
         # Faça a verificação do token sem chave pública (HS256)
-        decoded_token = jwt.decode(token, options={"verify_signature": False})
+        decoded_token = jwt.decode(token, options={"verify_signature": True})
 
         # Faça o que precisar com os dados decodificados (decoded_token)
         return jsonify({"decoded_token": decoded_token})
