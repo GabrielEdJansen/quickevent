@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, jsonify
+from flask import Flask, render_template, request, flash, redirect, jsonify, CORS
 from banco import configbanco
 import jwt
 import mysql.connector
@@ -7,7 +7,6 @@ import pandas as pd
 import pymysql
 from datetime import datetime
 import re
-from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "gg123"
