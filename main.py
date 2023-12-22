@@ -28,18 +28,13 @@ def cadastrar():
 @app.route('/decode-token/<token>', methods=['GET'])
 def decode_token(token):
     try:
-        if not token:
-            return jsonify({"error": "Token não fornecido"}), 400
-
-        # Faça a verificação do token sem chave pública (HS256)
-        decoded_token = jwt.decode(token, options={"verify_signature": True})
-
-        # Faça o que precisar com os dados decodificados (decoded_token)
-        return jsonify({"decoded_token": decoded_token})
+        decoded_token = jwt.decode(token, options={"verify_signature": False})
+        return decoded_token
     except jwt.ExpiredSignatureError:
-        return jsonify({"error": "Token expirado"}), 401
+        return {"error": "Token expirado"}
     except jwt.InvalidTokenError:
-        return jsonify({"error": "Token inválido"}), 401
+        return {"error": "Token inválido"}
+
 
 @app.route("/cadastro", methods=['POST'])
 def cadastro():
