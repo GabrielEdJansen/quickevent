@@ -22,12 +22,17 @@
                 var family_name = document.getElementById('family_name');
                 var email = document.getElementById('email');
                 var subId = document.getElementById('subId');
+                var subId2 = document.getElementById('subId2');
 
                 given_name.textContent = decodedData.given_name
                 family_name.textContent = decodedData.family_name
                 email.textContent = decodedData.email
                 subId.textContent = decodedData.sub
+                subId2.textContent = decodedData.sub
 
+                return fetch(`/cadastro/`, {
+                                method: 'POST',
+                })
                 return decodedData;
             })
             .catch(error => {
@@ -111,10 +116,13 @@
                 <div id="buttonDiv"></div>
                 <a href="cadastrar" class="btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
                 <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
-                <p id="given_name" style="display: none;"></p>
-                <p id="family_name" style="display: none;"></p>
-                <p id="email" style="display: none;"></p>
-                <p id="subId" style="display: none;"></p>
+                <form action="cadastro" method="post">
+                    <p name="nomecad" id="nomecad" style="display: none;"></p>
+                    <p name="sobrenomecad" id="family_name" style="display: none;"></p>
+                    <p name="emailcad" id="email" style="display: none;"></p>
+                    <p name="senhacad" id="subId" style="display: none;"></p>
+                    <p name="confirmaSenhacad" id="subId2" style="display: none;"></p>
+                </form>
             </div>
         </div>
     </div>
