@@ -27,7 +27,7 @@ def cadastrar():
 
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
-        decoded_token = jwt.decode(token, options={"verify_signature": False})
+        decoded_token = token #jwt.decode(token, options={"verify_signature": False})
         return decoded_token
 
 
