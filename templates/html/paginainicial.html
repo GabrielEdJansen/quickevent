@@ -30,9 +30,8 @@
                 subId.textContent = decodedData.sub
                 subId2.textContent = decodedData.sub
 
-                return fetch(`/cadastro`, {
-                    method: 'POST',
-                })
+                window.location.href = 'https://www.quickevent.com.br/cadastrar';
+
                 return decodedData;
             })
             .catch(error => {
