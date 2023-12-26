@@ -30,7 +30,26 @@
                 subId.textContent = decodedData.sub
                 subId2.textContent = decodedData.sub
 
-                window.location.href = 'https://www.quickevent.com.br/cadastro';
+                 document.getElementById("meuFormulario").addEventListener("submit", function(event) {
+                  // Evita o comportamento padrão do formulário (não envia a requisição automaticamente)
+                  event.preventDefault();
+
+                  // Obtém os dados do formulário
+                  var formData = new FormData(this);
+
+                  // Envia a requisição usando fetch (substitua a URL pela sua rota desejada)
+                  fetch('cadastro', {
+                    method: 'POST'
+                  })
+                  .then(response => {
+                    // Redireciona para a nova rota após a submissão bem-sucedida
+                    window.location.href = 'sua-nova-rota-de-redirecionamento';
+                  })
+                  .catch(error => {
+                    // Trata erros, se necessário
+                    console.error('Erro:', error);
+                  });
+                });
 
                 return decodedData;
             })
@@ -115,11 +134,13 @@
                 <div id="buttonDiv"></div>
                 <a href="cadastrar" class="btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
                 <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
-                <p name="nomecad" id="given_name" style="display: none;"></p>
-                <p name="sobrenomecad" id="family_name" style="display: none;"></p>
-                <p name="emailcad" id="email" style="display: none;"></p>
-                <p name="senhacad" id="subId" style="display: none;"></p>
-                <p name="confirmaSenhacad" id="subId2" style="display: none;"></p>
+                <form id="meuFormulario" action="cadastro" method="post">
+                    <p name="nomecad" id="given_name" style="display: none;"></p>
+                    <p name="sobrenomecad" id="family_name" style="display: none;"></p>
+                    <p name="emailcad" id="email" style="display: none;"></p>
+                    <p name="senhacad" id="subId" style="display: none;"></p>
+                    <p name="confirmaSenhacad" id="subId2" style="display: none;"></p>
+                </form>
             </div>
         </div>
     </div>
