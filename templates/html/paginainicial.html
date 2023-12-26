@@ -16,12 +16,6 @@
                 // Se o token precisar ser enviado no corpo da requisição:
                 // body: JSON.stringify({ token: token }),
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro ao decodificar o token');
-                }
-                return response.json();
-            })
             .then(data => {
                 console.log('Token decodificado:', data);
                 // Faça algo com os dados decodificados, se necessário
