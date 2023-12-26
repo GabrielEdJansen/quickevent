@@ -8,15 +8,23 @@
         function handleCredentialResponse(response) {
             const token = response.credential;
 
-            fetch(`/decode-token/${token}`, {
+            return fetch(`/decode-token/${token}`, {
                 method: 'POST',
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json();
+            })
             .then(decodedData => {
                 console.log('Token decodificado:', decodedData);
-                // Faça algo com os dados decodificados, se necessário
-                return decodedData; // Retorna os dados decodificados
+                return decodedData;
             })
+            .catch(error => {
+                console.error('Erro:', error);
+                throw error;
+            });
         }
         window.onload = function() {
             google.accounts.id.initialize({
