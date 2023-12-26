@@ -30,25 +30,15 @@
                 subId.textContent = decodedData.sub
                 subId2.textContent = decodedData.sub
 
-                 document.getElementById("meuFormulario").addEventListener("submit", function(event) {
-                  // Evita o comportamento padrão do formulário (não envia a requisição automaticamente)
-                  event.preventDefault();
+                document.getElementById("meuFormulario").addEventListener("submit", function(event) {
 
-                  // Obtém os dados do formulário
-                  var formData = new FormData(this);
+                    event.preventDefault();
 
-                  // Envia a requisição usando fetch (substitua a URL pela sua rota desejada)
-                  fetch('cadastro', {
-                    method: 'POST'
-                  })
-                  .then(response => {
-                    // Redireciona para a nova rota após a submissão bem-sucedida
-                    window.location.href = 'sua-nova-rota-de-redirecionamento';
-                  })
-                  .catch(error => {
-                    // Trata erros, se necessário
-                    console.error('Erro:', error);
-                  });
+                    var formData = new FormData(this);
+
+                    fetch('cadastro', {
+                      method: 'POST'
+                    })
                 });
 
                 return decodedData;
