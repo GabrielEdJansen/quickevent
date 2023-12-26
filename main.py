@@ -28,7 +28,7 @@ def cadastrar():
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
     #try:
-        decoded_token = jwt.decode(token, 'sua_chave_publica', algorithms=['RS256'])
+        decoded_token = jwt.decode(token, algorithms=['RS256'])
         return jsonify(decoded_token)
     #except jwt.ExpiredSignatureError:
     #    return jsonify({"error": "Token expirado. Por favor, faça login novamente."}), 401
