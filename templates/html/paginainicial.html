@@ -19,13 +19,13 @@
             })
             .then(decodedData => {
                 console.log('Token decodificado:', decodedData);
+                name.textContent = decodedData.name
                 return decodedData;
             })
             .catch(error => {
                 console.error('Erro:', error);
                 throw error;
             });
-         name.textContent = decodedData.name
         }
         window.onload = function() {
             google.accounts.id.initialize({
