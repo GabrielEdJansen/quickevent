@@ -8,16 +8,10 @@
          function handleCredentialResponse(response) {
             const token = response.credential;
 
-            fetch(`/decode-token/${token}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                // Se o token precisar ser enviado no corpo da requisição:
-                // body: JSON.stringify({ token: token }),
-            })
-            .then(data => {
-                console.log('Token decodificado:', data);
+            fetch(`/decode-token/${token}`)
+            .then(response => response.json())
+            .then(decodedData => {
+                console.log('Token decodificado:', decodedData);
                 // Faça algo com os dados decodificados, se necessário
             })
             .catch(error => {
