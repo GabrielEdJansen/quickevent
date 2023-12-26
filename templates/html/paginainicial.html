@@ -19,6 +19,7 @@
             })
             .then(decodedData => {
                 console.log('Token decodificado:', decodedData);
+                var name = document.getElementById('name');
                 name.textContent = decodedData.name
                 return decodedData;
             })
