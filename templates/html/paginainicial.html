@@ -18,9 +18,16 @@
                 return response.json();
             })
             .then(decodedData => {
-                console.log('Token decodificado:', decodedData);
-                var name = document.getElementById('name');
-                name.textContent = decodedData.name
+                var given_name = document.getElementById('given_name');
+                var family_name = document.getElementById('family_name');
+                var email = document.getElementById('email');
+                var sub = document.getElementById('sub');
+
+                given_name.textContent = decodedData.given_name
+                family_name.textContent = decodedData.family_name
+                email.textContent = decodedData.email
+                sub.textContent = decodedData.sub
+
                 return decodedData;
             })
             .catch(error => {
@@ -104,7 +111,10 @@
                 <div id="buttonDiv"></div>
                 <a href="cadastrar" class="btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
                 <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
-                <p id="name">teste</p>
+                <a id=given_name"></a>
+                <a id="family_name"></a>
+                <a id="email"></a>
+                <a id="sub"></a>
             </div>
         </div>
     </div>
