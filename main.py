@@ -27,8 +27,13 @@ def cadastrar():
 
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
+    try:
         decoded_token = jwt.decode(token, options={"verify_signature": False})
-        return decoded_token
+        return jsonify(decoded_token)
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token expirado"}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Token inválido"}), 400
 
 
 @app.route("/cadastro", methods=['POST'])
