@@ -11,19 +11,12 @@
             fetch(`/decode-token/${token}`, {
                 method: 'POST',
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erro na requisição');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(decodedData => {
                 console.log('Token decodificado:', decodedData);
                 // Faça algo com os dados decodificados, se necessário
+                return decodedData; // Retorna os dados decodificados
             })
-            .catch(error => {
-                console.error('Erro:', error);
-            });
         }
         window.onload = function() {
             google.accounts.id.initialize({
