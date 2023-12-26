@@ -18,6 +18,7 @@
                 return response.json();
             })
             .then(decodedData => {
+                console.log('Token decodificado:', decodedData);
                 var given_name = document.getElementById('given_name');
                 var family_name = document.getElementById('family_name');
                 var email = document.getElementById('email');
@@ -26,7 +27,7 @@
                 given_name.textContent = decodedData.given_name
                 family_name.textContent = decodedData.family_name
                 email.textContent = decodedData.email
-                sub.textContent = decodedData.sub
+                subId.textContent = decodedData.subId
 
                 return decodedData;
             })
@@ -114,7 +115,7 @@
                 <p id=given_name">teste</p>
                 <p id="family_name">teste</p>
                 <p id="email">teste</p>
-                <p id="sub">.</p>
+                <p id="subId">.</p>
             </div>
         </div>
     </div>
