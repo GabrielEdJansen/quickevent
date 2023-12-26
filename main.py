@@ -27,7 +27,7 @@ def cadastrar():
 
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
-        decoded_token = jwt.decode(token, algorithms=['RS256'])
+        decoded_token = token#jwt.decode(token, algorithms=['RS256'])
         return jsonify(decoded_token)
 
 
