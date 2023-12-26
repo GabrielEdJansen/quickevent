@@ -5,11 +5,18 @@
     <title>PaginaInicial</title>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
-         function handleCredentialResponse(response) {
+        function handleCredentialResponse(response) {
             const token = response.credential;
 
-            fetch(`/decode_token/${token}`)
-            .then(response => response.json())
+            fetch(`/decode-token/${token}`, {
+                method: 'POST',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json();
+            })
             .then(decodedData => {
                 console.log('Token decodificado:', decodedData);
                 // Faça algo com os dados decodificados, se necessário
