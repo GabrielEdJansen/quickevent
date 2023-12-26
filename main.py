@@ -27,8 +27,13 @@ def cadastrar():
 
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
+    public_key = {
+        "e": "AQAB",
+        "kty": "RSA",
+        "n": "uCYe4j3rIDaC9U8jCloiD5UP5cQCndcKr570LSxEznqNB0qpmtqDJBU-RuSJbMEYZ853AlezSWca8uqDBAgdIWPod-scaQTOTg049m9hFwQuP7FzXsAjtxiOHub0nrD60Dy7vI1dPoiyiFdox25JUdW6OSPyq2OlFxCPIQy4SpKvebXduA2ZeIY5TWE2wt0mVPo__s9NACn4Ni9GwsPCcgG6yn8oAJ-JW6xCLnz5_CycNlg178Sxj8LWVEisPbdEK9LhSwQ7V3YU7pfLpEAtGWHYrIcH3-Tfz6IkS9-UmAzbdjaGk2W-AXkZW8jiIbfNER7e4ZKLntC4Am4InHkJzw"
+    }
     try:
-        decoded_token = jwt.decode(token, options={'verify_signature': False})
+        decoded_token = jwt.decode(token, public_key, algorithms=['RS256'])
         return jsonify(decoded_token)
     except jwt.ExpiredSignatureError:
         return jsonify({"error": "Token expirado. Por favor, faça login novamente."}), 401
