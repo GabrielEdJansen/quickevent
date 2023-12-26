@@ -8,7 +8,7 @@
          function handleCredentialResponse(response) {
             const token = response.credential;
 
-            fetch(`/decode-token/${token}`)
+            fetch(`/decode_token/${token}`)
             .then(response => response.json())
             .then(decodedData => {
                 console.log('Token decodificado:', decodedData);
