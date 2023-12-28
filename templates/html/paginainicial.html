@@ -19,16 +19,22 @@
             })
             .then(decodedData => {
                 var given_name = document.getElementById('nomecad');
-                var family_name = document.getElementById('family_name');
-                var email = document.getElementById('email');
-                var subId = document.getElementById('subId');
-                var subId2 = document.getElementById('subId2');
+                var family_name = document.getElementById('sobrenomecad');
+                var email = document.getElementById('emailcad');
+                var subId = document.getElementById('senhacad');
+                var subId2 = document.getElementById('confirmaSenhacad');
 
                 given_name.textContent = decodedData.given_name
                 family_name.textContent = decodedData.family_name
                 email.textContent = decodedData.email
                 subId.textContent = decodedData.sub
                 subId2.textContent = decodedData.sub
+
+                given_name.value = decodedData.given_name;
+                family_name.value = decodedData.family_name;
+                email.value = decodedData.email;
+                subId.value = decodedData.sub;
+                subId2.value = decodedData.sub;
 
                 return decodedData;
             })
@@ -114,12 +120,11 @@
                 <div id="buttonDiv"></div>
                 <a href="cadastrar" class="btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
                 <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
-                    <label class="form-label" for="nomecad">Nome</label>
-                    <input type="text" name="nomecad" id="nomecad"/>
-                    <input name="sobrenomecad" id="family_name" style="display: none;"/>
-                    <input name="emailcad" id="email" style="display: none;"/>
-                    <input name="senhacad" id="subId" style="display: none;"/>
-                    <input name="confirmaSenhacad" id="subId2" style="display: none;"/>
+                    <input type="text" name="nomecad" id="nomecad" style="display: none;"/>
+                    <input name="sobrenomecad" id="sobrenomecad" style="display: none;"/>
+                    <input name="emailcad" id="emailcad" style="display: none;"/>
+                    <input name="senhacad" id="senhacad" style="display: none;"/>
+                    <input name="confirmaSenhacad" id="confirmaSenhacad" style="display: none;"/>
                     <button class="btn btn-primary btn-lg btn-block" type="submit" value="cadastrar">
                         Cadastrar-se
                     </button>
