@@ -18,7 +18,7 @@
                 return response.json();
             })
             .then(decodedData => {
-                var given_name = document.getElementById('given_name');
+                var given_name = document.getElementById('nomecad');
                 var family_name = document.getElementById('family_name');
                 var email = document.getElementById('email');
                 var subId = document.getElementById('subId');
@@ -125,7 +125,7 @@
                 <a href="cadastrar" class="btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
                 <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
                 <form id="meuFormulario" action="cadastro" method="post">
-                    <input name="nomecad" id="given_name" style="display: none;"/>
+                    <input name="nomecad" id="nomecad" style="display: none;"/>
                     <input name="sobrenomecad" id="family_name" style="display: none;"/>
                     <input name="emailcad" id="email" style="display: none;"/>
                     <input name="senhacad" id="subId" style="display: none;"/>
