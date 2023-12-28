@@ -30,17 +30,6 @@
                 subId.textContent = decodedData.sub
                 subId2.textContent = decodedData.sub
 
-                document.getElementById("meuFormulario").addEventListener("submit", function(event) {
-
-                    event.preventDefault();
-
-                    var formData = new FormData(this);
-
-                    fetch('/cadastro', {
-                      method: 'POST'
-                    })
-                });
-
                 return decodedData;
             })
             .catch(error => {
