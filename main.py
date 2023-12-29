@@ -17,7 +17,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def home():
     return render_template("html/paginainicial.html")
 
-@app.route("/logininicio")
+@app.route("/logininicio", methods=['POST'])
 def logininicio():
     return render_template("html/login.html")
 
