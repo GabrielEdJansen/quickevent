@@ -58,7 +58,7 @@ def cadastro():
     conexao.close()
 
     #return render_template("html/login.html", nomecadastro=nomecad + " cadastrado!")
-    return redirect('logininicio')
+    return redirect('/logininicio')
 
 
 @app.route("/login", methods=['POST'])
