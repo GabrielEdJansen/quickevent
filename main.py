@@ -54,7 +54,7 @@ def esqueci_minha_senha():
 
         # Envie o e-mail para o usuário com o link de recuperação ou o token
         # Este é apenas um exemplo, personalize com seu próprio template de e-mail
-        msg = Message('Recuperação de Senha', sender='seu_email@example.com', recipients=[email])
+        msg = Message('Recuperação de Senha', sender='gabrieljans18@gmail.com', recipients=[email])
         msg.body = f"Use este token para recuperar sua senha: {token}"
         mail.send(msg)
 
