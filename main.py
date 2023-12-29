@@ -8,10 +8,21 @@ import pymysql
 from datetime import datetime
 import re
 from flask_cors import CORS
+from flask_mail import Mail, Message
+import secrets
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "gg123"
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+app.config['MAIL_SERVER'] = 'smtp.example.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'gabrieljans18@gmail.com'
+app.config['MAIL_PASSWORD'] = 'laporta78'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(app)
 
 @app.route("/")
 def home():
@@ -25,6 +36,32 @@ def logininicio():
 def cadastrar():
     return render_template("html/cadastro.html")
 
+@app.route("/esqueceusenha")
+def esqueceusenha():
+    return render_template("html/esqueceusenha.html")
+
+@app.route('/esqueci_minha_senha', methods=['GET', 'POST'])
+def esqueci_minha_senha():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        # Verifique se o email existe na sua base de dados
+        # Se existir, gere um token exclusivo ou um link de recuperação único
+        # Aqui está um exemplo simples usando a biblioteca secrets para gerar um token
+        token = secrets.token_urlsafe(16)  # Gera um token de 128 bits
+
+        # Agora, você enviaria este token por e-mail para o usuário
+        # Usando Flask-Mail (é necessário configurar corretamente o Flask-Mail antes)
+
+        # Envie o e-mail para o usuário com o link de recuperação ou o token
+        # Este é apenas um exemplo, personalize com seu próprio template de e-mail
+        msg = Message('Recuperação de Senha', sender='seu_email@example.com', recipients=[email])
+        msg.body = f"Use este token para recuperar sua senha: {token}"
+        mail.send(msg)
+
+        # Aqui você redirecionaria para uma página informando que o e-mail foi enviado
+        return render_template('email_enviado.html', email=email)
+
+    return render_template('solicitar_recuperacao.html')
 
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
