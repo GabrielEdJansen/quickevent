@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "gg123"
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-app.config['MAIL_SERVER'] = 'smtp.example.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'gabrieljans18@gmail.com'
 app.config['MAIL_PASSWORD'] = 'laporta78'
