@@ -59,21 +59,7 @@
                     console.error('Erro ao enviar requisição:', error);
                 });
 
-                fetch('/logininicio')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Erro ao chamar a função Flask');
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        // Tratar a resposta, se necessário
-                        console.log(data); // Aqui você pode trabalhar com a resposta
-                    })
-                    .catch(error => {
-                        // Lidar com erros
-                        console.error('Erro:', error);
-                    });
+                window.location.href = '/logininicio';
 
                 return decodedData;
             })
