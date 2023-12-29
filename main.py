@@ -39,6 +39,8 @@ def decode_token(token):
 
 @app.route("/cadastro", methods=['POST'])
 def cadastro():
+    global idlogado
+    idlogado = 0
     user = []
     nomecad = request.form.get('nomecad')
     sobrenomecad = request.form.get('sobrenomecad')
@@ -57,6 +59,17 @@ def cadastro():
     existing_user = cursor.fetchone()
 
     if existing_user:
+        connect_BD = configbanco(db_type='mysql-connector')
+
+        if connect_BD.is_connected():
+            cont = 0
+            print('conectado')
+            cursur = connect_BD.cursor()
+            cursur.execute("select * from usuarios;")
+            usuariosBD = cursur.fetchall()
+
+        for usuarios in usuariosBD:
+            idlogado = str(usuarios[0])
         flash('Este e-mail já está cadastrado!')
         return render_template("html/cadastro.html")
 
