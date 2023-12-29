@@ -59,9 +59,9 @@ def esqueci_minha_senha():
         mail.send(msg)
 
         # Aqui você redirecionaria para uma página informando que o e-mail foi enviado
-        return render_template("html/login.html")
+        return render_template("html/alterarsenha.html")
 
-    return render_template("html/login.html")
+    return render_template("html/alterarsenha.html")
 
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
