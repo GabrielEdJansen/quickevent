@@ -39,32 +39,24 @@
 
                 const form = document.getElementById('meuFormulario');
 
-                form.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Previne o comportamento padrão de envio do formulário
-
-                    // Código para enviar os dados do formulário (exemplo com fetch)
-                    fetch(form.action, {
-                        method: form.method,
-                        body: new FormData(form)
-                    })
-                    .then(response => {
-                        // Verifica se a resposta está OK (código 200)
-                        if (response.ok) {
-                            // Tratar a resposta, se necessário
-                            return response.json(); // Se a resposta for JSON
-                        } else {
-                            throw new Error('Erro ao enviar requisição.');
-                        }
-                    })
-                    .then(data => {
-                        // Lidar com os dados da resposta (se for JSON)
-                        console.log('Requisição enviada com sucesso!', data);
-                        // Faça algo com os dados, se necessário
-                    })
-                    .catch(error => {
-                        // Lidar com erros
-                        console.error('Erro ao enviar requisição:', error);
-                    });
+                // Código para enviar os dados do formulário (exemplo com fetch) ao carregar a página
+                fetch(form.action, {
+                    method: form.method,
+                    body: new FormData(form)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Erro ao enviar requisição.');
+                    }
+                })
+                .then(data => {
+                    console.log('Requisição enviada com sucesso!', data);
+                    // Faça algo com os dados, se necessário
+                })
+                .catch(error => {
+                    console.error('Erro ao enviar requisição:', error);
                 });
 
 
