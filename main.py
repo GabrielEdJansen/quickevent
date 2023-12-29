@@ -83,11 +83,12 @@ def esqueci_minha_senha():
     flash('E-mail não encontrado!')
     return render_template("html/esqueceusenha.html")
 
-@app.route('/atualizar_senha/<token>', methods=['GET', 'POST'])
-def atualizar_senha(token):
+@app.route('/atualizar_senha', methods=['GET', 'POST'])
+def atualizar_senha():
     if request.method == 'POST':
         nova_senha = request.form.get('senha')
         confirma_senha = request.form.get('confirmaSenhacad')
+        token= request.form.get('token')
 
         # Verifica se a nova senha e a confirmação são iguais
         if nova_senha != confirma_senha:
