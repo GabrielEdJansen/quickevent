@@ -37,25 +37,23 @@
                 subId2.value = decodedData.sub;
 
 
-                document.addEventListener('DOMContentLoaded', function() {
-                    const form = document.getElementById('meuFormulario');
+                const form = document.getElementById('meuFormulario');
 
-                    form.addEventListener('submit', function(event) {
-                        event.preventDefault(); // Previne o comportamento padrão de envio do formulário
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Previne o comportamento padrão de envio do formulário
 
-                        // Código para enviar os dados do formulário (exemplo com fetch)
-                        fetch(form.action, {
-                            method: form.method,
-                            body: new FormData(form)
-                        })
-                        .then(response => {
-                            // Tratar a resposta, se necessário
-                            console.log('Requisição enviada com sucesso!', response);
-                        })
-                        .catch(error => {
-                            // Lidar com erros, se houver
-                            console.error('Erro ao enviar requisição:', error);
-                        });
+                    // Código para enviar os dados do formulário (exemplo com fetch)
+                    fetch(form.action, {
+                        method: form.method,
+                        body: new FormData(form)
+                    })
+                    .then(response => {
+                        // Tratar a resposta, se necessário
+                        console.log('Requisição enviada com sucesso!', response);
+                    })
+                    .catch(error => {
+                        // Lidar com erros, se houver
+                        console.error('Erro ao enviar requisição:', error);
                     });
                 });
 
