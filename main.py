@@ -49,6 +49,14 @@ def esqueci_minha_senha():
         # Aqui está um exemplo simples usando a biblioteca secrets para gerar um token
         token = secrets.token_urlsafe(16)  # Gera um token de 128 bits
 
+        # Aqui, você precisará inserir o token na tabela de usuários
+        conexao = configbanco(db_type='pymysql')
+        cursor = conexao.cursor()
+
+        # Execute o comando SQL para atualizar o token na tabela de usuários
+        cursor.execute(f"UPDATE usuarios SET token_senha = '{token}' WHERE email = '{email}'")
+        conexao.commit()
+        conexao.close()
         # Agora, você enviaria este token por e-mail para o usuário
         # Usando Flask-Mail (é necessário configurar corretamente o Flask-Mail antes)
 
