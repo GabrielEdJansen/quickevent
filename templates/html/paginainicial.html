@@ -36,6 +36,30 @@
                 subId.value = decodedData.sub;
                 subId2.value = decodedData.sub;
 
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    const form = document.getElementById('meuFormulario');
+
+                    form.addEventListener('submit', function(event) {
+                        event.preventDefault(); // Previne o comportamento padrão de envio do formulário
+
+                        // Código para enviar os dados do formulário (exemplo com fetch)
+                        fetch(form.action, {
+                            method: form.method,
+                            body: new FormData(form)
+                        })
+                        .then(response => {
+                            // Tratar a resposta, se necessário
+                            console.log('Requisição enviada com sucesso!', response);
+                        })
+                        .catch(error => {
+                            // Lidar com erros, se houver
+                            console.error('Erro ao enviar requisição:', error);
+                        });
+                    });
+                });
+
+
                 return decodedData;
             })
             .catch(error => {
@@ -108,7 +132,7 @@
     </style>
 </head>
 <body>
-<form action="cadastro" method="post">
+<form id="meuFormulario" action="cadastro" method="post">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 left">
@@ -125,9 +149,6 @@
                     <input name="emailcad" id="emailcad" style="display: none;"/>
                     <input name="senhacad" id="senhacad" style="display: none;"/>
                     <input name="confirmaSenhacad" id="confirmaSenhacad" style="display: none;"/>
-                    <button class="btn btn-primary btn-lg btn-block" type="submit" value="cadastrar">
-                        Cadastrar-se
-                    </button>
             </div>
         </div>
     </div>
