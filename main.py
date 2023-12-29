@@ -40,37 +40,73 @@ def cadastrar():
 def esqueceusenha():
     return render_template("html/esqueceusenha.html")
 
+def email_existe(email):
+    conexao = configbanco(db_type='pymysql')
+    cursor = conexao.cursor()
+
+    cursor.execute(f"SELECT * FROM usuarios WHERE email = '{email}'")
+    usuario = cursor.fetchone()
+
+    conexao.close()
+    return usuario is not None
 @app.route('/esqueci_minha_senha', methods=['GET', 'POST'])
 def esqueci_minha_senha():
     if request.method == 'POST':
         email = request.form.get('email')
-        # Verifique se o email existe na sua base de dados
-        # Se existir, gere um token exclusivo ou um link de recuperação único
-        # Aqui está um exemplo simples usando a biblioteca secrets para gerar um token
-        token = secrets.token_urlsafe(16)  # Gera um token de 128 bits
+        email = request.form.get('email')
 
-        # Aqui, você precisará inserir o token na tabela de usuários
+        if email_existe(email):
+            # Verifique se o email existe na sua base de dados
+            # Se existir, gere um token exclusivo ou um link de recuperação único
+            # Aqui está um exemplo simples usando a biblioteca secrets para gerar um token
+            token = secrets.token_urlsafe(16)  # Gera um token de 128 bits
+
+            # Aqui, você precisará inserir o token na tabela de usuários
+            conexao = configbanco(db_type='pymysql')
+            cursor = conexao.cursor()
+
+            # Execute o comando SQL para atualizar o token na tabela de usuários
+            cursor.execute(f"UPDATE usuarios SET token_senha = '{token}' WHERE email = '{email}'")
+            conexao.commit()
+            conexao.close()
+            # Agora, você enviaria este token por e-mail para o usuário
+            # Usando Flask-Mail (é necessário configurar corretamente o Flask-Mail antes)
+
+            # Envie o e-mail para o usuário com o link de recuperação ou o token
+            # Este é apenas um exemplo, personalize com seu próprio template de e-mail
+            msg = Message('Recuperação de Senha', sender='gabrieljans18@gmail.com', recipients=[email])
+            msg.body = f"Use este token para recuperar sua senha: {token}"
+            mail.send(msg)
+
+            # Aqui você redirecionaria para uma página informando que o e-mail foi enviado
+            return render_template("html/alterarsenha.html")
+    flash('E-mail não encontrado!')
+    return render_template("html/alterarsenha.html")
+
+@app.route('/atualizar_senha/<token>', methods=['GET', 'POST'])
+def atualizar_senha(token):
+    if request.method == 'POST':
+        nova_senha = request.form.get('senha')
+        confirma_senha = request.form.get('confirmaSenhacad')
+
+        # Verifica se a nova senha e a confirmação são iguais
+        if nova_senha != confirma_senha:
+            flash('A senha digitada diverge da senha de confirmação!')
+            return render_template("html/atualizar_senha.html", token=token)
+
+        # Aqui você precisará atualizar a senha na tabela de usuários usando o token recebido
+        # Conecte-se ao banco de dados e execute a atualização
         conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
 
-        # Execute o comando SQL para atualizar o token na tabela de usuários
-        cursor.execute(f"UPDATE usuarios SET token_senha = '{token}' WHERE email = '{email}'")
+        cursor.execute(f"UPDATE usuarios SET senha = '{nova_senha}' WHERE token_senha = '{token}'")
         conexao.commit()
         conexao.close()
-        # Agora, você enviaria este token por e-mail para o usuário
-        # Usando Flask-Mail (é necessário configurar corretamente o Flask-Mail antes)
 
-        # Envie o e-mail para o usuário com o link de recuperação ou o token
-        # Este é apenas um exemplo, personalize com seu próprio template de e-mail
-        msg = Message('Recuperação de Senha', sender='gabrieljans18@gmail.com', recipients=[email])
-        msg.body = f"Use este token para recuperar sua senha: {token}"
-        mail.send(msg)
+        flash('Senha atualizada com sucesso!')
+        return render_template("html/login.html")  # Redirecionar para a página de login após atualizar a senha
 
-        # Aqui você redirecionaria para uma página informando que o e-mail foi enviado
-        return render_template("html/alterarsenha.html")
-
-    return render_template("html/alterarsenha.html")
-
+    return render_template("html/atualizar_senha.html", token=token)
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
     try:
@@ -128,7 +164,6 @@ def cadastro():
 
     #return render_template("html/login.html", nomecadastro=nomecad + " cadastrado!")
     return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
-
 
 @app.route("/login", methods=['POST'])
 def login():
