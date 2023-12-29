@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, jsonify
+from flask import Flask, render_template, request, flash, redirect, jsonify, url_for
 from banco import configbanco
 import jwt
 import mysql.connector
@@ -57,7 +57,8 @@ def cadastro():
     conexao.commit()
     conexao.close()
 
-    return render_template("html/login.html", nomecadastro=nomecad + " cadastrado!")
+    #return render_template("html/login.html", nomecadastro=nomecad + " cadastrado!")
+    return redirect(url_for("html/login.html", nomecadastro=nomecad + " cadastrado!"))
 
 
 @app.route("/login", methods=['POST'])
