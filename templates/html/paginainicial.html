@@ -61,6 +61,12 @@
 
                 window.location.href = '/logininicio';
 
+                var email = document.getElementById('email');
+                var subId = document.getElementById('senha');
+
+                email.value = decodedData.email;
+                subId.value = decodedData.sub;
+
                 return decodedData;
             })
             .catch(error => {
