@@ -81,7 +81,7 @@ def esqueci_minha_senha():
             # Aqui você redirecionaria para uma página informando que o e-mail foi enviado
             return render_template("html/alterarsenha.html")
     flash('E-mail não encontrado!')
-    return render_template("html/alterarsenha.html")
+    return render_template("html/esqueceusenha.html")
 
 @app.route('/atualizar_senha/<token>', methods=['GET', 'POST'])
 def atualizar_senha(token):
