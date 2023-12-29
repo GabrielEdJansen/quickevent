@@ -25,6 +25,7 @@ def logininicio():
 def cadastrar():
     return render_template("html/cadastro.html")
 
+
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
     try:
@@ -47,6 +48,16 @@ def cadastro():
 
     if senhacad != confirmaSenhacad:
         flash('A senha digitada diverge da senha de confirmação! ')
+        return render_template("html/cadastro.html")
+
+    conexao = configbanco(db_type='pymysql')
+    cursor = conexao.cursor()
+    # Verificar se o e-mail já está cadastrado
+    cursor.execute(f"SELECT * FROM usuarios WHERE email = '{emailcad}'")
+    existing_user = cursor.fetchone()
+
+    if existing_user:
+        flash('Este e-mail já está cadastrado!')
         return render_template("html/cadastro.html")
 
    # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
