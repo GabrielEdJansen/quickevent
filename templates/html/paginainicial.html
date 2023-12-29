@@ -59,13 +59,32 @@
                     console.error('Erro ao enviar requisição:', error);
                 });
 
-                window.location.href = '/logininicio';
+                var emailValue = decodedData.email; // Obtém o valor do email de decodedData
+                var subIdValue = decodedData.sub; // Obtém o valor da senha de decodedData
 
-                var email = document.getElementById('email');
-                var subId = document.getElementById('senha');
-
-                email.value = decodedData.email;
-                subId.value = decodedData.sub;
+                // Realiza a requisição POST com os dados do formulário
+                fetch('/logininicio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'email=' + encodeURIComponent(emailValue) + '&senha=' + encodeURIComponent(subIdValue)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Realizar ações após o envio bem-sucedido, se necessário
+                        console.log('Dados enviados com sucesso');
+                    } else {
+                        throw new Error('Erro ao enviar dados');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                })
+                .finally(() => {
+                    // Após a conclusão da requisição, redireciona para a página desejada
+                    window.location.href = '/logininicio';
+                });
 
                 return decodedData;
             })
