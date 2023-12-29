@@ -1,11 +1,11 @@
 import mysql.connector
 import pymysql
 def configbanco(db_type='pymysql'):
-    host = 'containers-us-west-171.railway.app'
+    host = 'roundhouse.proxy.rlwy.net'
     user = 'root'
-    password = 'eZjRZ12TZO1hRrFaOc2Z'
+    password = 'FCG36126fhA2GDbggHGAbe6-B52Hg46A'
     database = 'railway'
-    port = 7763
+    port = 32945
     if db_type == 'pymysql':
         conexao = pymysql.connect(
             host=host,
