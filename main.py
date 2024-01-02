@@ -129,42 +129,60 @@ def cadastro():
     emailcad = request.form.get('emailcad')
     senhacad = request.form.get('senhacad')
     confirmaSenhacad = request.form.get('confirmaSenhacad')
+    subId = request.form.get('senhacad')
 
-    if senhacad != confirmaSenhacad:
-        flash('A senha digitada diverge da senha de confirmação! ')
+    if subId is not None:
+        conexao = configbanco(db_type='pymysql')
+        cursor = conexao.cursor()
+        # Verificar se o e-mail já está cadastrado
+        cursor.execute(f"SELECT * FROM usuarios WHERE email = '{emailcad}'")
+        existing_user = cursor.fetchone()
+        if existing_user:
+            return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
+        else:
+            # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+            conexao = configbanco(db_type='pymysql')
+            cursor = conexao.cursor()
+            cursor.execute(
+                f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', default, '{senhacad}');")
+            conexao.commit()
+            conexao.close()
+    else:
+        if senhacad != confirmaSenhacad:
+            flash('A senha digitada diverge da senha de confirmação! ')
         return render_template("html/cadastro.html")
 
-    conexao = configbanco(db_type='pymysql')
-    cursor = conexao.cursor()
-    # Verificar se o e-mail já está cadastrado
-    cursor.execute(f"SELECT * FROM usuarios WHERE email = '{emailcad}'")
-    existing_user = cursor.fetchone()
+        conexao = configbanco(db_type='pymysql')
+        cursor = conexao.cursor()
+        # Verificar se o e-mail já está cadastrado
+        cursor.execute(f"SELECT * FROM usuarios WHERE email = '{emailcad}'")
+        existing_user = cursor.fetchone()
 
-    if existing_user:
-        connect_BD = configbanco(db_type='mysql-connector')
+        if existing_user:
+            connect_BD = configbanco(db_type='mysql-connector')
 
-        if connect_BD.is_connected():
-            cont = 0
-            print('conectado')
-            cursur = connect_BD.cursor()
-            cursur.execute("select * from usuarios;")
-            usuariosBD = cursur.fetchall()
+            if connect_BD.is_connected():
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
 
-        for usuarios in usuariosBD:
-            idlogado = str(usuarios[0])
-        flash('Este e-mail já está cadastrado!')
-        return render_template("html/cadastro.html")
+            for usuarios in usuariosBD:
+                idlogado = str(usuarios[0])
+            flash('Este e-mail já está cadastrado!')
+            return render_template("html/cadastro.html")
 
-   # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
-    conexao = configbanco(db_type='pymysql')
-    cursor = conexao.cursor()
-    cursor.execute(
-        f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', '{senhacad}');")
-    conexao.commit()
-    conexao.close()
+           # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+            conexao = configbanco(db_type='pymysql')
+            cursor = conexao.cursor()
+            cursor.execute(
+                f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', '{senhacad}', default);")
+            conexao.commit()
+            conexao.close()
 
-    #return render_template("html/login.html", nomecadastro=nomecad + " cadastrado!")
-    return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
+            #return render_template("html/login.html", nomecadastro=nomecad + " cadastrado!")
+            return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
 
 @app.route("/login", methods=['POST'])
 def login():
