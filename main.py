@@ -135,10 +135,10 @@ def cadastro():
         conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
         # Verificar se o e-mail já está cadastrado
-        cursor.execute(f"SELECT * FROM usuarios WHERE email = '{emailcad}'")
+        cursor.execute(f"SELECT * FROM usuarios WHERE email = '{emailcad}' and subId = '{subId}'")
         existing_user = cursor.fetchone()
         if existing_user:
-            return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
+            return redirect('/InicioBuscarEvento')
         else:
             # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
             conexao = configbanco(db_type='pymysql')
