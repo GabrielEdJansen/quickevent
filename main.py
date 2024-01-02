@@ -88,24 +88,33 @@ def atualizar_senha():
     if request.method == 'POST':
         nova_senha = request.form.get('senha')
         confirma_senha = request.form.get('confirmaSenhacad')
-        token= request.form.get('token')
+        token = request.form.get('token')
+        email = request.form.get('email')
 
         # Verifica se a nova senha e a confirmação são iguais
         if nova_senha != confirma_senha:
             flash('A senha digitada diverge da senha de confirmação!')
             return render_template("html/atualizar_senha.html", token=token)
 
-        # Aqui você precisará atualizar a senha na tabela de usuários usando o token recebido
-        # Conecte-se ao banco de dados e execute a atualização
         conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
 
-        cursor.execute(f"UPDATE usuarios SET senha = '{nova_senha}' WHERE token_senha = '{token}'")
-        conexao.commit()
-        conexao.close()
+        # Verificar se o e-mail existe na tabela usuarios
+        cursor.execute(f"SELECT * FROM usuarios WHERE email = '{email}' and  token_senha = '{token}'")
+        resultado = cursor.fetchone()  # Retorna None se o e-mail não existir na tabela
 
-        flash('Senha atualizada com sucesso!')
-        return render_template("html/login.html")  # Redirecionar para a página de login após atualizar a senha
+        if resultado:
+            # Se o e-mail existe, atualize o token
+            cursor.execute(f"UPDATE usuarios SET senha = '{nova_senha}' WHERE token_senha = '{token}'")
+            conexao.commit()
+            conexao.close()
+            flash('Senha atualizada com sucesso!')
+            return render_template("html/login.html")  # Redirecionar para a página de login após atualizar a senha
+        else:
+            # Se o e-mail não existe, você pode decidir o que fazer, como exibir uma mensagem de erro ou tomar outra ação
+            flash('E-mail ou token está incorreto!')
+
+        conexao.close()
 
     return render_template("html/atualizar_senha.html", token=token)
 @app.route('/decode-token/<token>', methods=['POST'])
