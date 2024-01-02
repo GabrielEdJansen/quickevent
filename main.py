@@ -138,7 +138,7 @@ def cadastro():
         cursor.execute(f"SELECT * FROM usuarios WHERE email = '{emailcad}' and subId = '{subId}'")
         existing_user = cursor.fetchone()
         if existing_user:
-            return redirect('/InicioBuscarEvento')
+            return redirect(url_for('login'), code=307, data={'email': emailcad, 'subId': subId})
         else:
             # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
             conexao = configbanco(db_type='pymysql')
@@ -147,6 +147,7 @@ def cadastro():
                 f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', default, default,'{senhacad}');")
             conexao.commit()
             conexao.close()
+            return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
     else:
         if senhacad != confirmaSenhacad:
             flash('A senha digitada diverge da senha de confirmação! ')
@@ -190,33 +191,62 @@ def login():
     idlogado = 0
     email = request.form.get('email')
     senha = request.form.get('senha')
+    subId = request.form.get('subId')
 
-    #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+    if subId is not None:
+        # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
 
-    connect_BD  = configbanco(db_type='mysql-connector')
+        connect_BD = configbanco(db_type='mysql-connector')
 
-    if connect_BD.is_connected():
-        cont = 0
-        print('conectado')
-        cursur = connect_BD.cursor()
-        cursur.execute("select * from usuarios;")
-        usuariosBD = cursur.fetchall()
+        if connect_BD.is_connected():
+            cont = 0
+            print('conectado')
+            cursur = connect_BD.cursor()
+            cursur.execute("select * from usuarios;")
+            usuariosBD = cursur.fetchall()
 
-    for usuarios in usuariosBD:
-        cont += 1
-        idlogado = str(usuarios[0])
-        usuariosEmail = str(usuarios[3])
-        usuariosSenha = str(usuarios[4])
+        for usuarios in usuariosBD:
+            cont += 1
+            idlogado = str(usuarios[0])
+            usuariosEmail = str(usuarios[3])
+            usuariosSenha = str(usuarios[7])
 
-        if usuariosEmail == email and usuariosSenha == senha:
-            print(idlogado)
-            return redirect("/InicioBuscarEvento")
+            if usuariosEmail == email and usuariosSenha == subId:
+                print(idlogado)
+                return redirect("/InicioBuscarEvento")
 
-        if cont >= len(usuariosBD):
-            flash('Usuário inválido!')
+            if cont >= len(usuariosBD):
+                flash('Usuário inválido!')
+                return redirect("/")
+        else:
             return redirect("/")
     else:
-        return redirect("/")
+        #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+
+        connect_BD  = configbanco(db_type='mysql-connector')
+
+        if connect_BD.is_connected():
+            cont = 0
+            print('conectado')
+            cursur = connect_BD.cursor()
+            cursur.execute("select * from usuarios;")
+            usuariosBD = cursur.fetchall()
+
+        for usuarios in usuariosBD:
+            cont += 1
+            idlogado = str(usuarios[0])
+            usuariosEmail = str(usuarios[3])
+            usuariosSenha = str(usuarios[4])
+
+            if usuariosEmail == email and usuariosSenha == senha:
+                print(idlogado)
+                return redirect("/InicioBuscarEvento")
+
+            if cont >= len(usuariosBD):
+                flash('Usuário inválido!')
+                return redirect("/")
+        else:
+            return redirect("/")
 
 
 @app.route("/InicioCriarEvento")
