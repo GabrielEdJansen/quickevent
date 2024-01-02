@@ -172,30 +172,20 @@ def cadastro():
         existing_user = cursor.fetchone()
 
         if existing_user:
-            connect_BD = configbanco(db_type='mysql-connector')
-
-            if connect_BD.is_connected():
-                cont = 0
-                print('conectado')
-                cursur = connect_BD.cursor()
-                cursur.execute("select * from usuarios;")
-                usuariosBD = cursur.fetchall()
-
-            for usuarios in usuariosBD:
-                idlogado = str(usuarios[0])
             flash('Este e-mail já está cadastrado!')
             return render_template("html/cadastro.html")
+        else:
+            connect_BD = configbanco(db_type='pymysql')
 
-           # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
-            conexao = configbanco(db_type='pymysql')
-            cursor = conexao.cursor()
-            cursor.execute(
-                f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', '{senhacad}', default, default);")
-            conexao.commit()
-            conexao.close()
+            if connect_BD.is_connected():
+                print('Conectado')
+                cursor = connect_BD.cursor()
+                cursor.execute("INSERT INTO usuarios VALUES (default, %s, %s, %s, %s, default, default);",
+                               (nomecad, sobrenomecad, emailcad, senhacad))
+                connect_BD.commit()
+                connect_BD.close()
 
-            #return render_template("html/login.html", nomecadastro=nomecad + " cadastrado!")
-            return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
+            return render_template('/logininicio', nomecadastro=f'{nomecad} cadastrado!')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
