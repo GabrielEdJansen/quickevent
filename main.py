@@ -144,7 +144,7 @@ def cadastro():
             conexao = configbanco(db_type='pymysql')
             cursor = conexao.cursor()
             cursor.execute(
-                f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', default, '{senhacad}');")
+                f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', default, default,'{senhacad}');")
             conexao.commit()
             conexao.close()
     else:
@@ -177,7 +177,7 @@ def cadastro():
             conexao = configbanco(db_type='pymysql')
             cursor = conexao.cursor()
             cursor.execute(
-                f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', '{senhacad}', default);")
+                f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', '{senhacad}', default, default);")
             conexao.commit()
             conexao.close()
 
