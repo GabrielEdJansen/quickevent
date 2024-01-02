@@ -276,7 +276,7 @@ def login():
                     return redirect("/InicioBuscarEvento")
 
                 if cont >= len(usuariosBD):
-                    #flash('Usuário inválido!')
+                     #flash('Usuário inválido!')
                     return redirect("/")
             else:
                 return redirect("/")
