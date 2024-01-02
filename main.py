@@ -185,7 +185,7 @@ def cadastro():
             #return render_template("html/login.html", nomecadastro=nomecad + " cadastrado!")
             return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
     global idlogado
     idlogado = 0
