@@ -187,8 +187,8 @@ def cadastro():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    global idlogado
     if request.method == 'POST':
-        global idlogado
         idlogado = 0
         email = request.form.get('email')
         senha = request.form.get('senha')
@@ -249,7 +249,6 @@ def login():
             else:
                 return redirect("/")
     elif request.method == 'GET':
-        global idlogado
         idlogado = 0
         email = request.args.get('email')
         subId = request.args.get('subId')
