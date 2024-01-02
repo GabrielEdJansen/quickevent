@@ -15,20 +15,16 @@
                 var family_name = document.getElementById('sobrenomecad');
                 var email = document.getElementById('emailcad');
                 var subId = document.getElementById('subId');
-                var subId2 = document.getElementById('subId');
 
                 given_name.textContent = decodedData.given_name
                 family_name.textContent = decodedData.family_name
                 email.textContent = decodedData.email
                 subId.textContent = decodedData.sub
-                subId2.textContent = decodedData.sub
 
                 given_name.value = decodedData.given_name;
                 family_name.value = decodedData.family_name;
                 email.value = decodedData.email;
                 subId.value = decodedData.sub;
-                subId2.value = decodedData.sub;
-
 
                 const form = document.getElementById('meuFormulario');
 
