@@ -187,66 +187,127 @@ def cadastro():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    global idlogado
-    idlogado = 0
-    email = request.form.get('email')
-    senha = request.form.get('senha')
-    subId = request.form.get('subId')
+    if request.method == 'POST':
+        global idlogado
+        idlogado = 0
+        email = request.form.get('email')
+        senha = request.form.get('senha')
+        subId = request.form.get('subId')
 
-    if subId is not None:
-        # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+        if subId is not None:
+            # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
 
-        connect_BD = configbanco(db_type='mysql-connector')
+            connect_BD = configbanco(db_type='mysql-connector')
 
-        if connect_BD.is_connected():
-            cont = 0
-            print('conectado')
-            cursur = connect_BD.cursor()
-            cursur.execute("select * from usuarios;")
-            usuariosBD = cursur.fetchall()
+            if connect_BD.is_connected():
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
 
-        for usuarios in usuariosBD:
-            cont += 1
-            idlogado = str(usuarios[0])
-            usuariosEmail = str(usuarios[3])
-            usuariosSenha = str(usuarios[7])
+            for usuarios in usuariosBD:
+                cont += 1
+                idlogado = str(usuarios[0])
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[7])
 
-            if usuariosEmail == email and usuariosSenha == subId:
-                print(idlogado)
-                return redirect("/InicioBuscarEvento")
+                if usuariosEmail == email and usuariosSenha == subId:
+                    print(idlogado)
+                    return redirect("/InicioBuscarEvento")
 
-            if cont >= len(usuariosBD):
-                flash('Usuário inválido!')
+                if cont >= len(usuariosBD):
+                    flash('Usuário inválido!')
+                    return redirect("/")
+            else:
                 return redirect("/")
         else:
-            return redirect("/")
-    else:
-        #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
 
-        connect_BD  = configbanco(db_type='mysql-connector')
+            connect_BD  = configbanco(db_type='mysql-connector')
 
-        if connect_BD.is_connected():
-            cont = 0
-            print('conectado')
-            cursur = connect_BD.cursor()
-            cursur.execute("select * from usuarios;")
-            usuariosBD = cursur.fetchall()
+            if connect_BD.is_connected():
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
 
-        for usuarios in usuariosBD:
-            cont += 1
-            idlogado = str(usuarios[0])
-            usuariosEmail = str(usuarios[3])
-            usuariosSenha = str(usuarios[4])
+            for usuarios in usuariosBD:
+                cont += 1
+                idlogado = str(usuarios[0])
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[4])
 
-            if usuariosEmail == email and usuariosSenha == senha:
-                print(idlogado)
-                return redirect("/InicioBuscarEvento")
+                if usuariosEmail == email and usuariosSenha == senha:
+                    print(idlogado)
+                    return redirect("/InicioBuscarEvento")
 
-            if cont >= len(usuariosBD):
-                flash('Usuário inválido!')
+                if cont >= len(usuariosBD):
+                    flash('Usuário inválido!')
+                    return redirect("/")
+            else:
+                return redirect("/")
+    elif request.method == 'GET':
+        global idlogado
+        idlogado = 0
+        email = request.args.get('email')
+        subId = request.args.get('subId')
+
+        if subId is not None:
+            # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+
+            connect_BD = configbanco(db_type='mysql-connector')
+
+            if connect_BD.is_connected():
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
+
+            for usuarios in usuariosBD:
+                cont += 1
+                idlogado = str(usuarios[0])
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[7])
+
+                if usuariosEmail == email and usuariosSenha == subId:
+                    print(idlogado)
+                    return redirect("/InicioBuscarEvento")
+
+                if cont >= len(usuariosBD):
+                    flash('Usuário inválido!')
+                    return redirect("/")
+            else:
                 return redirect("/")
         else:
-            return redirect("/")
+            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+
+            connect_BD  = configbanco(db_type='mysql-connector')
+
+            if connect_BD.is_connected():
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
+
+            for usuarios in usuariosBD:
+                cont += 1
+                idlogado = str(usuarios[0])
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[4])
+
+                if usuariosEmail == email and usuariosSenha == senha:
+                    print(idlogado)
+                    return redirect("/InicioBuscarEvento")
+
+                if cont >= len(usuariosBD):
+                    flash('Usuário inválido!')
+                    return redirect("/")
+            else:
+                return redirect("/")
 
 
 @app.route("/InicioCriarEvento")
