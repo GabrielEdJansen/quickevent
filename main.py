@@ -138,7 +138,7 @@ def cadastro():
         cursor.execute(f"SELECT * FROM usuarios WHERE email = '{emailcad}' and subId = '{subId}'")
         existing_user = cursor.fetchone()
         if existing_user:
-            return redirect(url_for('login'), code=307, data={'email': emailcad, 'subId': subId})
+            return redirect(url_for('login', email=emailcad, subId=subId))
         else:
             # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
             conexao = configbanco(db_type='pymysql')
