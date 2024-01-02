@@ -269,7 +269,7 @@ def login():
                 cont += 1
                 idlogado = str(usuarios[0])
                 usuariosEmail = str(usuarios[3])
-                usuariosSenha = str(usuarios[7])
+                usuariosSenha = str(usuarios[6])
 
                 if usuariosEmail == email and usuariosSenha == subId:
                     print(idlogado)
