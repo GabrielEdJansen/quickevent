@@ -113,10 +113,9 @@ def atualizar_senha():
         else:
             # Se o e-mail não existe, você pode decidir o que fazer, como exibir uma mensagem de erro ou tomar outra ação
             flash('E-mail ou token está incorreto!')
-
+            return render_template("html/atualizar_senha.html", token=token)
         conexao.close()
 
-    return render_template("html/atualizar_senha.html", token=token)
 @app.route('/decode-token/<token>', methods=['POST'])
 def decode_token(token):
     try:
