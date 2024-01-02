@@ -14,8 +14,8 @@
                 var given_name = document.getElementById('nomecad');
                 var family_name = document.getElementById('sobrenomecad');
                 var email = document.getElementById('emailcad');
-                var subId = document.getElementById('senhacad');
-                var subId2 = document.getElementById('confirmaSenhacad');
+                var subId = document.getElementById('subId');
+                var subId2 = document.getElementById('subId');
 
                 given_name.textContent = decodedData.given_name
                 family_name.textContent = decodedData.family_name

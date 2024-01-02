@@ -141,7 +141,7 @@ def cadastro():
     emailcad = request.form.get('emailcad')
     senhacad = request.form.get('senhacad')
     confirmaSenhacad = request.form.get('confirmaSenhacad')
-    subId = request.form.get('senhacad')
+    subId = request.form.get('subId')
 
     if subId is not None:
         conexao = configbanco(db_type='pymysql')
