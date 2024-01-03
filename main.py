@@ -182,7 +182,7 @@ def cadastro():
                             (nomecad, sobrenomecad, emailcad, senhacad))
             connect_BD.commit()
             connect_BD.close()
-            return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
+            return redirect(url_for('login', email=emailcad, senha=senhacad))
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
