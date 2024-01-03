@@ -163,7 +163,7 @@ def cadastro():
     else:
         if senhacad != confirmaSenhacad:
             flash('A senha digitada diverge da senha de confirmação! ')
-        return render_template("html/cadastro.html")
+            return render_template("html/cadastro.html")
 
         conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
