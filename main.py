@@ -244,7 +244,7 @@ def login():
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
-                    return redirect("/")
+                    return redirect("/logininicio")
             else:
                 return redirect("/")
     elif request.method == 'GET':
