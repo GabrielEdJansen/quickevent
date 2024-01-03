@@ -250,6 +250,7 @@ def login():
     elif request.method == 'GET':
         idlogado = 0
         email = request.args.get('email')
+        senha = request.args.get('senha')
         subId = request.args.get('subId')
 
         if subId is not None:
@@ -279,7 +280,33 @@ def login():
                     return redirect("/")
             else:
                 return redirect("/")
+        else:
+            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
 
+            connect_BD  = configbanco(db_type='mysql-connector')
+
+            if connect_BD.is_connected():
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
+
+            for usuarios in usuariosBD:
+                cont += 1
+                idlogado = str(usuarios[0])
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[4])
+
+                if usuariosEmail == email and usuariosSenha == senha:
+                    print(idlogado)
+                    return redirect("/InicioBuscarEvento")
+
+                if cont >= len(usuariosBD):
+                    #flash('Usuário inválido!')
+                    return redirect("/")
+            else:
+                return redirect("/")
 
 @app.route("/InicioCriarEvento")
 def criarevento():
