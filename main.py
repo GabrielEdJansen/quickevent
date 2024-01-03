@@ -177,13 +177,11 @@ def cadastro():
         else:
             connect_BD = configbanco(db_type='pymysql')
 
-            if connect_BD.is_connected():
-                print('Conectado')
-                cursor = connect_BD.cursor()
-                cursor.execute("INSERT INTO usuarios VALUES (default, %s, %s, %s, %s, default, default);",
-                               (nomecad, sobrenomecad, emailcad, senhacad))
-                connect_BD.commit()
-                connect_BD.close()
+            cursor = connect_BD.cursor()
+            cursor.execute("INSERT INTO usuarios VALUES (default, %s, %s, %s, %s, default, default);",
+                            (nomecad, sobrenomecad, emailcad, senhacad))
+            connect_BD.commit()
+            connect_BD.close()
 
             return render_template('/logininicio', nomecadastro=f'{nomecad} cadastrado!')
 
