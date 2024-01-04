@@ -32,6 +32,10 @@ def home():
 def logininicio():
     return render_template("html/login.html")
 
+@app.route("/destaques")
+def destaques():
+    return render_template("html/destaques.html")
+
 @app.route("/cadastrar")
 def cadastrar():
     return render_template("html/cadastro.html")
@@ -213,7 +217,7 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == subId:
                     print(idlogado)
-                    return redirect("/InicioBuscarEvento")
+                    return redirect("/destaques")
 
                 if cont >= len(usuariosBD):
                     #flash('Usuário inválido!')
@@ -240,7 +244,7 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == senha:
                     print(idlogado)
-                    return redirect("/InicioBuscarEvento")
+                    return redirect("/destaques")
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
@@ -273,7 +277,7 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == subId:
                     print(idlogado)
-                    return redirect("/InicioBuscarEvento")
+                    return redirect("/destaques")
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
@@ -300,7 +304,7 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == senha:
                     print(idlogado)
-                    return redirect("/InicioBuscarEvento")
+                    return redirect("/destaques")
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
