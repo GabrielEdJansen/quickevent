@@ -61,7 +61,7 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        // Realizar ações após o envio bem-sucedido, se necessário
+                        // Realizaaar ações após o envio bem-sucedido, se necessário
                         console.log('Dados enviados com sucesso');
                         window.location.href = '/destaques';
                     } else {
