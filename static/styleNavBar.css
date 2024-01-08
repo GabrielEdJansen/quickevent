@@ -23,22 +23,3 @@
         min-height: 60px; /* Ajuste de altura para telas menores */
       }
     }
-    .carousel-item {
-      text-align: center;
-      max-height: 300px; /* Altura máxima das imagens */
-      position: relative;
-    }
-
-    .carousel-item img {
-      max-width: 100%;
-      height: auto;
-      margin: 0 auto;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 1; /* Ajuste o z-index para que as imagens estejam visíveis */
-    }
-
-    .carousel-item img.blur {
-      z-index: 0; /* Coloca a imagem desfocada atrás da imagem principal */
-    }
