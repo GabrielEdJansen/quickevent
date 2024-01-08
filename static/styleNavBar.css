@@ -28,6 +28,7 @@
       max-height: 300px; /* Altura máxima das imagens */
       position: relative;
     }
+
     .carousel-item img {
       max-width: 100%;
       height: auto;
@@ -35,10 +36,10 @@
       position: absolute;
       top: 0;
       left: 0;
-      filter: blur(5px); /* Aplica o efeito de desfoque */
-      z-index: -1; /* Coloca a imagem desfocada atrás da imagem principal */
+      z-index: 1; /* Ajuste o z-index para que as imagens estejam visíveis */
     }
-    .carousel-item.active img {
-      filter: none; /* Remove o efeito de desfoque na imagem ativa */
-      z-index: 0; /* Coloca a imagem principal à frente da desfocada */
+
+    .carousel-item img.blur {
+      filter: blur(5px); /* Aplica o efeito de desfoque */
+      z-index: 0; /* Coloca a imagem desfocada atrás da imagem principal */
     }
