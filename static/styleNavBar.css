@@ -24,11 +24,6 @@
       }
     }
 
-    .carousel-item img {
-        max-width: 100%;
-        height: auto;
-    }
-
     #carouselExampleIndicators {
         max-width: 1500px; /* Defina o tamanho máximo desejado para o carousel */
         margin: 0 auto; /* Centraliza o carousel */
