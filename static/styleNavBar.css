@@ -31,14 +31,6 @@
       overflow: hidden; /* Oculta partes da imagem maior */
     }
 
-    .carousel-item img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: auto;
-    }
-
     .carousel-item img.blur {
       filter: blur(5px); /* Aplica o efeito de desfoque */
       z-index: -1; /* Coloca a imagem desfocada atrás da imagem principal */
