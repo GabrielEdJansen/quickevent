@@ -23,3 +23,7 @@
         min-height: 60px; /* Ajuste de altura para telas menores */
       }
     }
+    .carousel-item img.blur {
+      filter: blur(5px); /* Aplica o efeito de desfoque */
+      z-index: 0; /* Coloca a imagem desfocada atrás da imagem principal */
+    }
