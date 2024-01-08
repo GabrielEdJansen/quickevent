@@ -26,7 +26,6 @@
 
     .carousel-item {
       text-align: center;
-      max-height: 500px; /* Altura máxima das imagens */
       position: relative;
       overflow: hidden; /* Oculta partes da imagem maior */
     }
