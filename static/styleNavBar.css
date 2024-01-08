@@ -24,11 +24,21 @@
       }
     }
 
-    .carousel-item {
-      text-align: center;
-      position: relative;
-      overflow: hidden; /* Oculta partes da imagem maior */
-    }
+      .carousel-item {
+        position: relative;
+        max-width: 500px; /* Largura máxima do carousel */
+        margin: 0 auto; /* Centralizar o carousel */
+        overflow: hidden; /* Ocultar partes da imagem maior */
+      }
+
+      .carousel-item img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%; /* Largura máxima da imagem para preencher horizontalmente */
+        max-height: 500px; /* Altura máxima da imagem */
+        object-fit: cover; /* Preenche a área do container mantendo a proporção */
+      }
 
     .carousel-item img.blur {
       filter: blur(5px); /* Aplica o efeito de desfoque */
