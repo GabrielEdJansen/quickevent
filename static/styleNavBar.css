@@ -25,10 +25,10 @@
     }
 
     .carousel-item {
-        position: relative;
-        max-width: 500px; /* Largura máxima do carousel */
-        margin: 0 auto; /* Centralizar o carousel */
-        overflow: hidden; /* Ocultar partes da imagem maior */
+      text-align: center;
+      max-height: 500px; /* Altura máxima das imagens */
+      position: relative;
+      overflow: hidden; /* Oculta partes da imagem maior */
     }
 
     .carousel-item img.blur {
