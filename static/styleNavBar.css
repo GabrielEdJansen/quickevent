@@ -24,7 +24,20 @@
       }
     }
 
-    #carouselExampleIndicators {
-        max-width: 1000px; /* Defina o tamanho máximo desejado para o carousel */
-        margin: 0 auto; /* Centraliza o carousel */
+    .carousel-item {
+      position: relative;
+    }
+
+    .img-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .blurred-image {
+      filter: blur(5px); /* Ajuste o valor de blur para o desfoque desejado */
+      transform: scale(1.2); /* Ajuste o valor de scale para o tamanho desejado */
     }
