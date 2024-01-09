@@ -25,6 +25,6 @@
     }
 
     #carouselExampleIndicators {
-        max-width: 1300px; /* Defina o tamanho máximo desejado para o carousel */
+        max-width: 1000px; /* Defina o tamanho máximo desejado para o carousel */
         margin: 0 auto; /* Centraliza o carousel */
     }
