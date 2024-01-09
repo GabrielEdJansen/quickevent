@@ -37,7 +37,9 @@
       z-index: -1;
     }
 
-    .blurred-image {
-      filter: blur(5px); /* Ajuste o valor de blur para o desfoque desejado */
-      transform: scale(1.2); /* Ajuste o valor de scale para o tamanho desejado */
+    .blurred-image img {
+      width: 100%; /* Define a largura da imagem para ocupar 100% do contêiner */
+      height: auto; /* Mantém a proporção original da imagem */
+      filter: blur(5px); /* Aplica o efeito de desfoque */
+      transform: scale(1.2); /* Ajusta o tamanho da imagem conforme necessário */
     }
