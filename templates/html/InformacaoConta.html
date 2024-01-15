@@ -96,8 +96,14 @@
                 var img = new Image();
                 img.src = e.target.result;
 
-                profilePic.src = e.target.result;
-
+                img.onload = function() {
+                    if (img.width === 200 && img.height === 200) {
+                        profilePic.src = e.target.result;
+                    } else {
+                        alert("Por favor, selecione uma imagem com as dimensões 200x200 pixels.");
+                        input.value = ''; // Limpa o input de arquivo
+                        profilePic.src = "../static/placeholder.jpg"; // Exibe a imagem de substituição
+                    }
                 };
             }
 
