@@ -96,10 +96,8 @@
                 var img = new Image();
                 img.src = e.target.result;
 
-                img.onload = function() {
-                    if (img.width === 200 && img.height === 200) {
-                        profilePic.src = e.target.result;
-                    }
+                profilePic.src = e.target.result;
+
                 };
             }
 
