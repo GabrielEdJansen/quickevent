@@ -33,7 +33,7 @@ def logininicio():
     return render_template("html/login.html")
 
 @app.route("/InformacaoConta")
-def logininicio():
+def InformacaoConta():
     return render_template("html/InformacaoConta.html")
 
 @app.route("/destaques")
