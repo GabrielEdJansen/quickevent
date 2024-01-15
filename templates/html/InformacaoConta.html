@@ -83,6 +83,10 @@
             <label for="endereco">Endereço:</label>
             <input type="text" id="endereco" placeholder="Digite o endereço" oninput="initAutocomplete()">
         </div>
+        <div class="form-group">
+            <label for="rua">Rua:</label>
+            <input type="text" id="rua" placeholder="Rua" readonly>
+        </div>
         <!-- Adicione mais campos para endereço, cidade, país e código postal -->
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>
@@ -91,37 +95,40 @@
 
     <script>
         function initAutocomplete() {
+            var enderecoInput = document.getElementById('endereco');
+            var ruaInput = document.getElementById('rua');
+
             var autocomplete = new google.maps.places.Autocomplete(
-                document.getElementById('endereco'),
+                enderecoInput,
                 { types: ['geocode'] }
             );
 
             autocomplete.addListener('place_changed', function () {
                 var place = autocomplete.getPlace();
 
-                // Verifica se o lugar possui informações de endereço
                 if (place.address_components) {
                     var enderecoFormatado = '';
 
-                    // Constrói o endereço formatado a partir das partes disponíveis
                     for (var i = 0; i < place.address_components.length; i++) {
                         enderecoFormatado += place.address_components[i].long_name + ', ';
+                        if (place.address_components[i].types.includes('route')) {
+                            // Se o tipo for 'route', preencha o campo da rua
+                            ruaInput.value = place.address_components[i].long_name;
+                        }
                     }
 
-                    // Remove a vírgula final
                     enderecoFormatado = enderecoFormatado.slice(0, -2);
-
-                    // Exibe o endereço formatado usando um alert
                     alert('Endereço: ' + enderecoFormatado);
                 } else {
-                    // Se não houver informações de endereço, exibe uma mensagem de erro
                     alert('Erro ao obter informações de endereço.');
                 }
             });
         }
 
-        // Chama a função initAutocomplete após o carregamento da API do Google
-        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+        // Chama a função initAutocomplete ao carregar a página
+        window.onload = function () {
+            initAutocomplete();
+        }
     </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjEI&libraries=places" defer></script>
 <script>
