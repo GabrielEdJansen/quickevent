@@ -39,7 +39,5 @@
     }
 
     .small-images img {
-      width: 100px; /* Adjust the width as needed */
-      height: auto;
       margin: 0 10px; /* Add some spacing between the images */
     }
