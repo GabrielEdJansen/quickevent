@@ -24,22 +24,11 @@
       }
     }
 
-    .carousel-item {
-      position: relative;
-    }
-
-    .img-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .carousel {
       width: 100%;
-      height: 100%;
-      z-index: -1;
     }
 
-    .blurred-image img {
-      width: 100%; /* Define a largura da imagem para ocupar 100% do contêiner */
-      height: auto; /* Mantém a proporção original da imagem */
-      filter: blur(5px); /* Aplica o efeito de desfoque */
-      transform: scale(1.2); /* Ajusta o tamanho da imagem conforme necessário */
+    .carousel-item img {
+      width: 100%;
+      height: auto;
     }
