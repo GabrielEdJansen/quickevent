@@ -81,62 +81,49 @@
         </div>
         <div class="form-group">
             <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" placeholder="Digite o endereço">
+            <input type="text" id="endereco" placeholder="Digite o endereço" oninput="initAutocomplete()">
         </div>
         <!-- Adicione mais campos para endereço, cidade, país e código postal -->
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>
 </div>
 
-<script>
-    function displayImage(input) {
-        var profilePic = document.getElementById('profile-pic');
-        var file = input.files[0];
 
-        if (file) {
-            var reader = new FileReader();
+    <script>
+        function initAutocomplete() {
+            var autocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('endereco'),
+                { types: ['geocode'] }
+            );
 
-            reader.onload = function(e) {
-                var img = new Image();
-                img.src = e.target.result;
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
 
-                img.onload = function() {
-                    if (img.width === 200 && img.height === 200) {
-                        profilePic.src = e.target.result;
-                    } else {
-                        alert("Por favor, selecione uma imagem com as dimensões 200x200 pixels.");
-                        input.value = ''; // Limpa o input de arquivo
-                        profilePic.src = "../static/placeholder.jpg"; // Exibe a imagem de substituição
+                // Verifica se o lugar possui informações de endereço
+                if (place.address_components) {
+                    var enderecoFormatado = '';
+
+                    // Constrói o endereço formatado a partir das partes disponíveis
+                    for (var i = 0; i < place.address_components.length; i++) {
+                        enderecoFormatado += place.address_components[i].long_name + ', ';
                     }
-                };
-            }
 
-            reader.readAsDataURL(file);
-        } else {
-            // Exibe uma imagem de substituição se nenhum arquivo for selecionado
-            profilePic.src = "../static/placeholder.jpg";
+                    // Remove a vírgula final
+                    enderecoFormatado = enderecoFormatado.slice(0, -2);
+
+                    // Exibe o endereço formatado usando um alert
+                    alert('Endereço: ' + enderecoFormatado);
+                } else {
+                    // Se não houver informações de endereço, exibe uma mensagem de erro
+                    alert('Erro ao obter informações de endereço.');
+                }
+            });
         }
-    }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjEI&libraries=places" defer></script>
-<script>
-    // Função para inicializar o autocompletar
-    function initAutocomplete() {
-        // Crie um objeto Autocomplete, vinculado ao campo de endereço
-        var autocomplete = new google.maps.places.Autocomplete(
-            document.getElementById('endereco'),
-            { types: ['geocode'] }
-        );
 
-        // Quando um local é selecionado, preencha automaticamente os outros campos do endereço
-        autocomplete.addListener('place_changed', function () {
-            var place = autocomplete.getPlace();
-            // Aqui você pode acessar as propriedades do lugar (como place.address_components)
-            // e preencher os outros campos do endereço conforme necessário
-            console.log(place);
-        });
-    }
-</script>
+        // Chama a função initAutocomplete após o carregamento da API do Google
+        google.maps.event.addDomListener(window, 'load', initAutocomplete);
+    </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjEI&libraries=places" defer></script>
 <script>
     // Chame a função initAutocomplete após o carregamento da API do Google
     google.maps.event.addDomListener(window, 'load', initAutocomplete);
