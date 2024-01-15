@@ -60,9 +60,11 @@
     <form action="#" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="profile-pic">Foto de Perfil</label>
-            <input type="file" class="form-control" id="profile-pic-input" name="profile_pic" accept="image/*" onchange="displayImage(this)">
-            <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
-                <img src="../static/placeholder.jpg" alt="User Photo" class="profile-pic" id="profile-pic" style="max-width: 100%; height: auto;">
+            <div class="d-flex align-items-center">
+                <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden; margin-right: 10px;">
+                    <img src="../static/placeholder.jpg" alt="User Photo" class="profile-pic" id="profile-pic" style="max-width: 100%; height: auto;">
+                </div>
+                <input type="file" class="form-control" id="profile-pic-input" name="profile_pic" accept="image/*" onchange="displayImage(this)">
             </div>
         </div>
         <div class="form-group">
