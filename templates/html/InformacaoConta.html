@@ -57,10 +57,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="container mt-5">
     <h2>Informações da Conta</h2>
-    <form action="#" method="POST">
+    <form action="#" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="profile-pic">Foto de Perfil</label>
-            <input type="file" class="form-control" id="profile-pic" name="profile_pic">
+            <input type="file" class="form-control" id="profile-pic-input" name="profile_pic" accept="image/*" onchange="displayImage(this)">
+            <img src="../static/placeholder.jpg" alt="User Photo" class="profile-pic" id="profile-pic" style="max-width: 100%; height: auto;">
         </div>
         <div class="form-group">
             <label for="first-name">Nome</label>
@@ -78,5 +79,26 @@
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>
 </div>
+
+<script>
+    function displayImage(input) {
+        var profilePic = document.getElementById('profile-pic');
+        var file = input.files[0];
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                profilePic.src = e.target.result;
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            // Display a placeholder image if no file selected
+            profilePic.src = "../static/placeholder.jpg";
+        }
+    }
+</script>
+
 </body>
 </html>
