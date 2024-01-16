@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjEI&libraries=places" defer>
 </head>
 <body>
 
@@ -79,54 +80,48 @@
             <label for="dob">Data de Nascimento</label>
             <input type="date" class="form-control" id="dob" name="dob">
         </div>
+        <!-- Adicione um identificador à div do endereço -->
         <div class="form-group">
             <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" placeholder="Digite o endereço">
+            <input type="text" id="endereco" placeholder="Digite o endereço" oninput="autoCompleteAddress()">
         </div>
+
+        <!-- Campo oculto para armazenar o lugar selecionado -->
+        <input type="hidden" id="place_id" name="place_id">
+
         <div class="form-group">
             <label for="cidade">Cidade:</label>
-           <input type="text" id="cidade" placeholder="Digite a cidade" />
+            <input type="text" id="cidade" placeholder="Digite a cidade" />
         </div>
         <!-- Adicione mais campos para endereço, cidade, país e código postal -->
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>
 </div>
 
+    <script>
+        function autoCompleteAddress() {
+            var input = document.getElementById('endereco');
+            var autocomplete = new google.maps.places.Autocomplete(input);
 
-<script>
-  // Função de inicialização do autocompletar
-  function initializeAutocomplete() {
-    // Cria instância do autocompletar com o campo de entrada 'endereco'
-    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('endereco'));
-
-    // Adiciona um ouvinte de evento para preencher outros campos quando um local é selecionado
-    autocomplete.addListener('place_changed', function () {
-      var place = autocomplete.getPlace();
-
-      // Preenche os campos adicionais
-      document.getElementById('cidade').value = getComponentValue(place, 'locality');
-      document.getElementById('estado').value = getComponentValue(place, 'administrative_area_level_1');
-      document.getElementById('pais').value = getComponentValue(place, 'country');
-    });
-  }
-
-  // Obtém o valor de um componente específico do local (cidade, estado, país, etc.)
-  function getComponentValue(place, type) {
-    for (var i = 0; i < place.address_components.length; i++) {
-      var component = place.address_components[i];
-      for (var j = 0; j < component.types.length; j++) {
-        if (component.types[j] === type) {
-          return component.long_name;
+            autocomplete.addListener('place_changed', function () {
+                var place = autocomplete.getPlace();
+                document.getElementById('cidade').value = getAddressComponent(place, 'locality');
+                document.getElementById('place_id').value = place.place_id;
+            });
         }
-      }
-    }
-    return '';
-  }
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjEI&libraries=places" defer></script>
-<script>
-    // Chame a função initAutocomplete após o carregamento da API do Google
-    google.maps.event.addDomListener(window, 'load', initAutocomplete);
-</script>
+
+        function getAddressComponent(place, component) {
+            for (var i = 0; i < place.address_components.length; i++) {
+                var addressComponent = place.address_components[i];
+                for (var j = 0; j < addressComponent.types.length; j++) {
+                    if (addressComponent.types[j] === component) {
+                        return addressComponent.long_name;
+                    }
+                }
+            }
+            return '';
+        }
+    </script>
 </body>
 </body>
 </html>
