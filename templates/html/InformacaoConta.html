@@ -81,11 +81,11 @@
         </div>
         <div class="form-group">
             <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" placeholder="Digite o endereço" oninput="initAutocomplete()">
+            <input type="text" id="endereco" placeholder="Digite o endereço">
         </div>
         <div class="form-group">
-            <label for="rua">Rua:</label>
-            <input type="text" id="rua" placeholder="Rua" readonly>
+            <label for="cidade">Cidade:</label>
+           <input type="text" id="cidade" placeholder="Digite a cidade" />
         </div>
         <!-- Adicione mais campos para endereço, cidade, país e código postal -->
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
@@ -93,43 +93,35 @@
 </div>
 
 
-    <script>
-        function initAutocomplete() {
-            var enderecoInput = document.getElementById('endereco');
-            var ruaInput = document.getElementById('rua');
+<script>
+  // Função de inicialização do autocompletar
+  function initializeAutocomplete() {
+    // Cria instância do autocompletar com o campo de entrada 'endereco'
+    var autocomplete = new google.maps.places.Autocomplete(document.getElementById('endereco'));
 
-            var autocomplete = new google.maps.places.Autocomplete(
-                enderecoInput,
-                { types: ['geocode'] }
-            );
+    // Adiciona um ouvinte de evento para preencher outros campos quando um local é selecionado
+    autocomplete.addListener('place_changed', function () {
+      var place = autocomplete.getPlace();
 
-            autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
+      // Preenche os campos adicionais
+      document.getElementById('cidade').value = getComponentValue(place, 'locality');
+      document.getElementById('estado').value = getComponentValue(place, 'administrative_area_level_1');
+      document.getElementById('pais').value = getComponentValue(place, 'country');
+    });
+  }
 
-                if (place.address_components) {
-                    var enderecoFormatado = '';
-
-                    for (var i = 0; i < place.address_components.length; i++) {
-                        enderecoFormatado += place.address_components[i].long_name + ', ';
-                        if (place.address_components[i].types.includes('route')) {
-                            // Se o tipo for 'route', preencha o campo da rua
-                            ruaInput.value = place.address_components[i].long_name;
-                        }
-                    }
-
-                    enderecoFormatado = enderecoFormatado.slice(0, -2);
-                    alert('Endereço: ' + enderecoFormatado);
-                } else {
-                    alert('Erro ao obter informações de endereço.');
-                }
-            });
+  // Obtém o valor de um componente específico do local (cidade, estado, país, etc.)
+  function getComponentValue(place, type) {
+    for (var i = 0; i < place.address_components.length; i++) {
+      var component = place.address_components[i];
+      for (var j = 0; j < component.types.length; j++) {
+        if (component.types[j] === type) {
+          return component.long_name;
         }
-
-        // Chama a função initAutocomplete ao carregar a página
-        window.onload = function () {
-            initAutocomplete();
-        }
-    </script>
+      }
+    }
+    return '';
+  }
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjEI&libraries=places" defer></script>
 <script>
     // Chame a função initAutocomplete após o carregamento da API do Google
