@@ -80,6 +80,10 @@
             <label for="dob">Data de Nascimento</label>
             <input type="date" class="form-control" id="dob" name="dob">
         </div>
+        <div class="form-group">
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" placeholder="Digite o CEP" oninput="autoCompleteAddress()">
+        </div>
         <!-- Adicione um identificador à div do endereço -->
         <div class="form-group">
             <label for="endereco">Endereço:</label>
@@ -98,30 +102,39 @@
     </form>
 </div>
 
-    <script>
-        function autoCompleteAddress() {
-            var input = document.getElementById('endereco');
-            var autocomplete = new google.maps.places.Autocomplete(input);
+<script>
+    function autoCompleteAddress() {
+        var inputCEP = document.getElementById('cep');
+        var inputEndereco = document.getElementById('endereco');
+        var inputRua = document.getElementById('rua');
+        var autocomplete = new google.maps.places.Autocomplete(inputCEP, { types: ['geocode'] });
 
-            autocomplete.addListener('place_changed', function () {
-                var place = autocomplete.getPlace();
-                document.getElementById('cidade').value = getAddressComponent(place, 'locality');
-                document.getElementById('place_id').value = place.place_id;
-            });
-        }
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
 
-        function getAddressComponent(place, component) {
-            for (var i = 0; i < place.address_components.length; i++) {
-                var addressComponent = place.address_components[i];
-                for (var j = 0; j < addressComponent.types.length; j++) {
-                    if (addressComponent.types[j] === component) {
-                        return addressComponent.long_name;
-                    }
+            // Preencher o campo do endereço
+            inputEndereco.value = getAddressComponent(place, 'route');
+
+            // Preencher o campo da rua
+            inputRua.value = getAddressComponent(place, 'street_number');
+
+            // Preencher os demais campos, se necessário
+            document.getElementById('cidade').value = getAddressComponent(place, 'locality');
+            document.getElementById('place_id').value = place.place_id;
+        });
+    }
+
+    function getAddressComponent(place, component) {
+        for (var i = 0; i < place.address_components.length; i++) {
+            var addressComponent = place.address_components[i];
+            for (var j = 0; j < addressComponent.types.length; j++) {
+                if (addressComponent.types[j] === component) {
+                    return addressComponent.long_name;
                 }
             }
-            return '';
         }
-    </script>
+        return '';
+    }
 </body>
 </body>
 </html>
