@@ -82,8 +82,10 @@
         </div>
         <div class="form-group">
             <label for="cep">CEP:</label>
-            <input type="text" id="cep" placeholder="Digite o CEP" oninput="autoCompleteAddress()">
+            <input type="text" id="cep" placeholder="Digite o CEP">
         </div>
+
+        <button type="button" onclick="autoCompleteAddress()">Preencher Endereço</button>
 
         <div class="form-group">
             <label for="endereco">Endereço:</label>
@@ -101,7 +103,6 @@
         </div>
 
         <input type="hidden" id="place_id" name="place_id">
-        <!-- Adicione mais campos para endereço, cidade, país e código postal -->
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>
 </div>
