@@ -80,10 +80,9 @@
             <label for="dob">Data de Nascimento</label>
             <input type="date" class="form-control" id="dob" name="dob">
         </div>
-        <div class="form-group">
+         <div class="form-group">
             <label for="endereco">Endereço:</label>
-            <!-- Adicione o atributo 'autocomplete' -->
-            <input type="text" id="endereco" placeholder="Digite o endereço" autocomplete="new-address">
+            <input type="text" id="endereco" placeholder="Digite o endereço">
         </div>
 
         <div class="form-group">
@@ -103,30 +102,28 @@
 </div>
 
 <script>
-    function autoCompleteAddress() {
+    function initializeAutocomplete() {
         var inputEndereco = document.getElementById('endereco');
         var inputRua = document.getElementById('rua');
         var inputCidade = document.getElementById('cidade');
+        var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
-        // Remova o objeto Autocomplete daqui
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
 
-        // Adicione um ouvinte de evento para quando o usuário selecionar um endereço
-        inputEndereco.addEventListener('change', function () {
-            var geocoder = new google.maps.Geocoder();
+            if (!place.geometry) {
+                console.error("Localização não encontrada para o endereço informado.");
+                return;
+            }
 
-            // Use o Geocoding para obter informações sobre o endereço
-            geocoder.geocode({ 'address': inputEndereco.value }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    // Preencher o campo da rua
-                    inputRua.value = getAddressComponent(results[0], 'route');
+            // Preencher o campo da rua
+            inputRua.value = getAddressComponent(place, 'route');
 
-                    // Preencher o campo da cidade
-                    inputCidade.value = getAddressComponent(results[0], 'locality');
+            // Preencher o campo da cidade
+            inputCidade.value = getAddressComponent(place, 'locality');
 
-                    // Preencher o campo do place_id, se necessário
-                    document.getElementById('place_id').value = results[0].place_id;
-                }
-            });
+            // Preencher o campo do place_id, se necessário
+            document.getElementById('place_id').value = place.place_id;
         });
     }
 
@@ -142,8 +139,8 @@
         return '';
     }
 
-    // Chame a função autoCompleteAddress para configurar o ouvinte de evento
-    autoCompleteAddress();
+    // Chame a função initializeAutocomplete para configurar o Autocomplete
+    initializeAutocomplete();
 </script>
 </body>
 </body>
