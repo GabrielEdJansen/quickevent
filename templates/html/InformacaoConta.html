@@ -99,7 +99,7 @@
 
         <div class="form-group">
             <label for="numeroresidencia">Número da Residência</label>
-            <input type="number" class="form-control" id="numeroresidencia" placeholder="Número da residência" readonly>
+            <input type="number" class="form-control" id="numeroresidencia" placeholder="Número da residência será preenchido automaticamente" readonly>
         </div>
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>
@@ -110,6 +110,7 @@
     function initializeAutocomplete() {
         var inputEndereco = document.getElementById('endereco');
         var inputNumeroResidencia = document.getElementById('numeroresidencia');
+        var inputRua = document.getElementById('rua');
         var inputCidade = document.getElementById('cidade');
         var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
@@ -124,6 +125,9 @@
             // Preencher o campo de número da residência
             var numeroResidencia = getAddressComponent(place, 'street_number');
             inputNumeroResidencia.value = numeroResidencia || '';
+
+            // Preencher o campo da rua
+            inputRua.value = getAddressComponent(place, 'route') || '';
 
             // Preencher o campo da cidade e desabilitar para edição
             inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2');
