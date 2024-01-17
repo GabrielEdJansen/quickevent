@@ -99,52 +99,55 @@
 
         <div class="form-group">
             <label for="numeroresidencia">Número da Residência</label>
-            <input type="number" class="form-control" id="numeroresidencia" placeholder="Número da residência">
+            <input type="number" class="form-control" id="numeroresidencia" placeholder="Número da residência" readonly>
         </div>
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>
 </div>
 
+
 <script>
-function initializeAutocomplete() {
-    var inputEndereco = document.getElementById('endereco');
-    var inputRua = document.getElementById('rua');
-    var inputCidade = document.getElementById('cidade');
-    var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
+    function initializeAutocomplete() {
+        var inputEndereco = document.getElementById('endereco');
+        var inputNumeroResidencia = document.getElementById('numeroresidencia');
+        var inputCidade = document.getElementById('cidade');
+        var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
-    autocomplete.addListener('place_changed', function () {
-        var place = autocomplete.getPlace();
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
 
-        if (!place.geometry) {
-            console.error("Localização não encontrada para o endereço informado.");
-            return;
-        }
+            if (!place.geometry) {
+                console.error("Localização não encontrada para o endereço informado.");
+                return;
+            }
 
-        // Preencher o campo da rua
-        inputRua.value = getAddressComponent(place, 'route');
+            // Preencher o campo de número da residência
+            var numeroResidencia = getAddressComponent(place, 'street_number');
+            inputNumeroResidencia.value = numeroResidencia || '';
 
-        // Preencher o campo da cidade
-        inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2');
+            // Preencher o campo da cidade e desabilitar para edição
+            inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2');
+            inputCidade.setAttribute('readonly', true);
 
-        // Preencher o campo do place_id, se necessário
-        document.getElementById('place_id').value = place.place_id;
-    });
-}
+            // Preencher o campo do place_id, se necessário
+            document.getElementById('place_id').value = place.place_id;
+        });
+    }
 
-function getAddressComponent(place, component) {
-    for (var i = 0; i < place.address_components.length; i++) {
-        var addressComponent = place.address_components[i];
-        for (var j = 0; j < addressComponent.types.length; j++) {
-            if (addressComponent.types[j] === component) {
-                return addressComponent.long_name;
+    function getAddressComponent(place, component) {
+        for (var i = 0; i < place.address_components.length; i++) {
+            var addressComponent = place.address_components[i];
+            for (var j = 0; j < addressComponent.types.length; j++) {
+                if (addressComponent.types[j] === component) {
+                    return addressComponent.long_name;
+                }
             }
         }
+        return '';
     }
-    return '';
-}
 
-// Chame a função initializeAutocomplete para configurar o Autocomplete
-initializeAutocomplete();
+    // Chame a função initializeAutocomplete para configurar o Autocomplete
+    initializeAutocomplete();
 </script>
 
 </body>
