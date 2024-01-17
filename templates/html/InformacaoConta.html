@@ -84,19 +84,23 @@
             <label for="cep">CEP:</label>
             <input type="text" id="cep" placeholder="Digite o CEP" oninput="autoCompleteAddress()">
         </div>
-        <!-- Adicione um identificador à div do endereço -->
+
         <div class="form-group">
             <label for="endereco">Endereço:</label>
-            <input type="text" id="endereco" placeholder="Digite o endereço" oninput="autoCompleteAddress()">
+            <input type="text" id="endereco" placeholder="Digite o endereço">
         </div>
 
-        <!-- Campo oculto para armazenar o lugar selecionado -->
-        <input type="hidden" id="place_id" name="place_id">
+        <div class="form-group">
+            <label for="rua">Rua:</label>
+            <input type="text" id="rua" placeholder="Digite a rua">
+        </div>
 
         <div class="form-group">
             <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" placeholder="Digite a cidade" />
+            <input type="text" id="cidade" placeholder="Digite a cidade">
         </div>
+
+        <input type="hidden" id="place_id" name="place_id">
         <!-- Adicione mais campos para endereço, cidade, país e código postal -->
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>
