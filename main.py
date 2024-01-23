@@ -61,7 +61,7 @@ def salvar_informacoes():
         sobrenome = request.form.get("sobrenome")
 
         # Obtenha o arquivo da imagem do formulário
-        foto = request.files["foto"]
+        foto = request.files["profile_pic"]  # Alterado para "profile_pic"
 
         # Verifique se um arquivo de imagem foi enviado e se a extensão é permitida
         if foto and allowed_file(foto.filename):
@@ -76,7 +76,7 @@ def salvar_informacoes():
             # Exemplo fictício usando um dicionário como "banco de dados"
             usuario = {"nome": nome, "sobrenome": sobrenome, "caminho_foto": caminho_foto}
 
-            # Redirecione para alguma página de confirmação ou outra página desejada
+            # Redirecione para a rota /InformacaoConta após salvar as informações
             return redirect(url_for("InformacaoConta"))
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
