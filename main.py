@@ -54,7 +54,7 @@ def allowed_file(filename):
 # Defina o caminho para a pasta de upload
 
 @app.route("/salvar_informacoes", methods=["POST"])
-def salvar_foto():
+def salvar_informacoes():
     if request.method == "POST":
         # Obtenha o arquivo da imagem do formulário
         foto = request.files["profile_pic"]
