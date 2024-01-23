@@ -53,7 +53,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png', 'gif'}
 # Defina o caminho para a pasta de upload
 
-@app.route("/salvar_foto", methods=["POST"])
+@app.route("/salvar_informacoes", methods=["POST"])
 def salvar_foto():
     if request.method == "POST":
         # Obtenha o arquivo da imagem do formulário
