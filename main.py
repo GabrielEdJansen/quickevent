@@ -62,7 +62,7 @@ def salvar_informacoes():
 
         # Obtenha o arquivo da imagem do formulário
         foto = request.files["profile_pic"]  # Alterado para "profile_pic"
-
+        print(foto)
         # Verifique se um arquivo de imagem foi enviado e se a extensão é permitida
         if foto and allowed_file(foto.filename):
             # Crie um nome de arquivo único com base no idlogado
