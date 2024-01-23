@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, flash, redirect, jsonify, url_for
 from banco import configbanco
 import jwt
+from werkzeug.utils import secure_filename
+import os
 import mysql.connector
 from mysql.connector import Error
 import pandas as pd
@@ -43,6 +45,42 @@ def InformacaoConta():
         )
         usuario = cursur.fetchone()
     return render_template("html/InformacaoConta.html", nome=usuario[0], sobrenome=usuario[1])
+
+def allowed_file(filename):
+    # Adicione uma lógica para verificar se a extensão do arquivo é permitida
+    # Por exemplo, você pode verificar se a extensão está em uma lista de extensões permitidas
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png', 'gif'}
+# Defina o caminho para a pasta de upload
+UPLOAD_FOLDER = 'static/fotoUsuario'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+@app.route("/salvar_informacoes", methods=["POST"])
+def salvar_informacoes():
+    if request.method == "POST":
+        # Obtenha os dados do formulário
+        nome = request.form.get("nome")
+        sobrenome = request.form.get("sobrenome")
+
+        # Obtenha o arquivo da imagem do formulário
+        foto = request.files["foto"]
+
+        # Verifique se um arquivo de imagem foi enviado e se a extensão é permitida
+        if foto and allowed_file(foto.filename):
+            # Crie um nome de arquivo único com base no idlogado
+            nome_arquivo = f"{idlogado}_{secure_filename(foto.filename)}"
+
+            # Salve a foto no diretório UPLOAD_FOLDER
+            caminho_foto = os.path.join(app.config['UPLOAD_FOLDER'], nome_arquivo)
+            foto.save(caminho_foto)
+
+            # Salve as informações do usuário no banco de dados ou faça o que for necessário
+            # Exemplo fictício usando um dicionário como "banco de dados"
+            usuario = {"nome": nome, "sobrenome": sobrenome, "caminho_foto": caminho_foto}
+
+            # Redirecione para alguma página de confirmação ou outra página desejada
+            return redirect(url_for("InformacaoConta"))
+
+    # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
+    return "Erro ao processar a requisição"
 
 @app.route("/destaques")
 def destaques():
