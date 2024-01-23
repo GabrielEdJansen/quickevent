@@ -34,7 +34,15 @@ def logininicio():
 
 @app.route("/InformacaoConta")
 def InformacaoConta():
-    return render_template("html/InformacaoConta.html")
+    global idlogado
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT nome, sobrenome FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursur.fetchone()
+    return render_template("html/InformacaoConta.html", nome=usuario[0], sobrenome=usuario[1])
 
 @app.route("/destaques")
 def destaques():
