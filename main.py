@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, jsonify, url_for
 from banco import configbanco
 import jwt
+import base64
 from werkzeug.utils import secure_filename
 import os
 import mysql.connector
@@ -51,37 +52,42 @@ def allowed_file(filename):
     # Por exemplo, você pode verificar se a extensão está em uma lista de extensões permitidas
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png', 'gif'}
 # Defina o caminho para a pasta de upload
-UPLOAD_FOLDER = 'static/fotoUsuario'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-@app.route("/salvar_informacoes", methods=["POST"])
-def salvar_informacoes():
-    if request.method == "POST":
-        # Obtenha os dados do formulário
-        nome = request.form.get("nome")
-        sobrenome = request.form.get("sobrenome")
 
+@app.route("/salvar_foto", methods=["POST"])
+def salvar_foto():
+    if request.method == "POST":
         # Obtenha o arquivo da imagem do formulário
-        foto = request.files["profile_pic"]  # Alterado para "profile_pic"
-        print(foto)
+        foto = request.files["profile_pic"]
+
         # Verifique se um arquivo de imagem foi enviado e se a extensão é permitida
         if foto and allowed_file(foto.filename):
-            # Crie um nome de arquivo único com base no idlogado
-            nome_arquivo = f"{idlogado}_{secure_filename(foto.filename)}"
+            # Leia a imagem como dados binários
+            foto_binario = foto.read()
 
-            # Salve a foto no diretório UPLOAD_FOLDER
-            caminho_foto = os.path.join(app.config['UPLOAD_FOLDER'], nome_arquivo)
-            foto.save(caminho_foto)
+            # Converta os dados binários para base64 (representação de texto)
+            foto_texto = base64.b64encode(foto_binario).decode('utf-8')
 
-            # Salve as informações do usuário no banco de dados ou faça o que for necessário
-            # Exemplo fictício usando um dicionário como "banco de dados"
-            usuario = {"nome": nome, "sobrenome": sobrenome, "caminho_foto": caminho_foto}
+            # Conecte-se ao banco de dados
+            connect_BD = configbanco(db_type='mysql-connector')
 
-            # Redirecione para a rota /InformacaoConta após salvar as informações
-            return redirect(url_for("InformacaoConta"))
+            if connect_BD.is_connected():
+                cursur = connect_BD.cursor()
+
+                # Atualize apenas a foto do usuário com base no idlogado
+                cursur.execute(
+                    f'UPDATE usuarios SET foto = "{foto_texto}" WHERE id_usuario = "{idlogado}"'
+                )
+
+                # Commit para salvar as alterações no banco de dados
+                connect_BD.commit()
+
+                # Redirecione para a rota /InformacaoConta após salvar a foto
+                return redirect(url_for("InformacaoConta"))
+            else:
+                return "Erro de conexão com o banco de dados."
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
     return "Erro ao processar a requisição"
-
 @app.route("/destaques")
 def destaques():
     return render_template("html/destaques.html")
