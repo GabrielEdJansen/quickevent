@@ -107,6 +107,13 @@
 
 
 <script>
+    // Adicione a variável mensagem_erro para passar a mensagem do Flask para o HTML
+    var mensagem_erro = "{{ mensagem_erro }}";
+
+    // Exibir um alerta se houver uma mensagem de erro
+    if (mensagem_erro) {
+        alert(mensagem_erro);
+    }
     function initializeAutocomplete() {
         var inputEndereco = document.getElementById('endereco');
         var inputNumeroResidencia = document.getElementById('numeroresidencia');

@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, flash, redirect, jsonify, url
 from banco import configbanco
 import jwt
 import base64
+from PIL import Image
+from io import BytesIO
 from werkzeug.utils import secure_filename
 import os
 import mysql.connector
@@ -61,30 +63,41 @@ def salvar_informacoes():
 
         # Verifique se um arquivo de imagem foi enviado e se a extensão é permitida
         if foto and allowed_file(foto.filename):
-            # Leia a imagem como dados binários
-            foto_binario = foto.read()
+            try:
+                # Abra a imagem usando PIL
+                img = Image.open(foto)
 
-            # Converta os dados binários para base64 (representação de texto)
-            foto_texto = base64.b64encode(foto_binario).decode('utf-8')
+                # Redimensione a imagem para 200x200 pixels
+                img = img.resize((200, 200))
 
-            # Conecte-se ao banco de dados
-            connect_BD = configbanco(db_type='mysql-connector')
+                # Converta a imagem redimensionada para dados binários
+                img_buffer = BytesIO()
+                img.save(img_buffer, format="JPEG")
+                img_binario = img_buffer.getvalue()
 
-            if connect_BD.is_connected():
-                cursur = connect_BD.cursor()
+                # Converta os dados binários para base64 (representação de texto)
+                foto_texto = base64.b64encode(img_binario).decode('utf-8')
 
-                # Atualize apenas a foto do usuário com base no idlogado
-                cursur.execute(
-                    f'UPDATE usuarios SET foto = "{foto_texto}" WHERE id_usuario = "{idlogado}"'
-                )
+                # Conecte-se ao banco de dados
+                connect_BD = configbanco(db_type='mysql-connector')
 
-                # Commit para salvar as alterações no banco de dados
-                connect_BD.commit()
+                if connect_BD.is_connected():
+                    cursur = connect_BD.cursor()
 
-                # Redirecione para a rota /InformacaoConta após salvar a foto
-                return redirect(url_for("InformacaoConta"))
-            else:
-                return "Erro de conexão com o banco de dados."
+                    # Atualize apenas a foto do usuário com base no idlogado
+                    cursur.execute(
+                        f'UPDATE usuarios SET foto = "{foto_texto}" WHERE id_usuario = "{idlogado}"'
+                    )
+
+                    # Commit para salvar as alterações no banco de dados
+                    connect_BD.commit()
+
+                    # Redirecione para a rota /InformacaoConta após salvar a foto
+                    return redirect(url_for("InformacaoConta"))
+                else:
+                    return "Erro de conexão com o banco de dados."
+            except Exception as e:
+                return f"Erro ao processar a imagem: {str(e)}"
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
     return "Erro ao processar a requisição"
