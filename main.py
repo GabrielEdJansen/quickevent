@@ -69,7 +69,7 @@ def salvar_informacoes():
                 img = Image.open(foto)
 
                 # Verifique as dimensões da imagem redimensionada
-                if not (0 <= img.size[0] <= 200 and 0 <= img.size[1] <= 200):
+                if(img.size[0] > 200 or img.size[1] > 200):
                     mensagem_erro = "A foto deve ter dimensões no máximo 200x200 pixels."
                     return render_template("html/InformacaoConta.html", mensagem_erro=mensagem_erro)
 
