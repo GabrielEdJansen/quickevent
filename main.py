@@ -58,15 +58,10 @@ def InformacaoConta():
             # Formatando a data de nascimento, se disponível
             nascimento = datetime.strptime(usuario[4], "%Y-%m-%d").strftime("%d/%m/%Y") if usuario[4] else "Data de nascimento não disponível"
 
-            endereco = usuario[5] if usuario[5] else "Endereço não disponível"
-            rua = usuario[6] if usuario[6] else "Rua não disponível"
-            cidade = usuario[7] if usuario[7] else "Cidade não disponível"
-            numero = usuario[8] if usuario[8] else "Número não disponível"
-        else:
-            endereco = "Endereço não disponível"
-            rua = "Rua será preenchida automaticamente"
-            cidade = "Cidade será preenchida automaticamente"
-            numero = "Número da residência será preenchido automaticamente"
+            endereco = usuario[5] if usuario[5] else "Digite um endereço"
+            rua = usuario[6] if usuario[6] else "Rua será preenchida automaticamente"
+            cidade = usuario[7] if usuario[7] else "Cidade será preenchida automaticamente"
+            numero = usuario[8] if usuario[8] else "Número da residência será preenchido automaticamente"
 
     return render_template("html/InformacaoConta.html", nome=nome, sobrenome=sobrenome, foto_nome=foto_nome, foto=foto, nascimento=nascimento, endereco=endereco, rua=rua, cidade=cidade, numero=numero)
 def allowed_file(filename):
