@@ -83,29 +83,29 @@
             <input type="text" class="form-control" id="sobrenome" name="sobrenome" value="{{ sobrenome }}" readonly>
         </div>
         <div class="form-group">
-            <label for="dob">Data de Nascimento</label>
-            <input type="date" class="form-control" id="dob" name="dob">
+            <label for="nascimento">Data de Nascimento</label>
+            <input type="date" class="form-control" id="nascimento" name="nascimento" value="{{ nascimento }}" name="dob">
         </div>
         <div class="form-group">
             <label for="endereco">Endereço</label>
-            <input type="text" class="form-control" id="endereco" placeholder="Digite o endereço">
+            <input type="text" class="form-control" id="endereco" name="endereco" value="{{ endereco }}" placeholder="Digite o endereço">
         </div>
 
         <div class="form-group">
             <label for="rua">Rua</label>
-            <input type="text" class="form-control" id="rua" placeholder="Rua será preenchida automaticamente" readonly>
+            <input type="text" class="form-control" id="rua" name="rua"  value="{{ rua }}" placeholder="Rua será preenchida automaticamente" readonly>
         </div>
 
         <div class="form-group">
             <label for="cidade">Cidade</label>
-            <input type="text" class="form-control" id="cidade" placeholder="Cidade será preenchida automaticamente" readonly>
+            <input type="text" class="form-control" id="cidade" name="cidade" value="{{ cidade }}" placeholder="Cidade será preenchida automaticamente" readonly>
         </div>
 
         <input type="hidden" id="place_id" name="place_id">
 
         <div class="form-group">
-            <label for="numeroresidencia">Número da Residência</label>
-            <input type="number" class="form-control" id="numeroresidencia" placeholder="Número da residência será preenchido automaticamente" readonly>
+            <label for="numero">Número da Residência</label>
+            <input type="number" class="form-control" id="numero" name="numero" value="{{ rua }}" placeholder="Número da residência será preenchido automaticamente" readonly>
         </div>
         <button type="submit" class="btn btn-primary">Salvar Informações</button>
     </form>

@@ -44,10 +44,10 @@ def InformacaoConta():
     if connect_BD.is_connected():
         cursur = connect_BD.cursor()
         cursur.execute(
-            f'SELECT nome, sobrenome, foto_nome, foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            f'SELECT nome, sobrenome, foto_nome, foto, nascimento, endereco, rua, cidade, numero FROM usuarios WHERE id_usuario = "{idlogado}"'
         )
         usuario = cursur.fetchone()
-    return render_template("html/InformacaoConta.html", nome=usuario[0], sobrenome=usuario[1], foto_nome=usuario[2], foto=usuario[3])
+    return render_template("html/InformacaoConta.html", nome=usuario[0], sobrenome=usuario[1], foto_nome=usuario[2], foto=usuario[3], nascimento=usuario[4], endereco=usuario[5], rua=usuario[6], cidade=usuario[7], numero=usuario[8])
 
 def allowed_file(filename):
     # Adicione uma lógica para verificar se a extensão do arquivo é permitida
@@ -61,6 +61,11 @@ def salvar_informacoes():
     if request.method == "POST":
         # Obtenha o arquivo da imagem do formulário
         foto = request.files["profile_pic"]
+        nascimento = request.form.get("nascimento")
+        endereco = request.form.get("endereco")
+        numero = request.form.get("numero")
+        cidade = request.form.get("cidade")
+        rua = request.form.get("rua")
 
         # Verifique se um arquivo de imagem foi enviado
         if foto and allowed_file(foto.filename):
@@ -102,7 +107,7 @@ def salvar_informacoes():
 
                         # Atualize a foto e o nome do arquivo do usuário com base no idlogado
                         cursor.execute(
-                            f'UPDATE usuarios SET foto = "{foto_texto}", foto_nome = "{foto_nome}" WHERE id_usuario = "{idlogado}"'
+                            f'UPDATE usuarios SET cidade = "{cidade}",rua = "{rua}",foto = "{foto_texto}", foto_nome = "{foto_nome}", nascimento = "{nascimento}", endereco = "{endereco}", numero = "{numero}" WHERE id_usuario = "{idlogado}"'
                         )
 
                         # Commit para salvar as alterações no banco de dados
