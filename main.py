@@ -58,7 +58,7 @@ def InformacaoConta():
             foto = usuario[3] if usuario[3] else "Sem foto disponível"
 
             # Formatando a data de nascimento, se disponível
-            nascimento = datetime.strptime(str(usuario[4]), "%Y-%m-%d").strftime("%d/%m/%Y") if usuario[4] else "Data de nascimento não disponível"
+            nascimento = usuario[4] if usuario[4] else "0000-00-00"
 
             endereco = usuario[5] if usuario[5] else "Digite um endereço"
             rua = usuario[6] if usuario[6] else "Rua será preenchida automaticamente"
