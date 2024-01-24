@@ -66,7 +66,7 @@
             <label for="profile-pic">Foto de Perfil</label>
             <div class="d-flex align-items-center">
                 <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; margin-right: 10px;">
-                    <img src="{{ user_photo }}" alt="User Photo" class="profile-pic" id="profile-pic" style="max-width: 100%; height: auto;">
+                    <img src="{{ user_photo }}" alt="User Photo" value="{{ foto_nome }} class="profile-pic" id="profile-pic" style="max-width: 100%; height: auto;">
                 </div>
                 <input type="file" class="form-control" id="profile-pic-input" name="profile_pic" accept="image/*" onchange="displayImage(this)">
             </div>

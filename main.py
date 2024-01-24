@@ -44,10 +44,10 @@ def InformacaoConta():
     if connect_BD.is_connected():
         cursur = connect_BD.cursor()
         cursur.execute(
-            f'SELECT nome, sobrenome FROM usuarios WHERE id_usuario = "{idlogado}"'
+            f'SELECT nome, sobrenome, foto_nome FROM usuarios WHERE id_usuario = "{idlogado}"'
         )
         usuario = cursur.fetchone()
-    return render_template("html/InformacaoConta.html", nome=usuario[0], sobrenome=usuario[1])
+    return render_template("html/InformacaoConta.html", nome=usuario[0], sobrenome=usuario[1], foto_nome=usuario[2])
 
 def allowed_file(filename):
     # Adicione uma lógica para verificar se a extensão do arquivo é permitida
