@@ -127,7 +127,7 @@ def salvar_informacoes():
                 mensagem_erro = f"Erro ao processar a imagem: {str(e)}"
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
-    return redirect(url_for("/InformacaoConta", mensagem_erro=mensagem_erro))
+    return redirect(url_for("/InformacaoConta"))
 
 @app.route("/destaques")
 def destaques():
