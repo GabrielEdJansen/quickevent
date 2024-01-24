@@ -55,13 +55,14 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'jpg', 'jpeg', 'png', 'gif'}
 # Defina o caminho para a pasta de upload
 
+
 @app.route("/salvar_informacoes", methods=["POST"])
 def salvar_informacoes():
     if request.method == "POST":
         # Obtenha o arquivo da imagem do formulário
         foto = request.files["profile_pic"]
 
-        # Verifique se um arquivo de imagem foi enviado e se a extensão é permitida
+        # Verifique se um arquivo de imagem foi enviado
         if foto and allowed_file(foto.filename):
             try:
                 # Abra a imagem usando PIL
@@ -72,35 +73,58 @@ def salvar_informacoes():
 
                 # Converta a imagem redimensionada para dados binários
                 img_buffer = BytesIO()
-                img.save(img_buffer, format="JPEG")
+
+                # Salve a imagem no formato apropriado (JPEG, PNG, GIF) com base na extensão original
+                file_extension = foto.filename.rsplit('.', 1)[1].lower()
+                if file_extension in {'jpg', 'jpeg'}:
+                    img.save(img_buffer, format="JPEG")
+                elif file_extension == 'png':
+                    img.save(img_buffer, format="PNG")
+                elif file_extension == 'gif':
+                    img.save(img_buffer, format="GIF")
+
                 img_binario = img_buffer.getvalue()
 
                 # Converta os dados binários para base64 (representação de texto)
                 foto_texto = base64.b64encode(img_binario).decode('utf-8')
 
                 # Conecte-se ao banco de dados
-                connect_BD = configbanco(db_type='mysql-connector')
-
-                if connect_BD.is_connected():
-                    cursur = connect_BD.cursor()
-
-                    # Atualize apenas a foto do usuário com base no idlogado
-                    cursur.execute(
-                        f'UPDATE usuarios SET foto = "{foto_texto}" WHERE id_usuario = "{idlogado}"'
+                try:
+                    connection = mysql.connector.connect(
+                        host='seu_host',
+                        database='seu_banco_de_dados',
+                        user='seu_usuario',
+                        password='sua_senha'
                     )
 
-                    # Commit para salvar as alterações no banco de dados
-                    connect_BD.commit()
+                    if connection.is_connected():
+                        cursor = connection.cursor()
 
-                    # Redirecione para a rota /InformacaoConta após salvar a foto
-                    return redirect(url_for("InformacaoConta"))
-                else:
-                    return "Erro de conexão com o banco de dados."
+                        # Atualize apenas a foto do usuário com base no idlogado
+                        cursor.execute(
+                            f'UPDATE usuarios SET foto = "{foto_texto}" WHERE id_usuario = "{idlogado}"'
+                        )
+
+                        # Commit para salvar as alterações no banco de dados
+                        connection.commit()
+
+                        # Redirecione para a rota /InformacaoConta após salvar a foto
+                        return redirect(url_for("InformacaoConta"))
+                    else:
+                        mensagem_erro = "Erro de conexão com o banco de dados."
+                except Error as e:
+                    mensagem_erro = f"Erro no banco de dados: {str(e)}"
+                finally:
+                    # Feche a conexão
+                    if connection.is_connected():
+                        cursor.close()
+                        connection.close()
             except Exception as e:
-                return f"Erro ao processar a imagem: {str(e)}"
+                mensagem_erro = f"Erro ao processar a imagem: {str(e)}"
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
-    return "Erro ao processar a requisição"
+    return render_template("seu_template.html", mensagem_erro=mensagem_erro)
+
 @app.route("/destaques")
 def destaques():
     return render_template("html/destaques.html")
