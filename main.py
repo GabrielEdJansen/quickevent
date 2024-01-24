@@ -69,8 +69,8 @@ def salvar_informacoes():
                 img = Image.open(foto)
 
                 # Verifique as dimensões da imagem redimensionada
-                if img.size != (200, 200):
-                    mensagem_erro = "A imagem deve ter as dimensões exatas de 200x200 pixels."
+                if not (0 <= img.size[0] <= 200 and 0 <= img.size[1] <= 200):
+                    mensagem_erro = "A foto deve ter dimensões no máximo 200x200 pixels."
                     return render_template("html/InformacaoConta.html", mensagem_erro=mensagem_erro)
 
                 # Converta a imagem redimensionada para dados binários
