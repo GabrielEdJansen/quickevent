@@ -37,6 +37,8 @@ def home():
 def logininicio():
     return render_template("html/login.html")
 
+from datetime import datetime
+
 @app.route("/InformacaoConta")
 def InformacaoConta():
     global idlogado
@@ -56,7 +58,7 @@ def InformacaoConta():
             foto = usuario[3] if usuario[3] else "Sem foto disponível"
 
             # Formatando a data de nascimento, se disponível
-            nascimento = datetime.strptime(usuario[4], "%Y-%m-%d").strftime("%d/%m/%Y") if usuario[4] else "Data de nascimento não disponível"
+            nascimento = datetime.strptime(str(usuario[4]), "%Y-%m-%d").strftime("%d/%m/%Y") if usuario[4] else "Data de nascimento não disponível"
 
             endereco = usuario[5] if usuario[5] else "Digite um endereço"
             rua = usuario[6] if usuario[6] else "Rua será preenchida automaticamente"
@@ -64,6 +66,7 @@ def InformacaoConta():
             numero = usuario[8] if usuario[8] else "Número da residência será preenchido automaticamente"
 
     return render_template("html/InformacaoConta.html", nome=nome, sobrenome=sobrenome, foto_nome=foto_nome, foto=foto, nascimento=nascimento, endereco=endereco, rua=rua, cidade=cidade, numero=numero)
+
 def allowed_file(filename):
     # Adicione uma lógica para verificar se a extensão do arquivo é permitida
     # Por exemplo, você pode verificar se a extensão está em uma lista de extensões permitidas
