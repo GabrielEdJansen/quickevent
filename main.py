@@ -71,6 +71,11 @@ def salvar_informacoes():
                 # Redimensione a imagem para 200x200 pixels
                 img = img.resize((200, 200))
 
+                # Verifique as dimensões da imagem redimensionada
+                if img.size != (200, 200):
+                    mensagem_erro = "A imagem deve ter as dimensões exatas de 200x200 pixels."
+                    return render_template("html/InformacaoConta.html", mensagem_erro=mensagem_erro)
+
                 # Converta a imagem redimensionada para dados binários
                 img_buffer = BytesIO()
 
@@ -119,6 +124,7 @@ def salvar_informacoes():
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
     return render_template("html/InformacaoConta.html", mensagem_erro=mensagem_erro)
+
 
 
 @app.route("/destaques")
