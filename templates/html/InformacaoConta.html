@@ -9,30 +9,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
 <style>
-    #flash-container {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 1000;
-        width: 300px; /* Ajuste a largura conforme necessário */
-    }
-
-    .flash-alert {
-        position: relative;
-        animation: slideIn 0.5s ease-in-out;
-        margin-bottom: 10px;
-    }
-
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateX(100%);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
 </style>
 </head>
 <body>
@@ -84,7 +60,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="container mt-5">
     <h2>Informações da Conta</h2>
-    <div id="flash-container"></div>
+    <div id="flash-container" style="background-color: #ff0000; color: #fff; border-radius: 5px; width: 300px;"></div>
     <form action="{{ url_for('salvar_informacoes') }}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="profile-pic">Foto de Perfil</label>
