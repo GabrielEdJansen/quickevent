@@ -90,12 +90,7 @@ def salvar_informacoes():
 
                 # Conecte-se ao banco de dados
                 try:
-                    connection = mysql.connector.connect(
-                        host='seu_host',
-                        database='seu_banco_de_dados',
-                        user='seu_usuario',
-                        password='sua_senha'
-                    )
+                    connection = configbanco(db_type='mysql-connector')
 
                     if connection.is_connected():
                         cursor = connection.cursor()
