@@ -76,10 +76,6 @@ def salvar_informacoes():
                 # Gere um nome único para a foto usando secure_filename
                 foto_nome = secure_filename(foto.filename)
 
-                # Salve a imagem no diretório de uploads
-                caminho_foto = os.path.join(app.config['UPLOAD_FOLDER'], foto_nome)
-                img.save(caminho_foto)
-
                 # Converta a imagem redimensionada para dados binários
                 img_buffer = BytesIO()
 
