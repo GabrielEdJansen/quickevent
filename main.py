@@ -81,6 +81,20 @@ def salvar_informacoes():
         numero = request.form.get("numero")
         cidade = request.form.get("cidade")
         rua = request.form.get("rua")
+        nascimento = datetime.strptime(nascimento, "%Y-%m-%d")
+
+        connection = configbanco(db_type='mysql-connector')
+
+        if connection.is_connected():
+            cursor = connection.cursor()
+
+            # Atualize a foto e o nome do arquivo do usuário com base no idlogado
+            cursor.execute(
+                f'UPDATE usuarios SET cidade = "{cidade}",rua = "{rua}", nascimento = "{nascimento}", endereco = "{endereco}", numero = "{numero}" WHERE id_usuario = "{idlogado}"'
+            )
+
+            # Commit para salvar as alterações no banco de dados
+            connection.commit()
 
         # Verifique se um arquivo de imagem foi enviado
         if foto and allowed_file(foto.filename):
