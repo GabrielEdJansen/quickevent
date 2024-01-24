@@ -47,8 +47,28 @@ def InformacaoConta():
             f'SELECT nome, sobrenome, foto_nome, foto, nascimento, endereco, rua, cidade, numero FROM usuarios WHERE id_usuario = "{idlogado}"'
         )
         usuario = cursur.fetchone()
-    return render_template("html/InformacaoConta.html", nome=usuario[0], sobrenome=usuario[1], foto_nome=usuario[2], foto=usuario[3], nascimento=usuario[4], endereco=usuario[5], rua=usuario[6], cidade=usuario[7], numero=usuario[8])
 
+        if usuario:
+            # Verifique se as informações não estão vazias antes de renderizar o template
+            nome = usuario[0] if usuario[0] else "Nome não disponível"
+            sobrenome = usuario[1] if usuario[1] else "Sobrenome não disponível"
+            foto_nome = usuario[2] if usuario[2] else "Sem foto disponível"
+            foto = usuario[3] if usuario[3] else "Sem foto disponível"
+
+            # Formatando a data de nascimento, se disponível
+            nascimento = datetime.strptime(usuario[4], "%Y-%m-%d").strftime("%d/%m/%Y") if usuario[4] else "Data de nascimento não disponível"
+
+            endereco = usuario[5] if usuario[5] else "Endereço não disponível"
+            rua = usuario[6] if usuario[6] else "Rua não disponível"
+            cidade = usuario[7] if usuario[7] else "Cidade não disponível"
+            numero = usuario[8] if usuario[8] else "Número não disponível"
+        else:
+            endereco = "Endereço não disponível"
+            rua = "Rua será preenchida automaticamente"
+            cidade = "Cidade será preenchida automaticamente"
+            numero = "Número da residência será preenchido automaticamente"
+
+    return render_template("html/InformacaoConta.html", nome=nome, sobrenome=sobrenome, foto_nome=foto_nome, foto=foto, nascimento=nascimento, endereco=endereco, rua=rua, cidade=cidade, numero=numero)
 def allowed_file(filename):
     # Adicione uma lógica para verificar se a extensão do arquivo é permitida
     # Por exemplo, você pode verificar se a extensão está em uma lista de extensões permitidas
