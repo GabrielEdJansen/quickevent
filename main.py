@@ -68,9 +68,6 @@ def salvar_informacoes():
                 # Abra a imagem usando PIL
                 img = Image.open(foto)
 
-                # Redimensione a imagem para 200x200 pixels
-                img = img.resize((200, 200))
-
                 # Verifique as dimensões da imagem redimensionada
                 if img.size != (200, 200):
                     mensagem_erro = "A imagem deve ter as dimensões exatas de 200x200 pixels."
