@@ -71,7 +71,7 @@ def salvar_informacoes():
                 # Verifique as dimensões da imagem redimensionada
                 if img.size[0] > 200 or img.size[1] > 200:
                     mensagem_erro = "A foto deve ter dimensões no máximo 200x200 pixels."
-                    return render_template("html/InformacaoConta.html", mensagem_erro=mensagem_erro)
+                    return redirect(url_for("InformacaoConta"))
 
                 # Gere um nome único para a foto usando secure_filename
                 foto_nome = secure_filename(foto.filename)
@@ -127,7 +127,7 @@ def salvar_informacoes():
                 mensagem_erro = f"Erro ao processar a imagem: {str(e)}"
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
-    return redirect(url_for("/InformacaoConta"))
+    return redirect(url_for("InformacaoConta"))
 
 @app.route("/destaques")
 def destaques():
