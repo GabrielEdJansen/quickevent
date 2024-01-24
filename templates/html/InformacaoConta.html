@@ -82,9 +82,10 @@
             <label for="sobrenome">Sobrenome</label>
             <input type="text" class="form-control" id="sobrenome" name="sobrenome" value="{{ sobrenome }}" readonly>
         </div>
-        <div class="form-group">
+         <div class="form-group">
             <label for="nascimento">Data de Nascimento</label>
-            <input type="date" class="form-control" id="nascimento" name="nascimento" value="{{ nascimento }}">
+            <input type="date" class="form-control" id="nascimento" name="nascimento" value="{{ nascimento }}" min="1900-01-01" max="2100-12-31" required>
+            <small class="form-text text-muted">Formato: AAAA-MM-DD</small>
         </div>
         <div class="form-group">
             <label for="endereco">Endereço</label>
@@ -113,6 +114,19 @@
 
 
 <script>
+    // Adicione um ouvinte de evento ao formulário para validar a data antes de enviar
+    document.getElementById('formulario').addEventListener('submit', function (event) {
+        var inputNascimento = document.getElementById('nascimento');
+        var dataNascimento = inputNascimento.value;
+
+        // Use uma expressão regular para validar o formato da data (AAAA-MM-DD)
+        var regexData = /^\d{4}-\d{2}-\d{2}$/;
+        if (!regexData.test(dataNascimento)) {
+            alert('Formato de data inválido. Use AAAA-MM-DD.');
+            event.preventDefault();  // Impede o envio do formulário se a data for inválida
+        }
+    });
+
     // Adicione a variável mensagem_erro para passar a mensagem do Flask para o HTML
     var mensagens_erro = {{ get_flashed_messages(with_categories=true) | tojson | safe }};
 
