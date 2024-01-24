@@ -58,6 +58,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="container mt-5">
     <h2>Informações da Conta</h2>
+    <div id="flash-container"></div>
     <form action="{{ url_for('salvar_informacoes') }}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="profile-pic">Foto de Perfil</label>
