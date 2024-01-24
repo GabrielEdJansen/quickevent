@@ -70,7 +70,7 @@ def salvar_informacoes():
 
                 # Verifique as dimensões da imagem redimensionada
                 if img.size[0] > 200 or img.size[1] > 200:
-                    mensagem_erro = "A foto deve ter dimensões no máximo 200x200 pixels."
+                    flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
                     return redirect(url_for("InformacaoConta"))
 
                 # Gere um nome único para a foto usando secure_filename
@@ -115,18 +115,18 @@ def salvar_informacoes():
                         # Redirecione para a rota /InformacaoConta após salvar a foto
                         return redirect(url_for("InformacaoConta"))
                     else:
-                        mensagem_erro = "Erro de conexão com o banco de dados."
+                        flash("Erro de conexão com o banco de dados.", "error")
                 except Error as e:
-                    mensagem_erro = f"Erro no banco de dados: {str(e)}"
+                    flash(f"Erro no banco de dados: {str(e)}", "error")
                 finally:
                     # Feche a conexão
                     if connection.is_connected():
                         cursor.close()
                         connection.close()
             except Exception as e:
-                mensagem_erro = f"Erro ao processar a imagem: {str(e)}"
+                flash(f"Erro ao processar a imagem: {str(e)}", "error")
 
-    # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
+    # Redirecione para a rota /InformacaoConta sem mensagem de erro
     return redirect(url_for("InformacaoConta"))
 
 @app.route("/destaques")
