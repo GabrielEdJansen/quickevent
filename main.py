@@ -69,9 +69,16 @@ def salvar_informacoes():
                 img = Image.open(foto)
 
                 # Verifique as dimensões da imagem redimensionada
-                if(img.size[0] > 200 or img.size[1] > 200):
+                if img.size[0] > 200 or img.size[1] > 200:
                     mensagem_erro = "A foto deve ter dimensões no máximo 200x200 pixels."
                     return render_template("html/InformacaoConta.html", mensagem_erro=mensagem_erro)
+
+                # Gere um nome único para a foto usando secure_filename
+                foto_nome = secure_filename(foto.filename)
+
+                # Salve a imagem no diretório de uploads
+                caminho_foto = os.path.join(app.config['UPLOAD_FOLDER'], foto_nome)
+                img.save(caminho_foto)
 
                 # Converta a imagem redimensionada para dados binários
                 img_buffer = BytesIO()
@@ -97,9 +104,9 @@ def salvar_informacoes():
                     if connection.is_connected():
                         cursor = connection.cursor()
 
-                        # Atualize apenas a foto do usuário com base no idlogado
+                        # Atualize a foto e o nome do arquivo do usuário com base no idlogado
                         cursor.execute(
-                            f'UPDATE usuarios SET foto = "{foto_texto}" WHERE id_usuario = "{idlogado}"'
+                            f'UPDATE usuarios SET foto = "{foto_texto}", foto_nome = "{foto_nome}" WHERE id_usuario = "{idlogado}"'
                         )
 
                         # Commit para salvar as alterações no banco de dados
@@ -120,9 +127,7 @@ def salvar_informacoes():
                 mensagem_erro = f"Erro ao processar a imagem: {str(e)}"
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
-    return render_template("html/InformacaoConta.html", mensagem_erro=mensagem_erro)
-
-
+    return redirect(url_for("/InformacaoConta", mensagem_erro=mensagem_erro))
 
 @app.route("/destaques")
 def destaques():
