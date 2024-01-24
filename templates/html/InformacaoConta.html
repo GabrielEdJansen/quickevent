@@ -109,27 +109,24 @@
 
 <script>
     // Adicione a variável mensagem_erro para passar a mensagem do Flask para o HTML
-    var mensagem_erro = "{{ get_flashed_messages(with_categories=true) | tojson | safe }}";
+    var mensagens_erro = {{ get_flashed_messages(with_categories=true) | tojson | safe }};
 
-    // Exibir um flash se houver uma mensagem de erro
-    if (mensagem_erro) {
-        // Parse do JSON e iteração sobre as mensagens flash
-        JSON.parse(mensagem_erro).forEach(function (message) {
-            var category = message[0];
-            var content = message[1];
+    // Exibir um flash se houver mensagens de erro
+    mensagens_erro.forEach(function (mensagem) {
+        var category = mensagem[0];
+        var content = mensagem[1];
 
-            // Crie e exiba o flash no formato Bootstrap alert
-            var flashContainer = document.getElementById('flash-container');
-            flashContainer.innerHTML += `
-                <div class="alert alert-${category} alert-dismissible fade show" role="alert">
-                    ${content}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            `;
-        });
-    }
+        // Crie e exiba o flash no formato Bootstrap alert
+        var flashContainer = document.getElementById('flash-container');
+        flashContainer.innerHTML += `
+            <div class="alert alert-${category} alert-dismissible fade show" role="alert">
+                ${content}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+    });
     function initializeAutocomplete() {
         var inputEndereco = document.getElementById('endereco');
         var inputNumeroResidencia = document.getElementById('numeroresidencia');
