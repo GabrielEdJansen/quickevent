@@ -123,7 +123,7 @@ def salvar_informacoes():
                 mensagem_erro = f"Erro ao processar a imagem: {str(e)}"
 
     # Adicione uma lógica para manipular erros ou retornar uma resposta adequada se algo der errado
-    return render_template("InformacaoConta.html", mensagem_erro=mensagem_erro)
+    return render_template("/InformacaoConta", mensagem_erro=mensagem_erro)
 
 @app.route("/destaques")
 def destaques():
