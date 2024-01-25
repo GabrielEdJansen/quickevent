@@ -506,6 +506,7 @@ def CriarEvento():
 
 @app.route("/InicioBuscarEvento")
 def buscarEvento():
+    global idlogado
     #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
     connect_BD  = configbanco(db_type='mysql-connector')
 
@@ -544,7 +545,6 @@ def buscarEvento():
             u.nome;')
         eventos = cursur.fetchall()
 
-        global idlogado
         connect_BD = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
             cursur = connect_BD.cursor()
@@ -831,7 +831,6 @@ def InicioGerenciarEventos():
             u.nome;')
         eventos = cursur.fetchall()
 
-        global idlogado
         connect_BD = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
             cursur = connect_BD.cursor()
