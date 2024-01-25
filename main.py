@@ -164,7 +164,19 @@ def salvar_informacoes():
 
 @app.route("/destaques")
 def destaques():
-    return render_template("html/destaques.html")
+    global idlogado
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursur.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/destaques.html", foto=foto)
 
 @app.route("/cadastrar")
 def cadastrar():

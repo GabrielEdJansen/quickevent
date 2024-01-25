@@ -33,7 +33,7 @@
   <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false">
     <div class="d-flex align-items-center">
       <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
-        <img src="../static/eu.jpg" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
+        <img src="{{ url_for('static', filename=foto) }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
       </div>
     </div>
   </a>
