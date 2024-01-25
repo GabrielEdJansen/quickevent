@@ -456,7 +456,19 @@ def login():
 
 @app.route("/InicioCriarEvento")
 def criarevento():
-    return render_template("html/CriarEvento.html")
+    global idlogado
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursur.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/CriarEvento.html", foto=foto)
 
 
 @app.route("/CriarEvento", methods=['POST'])
@@ -531,7 +543,20 @@ def buscarEvento():
             c.descricao_categoria,\
             u.nome;')
         eventos = cursur.fetchall()
-    return render_template("html/BuscarEventos.html", eventos=eventos)
+
+        global idlogado
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursur = connect_BD.cursor()
+            cursur.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            )
+            usuario = cursur.fetchone()
+
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/BuscarEventos.html", eventos=eventos, foto=foto)
 
 
 @app.route("/ConfirmarCancelarPresenca", methods=['POST'])
@@ -805,7 +830,20 @@ def InicioGerenciarEventos():
             c.descricao_categoria,\
             u.nome;')
         eventos = cursur.fetchall()
-    return render_template("html/GerenciarEventos.html", eventos=eventos)
+
+        global idlogado
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursur = connect_BD.cursor()
+            cursur.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            )
+            usuario = cursur.fetchone()
+
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/GerenciarEventos.html", eventos=eventos, foto=foto)
 
 
 @app.route("/GerenciarEventos", methods=['POST'])
