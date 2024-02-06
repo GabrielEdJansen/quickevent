@@ -7,6 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<style>
+    .btn-container {
+        display: flex;
+        gap: 10px; /* Ajuste este valor para o espaçamento desejado */
+    }
+    .btn-container button {
+        flex: 1; /* Distribui o espaço igualmente entre os botões */
+    }
+    .btn-criar-evento {
+            margin-top: 15px;
+    }
+</style>
+
 </head>
 <body>
 
@@ -186,135 +199,278 @@
                                 <label class="form-label" for="horCad">Hora final do evento</label>
                             </div>
 
-                            <h3 class="mb-5">Ingresso do evento</h3>
-                            <!-- Título do Ingresso -->
-                            <div class="form-outline mb-4">
-                                <input name="titulo_ingresso" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required/>
-                                <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
-                            </div>
+                            <div id="ingresso-container">
+                                <h3 class="mb-5">Ingresso do evento</h3>
+                                <!-- Título do Ingresso -->
+                                <div class="form-outline mb-4">
+                                    <input name="titulo_ingresso" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required/>
+                                    <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
+                                </div>
 
-                            <!-- Quantidade de Ingressos -->
-                            <div class="form-outline mb-4">
-                                <input name="quantidade_ingresso" type="number" class="form-control form-control-lg" placeholder="Quantidade" required/>
-                                <label class="form-label" for="quantidade_ingresso">Quantidade</label>
-                            </div>
+                                <!-- Quantidade de Ingressos -->
+                                <div class="form-outline mb-4">
+                                    <input name="quantidade_ingresso" type="number" class="form-control form-control-lg" placeholder="Quantidade" required/>
+                                    <label class="form-label" for="quantidade_ingresso">Quantidade</label>
+                                </div>
 
-                            <!-- Preço do Ingresso -->
-                            <div class="form-outline mb-4">
-                                <input name="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" required/>
-                                <label class="form-label" for="preco_ingresso">Preço</label>
-                            </div>
+                                <!-- Preço do Ingresso -->
+                                <div class="form-outline mb-4">
+                                    <input name="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" required/>
+                                    <label class="form-label" for="preco_ingresso">Preço</label>
+                                </div>
 
-                            <!-- Data início das vendas -->
-                            <div class="form-outline mb-4">
-                                <input name="data_inicio_vendas" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required/>
-                                <label class="form-label" for="data_inicio_vendas">Data início das vendas</label>
-                            </div>
+                                <!-- Data início das vendas -->
+                                <div class="form-outline mb-4">
+                                    <input name="data_inicio_vendas" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required/>
+                                    <label class="form-label" for="data_inicio_vendas">Data início das vendas</label>
+                                </div>
 
-                            <!-- Data fim das vendas -->
-                            <div class="form-outline mb-4">
-                                <input name="data_fim_vendas" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
-                                <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
-                            </div>
+                                <!-- Data fim das vendas -->
+                                <div class="form-outline mb-4">
+                                    <input name="data_fim_vendas" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
+                                    <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
+                                </div>
 
-                            <!-- Hora início das vendas -->
-                            <div class="form-outline mb-4">
-                                <input name="hora_inicio_vendas" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
-                                <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
-                            </div>
+                                <!-- Hora início das vendas -->
+                                <div class="form-outline mb-4">
+                                    <input name="hora_inicio_vendas" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
+                                    <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
+                                </div>
 
-                            <!-- Hora fim das vendas -->
-                            <div class="form-outline mb-4">
-                                <input name="hora_fim_vendas" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
-                                <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
-                            </div>
+                                <!-- Hora fim das vendas -->
+                                <div class="form-outline mb-4">
+                                    <input name="hora_fim_vendas" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
+                                    <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
+                                </div>
 
-                            <!-- Disponibilidade do Ingresso -->
-                            <div class="form-outline mb-4">
-                                <select name="disponibilidade_ingresso" class="form-control form-control-lg" required>
-                                    <option selected disabled value="">Selecione a disponibilidade</option>
-                                    <option value="Publico">Público</option>
-                                    <option value="Privado">Privado</option>
-                                </select>
-                                <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
-                            </div>
+                                <!-- Disponibilidade do Ingresso -->
+                                <div class="form-outline mb-4">
+                                    <select name="disponibilidade_ingresso" class="form-control form-control-lg" required>
+                                        <option selected disabled value="">Selecione a disponibilidade</option>
+                                        <option value="Publico">Público</option>
+                                        <option value="Privado">Privado</option>
+                                    </select>
+                                    <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
+                                </div>
 
-                            <!-- Quantidade máxima por compra -->
-                            <div class="form-outline mb-4">
-                                <input name="quantidade_maxima_compra" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" required/>
-                                <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
-                            </div>
+                                <!-- Quantidade máxima por compra -->
+                                <div class="form-outline mb-4">
+                                    <input name="quantidade_maxima_compra" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" required/>
+                                    <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
+                                </div>
 
-                            <!-- Observação do Ingresso -->
-                            <div class="form-outline mb-4">
-                                <textarea name="observacao_ingresso" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
-                                <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
+                                <!-- Observação do Ingresso -->
+                                <div class="form-outline mb-4">
+                                    <textarea name="observacao_ingresso" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
+                                    <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
+                                </div>
                             </div>
-
-                            <!-- Adicione outros campos de Ingresso aqui -->
 
                             <div class="btn-container">
                                 <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
                                 <button type="button" class="btn btn-danger" onclick="removerUltimoIngresso()">Remover Último Ingresso</button>
                             </div>
+
                             <script>
                                 function adicionarIngresso() {
                                     var container = document.getElementById('ingresso-container');
 
                                     // Campos do novo ingresso
                                     var novoIngresso = document.createElement('div');
-                                    novoIngresso.className = 'form-outline mb-4';
+                                    novoIngresso.className = 'form-outline mb-4 ingresso';  // Adicionado a classe 'ingresso'
 
-                                    var inputTitulo = document.createElement('input');
-                                    inputTitulo.name = 'titulo_ingresso[]';
-                                    inputTitulo.type = 'text';
-                                    inputTitulo.className = 'form-control form-control-lg';
-                                    inputTitulo.placeholder = 'Título do ingresso';
-                                    inputTitulo.required = true;
+                                    // Adiciona um separador entre os ingressos
+                                    var separator = document.createElement('hr'); // Você pode usar um elemento de separação diferente ou estilizar conforme necessário
+                                    container.appendChild(separator);
 
-                                    var labelTitulo = document.createElement('label');
-                                    labelTitulo.className = 'form-label';
-                                    labelTitulo.textContent = 'Título do Ingresso';
-
+                                    // Título do Ingresso
+                                    var inputTitulo = criarCampo('titulo_ingresso[]', 'text', 'Título do ingresso', true);
+                                    var labelTitulo = criarLabel('Título do Ingresso');
                                     novoIngresso.appendChild(inputTitulo);
                                     novoIngresso.appendChild(labelTitulo);
 
-                                    var inputQuantidade = document.createElement('input');
-                                    inputQuantidade.name = 'quantidade_ingresso[]';
-                                    inputQuantidade.type = 'number';
-                                    inputQuantidade.className = 'form-control form-control-lg';
-                                    inputQuantidade.placeholder = 'Quantidade';
-                                    inputQuantidade.required = true;
-
-                                    var labelQuantidade = document.createElement('label');
-                                    labelQuantidade.className = 'form-label';
-                                    labelQuantidade.textContent = 'Quantidade';
-
+                                    // Quantidade de Ingressos
+                                    var inputQuantidade = criarCampo('quantidade_ingresso[]', 'number', 'Quantidade', true);
+                                    var labelQuantidade = criarLabel('Quantidade');
                                     novoIngresso.appendChild(inputQuantidade);
                                     novoIngresso.appendChild(labelQuantidade);
 
-                                    // Adicione outros campos do ingresso aqui
+                                    // Preço do Ingresso
+                                    var inputPreco = criarCampo('preco_ingresso[]', 'text', 'Preço', true);
+                                    var labelPreco = criarLabel('Preço');
+                                    novoIngresso.appendChild(inputPreco);
+                                    novoIngresso.appendChild(labelPreco);
+
+                                    // Data início das vendas
+                                    var inputDataInicio = criarCampo('data_inicio_vendas[]', 'date', 'Data início das vendas', true);
+                                    var labelDataInicio = criarLabel('Data início das vendas');
+                                    novoIngresso.appendChild(inputDataInicio);
+                                    novoIngresso.appendChild(labelDataInicio);
+
+                                    // Data fim das vendas
+                                    var inputDataFim = criarCampo('data_fim_vendas[]', 'date', 'Data fim das vendas', true);
+                                    var labelDataFim = criarLabel('Data fim das vendas');
+                                    novoIngresso.appendChild(inputDataFim);
+                                    novoIngresso.appendChild(labelDataFim);
+
+                                    // Hora início das vendas
+                                    var inputHoraInicio = criarCampo('hora_inicio_vendas[]', 'time', 'Hora início das vendas', true);
+                                    var labelHoraInicio = criarLabel('Hora início das vendas');
+                                    novoIngresso.appendChild(inputHoraInicio);
+                                    novoIngresso.appendChild(labelHoraInicio);
+
+                                    // Hora fim das vendas
+                                    var inputHoraFim = criarCampo('hora_fim_vendas[]', 'time', 'Hora fim das vendas', true);
+                                    var labelHoraFim = criarLabel('Hora fim das vendas');
+                                    novoIngresso.appendChild(inputHoraFim);
+                                    novoIngresso.appendChild(labelHoraFim);
+
+                                    // Disponibilidade do Ingresso
+                                    var selectDisponibilidade = criarSelect('disponibilidade_ingresso[]', true, [
+                                        { value: '', text: 'Selecione a disponibilidade', selected: true, disabled: true },
+                                        { value: 'Publico', text: 'Público' },
+                                        { value: 'Privado', text: 'Privado' }
+                                    ]);
+                                    var labelDisponibilidade = criarLabel('Disponibilidade');
+                                    novoIngresso.appendChild(selectDisponibilidade);
+                                    novoIngresso.appendChild(labelDisponibilidade);
+
+                                    // Quantidade máxima por compra
+                                    var inputQuantidadeMaximaCompra = criarCampo('quantidade_maxima_compra[]', 'number', 'Quantidade máxima por compra', true);
+                                    var labelQuantidadeMaximaCompra = criarLabel('Quantidade Máxima por Compra');
+                                    novoIngresso.appendChild(inputQuantidadeMaximaCompra);
+                                    novoIngresso.appendChild(labelQuantidadeMaximaCompra);
+
+                                    // Observação do Ingresso
+                                    var textareaObservacao = document.createElement('textarea');
+                                    textareaObservacao.name = 'observacao_ingresso[]';
+                                    textareaObservacao.className = 'form-control form-control-lg';
+                                    textareaObservacao.placeholder = 'Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.';
+                                    var labelObservacao = criarLabel('Observação do Ingresso (Opcional)');
+                                    novoIngresso.appendChild(textareaObservacao);
+                                    novoIngresso.appendChild(labelObservacao);
 
                                     container.appendChild(novoIngresso);
+
                                 }
 
                                 function removerUltimoIngresso() {
                                     var container = document.getElementById('ingresso-container');
-                                    var ingressos = container.getElementsByClassName('form-outline');
+                                    var ingressos = container.getElementsByClassName('ingresso');
+                                    var separadores = container.getElementsByTagName('hr');
 
-                                    if (ingressos.length > 1) {
+                                    if (ingressos.length > 0) {
+                                        // Remove o último ingresso
                                         container.removeChild(ingressos[ingressos.length - 1]);
+
+                                        // Remove o separador se existir
+                                        if (separadores.length > 0) {
+                                            container.removeChild(separadores[separadores.length - 1]);
+                                        }
+                                    }
+                                }
+
+                                // Função auxiliar para criar campos de entrada
+                                function criarCampo(name, type, placeholder, required) {
+                                    var input = document.createElement('input');
+                                    input.name = name;
+                                    input.type = type;
+                                    input.className = 'form-control form-control-lg';
+                                    input.placeholder = placeholder;
+                                    input.required = required;
+                                    return input;
+                                }
+
+                                // Função auxiliar para criar rótulos (labels)
+                                function criarLabel(text) {
+                                    var label = document.createElement('label');
+                                    label.className = 'form-label';
+                                    label.textContent = text;
+                                    return label;
+                                }
+
+                                // Função auxiliar para criar seletores (select)
+                                function criarSelect(name, required, options) {
+                                    var select = document.createElement('select');
+                                    select.name = name;
+                                    select.className = 'form-control form-control-lg';
+                                    select.required = required;
+
+                                    options.forEach(function (optionData) {
+                                        var option = document.createElement('option');
+                                        option.value = optionData.value;
+                                        option.text = optionData.text;
+                                        option.selected = optionData.selected || false;
+                                        option.disabled = optionData.disabled || false;
+                                        select.appendChild(option);
+                                    });
+
+                                    return select;
+                                }
+                            </script>
+                            <div id="produtor-container">
+                                <h3 class="mb-5">Sobre o produtor</h3>
+
+                                <!-- Nome do Produtor -->
+                                <div class="form-outline mb-4">
+                                    <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor" required/>
+                                    <label class="form-label" for="nome_produtor">Nome do Produtor</label>
+                                </div>
+
+                                <!-- Descrição do Produtor (opcional) -->
+                                <div class="form-outline mb-4">
+                                    <textarea name="descricao_produtor" class="form-control form-control-lg" placeholder="Descrição do produtor"></textarea>
+                                    <label class="form-label" for="descricao_produtor">Descrição do Produtor (Opcional)</label>
+                                </div>
+                            </div>
+
+                            <div id="campos-adicionais-container">
+                                <h3 class="mb-5">Campos adicionais</h3>
+
+                                <!-- Campos dinâmicos -->
+                                <div class="campos-dinamicos">
+                                    <!-- Adiciona o campo inicial -->
+                                    <div class="form-outline mb-4">
+                                        <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
+                                        <label class="form-label" for="nome_campo">Nome do Campo</label>
+                                    </div>
+                                </div>
+
+                                <!-- Botões Adicionar e Remover no final do último campo -->
+                                <div class="btn-container">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="adicionarCampo()">Adicionar Campo</button>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="removerCampo()">Remover Último Campo</button>
+                                </div>
+
+                            <script>
+                                function adicionarCampo() {
+                                    var container = document.getElementById('campos-adicionais-container');
+                                    var camposDinamicos = container.querySelector('.campos-dinamicos');
+
+                                    var novoCampo = document.createElement('div');
+                                    novoCampo.className = 'form-outline mb-4';
+                                    novoCampo.innerHTML = `
+                                        <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
+                                        <label class="form-label" for="nome_campo">Nome do Campo</label>`;
+
+                                    camposDinamicos.appendChild(novoCampo);
+                                }
+
+                                function removerCampo() {
+                                    var container = document.getElementById('campos-adicionais-container');
+                                    var camposDinamicos = container.querySelector('.campos-dinamicos');
+
+                                    // Certifica-se de que há mais de um campo antes de remover
+                                    if (camposDinamicos.children.length > 1) {
+                                        camposDinamicos.removeChild(camposDinamicos.lastElementChild);
                                     }
                                 }
                             </script>
-                            <h3 class="mb-5">Sobre o produtor</h3>
-
-                            <h3 class="mb-5">Campos adicionais</h3>
-
-                            <button class="btn btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
-                                Criar novo evento
-                            </button>
-
+                            <div class="btn-container btn-criar-evento">
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
+                                    Criar novo evento
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
