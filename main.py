@@ -474,6 +474,40 @@ def criarevento():
 @app.route("/CriarEvento", methods=['POST'])
 def CriarEvento():
     global idlogado
+
+    foto = request.files["img_divulga"]
+
+    # Verifique se um arquivo de imagem foi enviado
+    if foto and allowed_file(foto.filename):
+        try:
+            # Abra a imagem usando PIL
+            img = Image.open(foto)
+
+            # Verifique as dimensões da imagem redimensionada
+            if img.size[0] > 200 or img.size[1] > 200:
+                flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
+                return redirect(url_for("InformacaoConta"))
+
+            # Gere um nome único para a foto usando secure_filename
+            foto_nome = secure_filename(foto.filename)
+
+            # Converta a imagem redimensionada para dados binários
+            img_buffer = BytesIO()
+
+            # Salve a imagem no formato apropriado (JPEG, PNG, GIF) com base na extensão original
+            file_extension = foto.filename.rsplit('.', 1)[1].lower()
+            if file_extension in {'jpg', 'jpeg'}:
+                img.save(img_buffer, format="JPEG")
+            elif file_extension == 'png':
+                img.save(img_buffer, format="PNG")
+            elif file_extension == 'gif':
+                img.save(img_buffer, format="GIF")
+
+            img_binario = img_buffer.getvalue()
+
+            # Converta os dados binários para base64 (representação de texto)
+            foto_texto = base64.b64encode(img_binario).decode('utf-8')
+
     nomeEventocad = request.form.get('nomeEventocad')
     descricaocad = request.form.get('descricaocad')
     categoriacad = request.form.get('categoriacad')
@@ -530,14 +564,16 @@ def CriarEvento():
                     descricao_produtor,
                     estado,
                     bairro,
-                    complemento
+                    complemento,
+                    foto_evento,
+                    foto_evento_nome
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )"""
 
         cursor.execute(sql, (
         descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
-        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento))
+        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, img_binario, foto_texto))
 
         # Recuperar o ID do evento recém-inserido
         sql_last_insert_id = "SELECT LAST_INSERT_ID()"
