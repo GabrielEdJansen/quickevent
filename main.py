@@ -10,7 +10,7 @@ import mysql.connector
 from mysql.connector import Error
 import pandas as pd
 import pymysql
-from datetime import datetime
+from datetime import datetime, timedelta
 import re
 from flask_cors import CORS
 from flask_mail import Mail, Message
@@ -491,14 +491,14 @@ def CriarEvento():
     horCadFin = request.form.get('horCadFin')
     data_atual = datetime.now().date()
     hora_atual = datetime.now().time()
-    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date()
+    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date() + timedelta(days=1)
     horCad = datetime.strptime(horCad, "%H:%M").time()
 
     if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
         flash("A data fornecida é menor que a data atual.")
         return render_template("html/CriarEvento.html")
 
-    dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date()
+    dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date() + timedelta(days=1)
     horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
 
     nome_produtor = request.form.get('nome_produtor')
@@ -555,10 +555,10 @@ def CriarEvento():
         quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
         observacoes = request.form.getlist('observacao_ingresso[]')
 
-        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() for data in datas_inicio_vendas]
+        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_inicio_vendas]
         horas_inicio_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_inicio_vendas]
 
-        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() for data in datas_fim_vendas]
+        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
         horas_fim_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_fim_vendas]
 
         for i in range(len(titulos)):
