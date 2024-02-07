@@ -539,7 +539,7 @@ def CriarEvento():
         # Inserir os dados dos campos adicionais
         campos_adicionais = request.form.getlist('nome_campo[]')
         for campo in campos_adicionais:
-            sql_campos_adicionais = """INSERT INTO campos_adicional (id_evento, nome_campo) VALUES (%s, %s)"""
+            sql_campos_adicionais = """INSERT INTO campo_adicional (id_evento, nome_campo) VALUES (%s, %s)"""
             cursor.execute(sql_campos_adicionais, (id_evento, campo))
 
 
