@@ -555,6 +555,12 @@ def CriarEvento():
         quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
         observacoes = request.form.getlist('observacao_ingresso[]')
 
+        datas_inicio_vendas = datetime.strptime(datas_inicio_vendas, "%Y-%m-%d").date()
+        horas_inicio_vendas = datetime.strptime(horas_inicio_vendas, "%H:%M").time()
+
+        datas_fim_vendas = datetime.strptime(datas_fim_vendas, "%Y-%m-%d").date()
+        horas_fim_vendas = datetime.strptime(horas_fim_vendas, "%H:%M").time()
+
         for i in range(len(titulos)):
             # Insira os dados do ingresso no banco de dados
             sql = """INSERT INTO ingressos (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, 
