@@ -483,9 +483,9 @@ def CriarEvento():
             img = Image.open(foto)
 
             # Verifique as dimensões da imagem redimensionada
-            if img.size[0] > 200 or img.size[1] > 200:
-                flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
-                return redirect(url_for("InformacaoConta"))
+           # if img.size[0] > 200 or img.size[1] > 200:
+           #     flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
+           #     return redirect(url_for("InformacaoConta"))
 
             # Gere um nome único para a foto usando secure_filename
             foto_nome = secure_filename(foto.filename)
