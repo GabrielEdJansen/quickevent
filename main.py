@@ -128,7 +128,9 @@ def salvar_informacoes():
                 img_binario = img_buffer.getvalue()
 
                 # Converta os dados binários para base64 (representação de texto)
-                foto_texto = base64.b64encode(img_binario).decode('utf-8')
+                #foto_texto = base64.b64encode(img_binario).decode('utf-8')
+                conteudo_arquivo = foto.read()
+                foto_texto = base64.b64encode(conteudo_arquivo).decode('utf-8')
 
                 # Conecte-se ao banco de dados
                 try:
