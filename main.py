@@ -533,6 +533,16 @@ def CriarEvento():
         descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
         classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor))
 
+        # Recuperar o ID do evento recém-inserido
+        id_evento = cursor.lastrowid
+
+        # Inserir os dados dos campos adicionais
+        campos_adicionais = request.form.getlist('nome_campo[]')
+        for campo in campos_adicionais:
+            sql_campos_adicionais = """INSERT INTO campos_adicionais (id_evento, nome_campo) VALUES (%s, %s)"""
+            cursor.execute(sql_campos_adicionais, (id_evento, campo))
+
+
         conexao.commit()
         flash("Evento criado com sucesso!")
         return redirect("/InicioBuscarEvento")

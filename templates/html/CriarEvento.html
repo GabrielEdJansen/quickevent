@@ -473,26 +473,26 @@
 
                             <div id="campos-adicionais-container">
                                 <h3 class="mb-5">Campos adicionais</h3>
-
-                                <!-- Campos dinâmicos -->
-                                <div class="campos-dinamicos">
-                                    <!-- Adiciona o campo inicial -->
-                                    <div class="form-outline mb-4">
-                                        <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
-                                        <label class="form-label" for="nome_campo">Nome do Campo</label>
+                                <form id="form-campos" action="/adicionar_campos" method="post">
+                                    <!-- Campos dinâmicos -->
+                                    <div class="campos-dinamicos">
+                                        <!-- Adiciona o campo inicial -->
+                                        <div class="form-outline mb-4">
+                                            <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
+                                            <label class="form-label" for="nome_campo">Nome do Campo</label>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <!-- Botões Adicionar e Remover no final do último campo -->
-                                <div class="btn-container">
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="adicionarCampo()">Adicionar Campo</button>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="removerCampo()">Remover Último Campo</button>
-                                </div>
+                                    <!-- Botões Adicionar e Remover no final do último campo -->
+                                    <div class="btn-container">
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="adicionarCampo()">Adicionar Campo</button>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="removerCampo()">Remover Último Campo</button>
+                                    </div>
+                                </form>
+                            </div>
 
                             <script>
                                 function adicionarCampo() {
-                                    var container = document.getElementById('campos-adicionais-container');
-                                    var camposDinamicos = container.querySelector('.campos-dinamicos');
+                                    var camposDinamicos = document.querySelector('.campos-dinamicos');
 
                                     var novoCampo = document.createElement('div');
                                     novoCampo.className = 'form-outline mb-4';
@@ -504,8 +504,7 @@
                                 }
 
                                 function removerCampo() {
-                                    var container = document.getElementById('campos-adicionais-container');
-                                    var camposDinamicos = container.querySelector('.campos-dinamicos');
+                                    var camposDinamicos = document.querySelector('.campos-dinamicos');
 
                                     // Certifica-se de que há mais de um campo antes de remover
                                     if (camposDinamicos.children.length > 1) {
