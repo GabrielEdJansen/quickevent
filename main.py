@@ -534,7 +534,9 @@ def CriarEvento():
         classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor))
 
         # Recuperar o ID do evento recém-inserido
-        id_evento = cursor.lastrowid
+        sql_last_insert_id = "SELECT LAST_INSERT_ID()"
+        cursor.execute(sql_last_insert_id)
+        id_evento = cursor.fetchone()[0]
 
         # Inserir os dados dos campos adicionais
         campos_adicionais = request.form.getlist('nome_campo[]')
