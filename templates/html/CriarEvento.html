@@ -168,13 +168,23 @@
                             </div>
 
                             <div class="form-outline mb-4">
-                                <input name="rua" type="text" id="rua" class="form-control form-control-lg" placeholder="Rua será preenchida automaticamente" value="{{ rua }}" readonly/>
-                                <label class="form-label" for="rua">Rua</label>
+                                <input name="estado" type="text" id="estado" class="form-control form-control-lg" placeholder="Estado será preenchido automaticamente" value="{{ estado }}" readonly/>
+                                <label class="form-label" for="cidade">Estado</label>
                             </div>
 
                             <div class="form-outline mb-4">
                                 <input name="cidade" type="text" id="cidade" class="form-control form-control-lg" placeholder="Cidade será preenchida automaticamente" value="{{ cidade }}" readonly/>
                                 <label class="form-label" for="cidade">Cidade</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ cidade }}" readonly/>
+                                <label class="form-label" for="cidade">Bairro</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input name="rua" type="text" id="rua" class="form-control form-control-lg" placeholder="Rua será preenchida automaticamente" value="{{ rua }}" readonly/>
+                                <label class="form-label" for="rua">Rua</label>
                             </div>
 
                             <input type="hidden" id="place_id" name="place_id">
@@ -183,12 +193,21 @@
                                 <input name="numero" type="number" id="numero" class="form-control form-control-lg" placeholder="Número da residência será preenchido automaticamente" value="{{ numero }}" readonly/>
                                 <label class="form-label" for="numero">Número da Residência</label>
                             </div>
+
+                            <div class="form-outline mb-4">
+                                <input name="complemento" type="text" id="complemento" class="form-control form-control-lg"
+                                       placeholder="Digite o complemento do endereço" required/>
+                                <label class="form-label" for="complemento">Complemento do endereço</label>
+                            </div>
+
                             <script>
-                                function initializeAutocomplete() {
+                              function initializeAutocomplete() {
                                     var inputEndereco = document.getElementById('endereco');
                                     var inputNumeroResidencia = document.getElementById('numero');
                                     var inputRua = document.getElementById('rua');
                                     var inputCidade = document.getElementById('cidade');
+                                    var inputEstado = document.getElementById('estado');
+                                    var inputBairro = document.getElementById('bairro');
                                     var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
                                     autocomplete.addListener('place_changed', function () {
@@ -209,6 +228,13 @@
                                         // Preencher o campo da cidade e desabilitar para edição
                                         inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2');
                                         inputCidade.setAttribute('readonly', true);
+
+                                        // Preencher o campo do estado e desabilitar para edição
+                                        inputEstado.value = getAddressComponent(place, 'administrative_area_level_1') || '';
+                                        inputEstado.setAttribute('readonly', true);
+
+                                        // Preencher o campo do bairro
+                                        inputBairro.value = getAddressComponent(place, 'sublocality') || '';
 
                                         // Preencher o campo do place_id, se necessário
                                         document.getElementById('place_id').value = place.place_id;
