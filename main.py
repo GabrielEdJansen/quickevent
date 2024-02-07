@@ -479,33 +479,33 @@ def CriarEvento():
 
     # Verifique se um arquivo de imagem foi enviado
     if foto and allowed_file(foto.filename):
-            # Abra a imagem usando PIL
-            img = Image.open(foto)
+        # Abra a imagem usando PIL
+        img = Image.open(foto)
 
-            # Verifique as dimensões da imagem redimensionada
-           # if img.size[0] > 200 or img.size[1] > 200:
-           #     flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
-           #     return redirect(url_for("InformacaoConta"))
+        # Verifique as dimensões da imagem redimensionada
+        # if img.size[0] > 200 or img.size[1] > 200:
+        #     flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
+        #     return redirect(url_for("InformacaoConta"))
 
-            # Gere um nome único para a foto usando secure_filename
-            foto_nome = secure_filename(foto.filename)
+        # Gere um nome único para a foto usando secure_filename
+        foto_nome = secure_filename(foto.filename)
 
-            # Converta a imagem redimensionada para dados binários
-            img_buffer = BytesIO()
+        # Converta a imagem redimensionada para dados binários
+        img_buffer = BytesIO()
 
-            # Salve a imagem no formato apropriado (JPEG, PNG, GIF) com base na extensão original
-            file_extension = foto.filename.rsplit('.', 1)[1].lower()
-            if file_extension in {'jpg', 'jpeg'}:
-                img.save(img_buffer, format="JPEG")
-            elif file_extension == 'png':
-                img.save(img_buffer, format="PNG")
-            elif file_extension == 'gif':
-                img.save(img_buffer, format="GIF")
+        # Salve a imagem no formato apropriado (JPEG, PNG, GIF) com base na extensão original
+        file_extension = foto.filename.rsplit('.', 1)[1].lower()
+        if file_extension in {'jpg', 'jpeg'}:
+            img.save(img_buffer, format="JPEG")
+        elif file_extension == 'png':
+            img.save(img_buffer, format="PNG")
+        elif file_extension == 'gif':
+            img.save(img_buffer, format="GIF")
 
-            img_binario = img_buffer.getvalue()
+        img_binario = img_buffer.getvalue()
 
-            # Converta os dados binários para base64 (representação de texto)
-            foto_texto = base64.b64encode(img_binario).decode('utf-8')
+        # Converta os dados binários para base64 (representação de texto)
+        foto_texto = base64.b64encode(img_binario).decode('utf-8')
 
     nomeEventocad = request.form.get('nomeEventocad')
     descricaocad = request.form.get('descricaocad')
