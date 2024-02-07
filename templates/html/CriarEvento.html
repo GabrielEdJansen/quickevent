@@ -260,29 +260,35 @@
                                     <label class="form-label" for="quantidade_ingresso">Quantidade</label>
                                 </div>
 
-                                <!-- jQuery -->
-                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                <!-- Plugin MaskMoney -->
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/4.0.2/jquery.maskMoney.min.js"></script>
-
-                                <script>
-                                    $(document).ready(function() {
-                                        $('#preco_ingresso').maskMoney({
-                                            prefix: 'R$ ',
-                                            thousands: '.',
-                                            decimal: ',',
-                                            affixesStay: false,
-                                            allowZero: true,  // Permitir que o valor zero seja inserido (opcional)
-                                            precision: 2      // Definir a quantidade de casas decimais (opcional)
-                                        });
-                                    });
-                                </script>
-
                                 <!-- Preço do Ingresso -->
                                 <div class="form-outline mb-4">
-                                    <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" required/>
+                                    <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required/>
                                     <label class="form-label" for="preco_ingresso">Preço</label>
                                 </div>
+                                <script>
+                                    String.prototype.reverse = function(){
+                                      return this.split('').reverse().join('');
+                                    };
+
+                                    function mascaraMoeda(campo,evento){
+                                      var tecla = (!evento) ? window.event.keyCode : evento.which;
+                                      var valor  =  campo.value.replace(/[^\d]+/gi,'').reverse();
+                                      var resultado  = "";
+                                      var mascara = "##.###.###,##".reverse();
+                                      for (var x=0, y=0; x<mascara.length && y<valor.length;) {
+                                        if (mascara.charAt(x) != '#') {
+                                          resultado += mascara.charAt(x);
+                                          x++;
+                                        } else {
+                                          resultado += valor.charAt(y);
+                                          y++;
+                                          x++;
+                                        }
+                                      }
+                                      campo.value = resultado.reverse();
+                                    }
+                                </script>
+
 
                                 <!-- Data início das vendas -->
                                 <div class="form-outline mb-4">
