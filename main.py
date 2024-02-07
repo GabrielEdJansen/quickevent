@@ -505,7 +505,7 @@ def CriarEvento():
     descricao_produtor = request.form.get('descricao_produtor')
 
     try:
-        conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+        conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
 
         sql = """INSERT INTO eventos (
