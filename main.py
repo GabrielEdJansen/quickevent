@@ -477,13 +477,20 @@ def CriarEvento():
     nomeEventocad = request.form.get('nomeEventocad')
     descricaocad = request.form.get('descricaocad')
     categoriacad = request.form.get('categoriacad')
-    dataCad = request.form.get('dataCad')
-    horCad = request.form.get('horCad')
-    localEventocad = request.form.get('localEventocad')
+    classificacaocad = request.form.get('classificacaocad')
     totalParticipantescad = request.form.get('totalParticipantescad')
+
+    endereco = request.form.get('endereco')
+    rua = request.form.get('rua')
+    cidade = request.form.get('cidade')
+    numero = request.form.get('numero')
+
+    dataCad = request.form.get('dataCad')
+    dataCadFin = request.form.get('dataCadFin')
+    horCad = request.form.get('horCad')
+    horCadFin = request.form.get('horCadFin')
     data_atual = datetime.now().date()
     hora_atual = datetime.now().time()
-
     dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date()
     horCad = datetime.strptime(horCad, "%H:%M").time()
     if dataCad < data_atual:
@@ -492,20 +499,50 @@ def CriarEvento():
     elif dataCad == data_atual and horCad < hora_atual:
         flash("A hora fornecida é menor que à hora atual.")
         return render_template("html/CriarEvento.html")
+    dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date()
+    horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
+
+    nome_produtor = request.form.get('nome_produtor')
+    descricao_produtor = request.form.get('descricao_produtor')
 
     #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
     conexao = configbanco(db_type='pymysql')
     cursor = conexao.cursor()
     cursor.execute(
-        f"insert into eventos () values (default, "
+        f"insert into eventos ("
+        f"id_eventos,"
+        f"descricao_evento,"
+        f"nome_evento,"
+        f"categoria,"
+        f"data_evento,"
+        f"hora_evento,"
+        f"id_usuario_evento,"
+        f"local_evento,"
+        f"total_participantes,"
+        f"classificacao_indicativa,"
+        f"rua,"
+        f"cidade,"
+        f"numero,"
+        f"data_fim_evento,"
+        f"hora_fim_evento,"
+        f"nome_produtor,"
+        f"descricao_produtor) values (default, "
         f"'{descricaocad}', "
         f"'{nomeEventocad}', "
         f"'{categoriacad}',"
         f"'{dataCad}' , "
         f"'{horCad}', "
         f"{idlogado}, "
-        f"'{localEventocad}', "
-        f"{totalParticipantescad});")
+        f"'{endereco}', "
+        f"{totalParticipantescad}"
+        f"{classificacaocad}"
+        f"{rua}"
+        f"{cidade}"
+        f"{numero}"
+        f"{dataCadFin}"
+        f"{horCadFin}"
+        f"{nome_produtor}"
+        f"{descricao_produtor});")
     conexao.commit()
     conexao.close()
 
