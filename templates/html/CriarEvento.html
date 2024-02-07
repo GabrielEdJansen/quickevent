@@ -250,49 +250,67 @@
                                 <h3 class="mb-5">Ingresso do evento</h3>
                                 <!-- Título do Ingresso -->
                                 <div class="form-outline mb-4">
-                                    <input name="titulo_ingresso" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required/>
+                                    <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required/>
                                     <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
                                 </div>
 
                                 <!-- Quantidade de Ingressos -->
                                 <div class="form-outline mb-4">
-                                    <input name="quantidade_ingresso" type="number" class="form-control form-control-lg" placeholder="Quantidade" required/>
+                                    <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" required/>
                                     <label class="form-label" for="quantidade_ingresso">Quantidade</label>
                                 </div>
 
+                                <!-- jQuery -->
+                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                <!-- Plugin MaskMoney -->
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/4.0.2/jquery.maskMoney.min.js"></script>
+
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#preco_ingresso').maskMoney({
+                                            prefix: 'R$ ',
+                                            thousands: '.',
+                                            decimal: ',',
+                                            affixesStay: false,
+                                            allowZero: true,  // Permitir que o valor zero seja inserido (opcional)
+                                            precision: 2      // Definir a quantidade de casas decimais (opcional)
+                                        });
+                                    });
+                                </script>
+
                                 <!-- Preço do Ingresso -->
                                 <div class="form-outline mb-4">
-                                    <input name="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" required/>
+                                    <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" required/>
                                     <label class="form-label" for="preco_ingresso">Preço</label>
                                 </div>
 
                                 <!-- Data início das vendas -->
                                 <div class="form-outline mb-4">
-                                    <input name="data_inicio_vendas" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required/>
+                                    <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required/>
                                     <label class="form-label" for="data_inicio_vendas">Data início das vendas</label>
                                 </div>
 
                                 <!-- Data fim das vendas -->
                                 <div class="form-outline mb-4">
-                                    <input name="data_fim_vendas" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
+                                    <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
                                     <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
                                 </div>
 
                                 <!-- Hora início das vendas -->
                                 <div class="form-outline mb-4">
-                                    <input name="hora_inicio_vendas" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
+                                    <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
                                     <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
                                 </div>
 
                                 <!-- Hora fim das vendas -->
                                 <div class="form-outline mb-4">
-                                    <input name="hora_fim_vendas" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
+                                    <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
                                     <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
                                 </div>
 
                                 <!-- Disponibilidade do Ingresso -->
                                 <div class="form-outline mb-4">
-                                    <select name="disponibilidade_ingresso" class="form-control form-control-lg" required>
+                                    <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
                                         <option selected disabled value="">Selecione a disponibilidade</option>
                                         <option value="Publico">Público</option>
                                         <option value="Privado">Privado</option>
@@ -302,22 +320,23 @@
 
                                 <!-- Quantidade máxima por compra -->
                                 <div class="form-outline mb-4">
-                                    <input name="quantidade_maxima_compra" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" required/>
+                                    <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" required/>
                                     <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
                                 </div>
 
                                 <!-- Observação do Ingresso -->
                                 <div class="form-outline mb-4">
-                                    <textarea name="observacao_ingresso" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
+                                    <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
                                     <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
                                 </div>
-                            </div>
 
-                            <div class="btn-container">
-                                <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
-                                <button type="button" class="btn btn-danger" onclick="removerUltimoIngresso()">Remover Último Ingresso</button>
-                            </div>
 
+                                <div class="btn-container">
+                                    <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
+                                    <button type="button" class="btn btn-danger" onclick="removerUltimoIngresso()">Remover Último Ingresso</button>
+                                </div>
+
+                            </div>
                             <script>
                                 function adicionarIngresso() {
                                     var container = document.getElementById('ingresso-container');
