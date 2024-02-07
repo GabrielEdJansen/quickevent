@@ -63,7 +63,7 @@
     <div id="flash-container" style="background-color: #ff0000; color: #fff; border-radius: 5px; width: 300px;"></div>
     <form action="{{ url_for('salvar_informacoes') }}" method="POST" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="profile-pic">Foto de Perfil</label>
+            <label for="profile-pic">Foto de Perfil (recomendado usar imagem de 200 x 200)</label>
             <div class="d-flex align-items-center">
         <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; margin-right: 10px;">
             <img src="data:image/jpeg;base64,{{ foto }}" alt="User Photo" class="profile-pic" id="profile-pic" style="max-width: 100%; height: auto;">

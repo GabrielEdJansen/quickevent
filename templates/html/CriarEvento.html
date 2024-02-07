@@ -94,7 +94,8 @@
 
                             <div class="form-outline mb-4">
                                 <input type="file" class="form-control" id="img_divulga" name="img_divulga" accept="image/*" onchange="displayImage(this)">
-                                <label class="form-label">Imagem de divulgação (opcional)</label>
+                                <input type="hidden" name="existing_photo" value="{{ foto }}">
+                                <label class="form-label" >Imagem de divulgação (opcional)</label>
                                 <label class="form-label" >Obs: A dimensão recomendada é de 1600 x 838</label>
                             </div>
 
