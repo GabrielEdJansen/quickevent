@@ -493,60 +493,55 @@ def CriarEvento():
     hora_atual = datetime.now().time()
     dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date()
     horCad = datetime.strptime(horCad, "%H:%M").time()
-    if dataCad < data_atual:
-        flash("A data fornecida é menor que à data atual.")
+
+    if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
+        flash("A data fornecida é menor que a data atual.")
         return render_template("html/CriarEvento.html")
-    elif dataCad == data_atual and horCad < hora_atual:
-        flash("A hora fornecida é menor que à hora atual.")
-        return render_template("html/CriarEvento.html")
+
     dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date()
     horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
 
     nome_produtor = request.form.get('nome_produtor')
     descricao_produtor = request.form.get('descricao_produtor')
 
-    #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
-    conexao = configbanco(db_type='pymysql')
-    cursor = conexao.cursor()
-    cursor.execute(
-        f"insert into eventos ("
-        f"id_eventos,"
-        f"descricao_evento,"
-        f"nome_evento,"
-        f"categoria,"
-        f"data_evento,"
-        f"hora_evento,"
-        f"id_usuario_evento,"
-        f"local_evento,"
-        f"total_participantes,"
-        f"classificacao_indicativa,"
-        f"rua,"
-        f"cidade,"
-        f"numero,"
-        f"data_fim_evento,"
-        f"hora_fim_evento,"
-        f"nome_produtor,"
-        f"descricao_produtor) values (default, "
-        f"'{descricaocad}', "
-        f"'{nomeEventocad}', "
-        f"'{categoriacad}',"
-        f"'{dataCad}' , "
-        f"'{horCad}', "
-        f"{idlogado}, "
-        f"'{endereco}', "
-        f"{totalParticipantescad}"
-        f"{classificacaocad}"
-        f"{rua}"
-        f"{cidade}"
-        f"{numero}"
-        f"{dataCadFin}"
-        f"{horCadFin}"
-        f"{nome_produtor}"
-        f"{descricao_produtor});")
-    conexao.commit()
-    conexao.close()
+    try:
+        conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+        cursor = conexao.cursor()
 
-    return redirect("/InicioBuscarEvento")
+        sql = """INSERT INTO eventos (
+                    descricao_evento,
+                    nome_evento,
+                    categoria,
+                    data_evento,
+                    hora_evento,
+                    id_usuario_evento,
+                    local_evento,
+                    total_participantes,
+                    classificacao_indicativa,
+                    rua,
+                    cidade,
+                    numero,
+                    data_fim_evento,
+                    hora_fim_evento,
+                    nome_produtor,
+                    descricao_produtor
+                ) VALUES (
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                )"""
+
+        cursor.execute(sql, (
+        descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
+        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor))
+
+        conexao.commit()
+        flash("Evento criado com sucesso!")
+        return redirect("/InicioBuscarEvento")
+    except Exception as e:
+        flash(f"Erro ao criar evento: {str(e)}")
+        return render_template("html/CriarEvento.html")
+    finally:
+        if 'conexao' in locals():
+            conexao.close()
 
 
 @app.route("/InicioBuscarEvento")
