@@ -479,7 +479,6 @@ def CriarEvento():
 
     # Verifique se um arquivo de imagem foi enviado
     if foto and allowed_file(foto.filename):
-        try:
             # Abra a imagem usando PIL
             img = Image.open(foto)
 
