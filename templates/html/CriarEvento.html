@@ -143,9 +143,22 @@
 
                             <div class="form-outline mb-4">
                                 <input name="totalParticipantescad" type="number" id="totalParticipantescad" class="form-control form-control-lg"
-                                       placeholder="Digite o total de participantes" required/>
+                                       placeholder="Digite o total de participantes" required min="0" step="1" oninput="validarValor(this)" />
                                 <label class="form-label" for="totalParticipantescad">Total de Participantes</label>
                             </div>
+
+                            <script>
+                                // Função para validar e ajustar o valor digitado
+                                function validarValor(input) {
+                                    // Remove qualquer caractere que não seja número ou ponto
+                                    input.value = input.value.replace(/[^0-9]/g, '');
+
+                                    // Verifica se o valor é negativo e o ajusta para zero, se necessário
+                                    if (input.value < 0) {
+                                        input.value = 0;
+                                    }
+                                }
+                            </script>
 
                             <h3 class="mb-5">Local do evento</h3>
 
@@ -246,238 +259,115 @@
                                 <label class="form-label" for="horCad">Hora final do evento</label>
                             </div>
 
-                            <div id="ingresso-container">
-                                <h3 class="mb-5">Ingresso do evento</h3>
-                                <!-- Título do Ingresso -->
-                                <div class="form-outline mb-4">
-                                    <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required/>
-                                    <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
+                            <div class="container mt-5">
+                                <div id="ingresso-container">
+                                    <h3 class="mb-5">Ingresso do evento</h3>
+                                    <!-- Primeiro ingresso -->
+                                    <div class="form-outline mb-4 ingresso">
+                                        <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required/>
+                                        <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
+
+                                        <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required/>
+                                        <label class="form-label" for="quantidade_ingresso">Quantidade</label>
+
+                                        <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required/>
+                                        <label class="form-label" for="preco_ingresso">Preço</label>
+
+                                        <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required/>
+                                        <label class="form-label" for="data_inicio_vendas">Data início das vendas</label>
+
+                                        <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
+                                        <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
+
+                                        <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
+                                        <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
+
+                                        <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
+                                        <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
+
+                                        <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
+                                            <option selected disabled value="">Selecione a disponibilidade</option>
+                                            <option value="Publico">Público</option>
+                                            <option value="Privado">Privado</option>
+                                        </select>
+                                        <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
+
+                                        <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required/>
+                                        <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
+
+                                        <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
+                                        <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
+                                    </div>
+                                    <!-- Fim do primeiro ingresso -->
                                 </div>
-
-                                <!-- Quantidade de Ingressos -->
-                                <div class="form-outline mb-4">
-                                    <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" required/>
-                                    <label class="form-label" for="quantidade_ingresso">Quantidade</label>
-                                </div>
-
-                                <!-- Preço do Ingresso -->
-                                <div class="form-outline mb-4">
-                                    <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required/>
-                                    <label class="form-label" for="preco_ingresso">Preço</label>
-                                </div>
-                                <script>
-                                    String.prototype.reverse = function(){
-                                      return this.split('').reverse().join('');
-                                    };
-
-                                    function mascaraMoeda(campo,evento){
-                                      var tecla = (!evento) ? window.event.keyCode : evento.which;
-                                      var valor  =  campo.value.replace(/[^\d]+/gi,'').reverse();
-                                      var resultado  = "";
-                                      var mascara = "########.##".reverse();
-                                      for (var x=0, y=0; x<mascara.length && y<valor.length;) {
-                                        if (mascara.charAt(x) != '#') {
-                                          resultado += mascara.charAt(x);
-                                          x++;
-                                        } else {
-                                          resultado += valor.charAt(y);
-                                          y++;
-                                          x++;
-                                        }
-                                      }
-                                      campo.value = resultado.reverse();
-                                    }
-                                </script>
-
-
-                                <!-- Data início das vendas -->
-                                <div class="form-outline mb-4">
-                                    <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required/>
-                                    <label class="form-label" for="data_inicio_vendas">Data início das vendas</label>
-                                </div>
-
-                                <!-- Data fim das vendas -->
-                                <div class="form-outline mb-4">
-                                    <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
-                                    <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
-                                </div>
-
-                                <!-- Hora início das vendas -->
-                                <div class="form-outline mb-4">
-                                    <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
-                                    <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
-                                </div>
-
-                                <!-- Hora fim das vendas -->
-                                <div class="form-outline mb-4">
-                                    <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
-                                    <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
-                                </div>
-
-                                <!-- Disponibilidade do Ingresso -->
-                                <div class="form-outline mb-4">
-                                    <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
-                                        <option selected disabled value="">Selecione a disponibilidade</option>
-                                        <option value="Publico">Público</option>
-                                        <option value="Privado">Privado</option>
-                                    </select>
-                                    <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
-                                </div>
-
-                                <!-- Quantidade máxima por compra -->
-                                <div class="form-outline mb-4">
-                                    <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" required/>
-                                    <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
-                                </div>
-
-                                <!-- Observação do Ingresso -->
-                                <div class="form-outline mb-4">
-                                    <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
-                                    <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
-                                </div>
-
-
                                 <div class="btn-container">
                                     <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
                                     <button type="button" class="btn btn-danger" onclick="removerUltimoIngresso()">Remover Último Ingresso</button>
                                 </div>
-
                             </div>
+
                             <script>
+                                // Função para validar e ajustar a quantidade digitada
+                                            function validarQuantidade(input) {
+                                                // Remove qualquer caractere que não seja número
+                                                input.value = input.value.replace(/\D/g, '');
+
+                                                // Verifica se o valor é negativo e o ajusta para zero, se necessário
+                                                if (input.value < 0) {
+                                                    input.value = 0;
+                                                }
+                                            }
+                                // Função para adicionar um novo ingresso
                                 function adicionarIngresso() {
                                     var container = document.getElementById('ingresso-container');
-
-                                    // Campos do novo ingresso
-                                    var novoIngresso = document.createElement('div');
-                                    novoIngresso.className = 'form-outline mb-4 ingresso';  // Adicionado a classe 'ingresso'
 
                                     // Adiciona um separador entre os ingressos
                                     var separator = document.createElement('hr'); // Você pode usar um elemento de separação diferente ou estilizar conforme necessário
                                     container.appendChild(separator);
 
-                                    // Título do Ingresso
-                                    var inputTitulo = criarCampo('titulo_ingresso[]', 'text', 'Título do ingresso', true);
-                                    var labelTitulo = criarLabel('Título do Ingresso');
-                                    novoIngresso.appendChild(inputTitulo);
-                                    novoIngresso.appendChild(labelTitulo);
-
-                                    // Quantidade de Ingressos
-                                    var inputQuantidade = criarCampo('quantidade_ingresso[]', 'number', 'Quantidade', true);
-                                    var labelQuantidade = criarLabel('Quantidade');
-                                    novoIngresso.appendChild(inputQuantidade);
-                                    novoIngresso.appendChild(labelQuantidade);
-
-                                    // Preço do Ingresso
-                                    var inputPreco = criarCampo('preco_ingresso[]', 'text', 'Preço', true);
-                                    var labelPreco = criarLabel('Preço');
-                                    novoIngresso.appendChild(inputPreco);
-                                    novoIngresso.appendChild(labelPreco);
-
-                                    // Data início das vendas
-                                    var inputDataInicio = criarCampo('data_inicio_vendas[]', 'date', 'Data início das vendas', true);
-                                    var labelDataInicio = criarLabel('Data início das vendas');
-                                    novoIngresso.appendChild(inputDataInicio);
-                                    novoIngresso.appendChild(labelDataInicio);
-
-                                    // Data fim das vendas
-                                    var inputDataFim = criarCampo('data_fim_vendas[]', 'date', 'Data fim das vendas', true);
-                                    var labelDataFim = criarLabel('Data fim das vendas');
-                                    novoIngresso.appendChild(inputDataFim);
-                                    novoIngresso.appendChild(labelDataFim);
-
-                                    // Hora início das vendas
-                                    var inputHoraInicio = criarCampo('hora_inicio_vendas[]', 'time', 'Hora início das vendas', true);
-                                    var labelHoraInicio = criarLabel('Hora início das vendas');
-                                    novoIngresso.appendChild(inputHoraInicio);
-                                    novoIngresso.appendChild(labelHoraInicio);
-
-                                    // Hora fim das vendas
-                                    var inputHoraFim = criarCampo('hora_fim_vendas[]', 'time', 'Hora fim das vendas', true);
-                                    var labelHoraFim = criarLabel('Hora fim das vendas');
-                                    novoIngresso.appendChild(inputHoraFim);
-                                    novoIngresso.appendChild(labelHoraFim);
-
-                                    // Disponibilidade do Ingresso
-                                    var selectDisponibilidade = criarSelect('disponibilidade_ingresso[]', true, [
-                                        { value: '', text: 'Selecione a disponibilidade', selected: true, disabled: true },
-                                        { value: 'Publico', text: 'Público' },
-                                        { value: 'Privado', text: 'Privado' }
-                                    ]);
-                                    var labelDisponibilidade = criarLabel('Disponibilidade');
-                                    novoIngresso.appendChild(selectDisponibilidade);
-                                    novoIngresso.appendChild(labelDisponibilidade);
-
-                                    // Quantidade máxima por compra
-                                    var inputQuantidadeMaximaCompra = criarCampo('quantidade_maxima_compra[]', 'number', 'Quantidade máxima por compra', true);
-                                    var labelQuantidadeMaximaCompra = criarLabel('Quantidade Máxima por Compra');
-                                    novoIngresso.appendChild(inputQuantidadeMaximaCompra);
-                                    novoIngresso.appendChild(labelQuantidadeMaximaCompra);
-
-                                    // Observação do Ingresso
-                                    var textareaObservacao = document.createElement('textarea');
-                                    textareaObservacao.name = 'observacao_ingresso[]';
-                                    textareaObservacao.className = 'form-control form-control-lg';
-                                    textareaObservacao.placeholder = 'Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.';
-                                    var labelObservacao = criarLabel('Observação do Ingresso (Opcional)');
-                                    novoIngresso.appendChild(textareaObservacao);
-                                    novoIngresso.appendChild(labelObservacao);
-
+                                    var novoIngresso = document.querySelector('.ingresso').cloneNode(true);
                                     container.appendChild(novoIngresso);
 
+                                    // Limpar os valores dos campos duplicados
+                                    novoIngresso.querySelectorAll('input, textarea').forEach(function(element) {
+                                        element.value = '';
+                                    });
                                 }
 
+                                // Função para remover o último ingresso adicionado
                                 function removerUltimoIngresso() {
                                     var container = document.getElementById('ingresso-container');
-                                    var ingressos = container.getElementsByClassName('ingresso');
+                                    var ingressos = container.querySelectorAll('.ingresso');
                                     var separadores = container.getElementsByTagName('hr');
-
-                                    if (ingressos.length > 0) {
-                                        // Remove o último ingresso
+                                    if (ingressos.length > 1) {
                                         container.removeChild(ingressos[ingressos.length - 1]);
-
-                                        // Remove o separador se existir
                                         if (separadores.length > 0) {
                                             container.removeChild(separadores[separadores.length - 1]);
                                         }
                                     }
                                 }
 
-                                // Função auxiliar para criar campos de entrada
-                                function criarCampo(name, type, placeholder, required) {
-                                    var input = document.createElement('input');
-                                    input.name = name;
-                                    input.type = type;
-                                    input.className = 'form-control form-control-lg';
-                                    input.placeholder = placeholder;
-                                    input.required = required;
-                                    return input;
-                                }
+                                // Função para formatar o campo de preço como moeda
+                                String.prototype.reverse = function(){
+                                    return this.split('').reverse().join('');
+                                };
 
-                                // Função auxiliar para criar rótulos (labels)
-                                function criarLabel(text) {
-                                    var label = document.createElement('label');
-                                    label.className = 'form-label';
-                                    label.textContent = text;
-                                    return label;
-                                }
-
-                                // Função auxiliar para criar seletores (select)
-                                function criarSelect(name, required, options) {
-                                    var select = document.createElement('select');
-                                    select.name = name;
-                                    select.className = 'form-control form-control-lg';
-                                    select.required = required;
-
-                                    options.forEach(function (optionData) {
-                                        var option = document.createElement('option');
-                                        option.value = optionData.value;
-                                        option.text = optionData.text;
-                                        option.selected = optionData.selected || false;
-                                        option.disabled = optionData.disabled || false;
-                                        select.appendChild(option);
-                                    });
-
-                                    return select;
+                                function mascaraMoeda(campo,evento){
+                                    var tecla = (!evento) ? window.event.keyCode : evento.which;
+                                    var valor  =  campo.value.replace(/[^\d]+/gi,'').reverse();
+                                    var resultado  = "";
+                                    var mascara = "########.##".reverse();
+                                    for (var x=0, y=0; x<mascara.length && y<valor.length;) {
+                                        if (mascara.charAt(x) != '#') {
+                                            resultado += mascara.charAt(x);
+                                            x++;
+                                        } else {
+                                            resultado += valor.charAt(y);
+                                            y++;
+                                            x++;
+                                        }
+                                    }
+                                    campo.value = resultado.reverse();
                                 }
                             </script>
                             <div id="produtor-container">
