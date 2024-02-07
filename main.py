@@ -536,13 +536,13 @@ def CriarEvento():
         # Recuperar o ID do evento recém-inserido
         sql_last_insert_id = "SELECT LAST_INSERT_ID()"
         cursor.execute(sql_last_insert_id)
-        id_evento = cursor.fetchone()[0]
+        id_eventos = cursor.fetchone()[0]
 
         # Inserir os dados dos campos adicionais
         campos_adicionais = request.form.getlist('nome_campo[]')
         for campo in campos_adicionais:
-            sql_campos_adicionais = """INSERT INTO campo_adicional (id_evento, nome_campo) VALUES (%s, %s)"""
-            cursor.execute(sql_campos_adicionais, (id_evento, campo))
+            sql_campos_adicionais = """INSERT INTO campo_adicional (id_eventos, nome_campo) VALUES (%s, %s)"""
+            cursor.execute(sql_campos_adicionais, (id_eventos, campo))
 
 
         conexao.commit()
