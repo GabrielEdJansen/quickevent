@@ -497,7 +497,15 @@ def CriarEvento():
     conexao = configbanco(db_type='pymysql')
     cursor = conexao.cursor()
     cursor.execute(
-        f"insert into eventos values (default, '{descricaocad}', '{nomeEventocad}', '{categoriacad}','{dataCad}' , '{horCad}', {idlogado}, '{localEventocad}', {totalParticipantescad});")
+        f"insert into eventos () values (default, "
+        f"'{descricaocad}', "
+        f"'{nomeEventocad}', "
+        f"'{categoriacad}',"
+        f"'{dataCad}' , "
+        f"'{horCad}', "
+        f"{idlogado}, "
+        f"'{localEventocad}', "
+        f"{totalParticipantescad});")
     conexao.commit()
     conexao.close()
 

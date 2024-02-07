@@ -169,7 +169,53 @@
                                 <input name="numero" type="number" id="numero" class="form-control form-control-lg" placeholder="Número da residência será preenchido automaticamente" value="{{ numero }}" readonly/>
                                 <label class="form-label" for="numero">Número da Residência</label>
                             </div>
+                            <script>
+                                function initializeAutocomplete() {
+                                    var inputEndereco = document.getElementById('endereco');
+                                    var inputNumeroResidencia = document.getElementById('numero');
+                                    var inputRua = document.getElementById('rua');
+                                    var inputCidade = document.getElementById('cidade');
+                                    var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
+                                    autocomplete.addListener('place_changed', function () {
+                                        var place = autocomplete.getPlace();
+
+                                        if (!place.geometry) {
+                                            console.error("Localização não encontrada para o endereço informado.");
+                                            return;
+                                        }
+
+                                        // Preencher o campo de número da residência
+                                        var numeroResidencia = getAddressComponent(place, 'street_number');
+                                        inputNumeroResidencia.value = numeroResidencia || '';
+
+                                        // Preencher o campo da rua
+                                        inputRua.value = getAddressComponent(place, 'route') || '';
+
+                                        // Preencher o campo da cidade e desabilitar para edição
+                                        inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2');
+                                        inputCidade.setAttribute('readonly', true);
+
+                                        // Preencher o campo do place_id, se necessário
+                                        document.getElementById('place_id').value = place.place_id;
+                                    });
+                                }
+
+                                function getAddressComponent(place, component) {
+                                    for (var i = 0; i < place.address_components.length; i++) {
+                                        var addressComponent = place.address_components[i];
+                                        for (var j = 0; j < addressComponent.types.length; j++) {
+                                            if (addressComponent.types[j] === component) {
+                                                return addressComponent.long_name;
+                                            }
+                                        }
+                                    }
+                                    return '';
+                                }
+
+                                // Chame a função initializeAutocomplete para configurar o Autocomplete
+                                initializeAutocomplete();
+                            </script>
                             <h3 class="mb-5">Data e hora do evento</h3>
 
                             <div class="form-outline mb-4">
