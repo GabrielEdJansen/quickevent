@@ -39,6 +39,14 @@ def logininicio():
 
 from datetime import datetime
 
+
+
+@app.route("/buscar")
+def buscar():
+
+    return render_template("html/buscar.html")
+
+
 @app.route("/InformacaoConta")
 def InformacaoConta():
     global idlogado
