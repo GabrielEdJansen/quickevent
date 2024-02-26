@@ -37,116 +37,109 @@
       <li class="nav-item">
         <a href="InicioGerenciarEventos" class="nav-link">Gerenciar eventos</a>
       </li>
-<li class="nav-item dropdown">
-  <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false">
-    <div class="d-flex align-items-center">
-      <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
-        <img src="data:image/jpeg;base64,{{ foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
-      </div>
-    </div>
-  </a>
-  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-    <a class="dropdown-item" href="InformacaoConta">Informações da conta</a>
-    <a class="dropdown-item" href="/">Sair</a>
-  </div>
-</li>
-<script>
-  document.getElementById('profileDropdown').addEventListener('click', function() {
-    document.getElementById('profileDropdown').nextElementSibling.classList.toggle('show');
-  });
-</script>
+      <li class="nav-item dropdown">
+        <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <div class="d-flex align-items-center">
+            <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
+              <img src="data:image/jpeg;base64,{{ foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
+            </div>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+          <a class="dropdown-item" href="InformacaoConta">Informações da conta</a>
+          <a class="dropdown-item" href="/">Sair</a>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>
 
-
-
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-          </div>
-          <input type="text" class="form-control" id="location" placeholder="Localização atual do usuário (cidade)" readonly>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <button class="btn btn-primary rounded-btn mr-2">Hoje</button>
-        <button class="btn btn-primary rounded-btn mr-2">Gratuito</button>
-        <button class="btn btn-primary rounded-btn mr-2">Este final de semana</button>
-        <button class="btn btn-primary rounded-btn mr-2">Música</button>
+        <!-- Adicionado o id ao input para preenchimento -->
+        <input type="text" class="form-control" id="location" placeholder="Localização atual do usuário (cidade)" readonly>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-6">
+      <button class="btn btn-primary rounded-btn mr-2">Hoje</button>
+      <button class="btn btn-primary rounded-btn mr-2">Gratuito</button>
+      <button class="btn btn-primary rounded-btn mr-2">Este final de semana</button>
+      <button class="btn btn-primary rounded-btn mr-2">Música</button>
+    </div>
+  </div>
+</div>
 
-  <!-- Bootstrap JS e dependências opcionais para funcionar corretamente -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Bootstrap JS e dependências opcionais para funcionar corretamente -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-  <script>
-    // Função para obter a localização atual do usuário
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-      } else {
-        console.log("Geolocalização não é suportada pelo seu navegador.");
-      }
+<script>
+  // Função para obter a localização atual do usuário
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+      console.log("Geolocalização não é suportada pelo seu navegador.");
     }
+  }
 
-    // Função callback para mostrar a posição
-    function showPosition(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
+  // Função callback para mostrar a posição
+  function showPosition(position) {
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
 
-      // Aqui, você pode usar a API de geocodificação reversa do Google Maps para obter a cidade
-      // Este exemplo usa a API de Geocodificação Reversa do Google Maps
-      // Lembre-se de substituir 'YOUR_API_KEY' pelo seu próprio chave de API do Google Maps
-      var geocodingAPI = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE';
+    // Aqui, você pode usar a API de geocodificação reversa do Google Maps para obter a cidade
+    var geocodingAPI = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE';
 
-      fetch(geocodingAPI)
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'OK') {
-            // A cidade está disponível em diferentes níveis de detalhes na resposta JSON
-            // Aqui, estamos pegando a cidade do primeiro resultado
-            var city = '';
-            data.results[0].address_components.forEach(component => {
-              if (component.types.includes('locality')) {
-                city = component.long_name;
-              }
-            });
-            document.getElementById('location').value = city;
-          } else {
-            console.log('Erro ao buscar a cidade.');
-          }
-        })
-        .catch(error => console.log('Erro: ', error));
+    fetch(geocodingAPI)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'OK') {
+          // A cidade está disponível em diferentes níveis de detalhes na resposta JSON
+          // Aqui, estamos pegando a cidade do primeiro resultado
+          var city = '';
+          data.results[0].address_components.forEach(component => {
+            if (component.types.includes('locality')) {
+              city = component.long_name;
+            }
+          });
+          // Preenchendo o input com a cidade obtida
+          document.getElementById('location').value = city;
+        } else {
+          console.log('Erro ao buscar a cidade.');
+        }
+      })
+      .catch(error => console.log('Erro: ', error));
+  }
+
+  // Função callback para lidar com erros de geolocalização
+  function showError(error) {
+    switch(error.code) {
+      case error.PERMISSION_DENIED:
+        console.log("Permissão de geolocalização negada pelo usuário.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        console.log("As informações de localização estão indisponíveis.");
+        break;
+      case error.TIMEOUT:
+        console.log("A solicitação para obter a localização do usuário expirou.");
+        break;
+      case error.UNKNOWN_ERROR:
+        console.log("Ocorreu um erro desconhecido ao obter a localização do usuário.");
+        break;
     }
+  }
 
-    // Função callback para lidar com erros de geolocalização
-    function showError(error) {
-      switch(error.code) {
-        case error.PERMISSION_DENIED:
-          console.log("Permissão de geolocalização negada pelo usuário.");
-          break;
-        case error.POSITION_UNAVAILABLE:
-          console.log("As informações de localização estão indisponíveis.");
-          break;
-        case error.TIMEOUT:
-          console.log("A solicitação para obter a localização do usuário expirou.");
-          break;
-        case error.UNKNOWN_ERROR:
-          console.log("Ocorreu um erro desconhecido ao obter a localização do usuário.");
-          break;
-      }
-    }
-
-    // Chamar a função de obtenção de localização quando a página carrega
-    window.onload = getLocation;
-  </script>
+  // Chamar a função de obtenção de localização quando a página carrega
+  window.onload = getLocation;
+</script>
 </body>
 </html>
