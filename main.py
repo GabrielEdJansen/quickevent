@@ -43,8 +43,19 @@ from datetime import datetime
 
 @app.route("/buscar")
 def buscar():
+    global idlogado
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursur.fetchone()
 
-    return render_template("html/buscar.html")
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/buscar.html", foto=foto)
 
 
 @app.route("/InformacaoConta")
