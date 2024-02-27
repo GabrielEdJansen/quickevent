@@ -108,9 +108,9 @@ function showPosition(position) {
         console.log('entrou 2');
         for (var i = 0; i < results[0].address_components.length; i++) {
           console.log('entrou 3');
-          var addressType = results[1].address_components[i].types[0];
+          var addressType = results[0].address_components[i].types[0];
           console.log(addressType);
-          if (addressType === "long_name") {
+          if (addressType === "administrative_area_level_2") {
             console.log('entrou 4');
             var city = results[0].address_components[i].long_name;
             // Preenchendo o input com a cidade obtida
