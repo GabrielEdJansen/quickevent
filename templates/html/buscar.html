@@ -76,10 +76,8 @@
   </div>
 </div>
 
-<!-- Bootstrap JS e dependências opcionais para funcionar corretamente -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Carregando a API do Google Maps JavaScript -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
 
 <script>
   // Função para obter a localização atual do usuário
@@ -96,28 +94,31 @@
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
 
-    // Aqui, você pode usar a API de geocodificação reversa do Google Maps para obter a cidade
-    var geocodingAPI = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE';
+    // Criando um objeto LatLng com a posição do usuário
+    var latlng = new google.maps.LatLng(latitude, longitude);
 
-    fetch(geocodingAPI)
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'OK') {
-          // A cidade está disponível em diferentes níveis de detalhes na resposta JSON
-          // Aqui, estamos pegando a cidade do primeiro resultado
-          var city = '';
-          data.results[0].address_components.forEach(component => {
-            if (component.types.includes('locality')) {
-              city = component.long_name;
+    // Criando um objeto de geocodificação reversa
+    var geocoder = new google.maps.Geocoder();
+
+    // Fazendo a solicitação de geocodificação reversa
+    geocoder.geocode({ 'latLng': latlng }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+          // Iterando pelos resultados para encontrar a cidade
+          for (var i = 0; i < results[0].address_components.length; i++) {
+            var addressType = results[0].address_components[i].types[0];
+            if (addressType === "locality") {
+              var city = results[0].address_components[i].long_name;
+              // Preenchendo o input com a cidade obtida
+              document.getElementById('location').value = city;
+              break; // Parando a iteração após encontrar a cidade
             }
-          });
-          // Preenchendo o input com a cidade obtida
-          document.getElementById('location').value = city;
-        } else {
-          console.log('Erro ao buscar a cidade.');
+          }
         }
-      })
-      .catch(error => console.log('Erro: ', error));
+      } else {
+        console.log('Erro ao buscar a cidade: ' + status);
+      }
+    });
   }
 
   // Função callback para lidar com erros de geolocalização
