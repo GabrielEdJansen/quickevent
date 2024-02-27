@@ -90,7 +90,6 @@
 
   // Função callback para mostrar a posição
   function showPosition(position) {
-    console.log("Localização do usuário:", position);
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
 
@@ -111,6 +110,7 @@
               var city = results[0].address_components[i].long_name;
               // Preenchendo o input com a cidade obtida
               document.getElementById('location').value = city;
+              console.log(city);
               break; // Parando a iteração após encontrar a cidade
             }
           }
