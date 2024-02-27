@@ -55,7 +55,7 @@ def buscar():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/buscar.html", foto=foto)
+    return render_template("html/buscarnd.html", foto=foto)
 
 
 @app.route("/InformacaoConta")

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>buscar</title>
+  <title>buscarnd</title>
   <link href="../static/styleNavBar.css" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -79,6 +79,7 @@
 
 <!-- Carregando a API do Google Maps JavaScript -->
 <script>
+  alert('Nenhum resultado encontrado')
   // Função para obter a localização atual do usuário
   function getLocation() {
     if (navigator.geolocation) {
@@ -102,16 +103,12 @@ function showPosition(position) {
   // Fazendo a solicitação de geocodificação reversa
   geocoder.geocode({ 'location': latlng }, function(results, status) {
     if (status === google.maps.GeocoderStatus.OK) {
-      console.log('entrou 1');
       if (results[0]) {
         // Iterando pelos resultados para encontrar a cidade
-        console.log('entrou 2');
         for (var i = 0; i < results[0].address_components.length; i++) {
-          console.log('entrou 3');
           var addressType = results[0].address_components[i].types[0];
           console.log(addressType);
           if (addressType === "administrative_area_level_2") {
-            console.log('entrou 4');
             var city = results[0].address_components[i].long_name;
             // Preenchendo o input com a cidade obtida
             document.getElementById('location').value = city;
