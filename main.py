@@ -60,58 +60,54 @@ def buscar():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-        # Verificar se há eventos cadastrados
-        cursur.execute("SELECT COUNT(*) FROM eventos")
-        numero_eventos = cursur.fetchone()[0]
+        # Construir a consulta base para selecionar os eventos
+        query = '''
+            SELECT
+                e.id_eventos,
+                e.descricao_evento,
+                e.nome_evento,
+                e.data_evento,
+                e.hora_evento,
+                c.descricao_categoria,
+                u.nome AS nome_usuario,
+                COUNT(p.id_evento_presente) AS numero_presentes,
+                e.local_evento,
+                e.total_participantes
+            FROM
+                eventos AS e
+            LEFT JOIN
+                presencas AS p ON p.id_evento_presente = e.id_eventos
+            INNER JOIN
+                categoria AS c ON c.id_categoria = e.categoria
+            INNER JOIN
+                usuarios AS u ON u.id_usuario = e.id_usuario_evento
+        '''
 
-        if numero_eventos == 0:
+        # Construir a cláusula WHERE para filtrar por nome do evento ou local
+        if filtro:
+            query += f' WHERE e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%"'
+
+        # Adicionar cláusula GROUP BY e executar a consulta
+        query += '''
+            GROUP BY
+                e.total_participantes,
+                e.local_evento,
+                e.id_eventos,
+                e.descricao_evento,
+                e.nome_evento,
+                e.data_evento,
+                e.hora_evento,
+                c.descricao_categoria,
+                u.nome;
+        '''
+        cursur.execute(query)
+        eventos = cursur.fetchall()
+
+        # Se não houver eventos encontrados, renderizar a página buscarnd.html
+        if not eventos:
             return render_template("html/buscarnd.html", foto=foto)
-        else:
-            # Construir a consulta base para selecionar os eventos
-            query = '''
-                SELECT
-                    e.id_eventos,
-                    e.descricao_evento,
-                    e.nome_evento,
-                    e.data_evento,
-                    e.hora_evento,
-                    c.descricao_categoria,
-                    u.nome AS nome_usuario,
-                    COUNT(p.id_evento_presente) AS numero_presentes,
-                    e.local_evento,
-                    e.total_participantes
-                FROM
-                    eventos AS e
-                LEFT JOIN
-                    presencas AS p ON p.id_evento_presente = e.id_eventos
-                INNER JOIN
-                    categoria AS c ON c.id_categoria = e.categoria
-                INNER JOIN
-                    usuarios AS u ON u.id_usuario = e.id_usuario_evento
-            '''
 
-            # Construir a cláusula WHERE para filtrar por nome do evento ou local
-            if filtro:
-                query += f' WHERE e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%"'
-
-            # Adicionar cláusula GROUP BY e executar a consulta
-            query += '''
-                GROUP BY
-                    e.total_participantes,
-                    e.local_evento,
-                    e.id_eventos,
-                    e.descricao_evento,
-                    e.nome_evento,
-                    e.data_evento,
-                    e.hora_evento,
-                    c.descricao_categoria,
-                    u.nome;
-            '''
-            cursur.execute(query)
-            eventos = cursur.fetchall()
-
-            return render_template("html/BuscarEventos.html", eventos=eventos, foto=foto)
-
+        return render_template("html/BuscarEventos.html", eventos=eventos, foto=foto)
 
 
 
