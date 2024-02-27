@@ -88,7 +88,6 @@
     }
   }
 
-// Função callback para mostrar a posição
 function showPosition(position) {
   var latitude = position.coords.latitude;
   var longitude = position.coords.longitude;
@@ -96,31 +95,22 @@ function showPosition(position) {
   // Criando um objeto LatLng com a posição do usuário
   var latlng = new google.maps.LatLng(latitude, longitude);
 
-  // Criando um objeto de geocodificação reversa
-  var geocoder = new google.maps.Geocoder();
-
-  // Fazendo a solicitação de geocodificação reversa
-  geocoder.geocode({ 'location': latlng }, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-      if (results[0]) {
-        // Iterando pelos resultados para encontrar a cidade
-        for (var i = 0; i < results[0].address_components.length; i++) {
-          var addressType = results[0].address_components[i].types[0];
-          if (addressType === "locality") {
-            var city = results[0].address_components[i].long_name;
-            // Preenchendo o input com a cidade obtida
-            document.getElementById('location').value = city;
-            console.log(city);
-            break; // Parando a iteração após encontrar a cidade
-          }
-        }
-      } else {
-        console.log('Nenhum resultado encontrado.');
+  // Iterando pelos resultados para encontrar a cidade
+  for (var i = 0; i < json.results.length; i++) {
+    var addressComponents = json.results[i].address_components;
+    for (var j = 0; j < addressComponents.length; j++) {
+      var types = addressComponents[j].types;
+      if (types.includes("locality")) {
+        var city = addressComponents[j].long_name;
+        // Preenchendo o input com a cidade obtida
+        document.getElementById('location').value = city;
+        console.log(city);
+        return; // Parando a execução após encontrar a cidade
       }
-    } else {
-      console.log('Erro ao buscar a cidade: ' + status);
     }
-  });
+  }
+
+  console.log('Cidade não encontrada no JSON.');
 }
 
 
