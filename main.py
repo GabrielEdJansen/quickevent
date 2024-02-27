@@ -47,7 +47,7 @@ from flask import request
 @app.route("/buscar")
 def buscar():
     global idlogado
-    local = request.args.get("local")
+    filtro = request.args.get("filtro")
 
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
@@ -90,9 +90,9 @@ def buscar():
                     usuarios AS u ON u.id_usuario = e.id_usuario_evento
             '''
 
-            # Se um local foi especificado, adicionar cláusula WHERE para filtrar por local
-            if local:
-                query += f' WHERE e.local_evento LIKE "%{local}%"'
+            # Construir a cláusula WHERE para filtrar por nome do evento ou local
+            if filtro:
+                query += f' WHERE e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%"'
 
             # Adicionar cláusula GROUP BY e executar a consulta
             query += '''
@@ -111,6 +111,7 @@ def buscar():
             eventos = cursur.fetchall()
 
             return render_template("html/BuscarEventos.html", eventos=eventos, foto=foto)
+
 
 
 
