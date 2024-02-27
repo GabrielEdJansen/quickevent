@@ -55,7 +55,47 @@ def buscar():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/buscarnd.html", foto=foto)
+        # Verificar se há eventos cadastrados
+        cursur.execute("SELECT COUNT(*) FROM eventos")
+        numero_eventos = cursur.fetchone()[0]
+
+        if numero_eventos == 0:
+            return render_template("html/buscarnd.html", foto=foto)
+        else:
+            cursur.execute(
+                'SELECT\
+                e.id_eventos,\
+                e.descricao_evento,\
+                e.nome_evento,\
+                e.data_evento,\
+                e.hora_evento,\
+                c.descricao_categoria,\
+                u.nome AS nome_usuario,\
+                COUNT(p.id_evento_presente) AS numero_presentes,\
+                e.local_evento,\
+                e.total_participantes\
+                FROM\
+                eventos AS e\
+                LEFT JOIN\
+                presencas AS p ON p.id_evento_presente = e.id_eventos\
+                INNER JOIN\
+                categoria AS c ON c.id_categoria = e.categoria\
+                INNER JOIN\
+                usuarios AS u ON u.id_usuario = e.id_usuario_evento\
+                GROUP BY\
+                e.total_participantes,\
+                e.local_evento,\
+                e.id_eventos,\
+                e.descricao_evento,\
+                e.nome_evento,\
+                e.data_evento,\
+                e.hora_evento,\
+                c.descricao_categoria,\
+                u.nome;')
+            eventos = cursur.fetchall()
+
+            return render_template("html/BuscarEventos.html", eventos=eventos, foto=foto)
+
 
 
 @app.route("/InformacaoConta")
@@ -641,61 +681,6 @@ def CriarEvento():
     finally:
         if 'conexao' in locals():
             conexao.close()
-
-
-@app.route("/InicioBuscarEvento")
-def buscarEvento():
-    global idlogado
-    #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-    connect_BD  = configbanco(db_type='mysql-connector')
-
-    if connect_BD.is_connected():
-        print('conectado')
-        cursur = connect_BD.cursor()
-        cursur.execute(
-            'SELECT\
-            e.id_eventos,\
-            e.descricao_evento,\
-            e.nome_evento,\
-            e.data_evento,\
-            e.hora_evento,\
-            c.descricao_categoria,\
-            u.nome AS nome_usuario,\
-            COUNT(p.id_evento_presente) AS numero_presentes,\
-            e.local_evento,\
-            e.total_participantes\
-            FROM\
-            eventos AS e\
-            LEFT JOIN\
-            presencas AS p ON p.id_evento_presente = e.id_eventos\
-            INNER JOIN\
-            categoria AS c ON c.id_categoria = e.categoria\
-            INNER JOIN\
-            usuarios AS u ON u.id_usuario = e.id_usuario_evento\
-            GROUP BY\
-            e.total_participantes,\
-            e.local_evento,\
-            e.id_eventos,\
-            e.descricao_evento,\
-            e.nome_evento,\
-            e.data_evento,\
-            e.hora_evento,\
-            c.descricao_categoria,\
-            u.nome;')
-        eventos = cursur.fetchall()
-
-        connect_BD = configbanco(db_type='mysql-connector')
-        if connect_BD.is_connected():
-            cursur = connect_BD.cursor()
-            cursur.execute(
-                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
-            )
-            usuario = cursur.fetchone()
-
-            if usuario:
-                foto = usuario[0] if usuario[0] else "Sem foto disponível"
-
-    return render_template("html/BuscarEventos.html", eventos=eventos, foto=foto)
 
 
 @app.route("/ConfirmarCancelarPresenca", methods=['POST'])
