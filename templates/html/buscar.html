@@ -108,7 +108,7 @@ function showPosition(position) {
         console.log('entrou 2');
         for (var i = 0; i < results[0].address_components.length; i++) {
           console.log('entrou 3');
-          var addressType = results[0].address_components[i].types[0];
+          var addressType = results[1].address_components[i].types[0];
           console.log(addressType);
           if (addressType === "long_name") {
             console.log('entrou 4');
