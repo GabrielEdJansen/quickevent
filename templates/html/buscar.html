@@ -102,11 +102,15 @@ function showPosition(position) {
   // Fazendo a solicitação de geocodificação reversa
   geocoder.geocode({ 'location': latlng }, function(results, status) {
     if (status === google.maps.GeocoderStatus.OK) {
+      console.log('entrou 1');
       if (results[0]) {
         // Iterando pelos resultados para encontrar a cidade
+        console.log('entrou 2');
         for (var i = 0; i < results[0].address_components.length; i++) {
+          console.log('entrou 3');
           var addressType = results[0].address_components[i].types[0];
           if (addressType === "locality") {
+            console.log('entrou 4');
             var city = results[0].address_components[i].long_name;
             // Preenchendo o input com a cidade obtida
             document.getElementById('location').value = city;
