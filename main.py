@@ -41,9 +41,14 @@ from datetime import datetime
 
 
 
+from flask import request
+
+
 @app.route("/buscar")
 def buscar():
     global idlogado
+    local = request.args.get("local")
+
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
         cursur = connect_BD.cursor()
@@ -62,36 +67,47 @@ def buscar():
         if numero_eventos == 0:
             return render_template("html/buscarnd.html", foto=foto)
         else:
-            cursur.execute(
-                'SELECT\
-                e.id_eventos,\
-                e.descricao_evento,\
-                e.nome_evento,\
-                e.data_evento,\
-                e.hora_evento,\
-                c.descricao_categoria,\
-                u.nome AS nome_usuario,\
-                COUNT(p.id_evento_presente) AS numero_presentes,\
-                e.local_evento,\
-                e.total_participantes\
-                FROM\
-                eventos AS e\
-                LEFT JOIN\
-                presencas AS p ON p.id_evento_presente = e.id_eventos\
-                INNER JOIN\
-                categoria AS c ON c.id_categoria = e.categoria\
-                INNER JOIN\
-                usuarios AS u ON u.id_usuario = e.id_usuario_evento\
-                GROUP BY\
-                e.total_participantes,\
-                e.local_evento,\
-                e.id_eventos,\
-                e.descricao_evento,\
-                e.nome_evento,\
-                e.data_evento,\
-                e.hora_evento,\
-                c.descricao_categoria,\
-                u.nome;')
+            # Construir a consulta base para selecionar os eventos
+            query = '''
+                SELECT
+                    e.id_eventos,
+                    e.descricao_evento,
+                    e.nome_evento,
+                    e.data_evento,
+                    e.hora_evento,
+                    c.descricao_categoria,
+                    u.nome AS nome_usuario,
+                    COUNT(p.id_evento_presente) AS numero_presentes,
+                    e.local_evento,
+                    e.total_participantes
+                FROM
+                    eventos AS e
+                LEFT JOIN
+                    presencas AS p ON p.id_evento_presente = e.id_eventos
+                INNER JOIN
+                    categoria AS c ON c.id_categoria = e.categoria
+                INNER JOIN
+                    usuarios AS u ON u.id_usuario = e.id_usuario_evento
+            '''
+
+            # Se um local foi especificado, adicionar cláusula WHERE para filtrar por local
+            if local:
+                query += f' WHERE e.local_evento LIKE "%{local}%"'
+
+            # Adicionar cláusula GROUP BY e executar a consulta
+            query += '''
+                GROUP BY
+                    e.total_participantes,
+                    e.local_evento,
+                    e.id_eventos,
+                    e.descricao_evento,
+                    e.nome_evento,
+                    e.data_evento,
+                    e.hora_evento,
+                    c.descricao_categoria,
+                    u.nome;
+            '''
+            cursur.execute(query)
             eventos = cursur.fetchall()
 
             return render_template("html/BuscarEventos.html", eventos=eventos, foto=foto)
