@@ -85,15 +85,40 @@
             {% endif %}
         </div>
         <div class="col-md-5">
-            <div class="map" id="mapaDosEventos">
+            <div class="map">
                 <h2>Mapa dos Eventos</h2>
-                <iframe id="mapaEventos" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3540.017304507226!2d-48.63468668494425!3d-26.919444983130897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df18d9c9f6a8b5%3A0x8f6a2a4f6b3c5a81!2sParque%20Vila%20Germ%C3%A2nica!5e0!3m2!1spt-BR!2sbr!4v1625590663688!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <div class="map" id="mapaDosEventos"></div> <!-- Div para conter o mapa -->
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    function initMap(latitude, longitude) {
+        var coordenadas = { lat: latitude, lng: longitude };
+        var map = new google.maps.Map(document.getElementById('mapaDosEventos'), {
+            zoom: 15, // Zoom inicial
+            center: coordenadas // Centro do mapa
+        });
+
+        var marker = new google.maps.Marker({
+            position: coordenadas,
+            map: map,
+            icon: {
+                url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png', // URL da imagem do marcador
+                size: new google.maps.Size(50, 70), // Tamanho da imagem
+                origin: new google.maps.Point(0, 0), // Ponto de origem da imagem
+                anchor: new google.maps.Point(25, 70) // Ponto de ancoragem do marcador
+            }
+        });
+
+        // Role a página até o elemento do mapa
+        window.scrollTo({
+            top: document.getElementById('mapaDosEventos').offsetTop, // Obtenha a posição superior do elemento do mapa
+            behavior: 'smooth' // Rola suavemente
+        });
+    }
+
     function showLocation(latitude, longitude) {
         var urlMapa = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3540.017304507226!2d" + longitude + "!3d" + latitude + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df18d9c9f6a8b5%3A0x8f6a2a4f6b3c5a81!2sParque%20Vila%20Germ%C3%A2nica!5e0!3m2!1spt-BR!2sbr!4v1625590663688!5m2!1spt-BR!2sbr";
         document.getElementById('mapaEventos').src = urlMapa;
