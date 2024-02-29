@@ -82,7 +82,7 @@
                             <p>Hora: {{c[4]}}</p>
                             <p>Local: {{c[5]}}</p>
                             <button class="btn btn-primary" onclick="showDetails()">Detalhes</button>
-                            <button class="btn btn-secondary" onclick="showLocation({{c[6]}}, {{c[7]}})">Localização</button>
+                            <button class="btn btn-secondary" onclick="showLocation({{c[6]}}, {{c[7]}}); scrollToMap()">Localização</button>
                         </div>
                     </div>
                 {% endfor %}
@@ -126,6 +126,11 @@
 
     function showLocation(latitude, longitude) {
         initMap(latitude, longitude);
+    }
+
+    function scrollToMap() {
+        var mapaDosEventos = document.getElementById('mapaDosEventos');
+        mapaDosEventos.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 
