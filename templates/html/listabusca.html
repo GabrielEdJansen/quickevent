@@ -12,6 +12,9 @@
             max-width: 100%; /* Defina o máximo de largura que desejar */
             height: auto; /* Isso garante que a altura seja ajustada automaticamente */
         }
+        #mapaDosEventos {
+            height: 450px; /* Defina a altura do mapa */
+        }
     </style>
 </head>
 <body>
@@ -35,7 +38,7 @@
 
 <div class="container">
     <div class="row">
-                <div class="col-md-3">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Filtros</h5>
@@ -64,30 +67,12 @@
         </div>
         <div class="col-md-4">
             <h1>Eventos Próximos</h1>
-            {% if eventos %}
-                {% for c in eventos %}
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="event">
-                                <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h2>{{c[2]}}</h2>
-                            <p>Data: {{c[3]}}</p>
-                            <p>Hora: {{c[4]}}</p>
-                            <p>Local: {{c[5]}}</p>
-                            <button class="btn btn-primary" onclick="showDetails()">Detalhes</button>
-                            <button class="btn btn-secondary" onclick="showLocation({{c[6]}}, {{c[7]}})">Localização</button>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            <!-- Aqui serão listados os eventos -->
         </div>
         <div class="col-md-5">
             <div class="map">
                 <h2>Mapa dos Eventos</h2>
-                <div class="map" id="mapaDosEventos"></div> <!-- Div para conter o mapa -->
+                <div id="mapaDosEventos"></div> <!-- Div para conter o mapa -->
             </div>
         </div>
     </div>
@@ -120,17 +105,7 @@
     }
 
     function showLocation(latitude, longitude) {
-        var urlMapa = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3540.017304507226!2d" + longitude + "!3d" + latitude + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df18d9c9f6a8b5%3A0x8f6a2a4f6b3c5a81!2sParque%20Vila%20Germ%C3%A2nica!5e0!3m2!1spt-BR!2sbr!4v1625590663688!5m2!1spt-BR!2sbr";
-        document.getElementById('mapaEventos').src = urlMapa;
-
-        window.scrollTo({
-            top: document.getElementById('mapaDosEventos').offsetTop, // Obtenha a posição superior do elemento do mapa
-            behavior: 'smooth' // Rola suavemente
-        });
+        // Chame a função initMap com as coordenadas
+        initMap(latitude, longitude);
     }
-</script>
-
-<!-- Adicionando Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</script
