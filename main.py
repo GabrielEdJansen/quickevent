@@ -87,6 +87,7 @@ def buscar():
         # Executa a consulta
         cursor.execute(query)
         eventos = cursor.fetchall()
+        print(eventos)
 
         # Se não houver eventos encontrados, renderizar a página buscarnd.html
         if not eventos:
