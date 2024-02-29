@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos</title>
+    <link href="../static/styleNavBar.css" rel="stylesheet">
+    <!-- Adicionando Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .event {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<!-- Material Design: Top app bar -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <!-- Material Design: Logo com feedback visual -->
+  <a href="destaques" class="navbar-brand" href="#"><img src="../static/LogoFundo.png" alt="Logo do Site" style="max-height: 40px; max-width: 120px;"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <!-- Nielsen: Nome do item de menu representa claramente sua função -->
+      <li class="nav-item">
+        <a href="InicioBuscarEvento" class="nav-link">Eventos participados</a>
+      </li>
+      <li class="nav-item">
+        <a href="InicioCriarEvento" class="nav-link">Criar eventos</a>
+      </li>
+      <li class="nav-item">
+        <a href="InicioGerenciarEventos" class="nav-link">Gerenciar eventos</a>
+      </li>
+      <li class="nav-item dropdown">
+        <!-- Material Design: Ícone do perfil -->
+        <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <div class="d-flex align-items-center">
+            <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
+              <!-- Nielsen: Imagem de perfil para reconhecimento rápido -->
+              <img src="data:image/jpeg;base64,{{ foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
+            </div>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+          <!-- Material Design: Texto legível e agradável -->
+          <a class="dropdown-item" href="InformacaoConta">Informações da conta</a>
+          <a class="dropdown-item" href="/">Sair</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Material Design: Títulos claros e concisos -->
+                    <h5 class="card-title">Filtros</h5>
+                    <form>
+                        <div class="mb-3">
+                            <!-- Nielsen: Rótulos descritivos -->
+                            <label for="dataInicial" class="form-label">Data Inicial:</label>
+                            <!-- Material Design: Inputs consistentes -->
+                            <input type="date" class="form-control" id="dataInicial" name="dataInicial">
+                        </div>
+                        <div class="mb-3">
+                            <label for="dataFinal" class="form-label">Data Final:</label>
+                            <input type="date" class="form-control" id="dataFinal" name="dataFinal">
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoria:</label>
+                            <select class="form-select" id="categoria" name="categoria">
+                                <option value="todos">Todos</option>
+                                <option value="festa">Festa</option>
+                                <option value="teatro">Teatro</option>
+                                <option value="show">Show</option>
+                            </select>
+                        </div>
+                        <!-- Material Design: Botões destacados e consistentes -->
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1>Eventos Próximos</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="event">
+                        <img src="festa.jpg" class="img-fluid" alt="Festa">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h2>Festa na Praia</h2>
+                    <p>Data: 01/03/2024</p>
+                    <p>Hora: 18:00</p>
+                    <p>Local: Praia do Forte, Florianópolis</p>
+                    <p>Preço: R$ 50,00</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="event">
+                        <img src="teatro.jpg" class="img-fluid" alt="Teatro">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h2>Peça de Teatro</h2>
+                    <p>Data: 02/03/2024</p>
+                    <p>Hora: 20:00</p>
+                    <p>Local: Teatro Carlos Gomes, Blumenau</p>
+                    <p>Preço: R$ 30,00</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="event">
+                        <img src="show.jpg" class="img-fluid" alt="Show">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h2>Show do Luan Santana</h2>
+                    <p>Data: 03/03/2024</p>
+                    <p>Hora: 22:00</p>
+                    <p>Local: Arena Petry, São José</p>
+                    <p>Preço: R$ 100,00</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="map">
+                <h2>Mapa dos Eventos</h2>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3540.017304507226!2d-48.63468668494425!3d-26.919444983130897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df18d9c9f6a8b5%3A0x8f6a2a4f6b3c5a81!2sParque%20Vila%20Germ%C3%A2nica!5e0!3m2!1spt-BR!2sbr!4v1625590663688!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Adicionando Bootstrap JS (opcional, apenas se você estiver utilizando funcionalidades do Bootstrap que necessitem de JavaScript) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
