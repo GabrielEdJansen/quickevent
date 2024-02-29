@@ -39,6 +39,34 @@
 
 <div class="container">
     <div class="row">
+        <div class="col-md-5">
+            <div class="map">
+                <h2>Mapa dos Eventos</h2>
+                <div id="mapaDosEventos"></div> <!-- Div para conter o mapa -->
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h1>Eventos Próximos</h1>
+            {% if eventos %}
+                {% for c in eventos %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="event">
+                                <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h2>{{c[2]}}</h2>
+                            <p>Data: {{c[3]}}</p>
+                            <p>Hora: {{c[4]}}</p>
+                            <p>Local: {{c[5]}}</p>
+                            <button class="btn btn-primary" onclick="showDetails()">Detalhes</button>
+                            <button class="btn btn-secondary" onclick="showLocation({{c[6]}}, {{c[7]}}); scrollToMap()">Localização</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
@@ -64,34 +92,6 @@
                         <button type="submit" class="btn btn-primary">Filtrar</button>
                     </form>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <h1>Eventos Próximos</h1>
-            {% if eventos %}
-                {% for c in eventos %}
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="event">
-                                <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <h2>{{c[2]}}</h2>
-                            <p>Data: {{c[3]}}</p>
-                            <p>Hora: {{c[4]}}</p>
-                            <p>Local: {{c[5]}}</p>
-                            <button class="btn btn-primary" onclick="showDetails()">Detalhes</button>
-                            <button class="btn btn-secondary" onclick="showLocation({{c[6]}}, {{c[7]}}); scrollToMap()">Localização</button>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-        <div class="col-md-5">
-            <div class="map">
-                <h2>Mapa dos Eventos</h2>
-                <div id="mapaDosEventos"></div> <!-- Div para conter o mapa -->
             </div>
         </div>
     </div>
