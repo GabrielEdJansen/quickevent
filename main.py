@@ -41,13 +41,6 @@ from datetime import datetime
 
 from flask import request
 
-
-from flask import Flask, render_template, request
-from configbanco import configbanco
-
-
-app = Flask(__name__)
-
 @app.route("/buscar")
 def buscar():
     global idlogado
