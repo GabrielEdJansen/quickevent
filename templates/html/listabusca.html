@@ -36,14 +36,14 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="event">
-                                <img src="data:image/jpeg;base64,{{ evento.foto_evento }}" class="img-fluid" alt="{{ evento.descricao_evento }}">
+                                <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid" alt="{{c[8]}}">
                             </div>
                         </div>
                         <div class="col-md-8">
-                            <h2>{{ evento.titulo }}</h2>
-                            <p>Data: {{ evento.data }}</p>
-                            <p>Hora: {{ evento.hora }}</p>
-                            <p>Local: {{ evento.local }}</p>
+                            <h2>{{c[2]}}</h2>
+                            <p>Data: {{c[3]}}</p>
+                            <p>Hora: {{c[4]}}</p>
+                            <p>Local: {{c[5]}}</p>
                             <button class="btn btn-primary" onclick="showDetails()">Detalhes</button>
                             <button class="btn btn-secondary" onclick="showLocation({{ evento.latitude }}, {{ evento.longitude }})">Localização</button>
                         </div>
