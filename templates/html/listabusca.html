@@ -125,7 +125,7 @@
                     <p>Local: Praia do Forte, Florianópolis</p>
                     <p>Preço: R$ 50,00</p>
                     <button class="btn btn-primary" onclick="showDetails()">Detalhes</button>
-                    <button class="btn btn-secondary" onclick="showLocation()">Localização</button>
+                    <button class="btn btn-secondary" onclick="showLocation(-27.597300, -48.549610)">Localização</button>
                 </div>
             </div>
             <div class="row">
@@ -141,7 +141,7 @@
                     <p>Local: Teatro Carlos Gomes, Blumenau</p>
                     <p>Preço: R$ 30,00</p>
                     <button class="btn btn-primary" onclick="showDetails()">Detalhes</button>
-                    <button class="btn btn-secondary" onclick="showLocation()">Localização</button>
+                    <button class="btn btn-secondary" onclick="showLocation(-27.597300, -48.549610)">Localização</button>
                 </div>
             </div>
             <div class="row">
@@ -157,7 +157,7 @@
                     <p>Local: Arena Petry, São José</p>
                     <p>Preço: R$ 100,00</p>
                     <button class="btn btn-primary" onclick="showDetails()">Detalhes</button>
-                    <button class="btn btn-secondary" onclick="showLocation()">Localização</button>
+                    <button class="btn btn-secondary" onclick="showLocation(-27.597300, -48.549610)">Localização</button>
                 </div>
             </div>
         </div>
@@ -170,17 +170,9 @@
     </div>
 </div>
 <script>
-    // Função para mostrar a localização do evento no mapa
-    function showLocation(evento) {
-        // Defina a localização do evento (latitude e longitude)
-        var localizacaoEvento = {
-            latitude: -26.919444983130897,
-            longitude: -48.63468668494425
-            // Adicione mais campos conforme necessário para obter a localização do evento
-        };
-
-        // Construa a URL do Google Maps com base na localização do evento
-        var urlMapa = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3540.017304507226!2d" + localizacaoEvento.longitude + "!3d" + localizacaoEvento.latitude + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df18d9c9f6a8b5%3A0x8f6a2a4f6b3c5a81!2sParque%20Vila%20Germ%C3%A2nica!5e0!3m2!1spt-BR!2sbr!4v1625590663688!5m2!1spt-BR!2sbr";
+    function showLocation(latitude, longitude) {
+        // Construa a URL do Google Maps com base na latitude e longitude do evento
+        var urlMapa = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3540.017304507226!2d" + longitude + "!3d" + latitude + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94df18d9c9f6a8b5%3A0x8f6a2a4f6b3c5a81!2sParque%20Vila%20Germ%C3%A2nica!5e0!3m2!1spt-BR!2sbr!4v1625590663688!5m2!1spt-BR!2sbr";
 
         // Atualize a URL do iframe do mapa com a URL do Google Maps do evento selecionado
         document.getElementById('mapaEventos').src = urlMapa;
