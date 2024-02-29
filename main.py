@@ -37,20 +37,14 @@ def home():
 def logininicio():
     return render_template("html/login.html")
 
-
 from datetime import datetime
-
-
 
 from flask import request
 
-@app.route("/listabusca")
-def listabusca():
-    return render_template("html/listabusca.html")
-
 
 from flask import Flask, render_template, request
-from configbanco import configbanco  # Importe a função configbanco do seu módulo configbanco
+from configbanco import configbanco
+
 
 app = Flask(__name__)
 
