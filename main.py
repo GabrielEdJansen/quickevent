@@ -49,23 +49,35 @@ def listabusca():
     return render_template("html/listabusca.html")
 
 
+from flask import Flask, render_template, request
+from configbanco import configbanco  # Importe a função configbanco do seu módulo configbanco
+
+app = Flask(__name__)
+
 @app.route("/buscar")
 def buscar():
     global idlogado
     filtro = request.args.get("filtro")
 
+    # Suponho que idlogado já esteja definido em algum lugar do seu código
+
+    # Conexão com o banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
+
     if connect_BD.is_connected():
-        cursur = connect_BD.cursor()
-        cursur.execute(
+        cursor = connect_BD.cursor()
+
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
             f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
         )
-        usuario = cursur.fetchone()
+        usuario = cursor.fetchone()
 
+        # Verifica se o usuário tem uma foto
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-        # Construir a consulta base para selecionar os eventos
+        # Consulta SQL para buscar os eventos
         query = '''
             SELECT
                 e.id_eventos,
@@ -73,46 +85,28 @@ def buscar():
                 e.nome_evento,
                 e.data_evento,
                 e.hora_evento,
-                c.descricao_categoria,
-                u.nome AS nome_usuario,
-                COUNT(p.id_evento_presente) AS numero_presentes,
                 e.local_evento,
-                e.total_participantes
+                e.latitude,
+                e.longitude,
+                e.foto_evento
             FROM
                 eventos AS e
-            LEFT JOIN
-                presencas AS p ON p.id_evento_presente = e.id_eventos
-            INNER JOIN
-                categoria AS c ON c.id_categoria = e.categoria
-            INNER JOIN
-                usuarios AS u ON u.id_usuario = e.id_usuario_evento
         '''
 
-        # Construir a cláusula WHERE para filtrar por nome do evento ou local
+        # Adiciona a cláusula WHERE para filtrar por nome do evento ou local
         if filtro:
             query += f' WHERE e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%"'
 
-        # Adicionar cláusula GROUP BY e executar a consulta
-        query += '''
-            GROUP BY
-                e.total_participantes,
-                e.local_evento,
-                e.id_eventos,
-                e.descricao_evento,
-                e.nome_evento,
-                e.data_evento,
-                e.hora_evento,
-                c.descricao_categoria,
-                u.nome;
-        '''
-        cursur.execute(query)
-        eventos = cursur.fetchall()
+        # Executa a consulta
+        cursor.execute(query)
+        eventos = cursor.fetchall()
 
         # Se não houver eventos encontrados, renderizar a página buscarnd.html
         if not eventos:
             return render_template("html/buscarnd.html", foto=foto)
 
-        return render_template("html/BuscarEventos.html", eventos=eventos, foto=foto)
+        return render_template("html/listabusca.html", eventos=eventos, foto=foto)
+
 
 
 
