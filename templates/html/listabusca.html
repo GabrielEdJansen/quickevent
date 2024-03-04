@@ -98,6 +98,11 @@
 </div>
 
 <script>
+    // Inicialização do mapa ao carregar a página
+    var initialLatitude = 0; // Defina a latitude inicial aqui
+    var initialLongitude = 0; // Defina a longitude inicial aqui
+    initMap(initialLatitude, initialLongitude);
+
     function initMap(latitude, longitude) {
         var coordenadas = { lat: latitude, lng: longitude };
         var map = new google.maps.Map(document.getElementById('mapaDosEventos'), {
