@@ -71,7 +71,7 @@
 <div class="container">
     <div class="row">
         <!-- Filtros à esquerda -->
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-4">Filtros</h5>
@@ -101,18 +101,18 @@
             </div>
         </div>
         <!-- Lista de eventos no meio -->
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="col-md-12">
                 <h1>Eventos Próximos</h1>
                 {% if eventos %}
                     {% for c in eventos %}
                         <div class="row mb-8">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <div class="event">
                                     <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
                                 </div>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <div class="evento-info">
                                     <h2>{{c[2]}}</h2>
                                     <p>Data: {{c[3]}}</p>
