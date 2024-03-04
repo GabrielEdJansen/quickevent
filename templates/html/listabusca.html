@@ -128,7 +128,7 @@
             </div>
         </div>
         <!-- Mapa à direita -->
-        <div class="col-md-4">
+        <div class="col-md-4" id="mapSection">
             <div class="map">
                 <h2>Mapa dos Eventos</h2>
                 <div id="mapaDosEventos"></div> <!-- Div para conter o mapa -->
@@ -172,8 +172,8 @@
     }
 
     function scrollToMap() {
-        var mapaDosEventos = document.getElementById('mapaDosEventos');
-        mapaDosEventos.scrollIntoView({ behavior: 'smooth' });
+        var mapSection = document.getElementById('mapSection');
+        mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 </script>
 
