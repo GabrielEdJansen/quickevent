@@ -142,22 +142,18 @@
     initMap(initialLatitude, initialLongitude);
 
     function initMap(latitude, longitude) {
-        var coordenadas = { lat: latitude, lng: longitude };
-        var map = new google.maps.Map(document.getElementById('mapaDosEventos'), {
+        const coordenadas = { lat: latitude, lng: longitude };
+        const map = new google.maps.Map(document.getElementById('mapaDosEventos'), {
             zoom: 15,
-            center: coordenadas
+            center: coordenadas,
+            mapId: 'DEMO_MAP_ID' // Map ID é necessário para os marcadores avançados.
         });
 
-        var marker = new google.maps.Marker({
-            position: coordenadas,
+        // O marcador avançado, posicionado em coordenadas
+        const marker = new google.maps.marker.AdvancedMarkerElement({
             map: map,
-            icon: {
-                url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-                size: new google.maps.Size(48, 48),
-                scaledSize: new google.maps.Size(48, 48),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(24, 48)
-            }
+            position: coordenadas,
+            title: 'Local do evento',
         });
 
         // Role a página até o elemento do mapa
