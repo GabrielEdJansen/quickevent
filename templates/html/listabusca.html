@@ -10,7 +10,7 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
     <style>
         .evento-imagem {
-            max-width: 200px; /* Altere o valor conforme necessário */
+            max-width: 100%;
             height: auto;
         }
         #mapaDosEventos {
@@ -50,7 +50,7 @@
             {% if eventos %}
                 {% for c in eventos %}
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="event">
                                 <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
                             </div>
