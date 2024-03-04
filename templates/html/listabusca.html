@@ -150,15 +150,12 @@
 
         var marker = new google.maps.Marker({
             position: coordenadas,
-            map: map,
-            icon: {
-                url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-                size: new google.maps.Size(48, 48),
-                scaledSize: new google.maps.Size(48, 48),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(24, 48)
-            }
+            map: map
         });
+
+        // Role a página até o elemento do mapa
+        scrollToMap();
+    }
 
         // Role a página até o elemento do mapa
         scrollToMap();
