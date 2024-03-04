@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
     <style>
         /* Adicione estilos personalizados aqui */
         .evento-imagem {
@@ -96,6 +97,39 @@
                     </div>
                 {% endfor %}
             {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Adicionando os filtros de eventos -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Filtros</h5>
+                    <form>
+                        <div class="mb-3">
+                            <label for="dataInicial" class="form-label">Data Inicial:</label>
+                            <input type="date" class="form-control" id="dataInicial" name="dataInicial">
+                        </div>
+                        <div class="mb-3">
+                            <label for="dataFinal" class="form-label">Data Final:</label>
+                            <input type="date" class="form-control" id="dataFinal" name="dataFinal">
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">Categoria:</label>
+                            <select class="form-select" id="categoria" name="categoria">
+                                <option value="todos">Todos</option>
+                                <option value="festa">Festa</option>
+                                <option value="teatro">Teatro</option>
+                                <option value="show">Show</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
