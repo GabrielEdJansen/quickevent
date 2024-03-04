@@ -173,12 +173,7 @@
 
     function scrollToMap() {
         var mapaDosEventos = document.getElementById('mapaDosEventos');
-        var headerHeight = document.querySelector('.navbar-custom').offsetHeight;
-        var offsetTop = mapaDosEventos.offsetTop - headerHeight;
-        window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-        });
+        mapaDosEventos.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 
