@@ -24,6 +24,7 @@
   </a>
   <!-- Mantenha o input dentro do formulário -->
   <input name="filtro" id="searchInput" class="form-control" type="search" placeholder="Buscar eventos" aria-label="Search" style="width: calc(100% - 40px);">
+
 </form>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
@@ -162,8 +163,13 @@
 
     function scrollToMap() {
         var mapSection = document.getElementById('mapSection');
-        mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        var mapSectionOffsetTop = mapSection.offsetTop;
+        window.scrollTo({
+            top: mapSectionOffsetTop,
+            behavior: 'smooth'
+        });
     }
+
 </script>
 
 
