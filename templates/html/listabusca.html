@@ -84,42 +84,11 @@
                                 <option value="show">Show</option>
                             </select>
                         </div>
+                        <form class="form-inline ml-right" action="buscarFiltrado" style="position: relative; display: inline-block;">
                         <div class="text-center">
                             <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
-                            <script>
-                                // Adicione um ouvinte de evento de clique ao botão Filtrar
-                                document.getElementById("btnFiltrar").addEventListener("click", function(event) {
-                                    // Impedir o comportamento padrão de envio do formulário
-                                    event.preventDefault();
-
-                                    // Obter os valores dos filtros
-                                    var dataInicial = document.getElementById("dataInicial").value;
-                                    var dataFinal = document.getElementById("dataFinal").value;
-                                    var categoria = document.getElementById("categoria").value;
-
-                                    // Enviar uma solicitação POST para a rota buscarFiltrado com os filtros como parâmetros
-                                    fetch("/buscarFiltrado", {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify({
-                                            dataInicial: dataInicial,
-                                            dataFinal: dataFinal,
-                                            categoria: categoria
-                                        })
-                                    })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        // Faça algo com a resposta, se necessário
-                                        console.log(data);
-                                    })
-                                    .catch(error => {
-                                        console.error("Erro ao enviar solicitação:", error);
-                                    });
-                                });
-                            </script>
                         </div>
+                        <form/>
                     </form>
                 </div>
             </div>
