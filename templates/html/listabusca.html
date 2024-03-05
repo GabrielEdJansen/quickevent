@@ -93,7 +93,6 @@
                                     event.preventDefault();
 
                                     // Obter os valores dos filtros
-                                    var filtro = document.getElementById("filtro").value;
                                     var dataInicial = document.getElementById("dataInicial").value;
                                     var dataFinal = document.getElementById("dataFinal").value;
                                     var categoria = document.getElementById("categoria").value;
@@ -105,7 +104,6 @@
                                             "Content-Type": "application/json"
                                         },
                                         body: JSON.stringify({
-                                            filtro: filtro,
                                             dataInicial: dataInicial,
                                             dataFinal: dataFinal,
                                             categoria: categoria

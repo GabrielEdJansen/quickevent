@@ -46,7 +46,6 @@ from flask import request
 def buscarFiltrado():
     global idlogado
     # Obtendo os valores dos filtros de data e categoria do formulário
-    filtro = request.args.get("filtro")
     data_inicial = request.args.get("dataInicial")
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
@@ -82,9 +81,6 @@ def buscarFiltrado():
         if categoria and categoria != 'todos':
             query += f' AND e.categoria = "{categoria}"'
 
-        # Adicionando cláusula WHERE para o filtro de busca geral
-        if filtro:
-            query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
 
         # Executando a consulta
         cursor.execute(query)
