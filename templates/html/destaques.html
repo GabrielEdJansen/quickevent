@@ -41,18 +41,14 @@
     }
   });
 
-// Adiciona um evento de clique ao ícone de pesquisa
-document.getElementById("searchIcon").addEventListener("click", function(event) {
-    // Oculta o filtro da barra de pesquisa
-    document.getElementById("filtroPesquisa").style.display = "none";
-
+  // Adiciona um evento de clique ao ícone de pesquisa
+  document.getElementById("searchIcon").addEventListener("click", function(event) {
     // Obtém o valor do input
     var searchTerm = document.getElementById("searchInput").value;
-
     // Redireciona para a rota de busca com o termo de pesquisa
     // window.location.href = "buscar=" + encodeURIComponent(searchTerm);
-    window.location.href = "buscar";
-});
+       window.location.href = "buscar";
+  });
 </script>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
@@ -119,31 +115,6 @@ document.getElementById("searchIcon").addEventListener("click", function(event) 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script>
-  // Adiciona um evento de teclado para o input
-  document.getElementById("searchInput").addEventListener("keyup", function(event) {
-    // Verifica se a tecla pressionada é "Enter"
-    if (event.key === "Enter") {
-      // Impede o comportamento padrão do formulário
-      event.preventDefault();
-      // Obtém o valor do input
-      var searchTerm = document.getElementById("searchInput").value;
-      // Redireciona para a rota de busca com o termo de pesquisa
-      // window.location.href = "buscar=" + encodeURIComponent(searchTerm);
-         window.location.href = "buscar";
-    }
-  });
-
-  // Adiciona um evento de clique ao ícone de pesquisa
-  document.getElementById("searchIcon").addEventListener("click", function(event) {
-    // Obtém o valor do input
-    var searchTerm = document.getElementById("searchInput").value;
-    // Redireciona para a rota de busca com o termo de pesquisa
-    // window.location.href = "buscar=" + encodeURIComponent(searchTerm);
-       window.location.href = "buscar";
-  });
-</script>
 
 </body>
 </html>
