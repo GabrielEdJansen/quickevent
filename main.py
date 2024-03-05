@@ -41,6 +41,58 @@ from datetime import datetime
 
 from flask import request
 
+
+@app.route("/buscarFiltrado")
+def buscar():
+    global idlogado
+    # Obtendo os valores dos filtros de data e categoria do formulário
+    filtro = request.args.get("filtro")
+    data_inicial = request.args.get("dataInicial")
+    data_final = request.args.get("dataFinal")
+    categoria = request.args.get("categoria")
+
+    # Conexão com o banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
+
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+
+        # Consulta SQL para buscar os eventos
+        query = '''
+            SELECT
+                e.id_eventos,
+                e.descricao_evento,
+                e.nome_evento,
+                e.data_evento,
+                e.hora_evento,
+                e.local_evento,
+                e.latitude,
+                e.longitude,
+                e.foto_evento
+            FROM
+                eventos AS e
+            WHERE 1 = 1
+        '''
+
+        # Adicionando cláusulas WHERE para os filtros de data e categoria
+        if data_inicial:
+            query += f' AND e.data_evento >= "{data_inicial}"'
+        if data_final:
+            query += f' AND e.data_evento <= "{data_final}"'
+        if categoria and categoria != 'todos':
+            query += f' AND e.categoria = "{categoria}"'
+
+        # Adicionando cláusula WHERE para o filtro de busca geral
+        if filtro:
+            query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
+
+        # Executando a consulta
+        cursor.execute(query)
+        eventos = cursor.fetchall()
+
+        # Renderizando o template com os eventos encontrados
+        return render_template("html/listabusca.html", eventos=eventos)
+
 @app.route("/buscar")
 def buscar():
     global idlogado
