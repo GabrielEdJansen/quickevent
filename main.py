@@ -70,7 +70,6 @@ def buscarFiltrado():
                 e.foto_evento
             FROM
                 eventos AS e
-            WHERE 1 = 1
         '''
 
         # Adicionando cláusulas WHERE para os filtros de data e categoria
