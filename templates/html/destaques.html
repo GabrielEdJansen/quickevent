@@ -41,14 +41,18 @@
     }
   });
 
-  // Adiciona um evento de clique ao ícone de pesquisa
-  document.getElementById("searchIcon").addEventListener("click", function(event) {
+// Adiciona um evento de clique ao ícone de pesquisa
+document.getElementById("searchIcon").addEventListener("click", function(event) {
+    // Oculta o filtro da barra de pesquisa
+    document.getElementById("filtroPesquisa").style.display = "none";
+
     // Obtém o valor do input
     var searchTerm = document.getElementById("searchInput").value;
+
     // Redireciona para a rota de busca com o termo de pesquisa
     // window.location.href = "buscar=" + encodeURIComponent(searchTerm);
-       window.location.href = "buscar";
-  });
+    window.location.href = "buscar";
+});
 </script>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
