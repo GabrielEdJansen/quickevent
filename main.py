@@ -43,7 +43,7 @@ from flask import request
 
 
 @app.route("/buscarFiltrado")
-def buscar():
+def buscarFiltrado():
     global idlogado
     # Obtendo os valores dos filtros de data e categoria do formulário
     filtro = request.args.get("filtro")
