@@ -128,16 +128,17 @@ def buscar():
                 e.longitude,
                 e.foto_evento
             FROM
-                eventos AS e
+                eventos AS e WHERE 1 = 1
         '''
-
-        # Adiciona a cláusula WHERE para filtrar por nome do evento ou local
         if filtro:
-            query += f' WHERE e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%"'
+            query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
+
         if data_inicial:
             query += f' AND e.data_evento >= "{data_inicial}"'
+
         if data_final:
             query += f' AND e.data_evento <= "{data_final}"'
+
         #if categoria and categoria != 'todos':
         #    query += f' AND e.categoria = "{categoria}"'
 
