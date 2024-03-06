@@ -50,19 +50,6 @@ def buscarFiltrado():
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
 
-    # Função para validar a data no formato "YYYY-MM-DD"
-    def validar_data(data):
-        # Regex para validar o formato da data
-        regex_data = re.compile(r'\d{4}-\d{2}-\d{2}')
-        # Verifica se a data corresponde ao padrão YYYY-MM-DD
-        return bool(regex_data.match(data))
-
-    # Verifica se as datas fornecidas são válidas
-    if data_inicial and not validar_data(data_inicial):
-        return "Data inicial inválida. Use o formato 'YYYY-MM-DD'."
-    if data_final and not validar_data(data_final):
-        return "Data final inválida. Use o formato 'YYYY-MM-DD'."
-
     # Conexão com o banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
 
