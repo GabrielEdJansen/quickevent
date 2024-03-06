@@ -155,9 +155,6 @@ def buscar():
 
         return render_template("html/listabusca.html", eventos=eventos, foto=foto)
 
-
-
-
 @app.route("/InformacaoConta")
 def InformacaoConta():
     global idlogado
