@@ -693,7 +693,7 @@ def CriarEvento():
 
         conexao.commit()
         flash("Evento criado com sucesso!")
-        return redirect("/InicioBuscarEvento")
+        return redirect("/buscar")
     except Exception as e:
         flash(f"Erro ao criar evento: {str(e)}")
         return render_template("html/CriarEvento.html")
