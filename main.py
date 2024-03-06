@@ -92,6 +92,10 @@ def buscarFiltrado():
 def buscar():
     global idlogado
     filtro = request.args.get("filtro")
+    data_inicial = request.args.get("dataInicial")
+    data_final = request.args.get("dataFinal")
+    categoria = request.args.get("categoria")
+
 
     # Suponho que idlogado já esteja definido em algum lugar do seu código
 
@@ -130,6 +134,12 @@ def buscar():
         # Adiciona a cláusula WHERE para filtrar por nome do evento ou local
         if filtro:
             query += f' WHERE e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%"'
+        if data_inicial:
+            query += f' AND e.data_evento >= "{data_inicial}"'
+        if data_final:
+            query += f' AND e.data_evento <= "{data_final}"'
+        if categoria and categoria != 'todos':
+            query += f' AND e.categoria = "{categoria}"'
 
         # Executa a consulta
         cursor.execute(query)
