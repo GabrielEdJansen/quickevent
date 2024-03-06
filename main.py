@@ -42,7 +42,7 @@ from datetime import datetime
 from flask import request
 
 
-@app.route("/buscarFiltrado", methods=['GET', 'POST'])
+@app.route("/buscarFiltrado")
 def buscarFiltrado():
     global idlogado
     # Obtendo os valores dos filtros de data e categoria do formulário
