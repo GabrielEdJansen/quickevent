@@ -79,6 +79,7 @@ def buscar():
                 e.local_evento,
                 e.latitude,
                 e.longitude,
+                e.categoria,
                 e.foto_evento
             FROM
                 eventos AS e WHERE 1 = 1
@@ -93,7 +94,7 @@ def buscar():
             query += f' AND e.data_evento <= "{data_final}"'
 
         if categoria:
-            query += f' AND e.id_categoria = "{categoria}"'
+            query += f' AND e.categoria = "{categoria}"'
 
         # Executa a consulta
         cursor.execute(query)
