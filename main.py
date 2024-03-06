@@ -605,6 +605,9 @@ def CriarEvento():
     dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date() + timedelta(days=1)
     horCad = datetime.strptime(horCad, "%H:%M").time()
 
+    latitude = request.form.get('latitude')
+    longitude = request.form.get('longitude')
+
     if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
         flash("A data fornecida é menor que a data atual.")
         return render_template("html/CriarEvento.html")
@@ -640,14 +643,16 @@ def CriarEvento():
                     bairro,
                     complemento,
                     foto_evento,
-                    foto_evento_nome
+                    foto_evento_nome,
+                    latitude,
+                    longitude
                 ) VALUES (
                     %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )"""
 
         cursor.execute(sql, (
         descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
-        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, foto_texto, foto_nome))
+        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, foto_texto, foto_nome, latitude, longitude))
 
         # Recuperar o ID do evento recém-inserido
         sql_last_insert_id = "SELECT LAST_INSERT_ID()"

@@ -188,6 +188,10 @@
                                 <label class="form-label" for="rua">Rua</label>
                             </div>
 
+                            <input type="hidden" name="latitude" id="latitude">
+
+                            <input type="hidden" name="longitude" id="longitude">
+
                             <input type="hidden" id="place_id" name="place_id">
 
                             <div class="form-outline mb-4">
@@ -209,6 +213,8 @@
                                     var inputCidade = document.getElementById('cidade');
                                     var inputEstado = document.getElementById('estado');
                                     var inputBairro = document.getElementById('bairro');
+                                    var inputLatitude = document.getElementById('latitude');
+                                    var inputLongitude = document.getElementById('longitude');
                                     var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
                                     autocomplete.addListener('place_changed', function () {
@@ -239,6 +245,9 @@
 
                                         // Preencher o campo do place_id, se necessário
                                         document.getElementById('place_id').value = place.place_id;
+
+                                        inputLatitude.value = place.geometry.location.lat();
+                                        inputLongitude.value = place.geometry.location.lng();
                                     });
                                 }
 
