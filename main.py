@@ -95,6 +95,12 @@ def buscar():
         if categoria:
             query += f' AND e.categoria = "{categoria}"'
 
+        filtro_aplicado = {
+            "dataInicial": data_inicial,
+            "dataFinal": data_final,
+            "categoria": categoria
+        }
+
         # Executa a consulta
         cursor.execute(query)
         eventos = cursor.fetchall()
@@ -102,9 +108,9 @@ def buscar():
 
         # Se não houver eventos encontrados, renderizar a página buscarnd.html
         if not eventos:
-            return render_template("html/buscarnd.html", foto=foto)
+            return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
 
-        return render_template("html/listabusca.html", eventos=eventos, foto=foto)
+        return render_template("html/listabusca.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
 
 @app.route("/InformacaoConta")
 def InformacaoConta():

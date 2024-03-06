@@ -69,23 +69,23 @@
                     <form>
                         <div class="mb-3">
                             <label for="dataInicial" class="form-label">Data Inicial:</label>
-                            <input type="date" class="form-control" id="dataInicial" name="dataInicial">
+                            <input type="date" class="form-control" id="dataInicial" name="dataInicial" value="{{ filtro.dataInicial }}>
                         </div>
                         <div class="mb-3">
                             <label for="dataFinal" class="form-label">Data Final:</label>
-                            <input type="date" class="form-control" id="dataFinal" name="dataFinal">
+                            <input type="date" class="form-control" id="dataFinal" name="dataFinal" value="{{ filtro.dataFinal }}">
                         </div>
                         <div class="mb-3">
                             <label for="categoria" class="form-label">Categoria:</label>
                             <select class="form-select" id="categoria" name="categoria" style="width: 100%;">
-                                    <option selected disabled value="">Todas</option>
-                                    <option value="1">Artes Dramáticas e Visuais</option>
-                                    <option value="2">Atividades Escolares</option>
-                                    <option value="3">Auto, Náutica e Aéreo</option>
-                                    <option value="4">Caridade e causas</option>
-                                    <option value="5">Casa e Estilo de Vida</option>
-                                    <option value="6">Ciência e Tecnologia</option>
-                                    <option value="7">Comida e bebida</option>
+                                    <option selected disabled value="" {% if not filtro.categoria %} selected {% endif %}>Todas</option>
+                                    <option value="1" {% if filtro.categoria == '1' %} selected {% endif %}>Artes Dramáticas e Visuais</option>
+                                    <option value="2" {% if filtro.categoria == '2' %} selected {% endif %}>Atividades Escolares</option>
+                                    <option value="3" {% if filtro.categoria == '3' %} selected {% endif %}>Auto, Náutica e Aéreo</option>
+                                    <option value="4" {% if filtro.categoria == '4' %} selected {% endif %}>Caridade e causas</option>
+                                    <option value="5" {% if filtro.categoria == '5' %} selected {% endif %}>Casa e Estilo de Vida</option>
+                                    <option value="6" {% if filtro.categoria == '6' %} selected {% endif %}>Ciência e Tecnologia</option>
+                                    <option value="7" {% if filtro.categoria == '7' %} selected {% endif %}>Comida e bebida</option>
                                     <option value="8">Comunidade e Cultura</option>
                                     <option value="9">Esportes e Fitness</option>
                                     <option value="10">Família e Educação</option>
