@@ -138,8 +138,8 @@ def buscar():
             query += f' AND e.data_evento >= "{data_inicial}"'
         if data_final:
             query += f' AND e.data_evento <= "{data_final}"'
-        if categoria and categoria != 'todos':
-            query += f' AND e.categoria = "{categoria}"'
+        #if categoria and categoria != 'todos':
+        #    query += f' AND e.categoria = "{categoria}"'
 
         # Executa a consulta
         cursor.execute(query)
