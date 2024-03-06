@@ -79,7 +79,6 @@ def buscar():
                 e.local_evento,
                 e.latitude,
                 e.longitude,
-                e.categoria,
                 e.foto_evento
             FROM
                 eventos AS e WHERE 1 = 1
