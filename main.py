@@ -1011,11 +1011,16 @@ def InicioGerenciarEventos():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
+    if nome_evento == 'None':
+        nome_evento = ''
+
     filtro_aplicado = {
         "dataInicial": data_inicial,
         "dataFinal": data_final,
         "nomeEvento": nome_evento
     }
+    if not eventos:
+        flash('Nenhum evento encontrado.', 'warning')  # Adiciona um flash com a mensagem de aviso
 
     return render_template("html/GerenciarEventos.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
 
