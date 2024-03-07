@@ -936,41 +936,68 @@ def ConfirmarPresenca():
 @app.route("/InicioGerenciarEventos")
 def InicioGerenciarEventos():
     global idlogado
-    #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-    connect_BD  = configbanco(db_type='mysql-connector')
+
+    # Obtém os parâmetros de filtro do request
+    data_inicial = request.args.get("dataInicial")
+    data_final = request.args.get("dataFinal")
+    nome_evento = request.args.get("nomeEvento")
+
+    # Consulta SQL para buscar os eventos
+    query = f'''
+        SELECT
+            e.id_eventos,
+            e.descricao_evento,
+            e.nome_evento,
+            e.data_evento,
+            e.hora_evento,
+            e.local_evento,
+            e.latitude,
+            e.longitude,
+            e.foto_evento,
+            COUNT(p.id_evento_presente) AS total_participantes,
+            c.descricao_categoria,
+            u.nome AS nome_usuario
+        FROM
+            eventos AS e
+        LEFT JOIN
+            presencas AS p ON p.id_evento_presente = e.id_eventos
+        INNER JOIN
+            categoria AS c ON c.id_categoria = e.categoria
+        INNER JOIN
+            usuarios AS u ON u.id_usuario = e.id_usuario_evento
+        WHERE
+            e.id_usuario_evento = "{idlogado}"
+    '''
+
+    if nome_evento:
+        query += f' AND e.nome_evento LIKE "%{nome_evento}%"'
+
+    if data_inicial:
+        query += f' AND e.data_evento >= "{data_inicial}"'
+
+    if data_final:
+        query += f' AND e.data_evento <= "{data_final}"'
+
+    query += '''
+        GROUP BY
+            e.id_eventos,
+            e.descricao_evento,
+            e.nome_evento,
+            e.data_evento,
+            e.hora_evento,
+            e.local_evento,
+            e.latitude,
+            e.longitude,
+            e.foto_evento,
+            c.descricao_categoria,
+            u.nome
+    '''
+
+    # Executa a consulta
+    connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
-        print('conectado')
         cursur = connect_BD.cursor()
-        cursur.execute(
-            f'SELECT\
-            e.id_eventos,\
-            e.descricao_evento,\
-            e.nome_evento,\
-            e.data_evento,\
-            e.hora_evento,\
-            e.local_evento,\
-            e.latitude,\
-            e.longitude,\
-            e.foto_evento\
-            FROM\
-            eventos AS e\
-            LEFT JOIN\
-            presencas AS p ON p.id_evento_presente = e.id_eventos\
-            INNER JOIN\
-            categoria AS c ON c.id_categoria = e.categoria\
-            INNER JOIN\
-            usuarios AS u ON u.id_usuario = e.id_usuario_evento\
-            where e.id_usuario_evento = "{idlogado}" \
-            GROUP BY\
-            e.total_participantes,\
-            e.local_evento,\
-            e.id_eventos,\
-            e.descricao_evento,\
-            e.nome_evento,\
-            e.data_evento,\
-            e.hora_evento,\
-            c.descricao_categoria,\
-            u.nome;')
+        cursur.execute(query)
         eventos = cursur.fetchall()
 
         connect_BD = configbanco(db_type='mysql-connector')
