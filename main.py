@@ -1014,7 +1014,7 @@ def InicioGerenciarEventos():
     filtro_aplicado = {
         "dataInicial": data_inicial,
         "dataFinal": data_final,
-        "nomeEvento": categoria
+        "nomeEvento": nome_evento
     }
 
     return render_template("html/GerenciarEventos.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
