@@ -1011,7 +1011,13 @@ def InicioGerenciarEventos():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/GerenciarEventos.html", eventos=eventos, foto=foto)
+    filtro_aplicado = {
+        "dataInicial": data_inicial,
+        "dataFinal": data_final,
+        "nomeEvento": categoria
+    }
+
+    return render_template("html/GerenciarEventos.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
 
 
 @app.route("/GerenciarEventos", methods=['POST'])
