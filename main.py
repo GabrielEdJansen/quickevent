@@ -602,7 +602,7 @@ def CriarEvento():
     horCadFin = request.form.get('horCadFin')
     data_atual = datetime.now().date()
     hora_atual = datetime.now().time()
-    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date() + timedelta(days=1)
+    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date() #+ timedelta(days=1)
     horCad = datetime.strptime(horCad, "%H:%M").time()
 
     latitude = request.form.get('latitude')
@@ -612,7 +612,7 @@ def CriarEvento():
         flash("A data fornecida é menor que a data atual.")
         return render_template("html/CriarEvento.html")
 
-    dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date() + timedelta(days=1)
+    dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date() #+ timedelta(days=1)
     horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
 
     nome_produtor = request.form.get('nome_produtor')
@@ -948,11 +948,10 @@ def InicioGerenciarEventos():
             e.nome_evento,\
             e.data_evento,\
             e.hora_evento,\
-            c.descricao_categoria,\
-            u.nome AS nome_usuario,\
-            COUNT(p.id_evento_presente) AS numero_presentes,\
             e.local_evento,\
-            e.total_participantes\
+            e.latitude,\
+            e.longitude,\
+            e.foto_evento\
             FROM\
             eventos AS e\
             LEFT JOIN\
