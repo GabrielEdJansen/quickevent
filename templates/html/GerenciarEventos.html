@@ -103,7 +103,7 @@
         <div class="col-md-6">
             <div class="col-md-12">
                 <h1>Gerenciar eventos</h1>
-
+                 <form action="/GerenciarEventos" method="post">
                 {% if eventos %}
                     {% for c in eventos %}
                         <div class="row mb-4">
@@ -129,6 +129,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
+                </form>
             </div>
         </div>
     </div>
