@@ -942,6 +942,9 @@ def InicioGerenciarEventos():
     data_final = request.args.get("dataFinal")
     nome_evento = request.args.get("nomeEvento")
 
+    if nome_evento == None:
+        nome_evento = ''
+
     # Consulta SQL para buscar os eventos
     query = f'''
         SELECT
@@ -1011,8 +1014,6 @@ def InicioGerenciarEventos():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    if nome_evento == 'None':
-        nome_evento = ''
 
     filtro_aplicado = {
         "dataInicial": data_inicial,
