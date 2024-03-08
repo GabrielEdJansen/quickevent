@@ -107,7 +107,7 @@
 
                             <div class="form-outline mb-4">
                                 <select name="categoriacad" class="form-control form-control-lg" aria-label="Default select example" required>
-                                    <option selected disabled value="">Selecione a categoria</option>
+                                    <option selected disabled value="" {% if not filtro.categoria %} selected {% endif %}>Selecione a categoria</option>
                                     <option value="1" {% if eventos[4] == '1' %} selected {% endif %}>Artes Dramáticas e Visuais</option>
                                     <option value="2" {% if eventos[4] == '2' %} selected {% endif %}>Atividades Escolares</option>
                                     <option value="3" {% if eventos[4] == '3' %} selected {% endif %}>Auto, Náutica e Aéreo</option>
