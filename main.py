@@ -1040,6 +1040,7 @@ def EditarEvento():
             f"SELECT * FROM eventos e, categoria c where e.categoria = c.id_categoria and e.id_eventos = '{eventoPresenca}';")
         eventos = cursur.fetchall()
 
+        print(eventos)
         for linha in eventos:
             horOri = linha[5]
 
