@@ -1030,7 +1030,7 @@ def EditarEvento():
 
         for linha in eventos:
             horOri = linha[5]
-            print(linha[4])
+
 
         horAlt = str(horOri)
         horAlt = horAlt[:2]
@@ -1067,7 +1067,7 @@ def EditarEvento():
         eventosList.append(linha[23])
         eventosList.append(linha[24])
         print(eventosList)
-
+        print(linha[4])
         return render_template("html/EditarEvento.html", eventos=eventosList)
 
     else:
