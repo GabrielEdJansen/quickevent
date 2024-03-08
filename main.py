@@ -1030,6 +1030,7 @@ def EditarEvento():
 
         for linha in eventos:
             horOri = linha[5]
+            print(linha[4])
 
         horAlt = str(horOri)
         horAlt = horAlt[:2]
@@ -1039,7 +1040,6 @@ def EditarEvento():
         if horAlt < 10:
             horOri = '0' + str(horOri)
 
-        print(linha[4])
 
         eventosList.append(linha[0])
         eventosList.append(linha[1])
