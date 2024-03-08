@@ -1041,15 +1041,18 @@ def EditarEvento():
         eventos = cursur.fetchall()
 
         eventosList = []  # Inicializando a lista de eventos fora do loop
-        for linha in eventos:
-            horOri = linha[5]
 
-            horAlt = str(horOri)
-            horAlt = horAlt[:2]
-            horAlt = re.sub(r'[^\w\s]', '', horAlt)
-            horAlt = int(horAlt)
-            if horAlt < 10:
-                horOri = '0' + str(horOri)
+        # Verificando se há eventos na lista
+        if eventos:
+            for linha in eventos:
+                horOri = linha[5]
+
+                horAlt = str(horOri)
+                horAlt = horAlt[:2]
+                horAlt = re.sub(r'[^\w\s]', '', horAlt)
+                horAlt = int(horAlt)
+                if horAlt < 10:
+                    horOri = '0' + str(horOri)
 
         eventosList.append(linha[0])
         eventosList.append(linha[1])
