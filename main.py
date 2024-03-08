@@ -1040,16 +1040,16 @@ def EditarEvento():
             f"SELECT * FROM eventos e, categoria c where e.categoria = c.id_categoria and e.id_eventos = '{eventoPresenca}';")
         eventos = cursur.fetchall()
 
+        eventosList = []  # Inicializando a lista de eventos fora do loop
         for linha in eventos:
             horOri = linha[5]
 
-        horAlt = str(horOri)
-        horAlt = horAlt[:2]
-        horAlt = re.sub(r'[^\w\s]', '', horAlt)
-
-        horAlt = int(horAlt)
-        if horAlt < 10:
-            horOri = '0' + str(horOri)
+            horAlt = str(horOri)
+            horAlt = horAlt[:2]
+            horAlt = re.sub(r'[^\w\s]', '', horAlt)
+            horAlt = int(horAlt)
+            if horAlt < 10:
+                horOri = '0' + str(horOri)
 
         eventosList.append(linha[0])
         eventosList.append(linha[1])
