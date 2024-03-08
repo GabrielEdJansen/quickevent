@@ -1003,18 +1003,6 @@ def InicioGerenciarEventos():
         cursur.execute(query)
         eventos = cursur.fetchall()
 
-        connect_BD = configbanco(db_type='mysql-connector')
-        if connect_BD.is_connected():
-            cursur = connect_BD.cursor()
-            cursur.execute(
-                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
-            )
-            usuario = cursur.fetchone()
-
-            if usuario:
-                foto = usuario[0] if usuario[0] else "Sem foto disponível"
-
-
     filtro_aplicado = {
         "dataInicial": data_inicial,
         "dataFinal": data_final,
@@ -1023,7 +1011,7 @@ def InicioGerenciarEventos():
     if not eventos:
         flash('Nenhum evento encontrado.', 'warning')  # Adiciona um flash com a mensagem de aviso
 
-    return render_template("html/GerenciarEventos.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
+    return render_template("html/GerenciarEventos.html", eventos=eventos, filtro=filtro_aplicado)
 
 
 @app.route("/GerenciarEventos", methods=['POST'])
