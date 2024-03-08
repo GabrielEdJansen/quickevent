@@ -1067,7 +1067,9 @@ def EditarEvento():
         eventosList.append(linha[23])
         eventosList.append(linha[24])
         print(eventosList)
+        print(eventosList[3])
         print(eventosList[4])
+        print(eventosList[5])
         return render_template("html/EditarEvento.html", eventos=eventosList)
 
     else:
