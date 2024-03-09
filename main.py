@@ -1011,7 +1011,19 @@ def InicioGerenciarEventos():
     if not eventos:
         flash('Nenhum evento encontrado.', 'warning')  # Adiciona um flash com a mensagem de aviso
 
-    return render_template("html/GerenciarEventos.html", eventos=eventos, filtro=filtro_aplicado)
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursur.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+
+    return render_template("html/GerenciarEventos.html", eventos=eventos, filtro=filtro_aplicado, foto=foto)
 
 
 @app.route("/GerenciarEventos", methods=['POST'])
@@ -1069,11 +1081,19 @@ def EditarEvento():
         eventosList.append(linha[23])
         eventosList.append(linha[24])
         print(eventosList)
-        print(eventosList[3])
-        print(eventosList[4])
-        print(eventosList[5])
-        return render_template("html/EditarEvento.html", eventos=eventosList)
 
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursur = connect_BD.cursor()
+            cursur.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            )
+            usuario = cursur.fetchone()
+
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+        return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto)
     else:
         return ExcluirEvento()
 
