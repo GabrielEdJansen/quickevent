@@ -1017,7 +1017,13 @@ def InicioGerenciarEventos():
 @app.route("/GerenciarEventos", methods=['POST'])
 def EditarEvento():
     global idlogado
-    eventoPresenca = request.form.get('eventoPresenca')
+    #eventoPresenca = request.form.get('eventoPresenca')
+
+    for key, value in request.form.items():
+        if key.startswith('botaoEditar'):
+            eventoPresenca = request.form.get('eventoPresenca')
+            break
+
     botaoEditar = request.form.get('botaoEditar')
 
     print(eventoPresenca)
