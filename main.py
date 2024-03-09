@@ -1019,6 +1019,9 @@ def EditarEvento():
     global idlogado
     eventoPresenca = request.form.get('eventoPresenca')
     botaoEditar = request.form.get('botaoEditar')
+
+    print(eventoPresenca)
+
     eventosList = []
     if botaoEditar == 'true':
         #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
