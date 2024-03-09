@@ -92,17 +92,10 @@
                             </div>
                             <div class="form-outline mb-4">
                                 <img src="data:image/jpeg;base64,{{ eventos[20] }}" alt="Imagem de divulgação" class="img-fluid">
-
-                                <input type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
-                                <!-- Adicionando o valor do nome da imagem -->
-                                {% if nome_imagem %}
-                                    <input type="text" class="form-control" value="{{ eventos[21] }}" readonly>
-                                {% else %}
-                                    <input type="text" class="form-control" readonly>
-                                {% endif %}
-                                <input type="hidden" name="existing_photo" value="{{ eventos[21] }}">
-                                <label class="form-label">Imagem de divulgação (opcional)</label>
-                                <label class="form-label">Obs: A dimensão recomendada é de 1600 x 838</label>
+                                <input value="{{eventos[21]}}" type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
+                                <input type="hidden" name="existing_photo" value="{{eventos[21]}}">
+                                <label class="form-label" >Imagem de divulgação (opcional)</label>
+                                <label class="form-label" >Obs: A dimensão recomendada é de 1600 x 838</label>
                             </div>
 
                             <div class="form-outline mb-4">
@@ -143,19 +136,19 @@
 
                             <div class="form-outline mb-4">
                                 <select name="classificacaocad" class="form-control form-control-lg" aria-label="Default select example" required>
-                                    <option selected disabled value="">Selecione a classificação indicativa</option>
-                                    <option value="0">Livre</option>
-                                    <option value="10">10 anos</option>
-                                    <option value="12">12 anos</option>
-                                    <option value="14">14 anos</option>
-                                    <option value="16">16 anos</option>
-                                    <option value="18">18 anos</option>
+                                    <option selected disabled value="" {% if not eventos[10] %} selected {% endif %}>Selecione a classificação indicativa</option>
+                                    <option value="0" {% if eventos[10] == 0 %} selected {% endif %}>Livre</option>
+                                    <option value="10" {% if eventos[10] == 10 %} selected {% endif %}>10 anos</option>
+                                    <option value="12" {% if eventos[10] == 12 %} selected {% endif %}>12 anos</option>
+                                    <option value="14" {% if eventos[10] == 14 %} selected {% endif %}>14 anos</option>
+                                    <option value="16" {% if eventos[10] == 16 %} selected {% endif %}>16 anos</option>
+                                    <option value="18" {% if eventos[10] == 18 %} selected {% endif %}>18 anos</option>
                                 </select>
                                 <label class="form-label" for="classificacaocad">Classificação Indicativa</label>
                             </div>
 
                             <div class="form-outline mb-4">
-                                <input name="totalParticipantescad" type="number" id="totalParticipantescad" class="form-control form-control-lg"
+                                <input name="totalParticipantescad" value="{{eventos[9]}}" type="number" id="totalParticipantescad" class="form-control form-control-lg"
                                        placeholder="Digite o total de participantes" required min="0" step="1" oninput="validarValor(this)" />
                                 <label class="form-label" for="totalParticipantescad">Total de Participantes</label>
                             </div>
@@ -176,7 +169,7 @@
                             <h3 class="mb-5">Local do evento</h3>
 
                             <div class="form-outline mb-4">
-                                <input name="endereco" type="text" id="endereco" class="form-control form-control-lg" placeholder="Digite o endereço" value="{{ endereco }}" required/>
+                                <input name="endereco" type="text" id="endereco" class="form-control form-control-lg" placeholder="Digite o endereço" value="{{ eventos[8] }}" required/>
                                 <label class="form-label" for="endereco">Endereço</label>
                             </div>
 
