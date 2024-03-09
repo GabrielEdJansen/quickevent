@@ -92,10 +92,17 @@
                             </div>
                             <div class="form-outline mb-4">
                                 <img src="data:image/jpeg;base64,{{ eventos[20] }}" alt="Imagem de divulgação" class="img-fluid">
-                                <input value="{{eventos[21]}}" type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
-                                <input type="hidden" name="existing_photo" value="{{eventos[21]}}">
-                                <label class="form-label" >Imagem de divulgação (opcional)</label>
-                                <label class="form-label" >Obs: A dimensão recomendada é de 1600 x 838</label>
+
+                                <input type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
+                                <!-- Adicionando o valor do nome da imagem -->
+                                {% if nome_imagem %}
+                                    <input type="text" class="form-control" value="{{ nome_imagem }}" readonly>
+                                {% else %}
+                                    <input type="text" class="form-control" readonly>
+                                {% endif %}
+                                <input type="hidden" name="existing_photo" value="{{ foto }}">
+                                <label class="form-label">Imagem de divulgação (opcional)</label>
+                                <label class="form-label">Obs: A dimensão recomendada é de 1600 x 838</label>
                             </div>
 
                             <div class="form-outline mb-4">
