@@ -1025,7 +1025,7 @@ def EditarEvento():
             break
 
     botaoEditar = request.form.get('botaoEditar')
-
+    print(botaoEditar)
     print(eventoPresenca)
 
     eventosList = []
