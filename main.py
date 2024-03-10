@@ -1093,6 +1093,15 @@ def EditarEvento():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
+
+        connect_BD  = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f"SELECT * FROM eventos e, ingressos i where e.id_eventos = i.id_eventos and e.id_eventos = '{eventoPresenca}';")
+        ingressos = cursur.fetchall()
+
+        print(ingressos)
+
         return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto)
     else:
         return ExcluirEvento()
