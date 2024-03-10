@@ -33,11 +33,13 @@
             height: auto;
         }
         .button {
-            margin-top: 10px;
-            border-radius: 30px; /* Arredondar o botão */
-            background-color: transparent; /* Cor de fundo transparente para o botão */
-            border-color: #DCDCDC; /* Cor da borda cinza para o botão */
-            color: #696969; /* Cor do texto preta para o botão */
+            background-color: #1DA1F2; /* Cor padrão */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Transição suave */
         }
         .login-button {
             margin-top: 10px;
@@ -99,9 +101,10 @@
                                 <label class="form-label" for="confirmaSenhacad">Confirme sua senha</label>
                             </div>
 
-                            <button class="btn btn-success btn-lg btn-block button" type="submit" value="cadastrar">
+                            <button class="btn btn-lg btn-primary btn-block button" type="submit" value="cadastrar">
                                 Cadastrar-se
                             </button>
+
             </div>
         </div>
     </div>
