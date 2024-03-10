@@ -1102,6 +1102,8 @@ def EditarEvento():
 
         print(ingressos)
 
+        print(ingressos.titulo_ingresso)
+
         return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto)
     else:
         return ExcluirEvento()
