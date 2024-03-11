@@ -194,7 +194,7 @@ def SalvarAlteracoes():
 
         conexao.commit()
         flash("Evento alterado com sucesso!")
-        return redirect("/EditarEvento")
+        return redirect("/InicioGerenciarEventos")
     except Exception as e:
         flash(f"Erro ao criar evento: {str(e)}")
         return render_template("html/EditarEvento.html")
