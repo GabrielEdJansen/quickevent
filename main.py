@@ -68,9 +68,7 @@ def InformacoesEventos():
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
-        f"SELECT e.nome_evento"
-        f"e.foto_evento" 
-        f"i.titulo_ingresso, "
+        f"SELECT i.titulo_ingresso, "
         f"i.quantidade, "
         f"i.preco, "
         f"i.data_ini_venda, "
