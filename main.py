@@ -41,6 +41,10 @@ from datetime import datetime
 
 from flask import request
 
+def clear_flash_messages():
+    with app.test_request_context():
+        get_flashed_messages()
+
 @app.route("/cancelarPresenca", methods=['POST'])
 def cancelarPresenca():
     global idlogado
@@ -132,6 +136,7 @@ def cancelarPresenca():
     presenca = cursur.fetchall()
 
     if not presenca:
+        clear_flash_messages()
         flash("Presença já cancelada!")
         return jsonify({"message": "Presença já cancelada!"})
     else:
@@ -144,6 +149,7 @@ def cancelarPresenca():
         cursur = connect_BD.cursor(dictionary=True)
         cursur.execute(query, values)
         connect_BD.commit()
+        clear_flash_messages()
         flash("Presença cancelada!")
 
         if x == 1:
