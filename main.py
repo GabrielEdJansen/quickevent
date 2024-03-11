@@ -105,10 +105,6 @@ def SalvarAlteracoes():
     latitude = request.form.get('latitude')
     longitude = request.form.get('longitude')
 
-    if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
-        flash("A data fornecida é menor que a data atual.")
-        return render_template("html/CriarEvento.html")
-
     dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date() #+ timedelta(days=1)
     horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
 
