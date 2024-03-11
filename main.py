@@ -41,6 +41,35 @@ from datetime import datetime
 
 from flask import request
 
+
+@app.route("/InformacoesEventos", methods=['POST'])
+def InformacoesEventos():
+    global idlogado
+    eventoPresenca = request.form.get('eventoPresenca')
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT i.titulo_ingresso, "
+        f"i.quantidade, "
+        f"i.preco, "
+        f"i.data_ini_venda, "
+        f"i.data_fim_venda, "
+        f"i.hora_ini_venda, "
+        f"i.hora_fim_venda, "
+        f"i.disponibilidade, "
+        f"i.quantidade_maxima, "
+        f"i.observacao_ingresso "
+        f"FROM eventos e, ingressos i "
+        f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+    )
+
+    cursur.execute(query)
+    eventos = cursur.fetchall()
+
+    return render_template("html/InformacoesEventos.html", eventos=eventos)
+
+
 @app.route("/SalvarAlteracoes", methods=['POST'])
 def SalvarAlteracoes():
     global idlogado
