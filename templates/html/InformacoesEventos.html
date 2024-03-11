@@ -128,12 +128,9 @@ function cancelarPresenca() {
         // Manipula a resposta JSON recebida
         console.log(data.message); // Exibe a mensagem retornada do Flask
 
-        // Verifica se existem mensagens de flash já listadas
+        // Remove todas as mensagens de flash existentes
         var flashMessagesDiv = document.getElementById('flashMessages');
-        while (flashMessagesDiv.firstChild) {
-            // Remove todas as mensagens de flash existentes
-            flashMessagesDiv.removeChild(flashMessagesDiv.firstChild);
-        }
+        flashMessagesDiv.innerHTML = '';
 
         // Adiciona a nova mensagem à div de flashMessages
         var alertDiv = document.createElement('div');
