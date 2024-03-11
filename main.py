@@ -1097,16 +1097,16 @@ def EditarEvento():
         connect_BD  = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
         cursur.execute(
-            f"SELECT e.titulo_ingresso, "
-            f"e.quantidade, "
-            f"e.preco, "
-            f"e. data_ini_venda,"
-            f"e.data_fim_venda,"
-            f"e.hora_ini_venda,"
-            f"e.hora_fim_venda,"
-            f"e.disponibilidade,,"
-            f"e.quantidade_maxima,"
-            f"e.observacao_ingresso"
+            f"SELECT i.titulo_ingresso, "
+            f"i.quantidade, "
+            f"i.preco, "
+            f"i. data_ini_venda,"
+            f"i.data_fim_venda,"
+            f"i.hora_ini_venda,"
+            f"i.hora_fim_venda,"
+            f"i.disponibilidade,,"
+            f"i.quantidade_maxima,"
+            f"i.observacao_ingresso"
             f" FROM eventos e, ingressos i where e.id_eventos = i.id_eventos and e.id_eventos = '{eventoPresenca}';")
         ingressos = cursur.fetchall()
 
