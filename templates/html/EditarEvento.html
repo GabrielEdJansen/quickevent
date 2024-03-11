@@ -435,7 +435,7 @@
                                     <!-- Campos dinâmicos -->
                                     <div class="campos-dinamicos">
                                         <!-- Adiciona o campo inicial -->
-                                        {% for ingresso in ingresso %}
+                                        {% for campo_adicional in campo_adicional %}
                                         <div class="form-outline mb-4">
                                             <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}"/>
                                             <label class="form-label" for="nome_campo">Nome do Campo</label>
