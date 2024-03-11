@@ -60,6 +60,7 @@
 
 
   <div class="container mt-4">
+    <form action="/confirmaPresenca" method="post">
     {% for eventos in eventos %}
     <!-- Imagem do evento grande no topo da página -->
     <img src="data:image/jpeg;base64,{{ eventos.foto_evento }}" alt="Imagem de divulgação" class="event-image mb-4">
@@ -77,7 +78,7 @@
       {% endfor %}
       <!-- Lado direito: Opção de ingresso e botão de reserva -->
       <div class="col-md-6">
-        <form action="/confirmaPresenca" method="post">
+
         <div class="mb-4">
           <label for="tipoIngresso">Selecione o Tipo de Ingresso:</label>
           <select class="form-control" id="tipoIngresso">
@@ -87,9 +88,9 @@
           </select>
         </div>
         <button type="submit" class="btn btn-primary btn-lg btn-block">Reservar Lugar</button>
-        </form>
       </div>
     </div>
+    </form>
   </div>
 
 <!-- JavaScript necessário para o Bootstrap -->
