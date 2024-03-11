@@ -1103,6 +1103,8 @@ def ConfirmarPresenca():
                 return render_template("html/BuscarEventos.html", eventos=eventos)
 
 
+# Outras importações e definições de rotas...
+
 @app.route("/InicioGerenciarEventos")
 def InicioGerenciarEventos():
     global idlogado
@@ -1112,7 +1114,7 @@ def InicioGerenciarEventos():
     data_final = request.args.get("dataFinal")
     nome_evento = request.args.get("nomeEvento")
 
-    if nome_evento == None:
+    if nome_evento is None:
         nome_evento = ''
 
     # Consulta SQL para buscar os eventos
@@ -1132,12 +1134,12 @@ def InicioGerenciarEventos():
             u.nome AS nome_usuario
         FROM
             eventos AS e
-        LEFT JOIN
-            presencas AS p ON p.id_evento_presente = e.id_eventos
         INNER JOIN
             categoria AS c ON c.id_categoria = e.categoria
         INNER JOIN
             usuarios AS u ON u.id_usuario = e.id_usuario_evento
+        LEFT JOIN
+            presencas AS p ON p.id_evento_presente = e.id_eventos
         WHERE
             e.id_usuario_evento = "{idlogado}"
     '''
@@ -1179,7 +1181,7 @@ def InicioGerenciarEventos():
         "nomeEvento": nome_evento
     }
     if not eventos:
-        flash('Nenhum evento encontrado.', 'warning')  # Adiciona um flash com a mensagem de aviso
+        flash('Nenhum evento encontrado.', 'warning')
 
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
@@ -1191,7 +1193,6 @@ def InicioGerenciarEventos():
 
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
-
 
     return render_template("html/GerenciarEventos.html", eventos=eventos, filtro=filtro_aplicado, foto=foto)
 
