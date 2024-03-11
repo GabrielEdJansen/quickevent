@@ -48,8 +48,6 @@ def SalvarAlteracoes():
     foto = request.files["img_divulga"]
     eventoPresenca = request.form.get('eventoPresenca')
 
-    print(foto)
-
     # Verifique se um arquivo de imagem foi enviado
     if foto and allowed_file(foto.filename):
         # Abra a imagem usando PIL
@@ -137,15 +135,24 @@ def SalvarAlteracoes():
                     estado = %s,
                     bairro = %s,
                     complemento = %s,
-                    foto_evento = %s,
-                    foto_evento_nome = %s,
                     latitude = %s,
                     longitude = %s
                 WHERE id_evento = %s"""
 
         cursor.execute(sql, (
         descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
-        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, foto_texto, foto_nome, latitude, longitude, eventoPresenca))
+        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, latitude, longitude, eventoPresenca))
+
+        if foto and allowed_file(foto.filename):
+            conexao = configbanco(db_type='pymysql')
+            cursor = conexao.cursor()
+
+            sql = """UPDATE eventos SET
+                        foto_evento = %s,
+                        foto_evento_nome = %s
+                    WHERE id_evento = %s"""
+
+            cursor.execute(sql, (foto_texto, foto_nome, eventoPresenca))
 
         # Recuperar o ID do evento recém-inserido
         sql_last_insert_id = "SELECT LAST_INSERT_ID()"
