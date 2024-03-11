@@ -60,6 +60,15 @@
 
 
   <div class="container mt-4">
+              {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     <form action="/confirmaPresenca" method="post">
     {% for eventos in eventos %}
     <!-- Imagem do evento grande no topo da página -->
