@@ -1108,7 +1108,7 @@ def EditarEvento():
             f"i.quantidade_maxima, "
             f"i.observacao_ingresso "
             f"FROM eventos e, ingressos i "
-            f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{event_id}';"
+            f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
         )
 
         # Executar a consulta SQL
