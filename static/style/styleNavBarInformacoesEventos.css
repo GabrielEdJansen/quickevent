@@ -52,6 +52,6 @@
       max-width: 100px; /* Tamanho máximo das imagens pequenas */
     }
     .event-image {
-      width: 70%;
-      height: auto;
+      width: 100%;
+      height: 70%;
     }
