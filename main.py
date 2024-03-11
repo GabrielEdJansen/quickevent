@@ -191,6 +191,8 @@ def SalvarAlteracoes():
         cursor.execute(sql_delete, (eventoPresenca))
         conexao.commit()
 
+        print(titulos)
+
         for i in range(len(titulos)):
             # Insira os dados do ingresso no banco de dados
             sql = """INSERT INTO ingressos (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, 
