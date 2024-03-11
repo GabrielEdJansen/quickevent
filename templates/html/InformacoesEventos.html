@@ -118,33 +118,17 @@ function cancelarPresenca() {
     .then(response => {
         if (response.ok) {
             // A requisição foi bem sucedida
-            return response.json(); // Retorna o corpo da resposta como JSON
+            window.location.reload(); // Recarrega a página
         } else {
             // A requisição falhou
             console.error('Falha ao cancelar presença.');
         }
     })
-    .then(data => {
-        // Manipula a resposta JSON recebida
-        console.log(data.message); // Exibe a mensagem retornada do Flask
-
-        // Remove todas as mensagens de flash existentes
-        var flashMessagesDiv = document.getElementById('flashMessages');
-        flashMessagesDiv.innerHTML = '';
-
-        // Adiciona a nova mensagem à div de flashMessages
-        var alertDiv = document.createElement('div');
-        alertDiv.className = 'alert alert-warning alert-dismissible fade show';
-        alertDiv.setAttribute('role', 'alert');
-        alertDiv.innerHTML = data.message;
-        flashMessagesDiv.appendChild(alertDiv);
-
-        // Aqui você pode adicionar qualquer lógica adicional, como atualizar a página
-    })
     .catch(error => {
         console.error('Erro ao processar a requisição:', error);
     });
 }
+
 </script>
 
 <!-- JavaScript necessário para o Bootstrap -->
