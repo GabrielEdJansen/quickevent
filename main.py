@@ -1096,18 +1096,23 @@ def EditarEvento():
 
         connect_BD  = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
-        cursur.execute(
+        query = (
             f"SELECT i.titulo_ingresso, "
             f"i.quantidade, "
             f"i.preco, "
-            f"i. data_ini_venda,"
-            f"i.data_fim_venda,"
-            f"i.hora_ini_venda,"
-            f"i.hora_fim_venda,"
-            f"i.disponibilidade,,"
-            f"i.quantidade_maxima,"
-            f"i.observacao_ingresso"
-            f" FROM eventos e, ingressos i where e.id_eventos = i.id_eventos and e.id_eventos = '{eventoPresenca}';")
+            f"i.data_ini_venda, "
+            f"i.data_fim_venda, "
+            f"i.hora_ini_venda, "
+            f"i.hora_fim_venda, "
+            f"i.disponibilidade, "
+            f"i.quantidade_maxima, "
+            f"i.observacao_ingresso "
+            f"FROM eventos e, ingressos i "
+            f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{event_id}';"
+        )
+
+        # Executar a consulta SQL
+        cursur.execute(query)
         ingressos = cursur.fetchall()
 
         return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso)
