@@ -100,7 +100,7 @@ def confirmaPresenca():
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
-    f"SELECT, "
+    f"SELECT "
     f"i.id_ingresso, "
     f"p.id_usuario_presente, "
     f"p.id_evento_presente "
