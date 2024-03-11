@@ -110,7 +110,7 @@ def confirmaPresenca():
     f"p.id_evento_presente = i.id_eventos and "
     f"p.id_ingresso = i.id_ingresso and "
     f"p.id_evento_presente = '{eventoPresenca}' and "
-    f"p.id_usuario_presente = '{idlogado}"
+    f"p.id_usuario_presente = '{idlogado}' and "
     f"p.id_ingresso = '{tipo_ingresso}';"
     )
     cursur.execute(query)
