@@ -46,6 +46,7 @@ def confirmaPresenca():
     global idlogado
 
     eventoPresenca = request.form.get('eventoPresenca')
+    tipo_ingresso = request.form.get("tipoIngresso")
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
@@ -95,6 +96,38 @@ def confirmaPresenca():
         # Verifica se o usuário tem uma foto
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+    f"SELECT, "
+    f"i.id_ingresso, "
+    f"p.id_usuario_presente, "
+    f"p.id_evento_presente "
+    f"FROM "
+    f"presencas p, ingressos i "
+    f"WHERE "
+    f"p.id_evento_presente = i.id_eventos and "
+    f"p.id_ingresso = i.id_ingresso and "
+    f"p.id_evento_presente = '{eventoPresenca}' and "
+    f"p.id_usuario_presente = '{idlogado}"
+    f"p.id_ingresso = '{tipo_ingresso}';"
+    )
+    cursur.execute(query)
+    presenca = cursur.fetchall()
+
+    if not presenca:
+        # Execute a instrução SQL de inserção
+        query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso) VALUES (%s, %s, %s)"
+        values = (eventoPresenca, idlogado, tipo_ingresso)
+
+        cursor.execute(query, values)
+        conexao.commit()
+        return "Presença inserida com sucesso!"
+
+        flash("Presença confirmada!")
+    else:
+        flash("Presença já confirmada!")
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
