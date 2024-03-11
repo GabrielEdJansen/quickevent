@@ -1080,7 +1080,6 @@ def EditarEvento():
         eventosList.append(linha[22])
         eventosList.append(linha[23])
         eventosList.append(linha[24])
-        print(eventosList)
 
         connect_BD = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
@@ -1114,6 +1113,8 @@ def EditarEvento():
         # Executar a consulta SQL
         cursur.execute(query)
         ingresso = cursur.fetchall()
+
+        print(ingresso)
 
         return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso)
     else:
