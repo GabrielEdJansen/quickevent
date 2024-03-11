@@ -48,6 +48,8 @@ def SalvarAlteracoes():
     foto = request.files["img_divulga"]
     eventoPresenca = request.form.get('eventoPresenca')
 
+    print(foto)
+
     # Verifique se um arquivo de imagem foi enviado
     if foto and allowed_file(foto.filename):
         # Abra a imagem usando PIL
