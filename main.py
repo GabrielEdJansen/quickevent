@@ -196,7 +196,7 @@ def SalvarAlteracoes():
             sql = """INSERT INTO ingressos (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, 
                      data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
                      VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-            cursor.execute(sql, (id_eventos, titulos[i], quantidades[i], precos[i], datas_inicio_vendas[i],
+            cursor.execute(sql, (eventoPresenca, titulos[i], quantidades[i], precos[i], datas_inicio_vendas[i],
                                  datas_fim_vendas[i], horas_inicio_vendas[i], horas_fim_vendas[i],
                                  disponibilidades[i], quantidades_maximas[i], observacoes[i]))
 
