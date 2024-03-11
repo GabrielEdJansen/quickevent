@@ -48,6 +48,10 @@ def cancelarPresenca():
     eventoPresenca = request.form.get('eventoPresenca')
     tipo_ingresso = request.form.get("tipoIngresso")
 
+    print(eventoPresenca)
+    print(tipo_ingresso)
+    print("teste")
+
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
@@ -131,7 +135,6 @@ def cancelarPresenca():
         flash("Presença cancelada!")
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
-
 
 
 @app.route("/confirmaPresenca", methods=['POST'])
