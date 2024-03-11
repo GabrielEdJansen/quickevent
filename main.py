@@ -84,7 +84,7 @@ def InformacoesEventos():
 
 
     cursur.execute(query)
-    ingressos = cursur.fetchall()
+    ingresso = cursur.fetchall()
 
     # Conexão com o banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
