@@ -121,7 +121,9 @@ def confirmaPresenca():
         query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso) VALUES (%s, %s, %s)"
         values = (eventoPresenca, idlogado, tipo_ingresso)
 
-        cursor.execute(query, values)
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor(dictionary=True)
+        cursur.execute(query, values)
         conexao.commit()
         return "Presença inserida com sucesso!"
 
