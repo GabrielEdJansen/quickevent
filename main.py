@@ -1113,7 +1113,7 @@ def EditarEvento():
 
         # Executar a consulta SQL
         cursur.execute(query)
-        ingressos = cursur.fetchall()
+        ingresso = cursur.fetchall()
 
         return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso)
     else:
