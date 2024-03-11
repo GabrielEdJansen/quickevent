@@ -120,7 +120,8 @@ def cancelarPresenca():
         flash("Presença já cancelada!")
     else:
         # Execute a instrução SQL de inserção
-        query = "DELTE FROM presencas WHERE id_evento_presente = %s AND id_usuario_presente = %s id_ingresso = %s"
+        query = "DELETE FROM presencas WHERE id_evento_presente = %s AND id_usuario_presente = %s AND id_ingresso = %s"
+
         values = (eventoPresenca, idlogado, tipo_ingresso)
 
         connect_BD = configbanco(db_type='mysql-connector')
