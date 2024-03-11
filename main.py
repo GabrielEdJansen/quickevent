@@ -56,7 +56,7 @@ def InformacoesEventos():
         f"e.nome_evento,"
         f"e.foto_evento" 
         f"FROM eventos e, categoria c "
-        f"WHERE e.id_eventos = c.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+        f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
     )
 
 
