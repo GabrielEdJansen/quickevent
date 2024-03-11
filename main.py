@@ -1116,7 +1116,7 @@ def EditarEvento():
 
         connect_BD  = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
-        query = ("SELECT c.nome_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = '{eventoPresenca}';")
+        query = (f"SELECT c.nome_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = '{eventoPresenca}';")
 
         # Executar a consulta SQL
         cursur.execute(query)
