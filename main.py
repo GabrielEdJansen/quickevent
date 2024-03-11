@@ -96,7 +96,7 @@ def SalvarAlteracoes():
     dataCadFin = request.form.get('dataCadFin')
 
     #horCad = request.form.get('horCad')
-    horCad = datetime.strptime(horCad, "%H:%M").time()
+    horCad = datetime.strptime(request.form.get('horCad'), "%H:%M").time()
 
     horCadFin = request.form.get('horCadFin')
     data_atual = datetime.now().date()
