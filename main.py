@@ -134,10 +134,9 @@ def cancelarPresenca():
     presenca = cursur.fetchall()
 
     if not presenca:
-        with app.test_request_context():
-            get_flashed_messages()
         flash("Presença já cancelada!")
-        return jsonify({"message": "Presença já cancelada!"})
+
+        #return jsonify({"message": "Presença já cancelada!"})
     else:
         # Execute a instrução SQL de inserção
         query = "DELETE FROM presencas WHERE id_evento_presente = %s AND id_usuario_presente = %s AND id_ingresso = %s"
@@ -148,12 +147,11 @@ def cancelarPresenca():
         cursur = connect_BD.cursor(dictionary=True)
         cursur.execute(query, values)
         connect_BD.commit()
-        with app.test_request_context():
-            get_flashed_messages()
         flash("Presença cancelada!")
 
-        if x == 1:
-            return jsonify({"message": "Presença cancelada!"})
+        #if x == 1:
+            #flash("Presença cancelada!")
+            #return jsonify({"message": "Presença cancelada!"})
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
