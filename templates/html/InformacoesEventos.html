@@ -60,10 +60,9 @@
 
 
   <div class="container mt-4">
-    {% for ingresso in ingresso %}
+    {% for eventos in eventos %}
     <!-- Imagem do evento grande no topo da página -->
-    <img src="data:image/jpeg;base64,{{ eventos[20] }}" alt="Imagem de divulgação" class="event-image mb-4">
-    <input value="{{eventos.foto_evento}}" type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
+    <img src="data:image/jpeg;base64,{{ eventos.foto_evento }}" alt="Imagem de divulgação" class="event-image mb-4">
     <div class="row">
       <!-- Lado esquerdo: Detalhes do evento -->
       <div class="col-md-6">
