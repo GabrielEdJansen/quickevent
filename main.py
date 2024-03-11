@@ -99,6 +99,9 @@ def SalvarAlteracoes():
     data_atual = datetime.now().date()
     hora_atual = datetime.now().time()
     dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date() #+ timedelta(days=1)
+
+    if len(horCad) == 2:  # Verifica se há apenas duas partes na string de hora
+        horCad += ":00"
     horCad = datetime.strptime(horCad, "%H:%M").time()
 
     latitude = request.form.get('latitude')
