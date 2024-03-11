@@ -65,7 +65,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <section class="vh-100">
-    <form action="{{ url_for('CriarEvento') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ url_for('SalvarAlteracoes') }}" method="post" enctype="multipart/form-data">
         <div class="container py-5 h-100">
 
             {% with messages = get_flashed_messages() %}
@@ -84,7 +84,7 @@
                         <div class="card-body p-5 text-center">
 
                             <h3 class="mb-5">Editar evento</h3>
-
+                            <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
                             <div class="form-outline mb-4">
                                 <input name="nomeEventocad" type="text" id="nome" class="form-control form-control-lg" value="{{eventos[2]}}"
                                        placeholder="Digite o nome do evento" required/>
@@ -474,7 +474,7 @@
                             </script>
                             <div class="btn-container btn-criar-evento">
                                 <button class="btn btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
-                                    Criar novo evento
+                                    Salvar alterações
                                 </button>
                             </div>
                         </div>

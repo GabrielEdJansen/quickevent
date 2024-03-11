@@ -41,6 +41,170 @@ from datetime import datetime
 
 from flask import request
 
+@app.route("/SalvarAlteracoes", methods=['POST'])
+def SalvarAlteracoes():
+    global idlogado
+
+    foto = request.files["img_divulga"]
+    eventoPresenca = request.form.get('eventoPresenca')
+
+    # Verifique se um arquivo de imagem foi enviado
+    if foto and allowed_file(foto.filename):
+        # Abra a imagem usando PIL
+        img = Image.open(foto)
+
+        # Verifique as dimensões da imagem redimensionada
+        # if img.size[0] > 200 or img.size[1] > 200:
+        #    flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
+        #    return redirect(url_for("InformacaoConta"))
+
+        # Gere um nome único para a foto usando secure_filename
+        foto_nome = secure_filename(foto.filename)
+
+        # Converta a imagem redimensionada para dados binários
+        img_buffer = BytesIO()
+
+        # Salve a imagem no formato apropriado (JPEG, PNG, GIF) com base na extensão original
+        file_extension = foto.filename.rsplit('.', 1)[1].lower()
+        if file_extension in {'jpg', 'jpeg'}:
+            img.save(img_buffer, format="JPEG")
+        elif file_extension == 'png':
+            img.save(img_buffer, format="PNG")
+        elif file_extension == 'gif':
+            img.save(img_buffer, format="GIF")
+
+        img_binario = img_buffer.getvalue()
+
+        # Converta os dados binários para base64 (representação de texto)
+        foto_texto = base64.b64encode(img_binario).decode('utf-8')
+
+    nomeEventocad = request.form.get('nomeEventocad')
+    descricaocad = request.form.get('descricaocad')
+    categoriacad = request.form.get('categoriacad')
+    classificacaocad = request.form.get('classificacaocad')
+    totalParticipantescad = request.form.get('totalParticipantescad')
+
+    endereco = request.form.get('endereco')
+    rua = request.form.get('rua')
+    cidade = request.form.get('cidade')
+    numero = request.form.get('numero')
+    estado = request.form.get('estado')
+    bairro = request.form.get('bairro')
+    complemento = request.form.get('complemento')
+
+    dataCad = request.form.get('dataCad')
+    dataCadFin = request.form.get('dataCadFin')
+    horCad = request.form.get('horCad')
+    horCadFin = request.form.get('horCadFin')
+    data_atual = datetime.now().date()
+    hora_atual = datetime.now().time()
+    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date() #+ timedelta(days=1)
+    horCad = datetime.strptime(horCad, "%H:%M").time()
+
+    latitude = request.form.get('latitude')
+    longitude = request.form.get('longitude')
+
+    if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
+        flash("A data fornecida é menor que a data atual.")
+        return render_template("html/CriarEvento.html")
+
+    dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date() #+ timedelta(days=1)
+    horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
+
+    nome_produtor = request.form.get('nome_produtor')
+    descricao_produtor = request.form.get('descricao_produtor')
+
+    try:
+        conexao = configbanco(db_type='pymysql')
+        cursor = conexao.cursor()
+
+        sql = """UPDATE eventos SET
+                    descricao_evento = %s,
+                    nome_evento = %s,
+                    categoria = %s,
+                    data_evento = %s,
+                    hora_evento = %s,
+                    id_usuario_evento = %s,
+                    local_evento = %s,
+                    total_participantes = %s,
+                    classificacao_indicativa = %s,
+                    rua = %s,
+                    cidade = %s,
+                    numero = %s,
+                    data_fim_evento = %s,
+                    hora_fim_evento = %s,
+                    nome_produtor = %s,
+                    descricao_produtor = %s,
+                    estado = %s,
+                    bairro = %s,
+                    complemento = %s,
+                    foto_evento = %s,
+                    foto_evento_nome = %s,
+                    latitude = %s,
+                    longitude = %s
+                WHERE id_evento = %s"""
+
+        cursor.execute(sql, (
+        descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
+        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, foto_texto, foto_nome, latitude, longitude, eventoPresenca))
+
+        # Recuperar o ID do evento recém-inserido
+        sql_last_insert_id = "SELECT LAST_INSERT_ID()"
+        cursor.execute(sql_last_insert_id)
+        id_eventos = cursor.fetchone()[0]
+
+        conexao = configbanco(db_type='pymysql')
+        sql_delete = "DELETE FROM campo_adicional WHERE id_eventos = %s"
+        cursor.execute(sql_delete, (eventoPresenca))
+        conexao.commit()
+
+        # Inserir os dados dos campos adicionais
+        campos_adicionais = request.form.getlist('nome_campo[]')
+        for campo in campos_adicionais:
+            sql_campos_adicionais = """INSERT INTO campo_adicional (id_eventos, nome_campo) VALUES (%s, %s)"""
+            cursor.execute(sql_campos_adicionais, (id_eventos, campo))
+
+        titulos = request.form.getlist('titulo_ingresso[]')
+        quantidades = request.form.getlist('quantidade_ingresso[]')
+        precos = request.form.getlist('preco_ingresso[]')
+        datas_inicio_vendas = request.form.getlist('data_inicio_vendas[]')
+        datas_fim_vendas = request.form.getlist('data_fim_vendas[]')
+        horas_inicio_vendas = request.form.getlist('hora_inicio_vendas[]')
+        horas_fim_vendas = request.form.getlist('hora_fim_vendas[]')
+        disponibilidades = request.form.getlist('disponibilidade_ingresso[]')
+        quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
+        observacoes = request.form.getlist('observacao_ingresso[]')
+
+        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_inicio_vendas]
+        horas_inicio_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_inicio_vendas]
+
+        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
+        horas_fim_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_fim_vendas]
+
+        conexao = configbanco(db_type='pymysql')
+        sql_delete = "DELETE FROM ingressos WHERE id_eventos = %s"
+        cursor.execute(sql_delete, (eventoPresenca))
+        conexao.commit()
+
+        for i in range(len(titulos)):
+            # Insira os dados do ingresso no banco de dados
+            sql = """INSERT INTO ingressos (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, 
+                     data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
+                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+            cursor.execute(sql, (id_eventos, titulos[i], quantidades[i], precos[i], datas_inicio_vendas[i],
+                                 datas_fim_vendas[i], horas_inicio_vendas[i], horas_fim_vendas[i],
+                                 disponibilidades[i], quantidades_maximas[i], observacoes[i]))
+
+        conexao.commit()
+        flash("Evento alterado com sucesso!")
+        return redirect("/EditarEvento")
+    except Exception as e:
+        flash(f"Erro ao criar evento: {str(e)}")
+        return render_template("html/EditarEvento.html")
+    finally:
+        if 'conexao' in locals():
+            conexao.close()
+
 @app.route("/buscar")
 def buscar():
     global idlogado
