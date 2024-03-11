@@ -49,9 +49,11 @@ def cancelarPresenca():
     tipo_ingresso = request.form.get("tipoIngresso")
 
     if not eventoPresenca:
+        data = request.json
         eventoPresenca = data.get('eventoPresenca')
 
     if not tipo_ingresso:
+        data = request.json
         tipo_ingresso = data.get('tipoIngresso')
 
     print(eventoPresenca)
