@@ -304,7 +304,7 @@
                                 <div id="ingresso-container">
                                     <h3 class="mb-5">Ingresso do evento</h3>
                                     <!-- Primeiro ingresso -->
-                                    {% for ingresso in ingressos %}
+                                    {% for ingresso in ingresso %}
                                     <div class="form-outline mb-4 ingresso">
                                         <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required value="{{ ingresso.titulo }}"/>
                                         <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
