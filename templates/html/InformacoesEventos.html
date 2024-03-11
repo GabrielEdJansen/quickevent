@@ -63,7 +63,7 @@
               {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <div id="flashMessages" class="alert alert-warning alert-dismissible fade show" role="alert">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -127,6 +127,13 @@ function cancelarPresenca() {
     .then(data => {
         // Manipula a resposta JSON recebida
         console.log(data.message); // Exibe a mensagem retornada do Flask
+        // Adiciona a mensagem à div de flashMessages
+        var flashMessagesDiv = document.getElementById('flashMessages');
+        var alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-warning alert-dismissible fade show';
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.innerHTML = data.message;
+        flashMessagesDiv.appendChild(alertDiv);
         // Aqui você pode adicionar qualquer lógica adicional, como atualizar a página
     })
     .catch(error => {
