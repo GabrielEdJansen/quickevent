@@ -60,20 +60,21 @@
 
 
   <div class="container mt-4">
+    {% for ingresso in ingresso %}
     <!-- Imagem do evento grande no topo da página -->
-    <img src="caminho_para_imagem_do_evento.jpg" alt="Imagem do Evento" class="event-image mb-4">
-
+    <img src="data:image/jpeg;base64,{{ eventos[20] }}" alt="Imagem de divulgação" class="event-image mb-4">
+    <input value="{{eventos.foto_evento}}" type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
     <div class="row">
       <!-- Lado esquerdo: Detalhes do evento -->
       <div class="col-md-6">
         <p>Data e Hora do Evento: <strong>DD/MM/AAAA - HH:MM</strong></p>
-        <h1>Titulo do Evento</h1>
-        <p>Categoria: <strong>Categoria do Evento</strong></p>
-        <p>Localização: <strong>Localização do Evento</strong></p>
+        <h1>{{eventos.nome_evento}}</h1>
+        <p>Categoria: <strong>{{eventos.descricao_categoria}}</strong></p>
+        <p>Localização: <strong>{{eventos.local_evento}}</strong></p>
         <p>Descrição do Evento:</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non diam ac dolor varius sodales.</p>
+        <p>{{eventos.descricao_evento}}</p>
       </div>
-
+      {% endfor %}
       <!-- Lado direito: Opção de ingresso e botão de reserva -->
       <div class="col-md-6">
         <div class="mb-4">

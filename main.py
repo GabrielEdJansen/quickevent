@@ -50,7 +50,25 @@ def InformacoesEventos():
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
-        f"SELECT i.titulo_ingresso, "
+        f"SELECT e.descricao_evento,"
+        f"e.local_evento,"
+        f"c.descricao_categoria,"
+        f"e.nome_evento,"
+        f"e.foto_evento" 
+        f"FROM eventos e, categforia c "
+        f"WHERE e.id_eventos = c.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+    )
+
+
+    cursur.execute(query)
+    eventos = cursur.fetchall()
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT e.nome_evento"
+        f"e.foto_evento" 
+        f"i.titulo_ingresso, "
         f"i.quantidade, "
         f"i.preco, "
         f"i.data_ini_venda, "
@@ -64,10 +82,27 @@ def InformacoesEventos():
         f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
     )
 
-    cursur.execute(query)
-    eventos = cursur.fetchall()
 
-    return render_template("html/InformacoesEventos.html", eventos=eventos)
+    cursur.execute(query)
+    ingressos = cursur.fetchall()
+
+    # Conexão com o banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
+
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
+
+        # Verifica se o usuário tem uma foto
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso = ingresso)
 
 
 @app.route("/SalvarAlteracoes", methods=['POST'])
