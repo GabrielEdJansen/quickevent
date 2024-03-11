@@ -41,6 +41,98 @@ from datetime import datetime
 
 from flask import request
 
+@app.route("/cancelarPresenca", methods=['POST'])
+def cancelarPresenca():
+    global idlogado
+
+    eventoPresenca = request.form.get('eventoPresenca')
+    tipo_ingresso = request.form.get("tipoIngresso")
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT e.id_eventos, "
+        f"e.hora_fim_evento, "
+        f"e.hora_evento, "
+        f"e.data_fim_evento, "
+        f"e.data_evento, "
+        f"c.id_categoria, "
+        f"e.categoria, "
+        f"e.descricao_evento, "
+        f"e.local_evento, "
+        f"c.descricao_categoria, "
+        f"e.nome_evento, "
+        f"e.foto_evento "
+        f"FROM eventos e, categoria c "
+        f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
+    )
+
+
+    cursur.execute(query)
+    eventos = cursur.fetchall()
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT i.titulo_ingresso, "
+        f"i.id_ingresso "
+        f"FROM eventos e, ingressos i "
+        f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+    )
+
+
+    cursur.execute(query)
+    ingresso = cursur.fetchall()
+
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
+
+        # Verifica se o usuário tem uma foto
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+    f"SELECT "
+    f"i.id_ingresso, "
+    f"p.id_usuario_presente, "
+    f"p.id_evento_presente "
+    f"FROM "
+    f"presencas p, ingressos i "
+    f"WHERE "
+    f"p.id_evento_presente = i.id_eventos and "
+    f"p.id_ingresso = i.id_ingresso and "
+    f"p.id_evento_presente = '{eventoPresenca}' and "
+    f"p.id_usuario_presente = '{idlogado}' and "
+    f"p.id_ingresso = '{tipo_ingresso}';"
+    )
+    cursur.execute(query)
+    presenca = cursur.fetchall()
+
+    if not presenca:
+        flash("Presença já cancelada!")
+    else:
+        # Execute a instrução SQL de inserção
+        query = "DELTE FROM presencas WHERE id_evento_presente = %s AND id_usuario_presente = %s id_ingresso = %s"
+        values = (eventoPresenca, idlogado, tipo_ingresso)
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor(dictionary=True)
+        cursur.execute(query, values)
+        connect_BD.commit()
+        flash("Presença cancelada!")
+
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
+
+
 @app.route("/confirmaPresenca", methods=['POST'])
 def confirmaPresenca():
     global idlogado
