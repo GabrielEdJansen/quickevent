@@ -340,13 +340,12 @@
                                         <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.">{{ ingresso.observacao_ingresso }}</textarea>
                                         <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
                                     </div>
-                                    <!-- Fim do primeiro ingresso -->
+                                    {% endfor %}
                                 </div>
                                 <div class="btn-container">
                                     <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
                                     <button type="button" class="btn btn-danger" onclick="removerUltimoIngresso()">Remover Último Ingresso</button>
                                 </div>
-                                {% endfor %}
                             </div>
 
                             <script>
