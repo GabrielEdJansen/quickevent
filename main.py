@@ -1312,14 +1312,6 @@ def ExcluirEvento():
         conexao.commit()
         conexao.close()
 
-        #conexao = pymysql.connect(db='usuarios', user='root', passwd='1234')
-        conexao = configbanco(db_type='pymysql')
-        cursor = conexao.cursor()
-        cursor.execute(
-            f"DELETE FROM eventos WHERE ID_EVENTOS = '{eventoPresenca}' and ID_USUARIO_EVENTO = '{idlogado}';")
-        conexao.commit()
-        conexao.close()
-
         conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
         cursor.execute(
@@ -1331,6 +1323,14 @@ def ExcluirEvento():
         cursor = conexao.cursor()
         cursor.execute(
             f"DELETE FROM ingressos WHERE id_eventos =  '{eventoPresenca}';")
+        conexao.commit()
+        conexao.close()
+
+        #conexao = pymysql.connect(db='usuarios', user='root', passwd='1234')
+        conexao = configbanco(db_type='pymysql')
+        cursor = conexao.cursor()
+        cursor.execute(
+            f"DELETE FROM eventos WHERE ID_EVENTOS = '{eventoPresenca}' and ID_USUARIO_EVENTO = '{idlogado}';")
         conexao.commit()
         conexao.close()
 
