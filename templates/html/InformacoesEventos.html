@@ -96,8 +96,8 @@
             {% endfor %}
           </select>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg btn-block">Confirmar presença</button>
-        <button type="button" class="btn btn-danger" onclick="cancelarPresenca()">Cancelar presença</button>
+        <button type="submit" class="btn btn-primary">Confirmar presença</button>
+       <button type="button" class="btn btn-danger" onclick="cancelarPresenca()">Cancelar presença</button>
       </div>
     </div>
     </form>
@@ -111,6 +111,19 @@
                 'Content-Type': 'application/json'
             }
         })
+        .then(response => {
+            if (response.ok) {
+                // A requisição foi bem sucedida
+                console.log('Presença cancelada com sucesso!');
+                // Aqui você pode adicionar qualquer lógica adicional, como atualizar a página
+            } else {
+                // A requisição falhou
+                console.error('Falha ao cancelar presença.');
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao processar a requisição:', error);
+        });
     }
 </script>
 
