@@ -167,7 +167,7 @@ def SalvarAlteracoes():
         campos_adicionais = request.form.getlist('nome_campo[]')
         for campo in campos_adicionais:
             sql_campos_adicionais = """INSERT INTO campo_adicional (id_eventos, nome_campo) VALUES (%s, %s)"""
-            cursor.execute(sql_campos_adicionais, (id_eventos, campo))
+            cursor.execute(sql_campos_adicionais, (eventoPresenca, campo))
 
         titulos = request.form.getlist('titulo_ingresso[]')
         quantidades = request.form.getlist('quantidade_ingresso[]')
