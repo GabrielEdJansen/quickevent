@@ -104,12 +104,15 @@
   </div>
 
 <script>
-    function cancelarPresenca() {
+    function cancelarPresenca(eventoPresenca, tipoIngresso) {
+        var eventoPresenca = document.getElementById('eventoPresenca').value;
+        tipoIngressoSelecionado = document.getElementById('tipoIngresso').value;
         fetch('/cancelarPresenca', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({ eventoPresenca: eventoPresenca, tipoIngresso: tipoIngressoSelecionado })
         })
         .then(response => {
             if (response.ok) {
