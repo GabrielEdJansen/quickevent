@@ -79,9 +79,9 @@
         <div class="mb-4">
           <label for="tipoIngresso">Selecione o Tipo de Ingresso:</label>
           <select class="form-control" id="tipoIngresso">
-            <option value="tipo1">Tipo 1</option>
-            <option value="tipo2">Tipo 2</option>
-            <option value="tipo3">Tipo 3</option>
+            {% for ingresso in ingresso %}
+            <option value="{{ingresso.titulo_ingresso}}">{{ingresso.titulo_ingresso}}</option>
+            {% endfor %}
           </select>
         </div>
         <button class="btn btn-primary btn-lg btn-block">Reservar Lugar</button>
