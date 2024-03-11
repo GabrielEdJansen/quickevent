@@ -106,7 +106,7 @@ def SalvarAlteracoes():
     longitude = request.form.get('longitude')
 
     dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date() #+ timedelta(days=1)
-    horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
+    #horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
 
     nome_produtor = request.form.get('nome_produtor')
     descricao_produtor = request.form.get('descricao_produtor')
