@@ -1114,9 +1114,15 @@ def EditarEvento():
         cursur.execute(query)
         ingresso = cursur.fetchall()
 
-        print(ingresso)
+        connect_BD  = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor(dictionary=True)
+        query = ("SELECT c.nome_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = '{eventoPresenca}';")
 
-        return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso)
+        # Executar a consulta SQL
+        cursur.execute(query)
+        campo_adicional = cursur.fetchall()
+
+        return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso, campo_adicional=campo_adicional)
     else:
         return ExcluirEvento()
 

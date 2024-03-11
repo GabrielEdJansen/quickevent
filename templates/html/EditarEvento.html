@@ -417,27 +417,30 @@
 
                                 <!-- Nome do Produtor -->
                                 <div class="form-outline mb-4">
-                                    <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor"/>
+                                    <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor" value="{{ eventos[15] }}"/>
                                     <label class="form-label" for="nome_produtor">Nome do Produtor</label>
                                 </div>
 
                                 <!-- Descrição do Produtor (opcional) -->
                                 <div class="form-outline mb-4">
-                                    <textarea name="descricao_produtor" class="form-control form-control-lg" placeholder="Descrição do produtor"></textarea>
+                                    <textarea name="descricao_produtor" class="form-control form-control-lg" placeholder="Descrição do produtor">{{ eventos[16] }}</textarea>
                                     <label class="form-label" for="descricao_produtor">Descrição do Produtor (Opcional)</label>
                                 </div>
                             </div>
 
                             <div id="campos-adicionais-container">
                                 <h3 class="mb-5">Campos adicionais</h3>
+
                                 <form id="form-campos" action="/adicionar_campos" method="post">
                                     <!-- Campos dinâmicos -->
                                     <div class="campos-dinamicos">
                                         <!-- Adiciona o campo inicial -->
+                                        {% for ingresso in ingresso %}
                                         <div class="form-outline mb-4">
-                                            <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo"/>
+                                            <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}/>
                                             <label class="form-label" for="nome_campo">Nome do Campo</label>
                                         </div>
+                                        {% endfor %}
                                     </div>
                                     <!-- Botões Adicionar e Remover no final do último campo -->
                                     <div class="btn-container">
