@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, jsonify, url_for
+from flask import Flask, render_template, request, flash, redirect, jsonify, url_for, get_flashed_messages
 from banco import configbanco
 import jwt
 import base64
