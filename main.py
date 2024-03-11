@@ -124,9 +124,7 @@ def confirmaPresenca():
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
         cursur.execute(query, values)
-        conexao.commit()
-        return "Presença inserida com sucesso!"
-
+        connect_BD.commit()
         flash("Presença confirmada!")
     else:
         flash("Presença já confirmada!")
