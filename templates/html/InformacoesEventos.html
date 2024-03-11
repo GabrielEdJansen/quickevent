@@ -104,30 +104,35 @@
   </div>
 
 <script>
-  function cancelarPresenca() {
+function cancelarPresenca() {
     var eventoPresenca = document.getElementById('eventoPresenca').value;
     var tipoIngressoSelecionado = document.getElementById('tipoIngresso').value;
+
     fetch('/cancelarPresenca', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ eventoPresenca: eventoPresenca, tipoIngresso: tipoIngressoSelecionado })
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ eventoPresenca: eventoPresenca, tipoIngresso: tipoIngressoSelecionado })
     })
     .then(response => {
-      if (response.ok) {
-        // A requisição foi bem sucedida
-        console.log('Presença cancelada com sucesso!');
+        if (response.ok) {
+            // A requisição foi bem sucedida
+            return response.json(); // Retorna o corpo da resposta como JSON
+        } else {
+            // A requisição falhou
+            console.error('Falha ao cancelar presença.');
+        }
+    })
+    .then(data => {
+        // Manipula a resposta JSON recebida
+        console.log(data.message); // Exibe a mensagem retornada do Flask
         // Aqui você pode adicionar qualquer lógica adicional, como atualizar a página
-      } else {
-        // A requisição falhou
-        console.error('Falha ao cancelar presença.');
-      }
     })
     .catch(error => {
-      console.error('Erro ao processar a requisição:', error);
+        console.error('Erro ao processar a requisição:', error);
     });
-  }
+}
 </script>
 
 <!-- JavaScript necessário para o Bootstrap -->

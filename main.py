@@ -44,15 +44,18 @@ from flask import request
 @app.route("/cancelarPresenca", methods=['POST'])
 def cancelarPresenca():
     global idlogado
+    x=0
 
     eventoPresenca = request.form.get('eventoPresenca')
     tipo_ingresso = request.form.get("tipoIngresso")
 
     if not eventoPresenca:
+        x=1
         data = request.json
         eventoPresenca = data.get('eventoPresenca')
 
     if not tipo_ingresso:
+        x=1
         data = request.json
         tipo_ingresso = data.get('tipoIngresso')
 
@@ -130,6 +133,7 @@ def cancelarPresenca():
 
     if not presenca:
         flash("Presença já cancelada!")
+        return jsonify({"message": "Presença já cancelada!"})
     else:
         # Execute a instrução SQL de inserção
         query = "DELETE FROM presencas WHERE id_evento_presente = %s AND id_usuario_presente = %s AND id_ingresso = %s"
@@ -141,6 +145,9 @@ def cancelarPresenca():
         cursur.execute(query, values)
         connect_BD.commit()
         flash("Presença cancelada!")
+
+        if x == 1:
+            return jsonify({"message": "Presença cancelada!"})
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
