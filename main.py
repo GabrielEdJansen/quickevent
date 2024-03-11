@@ -143,7 +143,6 @@ def SalvarAlteracoes():
         classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, latitude, longitude, eventoPresenca))
 
         if foto and allowed_file(foto.filename):
-            conexao = configbanco(db_type='pymysql')
             cursor = conexao.cursor()
 
             sql = """UPDATE eventos SET
@@ -158,7 +157,6 @@ def SalvarAlteracoes():
         cursor.execute(sql_last_insert_id)
         id_eventos = cursor.fetchone()[0]
 
-        conexao = configbanco(db_type='pymysql')
         sql_delete = "DELETE FROM campo_adicional WHERE id_eventos = %s"
         cursor.execute(sql_delete, (eventoPresenca))
         conexao.commit()
@@ -169,7 +167,6 @@ def SalvarAlteracoes():
             sql_campos_adicionais = """INSERT INTO campo_adicional (id_eventos, nome_campo) VALUES (%s, %s)"""
             cursor.execute(sql_campos_adicionais, (eventoPresenca, campo))
 
-        print(campo)
 
         titulos = request.form.getlist('titulo_ingresso[]')
         quantidades = request.form.getlist('quantidade_ingresso[]')
@@ -188,7 +185,6 @@ def SalvarAlteracoes():
         datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
         #horas_fim_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_fim_vendas]
 
-        conexao = configbanco(db_type='pymysql')
         sql_delete = "DELETE FROM ingressos WHERE id_eventos = %s"
         cursor.execute(sql_delete, (eventoPresenca))
         conexao.commit()
