@@ -66,6 +66,7 @@
     <div class="row">
       <!-- Lado esquerdo: Detalhes do evento -->
       <div class="col-md-6">
+        <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos.id_eventos}}">
         <p>Data e Hora do Evento: <strong>Data: {{eventos.data_evento}} - {{eventos.data_fim_evento}}, Hora: {{eventos.hora_evento}} - {{eventos.hora_fim_evento}}</strong></p>
         <h1>{{eventos.nome_evento}}</h1>
         <p>Categoria: <strong>{{eventos.descricao_categoria}}</strong></p>
@@ -76,15 +77,17 @@
       {% endfor %}
       <!-- Lado direito: Opção de ingresso e botão de reserva -->
       <div class="col-md-6">
+        <form action="/confirmaPresenca" method="post">
         <div class="mb-4">
           <label for="tipoIngresso">Selecione o Tipo de Ingresso:</label>
           <select class="form-control" id="tipoIngresso">
             {% for ingresso in ingresso %}
-            <option value="{{ingresso.titulo_ingresso}}">{{ingresso.titulo_ingresso}}</option>
+            <option value="{{ingresso.id_ingresso}}">{{ingresso.titulo_ingresso}}</option>
             {% endfor %}
           </select>
         </div>
-        <button class="btn btn-primary btn-lg btn-block">Reservar Lugar</button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Reservar Lugar</button>
+        </form>
       </div>
     </div>
   </div>

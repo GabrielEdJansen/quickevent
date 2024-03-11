@@ -41,13 +41,11 @@ from datetime import datetime
 
 from flask import request
 
-
-@app.route("/InformacoesEventos", methods=['POST'])
-def InformacoesEventos():
+@app.route("/confirmaPresenca", methods=['POST'])
+def confirmaPresenca():
     global idlogado
-    #eventoPresenca = request.form.get('eventoPresenca')
 
-    eventoPresenca = request.form.get('botaoDetalhes')
+    eventoPresenca = request.form.get('eventoPresenca')
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
@@ -75,15 +73,65 @@ def InformacoesEventos():
     cursur = connect_BD.cursor(dictionary=True)
     query = (
         f"SELECT i.titulo_ingresso, "
-        f"i.quantidade, "
-        f"i.preco, "
-        f"i.data_ini_venda, "
-        f"i.data_fim_venda, "
-        f"i.hora_ini_venda, "
-        f"i.hora_fim_venda, "
-        f"i.disponibilidade, "
-        f"i.quantidade_maxima, "
-        f"i.observacao_ingresso "
+        f"i.id_ingresso "
+        f"FROM eventos e, ingressos i "
+        f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+    )
+
+
+    cursur.execute(query)
+    ingresso = cursur.fetchall()
+
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
+
+        # Verifica se o usuário tem uma foto
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
+@app.route("/InformacoesEventos", methods=['POST'])
+def InformacoesEventos():
+    global idlogado
+    #eventoPresenca = request.form.get('eventoPresenca')
+
+    eventoPresenca = request.form.get('botaoDetalhes')
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT e.id_eventos, "
+        f"e.hora_fim_evento, "
+        f"e.hora_evento, "
+        f"e.data_fim_evento, "
+        f"e.data_evento, "
+        f"c.id_categoria, "
+        f"e.categoria, "
+        f"e.descricao_evento, "
+        f"e.local_evento, "
+        f"c.descricao_categoria, "
+        f"e.nome_evento, "
+        f"e.foto_evento "
+        f"FROM eventos e, categoria c "
+        f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
+    )
+
+
+    cursur.execute(query)
+    eventos = cursur.fetchall()
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT i.titulo_ingresso, "
+        f"i.id_ingresso "
         f"FROM eventos e, ingressos i "
         f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
     )
