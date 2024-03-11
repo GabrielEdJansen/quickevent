@@ -45,7 +45,9 @@ from flask import request
 @app.route("/InformacoesEventos", methods=['POST'])
 def InformacoesEventos():
     global idlogado
-    eventoPresenca = request.form.get('eventoPresenca')
+    #eventoPresenca = request.form.get('eventoPresenca')
+
+    eventoPresenca = request.form.get('botaoDetalhes')
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)

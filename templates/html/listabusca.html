@@ -115,6 +115,7 @@
         <div class="col-md-5">
             <div class="col-md-12">
                 <h1>Eventos Próximos</h1>
+                <form action="/GerenciarEventos" method="post">
                 {% if eventos %}
                     {% for c in eventos %}
                         <div class="row mb-4">
@@ -131,7 +132,9 @@
                                         <p>Hora: {{c[4]}}</p>
                                         <p>Local: {{c[5]}}</p>
                                         <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
-                                        <a href="#" class="btn btn-primary" onclick="submitForm()">Detalhes</a>
+                                        <button class="btn btn-primary" type="submit" name="botaoDetalhes" value="{{c[0]}}">
+                                        Detalhes
+                                        </button>
                                         <a href="#" class="btn btn-secondary" onclick="showLocation({{c[6]}}, {{c[7]}}); scrollToMap()">Localização</a>
                                     </div>
                                 </form>
@@ -139,6 +142,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
+                </form>
             </div>
         </div>
         <!-- Mapa à direita -->
@@ -189,9 +193,6 @@
         $('html, body').animate({
             scrollTop: $("#mapSection").offset().top
         }, 800);
-    }
-    function submitForm() {
-        document.getElementById("eventoForm").submit();
     }
 
 </script>
