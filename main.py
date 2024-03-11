@@ -169,6 +169,8 @@ def SalvarAlteracoes():
             sql_campos_adicionais = """INSERT INTO campo_adicional (id_eventos, nome_campo) VALUES (%s, %s)"""
             cursor.execute(sql_campos_adicionais, (eventoPresenca, campo))
 
+        print(campo)
+
         titulos = request.form.getlist('titulo_ingresso[]')
         quantidades = request.form.getlist('quantidade_ingresso[]')
         precos = request.form.getlist('preco_ingresso[]')
@@ -203,6 +205,7 @@ def SalvarAlteracoes():
                                  disponibilidades[i], quantidades_maximas[i], observacoes[i]))
 
         conexao.commit()
+
         flash("Evento alterado com sucesso!")
         return redirect("/InicioGerenciarEventos")
     except Exception as e:
