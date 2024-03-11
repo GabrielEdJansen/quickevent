@@ -137,10 +137,9 @@ def SalvarAlteracoes():
                     complemento = %s,
                     latitude = %s,
                     longitude = %s
-                WHERE id_evento = %s"""
+                WHERE id_eventos = %s"""
 
-        cursor.execute(sql, (
-        descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
+        cursor.execute(sql, (descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
         classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, latitude, longitude, eventoPresenca))
 
         if foto and allowed_file(foto.filename):
@@ -150,7 +149,7 @@ def SalvarAlteracoes():
             sql = """UPDATE eventos SET
                         foto_evento = %s,
                         foto_evento_nome = %s
-                    WHERE id_evento = %s"""
+                    WHERE id_eventos = %s"""
 
             cursor.execute(sql, (foto_texto, foto_nome, eventoPresenca))
 
