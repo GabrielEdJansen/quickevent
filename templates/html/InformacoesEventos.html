@@ -92,14 +92,18 @@
           <label for="tipoIngresso">Selecione o Tipo de Ingresso:</label>
           <select class="form-control" id="tipoIngresso" name="tipoIngresso">
             {% for ingresso in ingresso %}
-            <option value="{{ingresso.id_ingresso}}">{{ingresso.titulo_ingresso}}</option>
+                <option value="{{ ingresso.id_ingresso }}" data-quantidade="{{ ingresso.quantidade_ingresso }}">{{ ingresso.titulo_ingresso }}</option>
             {% endfor %}
           </select>
         </div>
-        <div class="mb-4">
-            <label for="quantidadeConvites">Quantidade de Convites:</label>
-            <input type="text" class="form-control" id="quantidadeConvites" name="quantidadeConvites">
-            <small id="convitesHelpBlock" class="form-text text-danger"></small>
+        <div class="row mb-4">
+            <div class="col">
+                <label for="quantidadeConvites">Quantidade de Convites:</label>
+                <input type="text" class="form-control" id="quantidadeConvites" name="quantidadeConvites">
+            </div>
+            <div class="col">
+                <small id="convitesHelpBlock" class="form-text text-danger"></small>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Confirmar presença</button>
         <button type="button" class="btn btn-danger" onclick="cancelarPresenca()">Cancelar presença</button>
@@ -133,6 +137,15 @@ function cancelarPresenca() {
         console.error('Erro ao processar a requisição:', error);
     });
 }
+
+        document.getElementById('tipoIngresso').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var quantidadeConvitesInput = document.getElementById('quantidadeConvites');
+            var quantidadeDisponivel = selectedOption.getAttribute('data-quantidade');
+
+            // Atualiza o valor do campo de quantidade com a quantidade disponível do ingresso selecionado
+            quantidadeConvitesInput.value = quantidadeDisponivel;
+        });
 
     document.getElementById('quantidadeConvites').addEventListener('input', function(event) {
         var input = event.target;

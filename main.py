@@ -168,6 +168,7 @@ def confirmaPresenca():
 
     eventoPresenca = request.form.get('eventoPresenca')
     tipo_ingresso = request.form.get("tipoIngresso")
+    quantidadeConvites = request.form.get("quantidadeConvites")
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
@@ -239,8 +240,8 @@ def confirmaPresenca():
 
     if not presenca:
         # Execute a instrução SQL de inserção
-        query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso) VALUES (%s, %s, %s)"
-        values = (eventoPresenca, idlogado, tipo_ingresso)
+        query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
+        values = (eventoPresenca, idlogado, tipo_ingresso, quantidadeConvites)
 
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
@@ -285,13 +286,18 @@ def InformacoesEventos():
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
-        f"SELECT i.titulo_ingresso, "
-        f"i.id_ingresso "
-        f"FROM eventos e, ingressos i "
-        f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+    f"SELECT p.quantidade_ingresso, "
+    f"i.id_ingresso, "
+    f"p.id_usuario_presente, "
+    f"p.id_evento_presente "
+    f"FROM "
+    f"presencas p, ingressos i "
+    f"WHERE "
+    f"p.id_evento_presente = i.id_eventos and "
+    f"p.id_ingresso = i.id_ingresso and "
+    f"p.id_evento_presente = '{eventoPresenca}' and "
+    f"p.id_usuario_presente = '{idlogado}';"
     )
-
-
     cursur.execute(query)
     ingresso = cursur.fetchall()
 
