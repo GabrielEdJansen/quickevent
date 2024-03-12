@@ -145,7 +145,7 @@ def cancelarPresenca():
 
     if not presenca:
         flash("Presença já cancelada!")
-        return jsonify({"message": "Presença já cancelada!"})
+        return jsonify({"message": "Presença já cancelada!"}, eventos=eventos, foto=foto, ingresso=ingresso)
     else:
         # Execute a instrução SQL de inserção
         query = "DELETE FROM presencas WHERE id_evento_presente = %s AND id_usuario_presente = %s AND id_ingresso = %s"
@@ -158,7 +158,7 @@ def cancelarPresenca():
         connect_BD.commit()
         flash("Presença cancelada!")
 
-        return jsonify({"message": "Presença cancelada!"})
+        return jsonify({"message": "Presença cancelada!"}, eventos=eventos, foto=foto, ingresso=ingresso)
         #if x == 1:
             #flash("Presença cancelada!")
             #return jsonify({"message": "Presença cancelada!"})
