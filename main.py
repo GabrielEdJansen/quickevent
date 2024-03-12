@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, jsonify, url_for, get_flashed_messages, flash
+from flask import Flask, render_template, request, flash, redirect, jsonify, url_for, get_flashed_messages, flash, session
 from banco import configbanco
 import jwt
 import base64
@@ -52,7 +52,7 @@ def cancelarPresenca():
     global idlogado
     x=0
 
-    flash.clear()
+    session.pop('_flashes', None)
 
     eventoPresenca = request.form.get('eventoPresenca')
     tipo_ingresso = request.form.get("tipoIngresso")
