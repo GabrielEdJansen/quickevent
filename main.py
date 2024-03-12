@@ -286,18 +286,17 @@ def InformacoesEventos():
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
-    f"SELECT i.titulo_ingresso, "
-    f"p.quantidade_convites, "
-    f"i.id_ingresso, "
-    f"p.id_usuario_presente, "
-    f"p.id_evento_presente "
-    f"FROM "
-    f"presencas p, ingressos i "
-    f"WHERE "
-    f"p.id_evento_presente = i.id_eventos and "
-    f"p.id_ingresso = i.id_ingresso and "
-    f"p.id_evento_presente = '{eventoPresenca}' and "
-    f"p.id_usuario_presente = '{idlogado}';"
+        f"SELECT i.titulo_ingresso, "
+        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+        f"i.id_ingresso, "
+        f"p.id_usuario_presente, "
+        f"p.id_evento_presente "
+        f"FROM "
+        f"ingressos i "
+        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos and p.id_ingresso = i.id_ingresso "
+        f"WHERE "
+        f"p.id_evento_presente = '{eventoPresenca}' and "
+        f"p.id_usuario_presente = '{idlogado}';"
     )
     cursur.execute(query)
     ingresso = cursur.fetchall()
