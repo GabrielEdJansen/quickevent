@@ -293,10 +293,9 @@ def InformacoesEventos():
         f"p.id_evento_presente "
         f"FROM "
         f"ingressos i "
-        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos and p.id_ingresso = i.id_ingresso "
+        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{idlogado}' "
         f"WHERE "
-        f"p.id_evento_presente = '{eventoPresenca}' and "
-        f"p.id_usuario_presente = '{idlogado}';"
+        f"i.id_eventos = '{eventoPresenca}';"
     )
     cursur.execute(query)
     ingresso = cursur.fetchall()
