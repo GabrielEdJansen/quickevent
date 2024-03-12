@@ -138,14 +138,14 @@ function cancelarPresenca() {
     });
 }
 
-        document.getElementById('tipoIngresso').addEventListener('change', function() {
-            var selectedOption = this.options[this.selectedIndex];
-            var quantidadeConvitesInput = document.getElementById('quantidadeConvites');
-            var quantidadeDisponivel = selectedOption.getAttribute('data-quantidade');
+    document.getElementById('tipoIngresso').addEventListener('change', function() {
+        var selectedOption = this.options[this.selectedIndex];
+        var quantidadeConvitesInput = document.getElementById('quantidadeConvites');
+        var quantidadeDisponivel = selectedOption.getAttribute('data-quantidade');
 
-            // Atualiza o valor do campo de quantidade com a quantidade disponível do ingresso selecionado
-            quantidadeConvitesInput.value = quantidadeDisponivel;
-        });
+        // Atualiza o valor do campo de quantidade com a quantidade disponível do ingresso selecionado
+        quantidadeConvitesInput.value = quantidadeDisponivel;
+    });
 
     document.getElementById('quantidadeConvites').addEventListener('input', function(event) {
         var input = event.target;

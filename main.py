@@ -170,6 +170,8 @@ def confirmaPresenca():
     tipo_ingresso = request.form.get("tipoIngresso")
     quantidadeConvites = request.form.get("quantidadeConvites")
 
+    session.pop('_flashes', None)
+
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
