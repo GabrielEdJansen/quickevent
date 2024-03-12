@@ -134,11 +134,13 @@ function cancelarPresenca() {
     });
 }
 
-    // Adiciona um ouvinte de evento para validar o campo de quantidade de convites
     document.getElementById('quantidadeConvites').addEventListener('input', function(event) {
         var input = event.target;
         var value = input.value.trim();
         var errorMessage = '';
+
+        // Remove caracteres não numéricos
+        input.value = value.replace(/\D/g, '');
 
         // Verifica se o valor é um número inteiro
         if (!/^\d+$/.test(value)) {
