@@ -98,12 +98,16 @@ def cancelarPresenca():
     cursur = connect_BD.cursor(dictionary=True)
     query = (
         f"SELECT i.titulo_ingresso, "
-        f"i.id_ingresso "
-        f"FROM eventos e, ingressos i "
-        f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+        f"i.id_ingresso, "
+        f"p.id_usuario_presente, "
+        f"p.id_evento_presente "
+        f"FROM "
+        f"ingressos i "
+        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{idlogado}' "
+        f"WHERE "
+        f"i.id_eventos = '{eventoPresenca}';"
     )
-
-
     cursur.execute(query)
     ingresso = cursur.fetchall()
 
@@ -199,12 +203,16 @@ def confirmaPresenca():
     cursur = connect_BD.cursor(dictionary=True)
     query = (
         f"SELECT i.titulo_ingresso, "
-        f"i.id_ingresso "
-        f"FROM eventos e, ingressos i "
-        f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+        f"i.id_ingresso, "
+        f"p.id_usuario_presente, "
+        f"p.id_evento_presente "
+        f"FROM "
+        f"ingressos i "
+        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{idlogado}' "
+        f"WHERE "
+        f"i.id_eventos = '{eventoPresenca}';"
     )
-
-
     cursur.execute(query)
     ingresso = cursur.fetchall()
 
