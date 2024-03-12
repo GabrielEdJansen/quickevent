@@ -140,7 +140,7 @@ def cancelarPresenca():
     presenca = cursur.fetchall()
 
     if not presenca:
-        #flash("Presença já cancelada!")
+        flash("Presença já cancelada!")
         return jsonify({"message": "Presença já cancelada!"})
     else:
         # Execute a instrução SQL de inserção
@@ -152,7 +152,7 @@ def cancelarPresenca():
         cursur = connect_BD.cursor(dictionary=True)
         cursur.execute(query, values)
         connect_BD.commit()
-        #flash("Presença cancelada!")
+        flash("Presença cancelada!")
 
         return jsonify({"message": "Presença cancelada!"})
         #if x == 1:
