@@ -96,6 +96,11 @@
             {% endfor %}
           </select>
         </div>
+        <div class="mb-4">
+            <label for="quantidadeConvites">Quantidade de Convites:</label>
+            <input type="text" class="form-control" id="quantidadeConvites" name="quantidadeConvites">
+            <small id="convitesHelpBlock" class="form-text text-danger"></small>
+        </div>
         <button type="submit" class="btn btn-primary">Confirmar presença</button>
         <button type="button" class="btn btn-danger" onclick="cancelarPresenca()">Cancelar presença</button>
       </div>
@@ -128,6 +133,23 @@ function cancelarPresenca() {
         console.error('Erro ao processar a requisição:', error);
     });
 }
+
+    // Adiciona um ouvinte de evento para validar o campo de quantidade de convites
+    document.getElementById('quantidadeConvites').addEventListener('input', function(event) {
+        var input = event.target;
+        var value = input.value.trim();
+        var errorMessage = '';
+
+        // Verifica se o valor é um número inteiro
+        if (!/^\d+$/.test(value)) {
+            errorMessage = 'Por favor, insira apenas números inteiros.';
+        }
+
+        // Atualiza a mensagem de erro
+        var errorElement = document.getElementById('convitesHelpBlock');
+        errorElement.textContent = errorMessage;
+    });
+</script>
 
 </script>
 
