@@ -92,7 +92,7 @@
           <label for="tipoIngresso">Selecione o Tipo de Ingresso:</label>
           <select class="form-control" id="tipoIngresso" name="tipoIngresso">
             {% for ingresso in ingresso %}
-                <option value="{{ ingresso.id_ingresso }}" data-quantidade="{{ ingresso.quantidade_ingresso }}">{{ ingresso.titulo_ingresso }}</option>
+                <option value="{{ ingresso.id_ingresso }}" data-quantidade="{{ ingresso.quantidade_convites }}">{{ ingresso.titulo_ingresso }}</option>
             {% endfor %}
           </select>
         </div>
