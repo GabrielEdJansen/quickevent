@@ -42,11 +42,17 @@ from datetime import datetime
 from flask import request
 
 
+def clear_flash_messages():
+    with app.test_request_context():
+        get_flashed_messages()
+
 
 @app.route("/cancelarPresenca", methods=['POST'])
 def cancelarPresenca():
     global idlogado
     x=0
+
+    clear_flash_messages()
 
     eventoPresenca = request.form.get('eventoPresenca')
     tipo_ingresso = request.form.get("tipoIngresso")
