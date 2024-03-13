@@ -31,7 +31,7 @@ mail = Mail(app)
 
 @app.route("/")
 def home():
-    return render_template("html/paginainicial.html")
+    return render_template("html/Antigos/paginainicial.html")
 
 @app.route("/logininicio")
 def logininicio():
