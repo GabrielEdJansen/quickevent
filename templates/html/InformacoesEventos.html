@@ -131,7 +131,8 @@ function cancelarPresenca() {
 
                 // Dados a serem enviados no corpo da solicitação
                 var dados = {
-                    eventoPresenca: eventoPresenca
+                    eventoPresenca: eventoPresenca,
+                    botaoDetalhes: eventoPresenca // Se 'botaoDetalhes' tiver o mesmo valor que 'eventoPresenca'
                 };
 
                 fetch('/InformacoesEventos', {
