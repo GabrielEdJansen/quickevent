@@ -50,7 +50,7 @@ def clear_flash_messages():
 def processarPresenca():
     global idlogado
 
-    if request.form.get('acao') == 'confirmar_presenca':
+    if request.form.get('acao') == 'cancelar_presenca':
         session.pop('_flashes', None)
 
         eventoPresenca = request.form.get('eventoPresenca')
