@@ -261,6 +261,11 @@ def processarPresenca():
 
 
             if not presenca:
+
+                if quantidadeConvites <= 0:
+                    flash("Quantidade de ingressos deve ser maior que 0!")
+                    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
                 # Execute a instrução SQL de inserção
                 query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
                 values = (eventoPresenca, idlogado, tipo_ingresso, quantidadeConvites)
