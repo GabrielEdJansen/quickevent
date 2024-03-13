@@ -161,7 +161,7 @@ def processarPresenca():
             # flash("Presença cancelada!")
             # return jsonify({"message": "Presença cancelada!"})
 
-    elif request.form.get('acao') == 'cancelar_presenca':
+    elif request.form.get('acao') == 'confirmar_presenca':
             eventoPresenca = request.form.get('eventoPresenca')
             tipo_ingresso = request.form.get("tipoIngresso")
             quantidadeConvites = request.form.get("quantidadeConvites")
