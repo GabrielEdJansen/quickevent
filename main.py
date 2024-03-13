@@ -270,24 +270,26 @@ def processarPresenca():
                     flash("Quantidade de ingressos deve ser maior que 0!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
-                cursor = connection.cursor(dictionary=True)
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursor = connect_BD.cursor(dictionary=True)
                 cursor.execute(
                     "SELECT quantidade, quantidade_maxima FROM ingressos WHERE id_evento = %s AND id_ingresso = %s",
                     (eventoPresenca, tipo_ingresso))
                 qtding = cursor.fetchone()
                 cursor.close()
-                connection.close()
+                connect_BD.close()
 
                 quantidade_atual = qtding['quantidade']
                 quantidade_maxima = qtding['quantidade_maxima']
 
-                cursor = connection.cursor(dictionary=True)
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursor = connect_BD.cursor(dictionary=True)
                 cursor.execute(
                     "select sum(quantidade_convites) as qtdpre from presencas where id_evento_presente = %s and id_usuario_presente = %s and id_ingresso = %s",
                     (eventoPresenca, idlogado, tipo_ingresso))
                 qtding = cursor.fetchone()
                 cursor.close()
-                connection.close()
+                connect_BD.close()
 
                 quantidade_presentes = qtding['qtdpre']
 
