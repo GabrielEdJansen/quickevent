@@ -31,7 +31,7 @@ mail = Mail(app)
 
 @app.route("/")
 def home():
-    return render_template("html/Antigos/paginainicial.html")
+    return render_template("html/paginainicial.html")
 
 @app.route("/logininicio")
 def logininicio():
@@ -39,7 +39,7 @@ def logininicio():
 
 @app.route("/teste")
 def teste():
-    return render_template("html/teste.html")
+    return render_template("html/Antigos/teste.html")
 
 from datetime import datetime
 
