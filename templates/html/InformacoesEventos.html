@@ -126,8 +126,7 @@ function cancelarPresenca() {
     })
     .then(response => {
         if (response.ok) {
-            // A requisição foi bem sucedida
-            window.location.href = '/InformacoesEventos';
+            X=0;
         } else {
             // A requisição falhou
             console.error('Falha ao cancelar presença.');
