@@ -37,6 +37,10 @@ def home():
 def logininicio():
     return render_template("html/login.html")
 
+@app.route("/teste")
+def teste():
+    return render_template("html/teste.html")
+
 from datetime import datetime
 
 from flask import request
