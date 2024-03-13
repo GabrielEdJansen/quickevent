@@ -69,7 +69,7 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-    <form action="/confirmaPresenca" method="post">
+    <form action="/processarPresenca" method="post">
     {% for eventos in eventos %}
     <!-- Imagem do evento grande no topo da página -->
     <img src="data:image/jpeg;base64,{{ eventos.foto_evento }}" alt="Imagem de divulgação" class="event-image mb-4">
@@ -105,8 +105,8 @@
                 <small id="convitesHelpBlock" class="form-text text-danger"></small>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Confirmar presença</button>
-        <button type="button" class="btn btn-danger" onclick="cancelarPresenca()">Cancelar presença</button>
+          <button type="submit" class="btn btn-primary" name="acao" value="confirmar_presenca">Confirmar presença</button>
+          <button type="submit" class="btn btn-danger" name="acao" value="cancelar_presenca">Cancelar presença</button>
       </div>
     </div>
     </form>
