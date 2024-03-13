@@ -126,7 +126,31 @@ function cancelarPresenca() {
     })
     .then(response => {
         if (response.ok) {
-            X=0;
+            // Obtenha o valor do campo de entrada oculto 'eventoPresenca'
+                var eventoPresenca = document.getElementById('eventoPresenca').value;
+
+                // Dados a serem enviados no corpo da solicitação
+                var dados = {
+                    eventoPresenca: eventoPresenca
+                };
+
+                fetch('/InformacoesEventos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dados) // Inclui os dados no corpo da solicitação
+                }).then(response => {
+                    // Trate a resposta, se necessário
+                    if (response.ok) {
+                        // Redirecione após a conclusão da solicitação POST
+                        window.location.href = '/InformacoesEventos';
+                    } else {
+                        console.error('Erro ao enviar a requisição POST.');
+                    }
+                }).catch(error => {
+                    console.error('Erro ao enviar a requisição POST:', error);
+                });
         } else {
             // A requisição falhou
             console.error('Falha ao cancelar presença.');
