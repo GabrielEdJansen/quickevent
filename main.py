@@ -261,8 +261,8 @@ def processarPresenca():
 
 
             if not presenca:
-
-                if quantidadeConvites <= 0:
+                intquantidadeConvites = int(request.form.get("quantidadeConvites"))  # Converta para inteiro
+                if intquantidadeConvites <= 0:
                     flash("Quantidade de ingressos deve ser maior que 0!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
