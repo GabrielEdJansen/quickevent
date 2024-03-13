@@ -227,6 +227,25 @@ def processarPresenca():
             cursur.execute(query)
             ingresso = cursur.fetchall()
 
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursur = connect_BD.cursor(dictionary=True)
+            query = (
+                f"SELECT "
+                f"i.id_ingresso, "
+                f"p.id_usuario_presente, "
+                f"p.id_evento_presente "
+                f"FROM "
+                f"presencas p, ingressos i "
+                f"WHERE "
+                f"p.id_evento_presente = i.id_eventos and "
+                f"p.id_ingresso = i.id_ingresso and "
+                f"p.id_evento_presente = '{eventoPresenca}' and "
+                f"p.id_usuario_presente = '{idlogado}' and "
+                f"p.id_ingresso = '{tipo_ingresso}';"
+            )
+            cursur.execute(query)
+            presenca = cursur.fetchall()
+
             if connect_BD.is_connected():
                 cursor = connect_BD.cursor()
 
@@ -239,6 +258,7 @@ def processarPresenca():
                 # Verifica se o usuário tem uma foto
                 if usuario:
                     foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
 
             if not presenca:
                 # Execute a instrução SQL de inserção
@@ -273,6 +293,22 @@ def processarPresenca():
             else:
                 flash("Presença já confirmada!")
 
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT i.titulo_ingresso, "
+        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+        f"i.id_ingresso, "
+        f"p.id_usuario_presente, "
+        f"p.id_evento_presente "
+        f"FROM "
+        f"ingressos i "
+        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{idlogado}' "
+        f"WHERE "
+        f"i.id_eventos = '{eventoPresenca}';"
+    )
+    cursur.execute(query)
+    ingresso = cursur.fetchall()
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
