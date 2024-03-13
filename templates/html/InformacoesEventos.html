@@ -130,14 +130,18 @@ function cancelarPresenca() {
                 var eventoPresenca = document.getElementById('eventoPresenca').value;
 
                 // Dados a serem enviados no corpo da solicitação
-                var dados = 'eventoPresenca=' + eventoPresenca + '&botaoDetalhes=' + eventoPresenca;
+                var formData = new FormData();
+
+                // Adicione os campos e valores ao objeto FormData
+                formData.append('eventoPresenca', '25');
+                formData.append('botaoDetalhes', '25');
 
                 fetch('/InformacoesEventos', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(dados) // Inclui os dados no corpo da solicitação
+                    body: formData
                 }).then(response => {
                     // Trate a resposta, se necessário
                     if (response.ok) {
