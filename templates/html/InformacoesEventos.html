@@ -127,10 +127,7 @@ function cancelarPresenca() {
     .then(response => {
         if (response.ok) {
             // A requisição foi bem sucedida
-            window.onload = function() {
-                // Coloque o código que você deseja executar aqui
-                window.location.href = '/InformacoesEventos';
-            };
+            window.location.href = '/InformacoesEventos';
         } else {
             // A requisição falhou
             console.error('Falha ao cancelar presença.');
