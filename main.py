@@ -154,6 +154,26 @@ def processarPresenca():
             cursur = connect_BD.cursor(dictionary=True)
             cursur.execute(query, values)
             connect_BD.commit()
+
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursur = connect_BD.cursor(dictionary=True)
+            query = (
+                f"SELECT "
+                f"i.id_ingresso, "
+                f"p.id_usuario_presente, "
+                f"p.id_evento_presente "
+                f"FROM "
+                f"presencas p, ingressos i "
+                f"WHERE "
+                f"p.id_evento_presente = i.id_eventos and "
+                f"p.id_ingresso = i.id_ingresso and "
+                f"p.id_evento_presente = '{eventoPresenca}' and "
+                f"p.id_usuario_presente = '{idlogado}' and "
+                f"p.id_ingresso = '{tipo_ingresso}';"
+            )
+            cursur.execute(query)
+            presenca = cursur.fetchall()
+
             flash("Presença cancelada!")
 
             jsonify({"message": "Presença cancelada!"})
@@ -220,25 +240,6 @@ def processarPresenca():
                 if usuario:
                     foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-            connect_BD = configbanco(db_type='mysql-connector')
-            cursur = connect_BD.cursor(dictionary=True)
-            query = (
-                f"SELECT "
-                f"i.id_ingresso, "
-                f"p.id_usuario_presente, "
-                f"p.id_evento_presente "
-                f"FROM "
-                f"presencas p, ingressos i "
-                f"WHERE "
-                f"p.id_evento_presente = i.id_eventos and "
-                f"p.id_ingresso = i.id_ingresso and "
-                f"p.id_evento_presente = '{eventoPresenca}' and "
-                f"p.id_usuario_presente = '{idlogado}' and "
-                f"p.id_ingresso = '{tipo_ingresso}';"
-            )
-            cursur.execute(query)
-            presenca = cursur.fetchall()
-
             if not presenca:
                 # Execute a instrução SQL de inserção
                 query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
@@ -248,6 +249,26 @@ def processarPresenca():
                 cursur = connect_BD.cursor(dictionary=True)
                 cursur.execute(query, values)
                 connect_BD.commit()
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursur = connect_BD.cursor(dictionary=True)
+                query = (
+                    f"SELECT "
+                    f"i.id_ingresso, "
+                    f"p.id_usuario_presente, "
+                    f"p.id_evento_presente "
+                    f"FROM "
+                    f"presencas p, ingressos i "
+                    f"WHERE "
+                    f"p.id_evento_presente = i.id_eventos and "
+                    f"p.id_ingresso = i.id_ingresso and "
+                    f"p.id_evento_presente = '{eventoPresenca}' and "
+                    f"p.id_usuario_presente = '{idlogado}' and "
+                    f"p.id_ingresso = '{tipo_ingresso}';"
+                )
+                cursur.execute(query)
+                presenca = cursur.fetchall()
+
                 flash("Presença confirmada!")
             else:
                 flash("Presença já confirmada!")
