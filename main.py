@@ -270,6 +270,40 @@ def processarPresenca():
                     flash("Quantidade de ingressos deve ser maior que 0!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
+                cursor = connection.cursor(dictionary=True)
+                cursor.execute(
+                    "SELECT quantidade, quantidade_maxima FROM ingressos WHERE id_evento = %s AND id_ingresso = %s",
+                    (eventoPresenca, tipo_ingresso))
+                qtding = cursor.fetchone()
+                cursor.close()
+                connection.close()
+
+                quantidade_atual = qtding['quantidade']
+                quantidade_maxima = qtding['quantidade_maxima']
+
+                cursor = connection.cursor(dictionary=True)
+                cursor.execute(
+                    "select sum(quantidade_convites) as qtdpre from presencas where id_evento_presente = %s and id_usuario_presente = %s and id_ingresso = %s",
+                    (eventoPresenca, idlogado, tipo_ingresso))
+                qtding = cursor.fetchone()
+                cursor.close()
+                connection.close()
+
+                quantidade_presentes = qtding['qtdpre']
+
+                if quantidade_presentes is None:
+                    quantidade_presentes = 0
+
+                quantidade_atual_sum = quantidade_presentes + quantidadeConvites
+                quantidade_restante = quantidade_atual - quantidade_presentes
+                if quantidade_presentes > quantidade_atual_sum:
+                    flash("A Quantidade de ingressos restantes é "+quantidade_restante+"!")
+                    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
+                if quantidade_maxima > quantidadeConvites:
+                    flash("A Quantidade de ingressos por usuário é "+quantidadeConvites+"!")
+                    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
                 # Execute a instrução SQL de inserção
                 query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
                 values = (eventoPresenca, idlogado, tipo_ingresso, quantidadeConvites)
