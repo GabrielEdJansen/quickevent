@@ -138,6 +138,17 @@ function cancelarPresenca() {
     });
 }
 
+    window.onload = function() {
+        // Coloque o código que você deseja executar aqui
+        var tipoIngresso = document.getElementById('tipoIngresso');
+        var quantidadeConvitesInput = document.getElementById('quantidadeConvites');
+        var selectedOption = tipoIngresso.options[tipoIngresso.selectedIndex];
+        var quantidadeDisponivel = selectedOption.getAttribute('data-quantidade');
+
+        // Atualiza o valor do campo de quantidade com a quantidade disponível do ingresso selecionado
+        quantidadeConvitesInput.value = quantidadeDisponivel;
+    };
+
     document.getElementById('tipoIngresso').addEventListener('change', function() {
         var selectedOption = this.options[this.selectedIndex];
         var quantidadeConvitesInput = document.getElementById('quantidadeConvites');
