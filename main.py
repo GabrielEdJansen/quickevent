@@ -293,20 +293,17 @@ def processarPresenca():
                 if quantidade_presentes is None:
                     quantidade_presentes = 0
 
-                print("Quantidade Presentes:", quantidade_presentes)
-                print("Quantidade Convites:", quantidadeConvites)
-                print("Quantidade Atual:", quantidade_atual)
-                print("Quantidade Máxima:", quantidade_maxima)
-
                 quantidadeConvitesInt = int(quantidadeConvites)
                 quantidade_atual_sum = int(quantidade_presentes) + quantidadeConvitesInt
                 quantidade_restante = int(quantidade_atual) - int(quantidade_presentes)
 
-                print("Quantidade Atual Soma:", quantidade_atual_sum)
-
                 if quantidade_presentes > quantidade_atual_sum:
                     flash("A quantidade de ingressos restantes é "+str(quantidade_restante)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
+
+                print(quantidade_maxima)
+                print(quantidadeConvitesInt)
 
                 if quantidade_maxima > quantidadeConvitesInt:
                     flash("A quantidade máxima de ingressos por usuário é "+str(quantidadeConvites)+"!")
