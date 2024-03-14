@@ -312,7 +312,7 @@ def processarPresenca():
 
                 quantidadeConvitesInt = int(quantidadeConvites)
                 print("Quantidade Convites Int:", quantidadeConvitesInt)
-                if quantidade_maxima > quantidadeConvitesInt:
+                if int(quantidade_maxima) > quantidadeConvitesInt:
                     flash("A Quantidade máxima de ingressos por usuário é "+str(quantidadeConvites)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
