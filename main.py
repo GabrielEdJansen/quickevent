@@ -282,8 +282,8 @@ def processarPresenca():
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursor = connect_BD.cursor(dictionary=True)
                 cursor.execute(
-                    "select sum(quantidade_convites) as qtdpre from presencas where id_evento_presente = %s and id_usuario_presente = %s and id_ingresso = %s",
-                    (eventoPresenca, idlogado, tipo_ingresso))
+                    "select sum(quantidade_convites) as qtdpre from presencas where id_evento_presente = %s and id_ingresso = %s",
+                    (eventoPresenca, tipo_ingresso))
                 qtding = cursor.fetchone()
                 cursor.close()
                 connect_BD.close()
