@@ -273,7 +273,7 @@ def processarPresenca():
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursor = connect_BD.cursor(dictionary=True)
                 cursor.execute(
-                    "SELECT quantidade, quantidade_maxima FROM ingressos WHERE id_evento = %s AND id_ingresso = %s",
+                    "SELECT quantidade, quantidade_maxima FROM ingressos WHERE id_eventos = %s AND id_ingresso = %s",
                     (eventoPresenca, tipo_ingresso))
                 qtding = cursor.fetchone()
                 cursor.close()
