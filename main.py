@@ -296,14 +296,14 @@ def processarPresenca():
                 if quantidade_presentes is None:
                     quantidade_presentes = 0
 
-                quantidade_atual_sum = quantidade_presentes + quantidadeConvites
-                quantidade_restante = quantidade_atual - quantidade_presentes
-                if quantidade_presentes > quantidade_atual_sum:
-                    flash("A Quantidade de ingressos restantes é "+quantidade_restante+"!")
+                quantidade_atual_sum = int(quantidade_presentes) + int(quantidadeConvites)
+                quantidade_restante = int(quantidade_atual) - int(quantidade_presentes)
+                if int(quantidade_presentes) > int(quantidade_atual_sum):
+                    flash("A Quantidade de ingressos restantes é "+str(quantidade_restante)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
-                if quantidade_maxima > quantidadeConvites:
-                    flash("A Quantidade de ingressos por usuário é "+quantidadeConvites+"!")
+                if int(quantidade_maxima) > int(quantidadeConvites):
+                    flash("A Quantidade de ingressos por usuário é "+str(quantidadeConvites)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
                 # Execute a instrução SQL de inserção
