@@ -301,13 +301,18 @@ def processarPresenca():
                     flash("A quantidade de ingressos restantes é "+str(quantidade_restante)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
+                print("Quantidade Máxima:", quantidade_maxima)
+                print("Quantidade Convites Int:", quantidadeConvitesInt)
 
-                print(quantidade_maxima)
-                print(quantidadeConvitesInt)
-
-                if quantidade_maxima > quantidadeConvitesInt:
-                    flash("A quantidade máxima de ingressos por usuário é "+str(quantidadeConvites)+"!")
-                    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+                # Verificar se quantidade_maxima e quantidadeConvitesInt são do tipo int
+                if isinstance(quantidade_maxima, int) and isinstance(quantidadeConvitesInt, int):
+                    # Se forem inteiros, comparar os valores
+                    if quantidade_maxima > quantidadeConvitesInt:
+                        flash("A quantidade máxima de ingressos por usuário é " + str(quantidadeConvites) + "!")
+                        return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto,
+                                               ingresso=ingresso)
+                else:
+                    flash("Erro ao comparar as quantidades. Verifique os valores.")
 
                 # Execute a instrução SQL de inserção
                 query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
