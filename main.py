@@ -310,7 +310,7 @@ def processarPresenca():
                     flash("A Quantidade de ingressos restantes é "+str(quantidade_restante)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
-                if quantidade_maxima > int(quantidadeConvites):
+                if quantidade_maxima > quantidadeConvites:
                     flash("A Quantidade máxima de ingressos por usuário é "+str(quantidadeConvites)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
