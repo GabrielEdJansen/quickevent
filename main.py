@@ -306,12 +306,12 @@ def processarPresenca():
 
                 print("Quantidade Atual Soma:", quantidade_atual_sum)
 
-                if int(quantidade_presentes) > int(quantidade_atual_sum):
+                if quantidade_presentes > quantidade_atual_sum:
                     flash("A Quantidade de ingressos restantes é "+str(quantidade_restante)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
-                if int(quantidade_maxima) > int(quantidadeConvites):
-                    flash("A Quantidade de ingressos por usuário é "+str(quantidadeConvites)+"!")
+                if quantidade_maxima > int(quantidadeConvites):
+                    flash("A Quantidade máxima de ingressos por usuário é "+str(quantidadeConvites)+"!")
                     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
                 # Execute a instrução SQL de inserção
