@@ -37,9 +37,6 @@ def home():
 def logininicio():
     return render_template("html/login.html")
 
-@app.route("/teste")
-def teste():
-    return render_template("html/Antigos/teste.html")
 
 from datetime import datetime
 
