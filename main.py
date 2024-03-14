@@ -307,10 +307,9 @@ def processarPresenca():
                 # Verificar se quantidade_maxima e quantidadeConvitesInt são do tipo int
                 if isinstance(quantidade_maxima, int) and isinstance(quantidadeConvitesInt, int):
                     # Se forem inteiros, comparar os valores
-                    if quantidade_maxima > quantidadeConvitesInt:
+                    if quantidadeConvitesInt> quantidade_maxima:
                         flash("A quantidade máxima de ingressos por usuário é " + str(quantidadeConvites) + "!")
-                        return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto,
-                                               ingresso=ingresso)
+                        return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
                 else:
                     flash("Erro ao comparar as quantidades. Verifique os valores.")
 
