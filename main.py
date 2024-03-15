@@ -87,8 +87,8 @@ def InicioEventosParticipados():
         e.latitude,
         e.longitude,
         e.foto_evento,
-        c.descricao_categoria,
-        p.id_evento_presente, p.id_usuario_presente 
+        p.id_evento_presente, 
+        p.id_usuario_presente 
         from eventos e, presencas p 
         where e.id_eventos = p.id_evento_presente and p.id_usuario_presente = "{idlogado}"
         '''
