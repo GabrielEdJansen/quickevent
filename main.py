@@ -48,6 +48,71 @@ def clear_flash_messages():
         get_flashed_messages()
 
 
+
+app.route("/InformacoesEventosLink")
+def InformacoesEventosLink():
+        # eventoPresenca = request.form.get('eventoPresenca')
+
+        eventoPresenca = request.form.get('eventoLink')
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor(dictionary=True)
+        query = (
+            f"SELECT e.id_eventos, "
+            f"e.hora_fim_evento, "
+            f"e.hora_evento, "
+            f"e.data_fim_evento, "
+            f"e.data_evento, "
+            f"c.id_categoria, "
+            f"e.categoria, "
+            f"e.descricao_evento, "
+            f"e.local_evento, "
+            f"c.descricao_categoria, "
+            f"e.nome_evento, "
+            f"e.foto_evento "
+            f"FROM eventos e, categoria c "
+            f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
+        )
+
+        cursur.execute(query)
+        eventos = cursur.fetchall()
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor(dictionary=True)
+        query = (
+            f"SELECT i.titulo_ingresso, "
+            f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+            f"i.id_ingresso, "
+            f"p.id_usuario_presente, "
+            f"p.id_evento_presente "
+            f"FROM "
+            f"ingressos i "
+            f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{idlogado}' "
+            f"WHERE "
+            f"i.id_eventos = '{eventoPresenca}';"
+        )
+        cursur.execute(query)
+        ingresso = cursur.fetchall()
+
+        # Conexão com o banco de dados
+        connect_BD = configbanco(db_type='mysql-connector')
+
+        if connect_BD.is_connected():
+            cursor = connect_BD.cursor()
+
+            # Consulta para obter a foto do usuário logado
+            cursor.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            )
+            usuario = cursor.fetchone()
+
+            # Verifica se o usuário tem uma foto
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+        return render_template("html/InformacoesEventosLink.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
+
 @app.route("/InicioEventosParticipados")
 def InicioEventosParticipados():
     global idlogado
