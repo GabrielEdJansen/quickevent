@@ -53,7 +53,7 @@ app.route("/InformacoesEventosLink")
 def InformacoesEventosLink():
         # eventoPresenca = request.form.get('eventoPresenca')
 
-        eventoPresenca = request.form.get('eventoLink')
+        eventoPresenca = request.args.get('eventoLink')
 
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
