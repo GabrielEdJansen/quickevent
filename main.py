@@ -47,6 +47,82 @@ def clear_flash_messages():
     with app.test_request_context():
         get_flashed_messages()
 
+
+@app.route("/InicioEventosParticipados")
+def InicioEventosParticipados():
+    global idlogado
+    filtro = request.args.get("filtro")
+    data_inicial = request.args.get("dataInicial")
+    data_final = request.args.get("dataFinal")
+    categoria = request.args.get("categoria")
+
+
+    # Suponho que idlogado já esteja definido em algum lugar do seu código
+
+    # Conexão com o banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
+
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
+
+        # Verifica se o usuário tem uma foto
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+        # Consulta SQL para buscar os eventos
+        query = f'''
+        select 
+        e.id_eventos,
+        e.descricao_evento,
+        e.nome_evento,
+        e.data_evento,
+        e.hora_evento,
+        e.local_evento,
+        e.latitude,
+        e.longitude,
+        e.foto_evento,
+        c.descricao_categoria,
+        p.id_evento_presente, p.id_usuario_presente 
+        from eventos e, presencas p 
+        where e.id_eventos = p.id_evento_presente and p.id_usuario_presente = "{idlogado}"
+        '''
+
+        if filtro:
+            query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
+
+        if data_inicial:
+            query += f' AND e.data_evento >= "{data_inicial}"'
+
+        if data_final:
+            query += f' AND e.data_evento <= "{data_final}"'
+
+        if categoria:
+            query += f' AND e.categoria = "{categoria}"'
+
+        filtro_aplicado = {
+            "dataInicial": data_inicial,
+            "dataFinal": data_final,
+            "categoria": categoria
+        }
+
+        # Executa a consulta
+        cursor.execute(query)
+        eventos = cursor.fetchall()
+        print(eventos)
+
+        # Se não houver eventos encontrados, renderizar a página buscarnd.html
+        if not eventos:
+            return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
+
+        return render_template("html/EventosParticipados.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
+
+
 @app.route("/processarPresenca", methods=['POST'])
 def processarPresenca():
     global idlogado
