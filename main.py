@@ -49,7 +49,7 @@ def clear_flash_messages():
 
 
 
-app.route("/InformacoesEventosLink")
+@app.route("/InformacoesEventosLink")
 def InformacoesEventosLink():
         # eventoPresenca = request.form.get('eventoPresenca')
 
