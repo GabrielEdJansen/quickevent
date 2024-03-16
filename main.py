@@ -52,7 +52,7 @@ def clear_flash_messages():
 @app.route("/InformacoesEventosLink")
 def InformacoesEventosLink():
         # eventoPresenca = request.form.get('eventoPresenca')
-
+        idlogado = 0
         eventoPresenca = request.args.get('eventoLink')
 
         connect_BD = configbanco(db_type='mysql-connector')
