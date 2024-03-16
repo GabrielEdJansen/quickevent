@@ -1388,6 +1388,7 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == senha:
                     print(idlogado)
+                    eventoPresenca = request.form.get('eventoPresenca')
                     if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
@@ -1454,6 +1455,7 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == senha:
                     print(idlogado)
+                    eventoPresenca = request.form.get('eventoPresenca')
                     if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
