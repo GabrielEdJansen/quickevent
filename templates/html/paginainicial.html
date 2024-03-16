@@ -52,6 +52,16 @@
     </style>
 </head>
 <body>
+  <div class="container mt-4">
+              {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div id="flashMessages" class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 <form id="meuFormulario" action="cadastro" method="post">
     <div class="container">
         <div class="row align-items-center">
