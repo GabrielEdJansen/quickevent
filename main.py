@@ -110,7 +110,7 @@ def InformacoesEventosLink():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-        return render_template("html/InformacoesEventosLink.html", eventos=eventos, foto=foto, ingresso=ingresso)
+        return render_template("html/InformacoesEventosLink.html", eventos=eventos, ingresso=ingresso)
 
 
 @app.route("/InicioEventosParticipados")
