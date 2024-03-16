@@ -728,17 +728,16 @@ def confirmaPresenca():
 @app.route("/InformacoesEventos", methods=['POST', 'GET'])
 def InformacoesEventos():
     global idlogado
-    #eventoPresenca = request.form.get('eventoPresenca')
 
     eventoPresenca = request.form.get('botaoDetalhes')
 
-    if eventoPresenca == 0:
+    if eventoPresenca is None or eventoPresenca == "":
         eventoPresenca = request.form.get('eventoPresenca')
 
-    if eventoPresenca == 0:
+    if eventoPresenca is None or eventoPresenca == "":
         eventoPresenca = request.args.get('eventoPresenca')
 
-    print("evt2:",eventoPresenca)
+    print("evt2:", eventoPresenca)
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
