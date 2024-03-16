@@ -15,6 +15,7 @@
                 var family_name = document.getElementById('sobrenomecad');
                 var email = document.getElementById('emailcad');
                 var subId = document.getElementById('subId');
+                var eventoPresenca = document.getElementById('eventoPresenca');
 
                 given_name.textContent = decodedData.given_name
                 family_name.textContent = decodedData.family_name
@@ -57,7 +58,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: 'email=' + encodeURIComponent(emailValue) + '&senha=' + encodeURIComponent(subIdValue)
+                    body: 'email=' + encodeURIComponent(emailValue) + '&senha=' + encodeURIComponent(subIdValue) + '&eventoPresenca=' + eventoPresenca
                 })
                 .then(response => {
                     if (response.ok) {
