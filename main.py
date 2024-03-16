@@ -1361,7 +1361,7 @@ def login():
                     if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
-                        return redirect("/InformacoesEventos", eventoPresenca=eventoPresenca)
+                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
                 if cont >= len(usuariosBD):
                     #flash('Usuário inválido!')
@@ -1391,7 +1391,7 @@ def login():
                     if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
-                        return redirect("/InformacoesEventos", eventoPresenca=eventoPresenca)
+                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
@@ -1427,7 +1427,7 @@ def login():
                     if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
-                        return redirect("/InformacoesEventos",eventoPresenca=eventoPresenca)
+                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
@@ -1457,7 +1457,7 @@ def login():
                     if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
-                        return redirect("/InformacoesEventos", eventoPresenca=eventoPresenca)
+                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
