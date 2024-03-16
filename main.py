@@ -40,7 +40,8 @@ def logininicio():
 @app.route("/obrigacriarconta", methods=['POST'])
 def obrigacriarconta():
     flash("Para confirmar presença no evento você deve realizar o login!")
-    return render_template("html/paginainicial.html")
+    eventoPresenca = request.form.get('eventoPresenca')
+    return render_template("html/paginainicial.html", eventoPresenca=eventoPresenca)
 
 
 from datetime import datetime
@@ -731,6 +732,9 @@ def InformacoesEventos():
 
     eventoPresenca = request.form.get('botaoDetalhes')
 
+    if eventoPresenca == 0:
+        eventoPresenca = request.form.get('eventoPresenca')
+
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
@@ -1332,6 +1336,7 @@ def login():
         email = request.form.get('email')
         senha = request.form.get('senha')
         subId = request.form.get('subId')
+        eventoPresenca = request.form.get('eventoPresenca')
 
         if subId is not None:
             # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
@@ -1353,7 +1358,10 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == subId:
                     print(idlogado)
-                    return redirect("/destaques")
+                    if eventoPresenca == 0:
+                        return redirect("/destaques")
+                    else:
+                        return redirect("/InformacoesEventos", eventoPresenca=eventoPresenca)
 
                 if cont >= len(usuariosBD):
                     #flash('Usuário inválido!')
@@ -1380,7 +1388,10 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == senha:
                     print(idlogado)
-                    return redirect("/destaques")
+                    if eventoPresenca == 0:
+                        return redirect("/destaques")
+                    else:
+                        return redirect("/InformacoesEventos", eventoPresenca=eventoPresenca)
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
@@ -1392,7 +1403,7 @@ def login():
         email = request.args.get('email')
         senha = request.args.get('senha')
         subId = request.args.get('subId')
-
+        eventoPresenca = request.form.get('eventoPresenca')
         if subId is not None:
             # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
 
@@ -1413,7 +1424,10 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == subId:
                     print(idlogado)
-                    return redirect("/destaques")
+                    if eventoPresenca == 0:
+                        return redirect("/destaques")
+                    else:
+                        return redirect("/InformacoesEventos",eventoPresenca=eventoPresenca)
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
@@ -1440,7 +1454,10 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == senha:
                     print(idlogado)
-                    return redirect("/destaques")
+                    if eventoPresenca == 0:
+                        return redirect("/destaques")
+                    else:
+                        return redirect("/InformacoesEventos", eventoPresenca=eventoPresenca)
 
                 if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
