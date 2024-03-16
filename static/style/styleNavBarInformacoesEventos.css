@@ -72,6 +72,10 @@
       transition: background-color 0.3s ease;
       border-radius: 50%; /* Arredonda mais a borda do botão */
     }
+    .floating-button button img {
+      width: 100%; /* Tornar a imagem responsiva */
+      height: 100%; /* Tornar a imagem responsiva */
+    }
 
     .floating-button button img {
       max-height: 40px;

@@ -202,7 +202,8 @@ function cancelarPresenca() {
         errorElement.textContent = errorMessage;
     });
   function compartilharEvento() {
-    var linkEvento = "https://www.quickevent.com.br/InformacoesEventosLink?eventoLink=25";
+    var eventoPresenca = document.getElementById('eventoPresenca').value;
+    var linkEvento = "https://www.quickevent.com.br/InformacoesEventosLink?eventoLink=" + eventoPresenca;
 
     navigator.share({ url: linkEvento })
       .then(() => console.log('Evento compartilhado com sucesso'))
