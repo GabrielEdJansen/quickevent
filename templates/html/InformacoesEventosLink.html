@@ -8,32 +8,22 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <body>
-
+<form action="/obrigacriarconta" method="post">
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
   <a href="destaques" class="navbar-brand" href="#"><img src="../static/LogoFundo.png" alt="Logo do Site" style="max-height: 40px; max-width: 120px;"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-<!-- Formulário com ação vazia para evitar o comportamento padrão de envio -->
-<form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
-  <!-- Adicione um ícone de pesquisa na imagem -->
-  <a href="#" id="searchIcon" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer;">
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%231DA1F2' class='bi bi-search' viewBox='0 0 16 16'><path d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.413l-3.848-3.835zM7 12.5a5.5 5.5 0 1 1 5.5-5.5 5.507 5.507 0 0 1-5.5 5.5z'/></svg>" style="max-height: 24px;">
-  </a>
-  <!-- Mantenha o input dentro do formulário -->
-  <input name="filtro" id="searchInput" class="form-control" type="search" placeholder="Buscar eventos" aria-label="Search" style="width: calc(100% - 40px);">
-
-</form>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a href="InicioEventosParticipados" class="nav-link">Eventos participados</a>
+        <a href="" class="nav-link">Eventos participados</a>
       </li>
       <li class="nav-item">
-        <a href="InicioCriarEvento" class="nav-link">Criar eventos</a>
+        <a href="" class="nav-link">Criar eventos</a>
       </li>
       <li class="nav-item">
-        <a href="InicioGerenciarEventos" class="nav-link">Gerenciar eventos</a>
+        <a href="" class="nav-link">Gerenciar eventos</a>
       </li>
 <li class="nav-item dropdown">
   <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -43,16 +33,7 @@
       </div>
     </div>
   </a>
-  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-    <a class="dropdown-item" href="InformacaoConta">Informações da conta</a>
-    <a class="dropdown-item" href="/">Sair</a>
-  </div>
 </li>
-<script>
-  document.getElementById('profileDropdown').addEventListener('click', function() {
-    document.getElementById('profileDropdown').nextElementSibling.classList.toggle('show');
-  });
-</script>
     </ul>
   </div>
 </nav>
@@ -68,7 +49,6 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-    <form action="/processarPresenca" method="post">
     {% for eventos in eventos %}
     <!-- Imagem do evento grande no topo da página -->
     <img src="data:image/jpeg;base64,{{ eventos.foto_evento }}" alt="Imagem de divulgação" class="event-image mb-4">
@@ -108,9 +88,8 @@
           <button type="submit" class="btn btn-danger" name="acao" value="cancelar_presenca">Cancelar presença</button>
       </div>
     </div>
-    </form>
   </div>
-
+ </form>
 <script>
 function cancelarPresenca() {
     var eventoPresenca = document.getElementById('eventoPresenca').value;
