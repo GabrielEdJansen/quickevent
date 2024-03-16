@@ -725,7 +725,7 @@ def confirmaPresenca():
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
-@app.route("/InformacoesEventos", methods=['POST'])
+@app.route("/InformacoesEventos", methods=['POST', 'GET'])
 def InformacoesEventos():
     global idlogado
     #eventoPresenca = request.form.get('eventoPresenca')
