@@ -40,7 +40,7 @@ def logininicio():
 @app.route("/obrigacriarconta")
 def obrigacriarconta():
     flash("Para confirmar presença no evento você deve realizar o login!")
-    return render_template("html/login.html")
+    return render_template("html/paginainicial.html")
 
 
 from datetime import datetime
