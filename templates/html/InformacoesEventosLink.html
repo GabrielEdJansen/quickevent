@@ -35,13 +35,6 @@
   </div>
 </nav>
 
-<!-- Botão flutuante de compartilhamento -->
-<div class="floating-button">
-  <button class="btn btn-primary" onclick="compartilharEvento()">
-    <i class="fas fa-share"></i> Compartilhar
-  </button>
-</div>
-
   <div class="container mt-4">
               {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -181,14 +174,6 @@ function cancelarPresenca() {
         var errorElement = document.getElementById('convitesHelpBlock');
         errorElement.textContent = errorMessage;
     });
-
-  function compartilharEvento() {
-    var linkEvento = "https://www.quickevent.com.br/InformacoesEventosLink?eventoLink=25";
-
-    navigator.share({ url: linkEvento })
-      .then(() => console.log('Evento compartilhado com sucesso'))
-      .catch((error) => console.error('Erro ao compartilhar evento:', error));
-  }
 </script>
 
 </script>
