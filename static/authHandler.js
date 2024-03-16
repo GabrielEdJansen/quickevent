@@ -15,7 +15,7 @@
                 var family_name = document.getElementById('sobrenomecad');
                 var email = document.getElementById('emailcad');
                 var subId = document.getElementById('subId');
-                var eventoPresenca = document.getElementById('eventoPresenca');
+                var eventoPresenca = document.getElementById('eventoPresenca').value;
 
                 given_name.textContent = decodedData.given_name
                 family_name.textContent = decodedData.family_name
@@ -63,8 +63,13 @@
                 .then(response => {
                     if (response.ok) {
                         // Realizaaar ações após o envio bem-sucedido, se necessário
-                        console.log('Dados enviados com sucesso');
-                        window.location.href = '/destaques';
+                        if (eventoPresenca > 0){
+                            console.log('Dados enviados com sucesso');
+                            window.location.href = '/InformacoesEventos?eventoPresenca=' + eventoPresenca;
+                        } else{
+                            console.log('Dados enviados com sucesso');
+                            window.location.href = '/destaques';
+                        }
                     } else {
                         throw new Error('Erro ao enviar dados');
                     }
