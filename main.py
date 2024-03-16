@@ -736,7 +736,7 @@ def InformacoesEventos():
         eventoPresenca = request.form.get('eventoPresenca')
 
     if eventoPresenca == 0:
-        eventoPresenca = request.args.get('eventoLink')
+        eventoPresenca = request.args.get('eventoPresenca')
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
