@@ -1358,6 +1358,7 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == subId:
                     print(idlogado)
+                    eventoPresenca = request.args.get('eventoPresenca')
                     print("Evt:",eventoPresenca)
                     if eventoPresenca == 0:
                         return redirect("/destaques")
@@ -1390,6 +1391,7 @@ def login():
                 if usuariosEmail == email and usuariosSenha == senha:
                     print(idlogado)
                     eventoPresenca = request.form.get('eventoPresenca')
+                    eventoPresenca = request.args.get('eventoPresenca')
                     print("Evt:", eventoPresenca)
                     if eventoPresenca == 0:
                         return redirect("/destaques")
@@ -1427,6 +1429,7 @@ def login():
 
                 if usuariosEmail == email and usuariosSenha == subId:
                     print(idlogado)
+                    eventoPresenca = request.args.get('eventoPresenca')
                     print("Evt:", eventoPresenca)
                     if eventoPresenca == 0:
                         return redirect("/destaques")
@@ -1459,6 +1462,7 @@ def login():
                 if usuariosEmail == email and usuariosSenha == senha:
                     print(idlogado)
                     eventoPresenca = request.form.get('eventoPresenca')
+                    eventoPresenca = request.args.get('eventoPresenca')
                     print("Evt:", eventoPresenca)
                     if eventoPresenca == 0:
                         return redirect("/destaques")
