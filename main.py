@@ -738,6 +738,8 @@ def InformacoesEventos():
     if eventoPresenca == 0:
         eventoPresenca = request.args.get('eventoPresenca')
 
+    print("evt2:",eventoPresenca)
+
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
