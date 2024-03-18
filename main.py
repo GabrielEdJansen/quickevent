@@ -1071,7 +1071,7 @@ def buscarnd():
         # Se não houver eventos encontrados, renderizar a página buscarnd.html
         if not eventos:
             flash('Nenhum evento encontrado!')
-            render_template("html/listabusca.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
+            render_template("html/buscarnd.html", foto=foto)
 
         return render_template("html/listabusca.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
 
