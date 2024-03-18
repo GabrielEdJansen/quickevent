@@ -50,6 +50,18 @@
   </div>
 </li>
 <script>
+  // Obtém o botão de busca pelo ID
+  const searchIcon = document.getElementById('searchIcon');
+
+  // Adiciona um evento de clique ao botão de busca
+  searchIcon.addEventListener('click', function(event) {
+    // Evita o comportamento padrão de clicar em um link
+    event.preventDefault();
+
+    // Submete o formulário
+    document.getElementById('searchForm').submit();
+  });
+
   document.getElementById('profileDropdown').addEventListener('click', function() {
     document.getElementById('profileDropdown').nextElementSibling.classList.toggle('show');
   });

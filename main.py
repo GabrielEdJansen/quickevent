@@ -971,6 +971,12 @@ def SalvarAlteracoes():
 @app.route("/buscar")
 def buscar():
     global idlogado
+    return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
+
+
+@app.route("/buscarnd")
+def buscar():
+    global idlogado
     filtro = request.args.get("filtro")
     data_inicial = request.args.get("dataInicial")
     data_final = request.args.get("dataFinal")
