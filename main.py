@@ -1042,22 +1042,20 @@ def buscarnd():
         if categoria:
             query += f' AND e.categoria = "{categoria}"'
 
-        if request.method == 'POST':
-            if acao == 'hoje':
-                # Tratamento para a ação 'hoje'
-                data_atual = datetime.now().date()
-                query += f' AND e.data_evento = "{data_atual}"'
-            elif acao == 'gratuito':
-                # Tratamento para a ação 'gratuito'
-                query += ' AND e.preco_evento = 0'  # Supondo que o preço gratuito seja representado por 0
-            elif acao == 'estefind':
-                # Tratamento para a ação 'estefind'
-                data_atual = datetime.now().date()
-                proximo_fim_de_semana = data_atual + timedelta(days=(5 - data_atual.weekday()))
-                query += f' AND e.data_evento BETWEEN "{data_atual}" AND "{proximo_fim_de_semana}"'
-            elif acao == 'musica':
-                # Tratamento para a ação 'musica'
-                query += ' AND e.categoria = 15'
+        if acao == 'hoje':
+            # Tratamento para a ação 'hoje'
+            data_atual = datetime.now().date()
+            query += f' AND e.data_evento = "{data_atual}"'
+        elif acao == 'gratuito':
+            # Tratamento para a ação 'gratuito'
+            query += ' AND e.preco_evento = 0'  # Supondo que o preço gratuito seja representado por 0
+        elif acao == 'estefind':
+            # Tratamento para a ação 'estefind'
+            data_atual = datetime.now().date()
+            proximo_fim_de_semana = data_atual + timedelta(days=(5 - data_atual.weekday()))
+            query += f' AND e.data_evento BETWEEN "{data_atual}" AND "{proximo_fim_de_semana}"'
+        elif acao == 'musica':
+            query += ' AND e.categoria = 15'
 
         filtro_aplicado = {
             "dataInicial": data_inicial,
