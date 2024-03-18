@@ -1046,9 +1046,6 @@ def buscarnd():
             # Tratamento para a ação 'hoje'
             data_atual = datetime.now().date()
             query += f' AND e.data_evento = "{data_atual}"'
-        elif acao == 'gratuito':
-            # Tratamento para a ação 'gratuito'
-            query += ' AND e.preco_evento = 0'  # Supondo que o preço gratuito seja representado por 0
         elif acao == 'estefind':
             # Tratamento para a ação 'estefind'
             data_atual = datetime.now().date()
@@ -1071,7 +1068,7 @@ def buscarnd():
         # Se não houver eventos encontrados, renderizar a página buscarnd.html
         if not eventos:
             flash('Nenhum evento encontrado!')
-            render_template("html/buscarnd.html", foto=foto)
+            return render_template("html/buscarnd.html", foto=foto)
 
         return render_template("html/listabusca.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
 
