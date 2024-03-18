@@ -997,7 +997,7 @@ def buscarnd():
     data_inicial = request.args.get("dataInicial")
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
-    acao = request.form.get('acao')
+    acao = request.args.get('acao')
 
 
     connect_BD = configbanco(db_type='mysql-connector')
