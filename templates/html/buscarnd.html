@@ -61,27 +61,36 @@
   </div>
 </nav>
 
+<form id="searchForm" class="form-inline ml-right" action="buscarnd" style="position: relative; display: inline-block;">
 <div class="container mt-5">
   <div class="row">
-    <div class="col-md-6">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+    <div class="col-md-6 mb-3">
+      <div class="input-group">
+        <input name="filtrond" id="searchInputnd" class="form-control" type="search" placeholder="Buscar eventos" aria-label="Search">
+        <div class="input-group-append">
+          <button id="searchButton" class="btn btn-primary" type="submit">Buscar</button>
         </div>
-        <!-- Adicionado o id ao input para preenchimento -->
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text bg-primary text-white"><i class="fas fa-map-marker-alt"></i></span>
+        </div>
         <input type="text" class="form-control" id="location" placeholder="Localização atual do usuário (cidade)" readonly>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6">
-      <button class="btn btn-primary rounded-btn mr-2">Hoje</button>
-      <button class="btn btn-primary rounded-btn mr-2">Gratuito</button>
-      <button class="btn btn-primary rounded-btn mr-2">Este final de semana</button>
-      <button class="btn btn-primary rounded-btn mr-2">Música</button>
+    <div class="col-md-8">
+      <button class="btn btn-primary">Hoje</button>
+      <button class="btn btn-primary">Gratuito</button>
+      <button class="btn btn-primary">Este final de semana</button>
+      <button class="btn btn-primary">Música</button>
     </div>
   </div>
 </div>
+</form>
 
 <!-- Carregando a API do Google Maps JavaScript -->
 <script>
