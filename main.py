@@ -975,7 +975,7 @@ def buscar():
 
 
 @app.route("/buscarnd")
-def buscar():
+def buscarnd():
     global idlogado
     filtro = request.args.get("filtro")
     data_inicial = request.args.get("dataInicial")
