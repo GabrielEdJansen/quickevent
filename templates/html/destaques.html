@@ -50,15 +50,12 @@
   </div>
 </li>
 <script>
-  // Obtém o botão de busca pelo ID
-  const searchIcon = document.getElementById('searchIcon');
+  // Obtém o input de busca pelo ID
+  const searchInput = document.getElementById('searchInput');
 
-  // Adiciona um evento de clique ao botão de busca
-  searchIcon.addEventListener('click', function(event) {
-    // Evita o comportamento padrão de clicar em um link
-    event.preventDefault();
-
-    // Submete o formulário
+  // Adiciona um evento de clique ao input
+  searchInput.addEventListener('click', function() {
+    // Chama a função action="buscar"
     document.getElementById('searchForm').submit();
   });
 
