@@ -971,6 +971,22 @@ def SalvarAlteracoes():
 @app.route("/buscar")
 def buscar():
     global idlogado
+
+    connect_BD = configbanco(db_type='mysql-connector')
+
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
+
+        # Verifica se o usuário tem uma foto
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
     return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
 
 
