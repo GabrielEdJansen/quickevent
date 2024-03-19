@@ -53,14 +53,8 @@
     .btn-criar-evento {
             margin-top: 15px;
     }
-    .edit-event {
-        background-color: #f8f9fa; /* Cor de fundo */
+    .nav-container {
+        border: 1px solid #ccc; /* Borda sólida com cor cinza */
         border-radius: 5px; /* Cantos arredondados */
-        padding: 5px 10px; /* Espaçamento interno */
-        margin-bottom: 5px; /* Espaçamento inferior */
-        transition: background-color 0.3s ease; /* Efeito de transição suave */
-    }
-
-    .edit-event:hover {
-        background-color: #e9ecef; /* Cor de fundo ao passar o mouse */
+        padding: 10px; /* Espaçamento interno */
     }
