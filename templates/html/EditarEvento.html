@@ -92,28 +92,30 @@
                 <div class="row">
         <!-- Abas à esquerda -->
         <div class="col-md-3">
-            <form id="alteraaba" class="form-inline ml-right" action="alteraaba" style="position: relative; display: inline-block;">
-            <div class="nav-container">
-                <ul class="nav flex-column nav-pills">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="pill" href="#dadosEvento">Dados do Evento</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#usuariosOrganizadores">Usuários Organizadores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#chatOrganizadores">Chat dos Organizadores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="pill" href="#listaParticipantes">Lista de Participantes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link edit-event" data-toggle="pill" href="#editarEvento">Editar Evento</a>
-                    </li>
-                </ul>
-            </div>
+            <form id="alteraaba" action="alteraaba" method="post">
+                <div class="nav-container">
+                    <ul class="nav flex-column nav-pills">
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link active btn btn-outline-primary" data-toggle="pill" name="aba" value="dadosEvento">Dados do Evento</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-outline-primary" data-toggle="pill" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-outline-primary" data-toggle="pill" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-outline-primary" data-toggle="pill" name="aba" value="listaParticipantes">Lista de Participantes</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-outline-primary edit-event" data-toggle="pill" name="aba" value="editarEvento">Editar Evento</button>
+                        </li>
+                    </ul>
+                </div>
             </form>
         </div>
+
+
 
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
