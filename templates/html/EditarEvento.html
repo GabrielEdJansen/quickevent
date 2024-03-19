@@ -72,6 +72,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
 <section class="vh-100">
     <form action="{{ url_for('SalvarAlteracoes') }}" method="post" enctype="multipart/form-data">
         <div class="container py-5 h-100">
@@ -86,7 +87,29 @@
             {% endif %}
         {% endwith %}
 
+
             <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="row">
+        <!-- Abas à esquerda -->
+        <div class="col-md-3">
+            <ul class="nav flex-column nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#dadosEvento">Dados do Evento</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#usuariosOrganizadores">Usuários Organizadores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#chatOrganizadores">Chat dos Organizadores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#listaParticipantes">Lista de Participantes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#editarEvento">Editar Evento</a>
+                </li>
+            </ul>
+        </div>
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
@@ -489,6 +512,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </form>
 </section>
