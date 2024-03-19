@@ -58,3 +58,13 @@
         border-radius: 5px; /* Cantos arredondados */
         padding: 10px; /* Espaçamento interno */
     }
+
+    .btn-clean {
+        border: none;
+        background-color: transparent;
+        color: #007bff; /* cor do texto azul */
+    }
+
+    .btn-clean:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* cor de fundo ao passar o mouse */
+    }
