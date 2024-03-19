@@ -37,6 +37,22 @@ def home():
 def logininicio():
     return render_template("html/login.html")
 
+@app.route("/alteraaba")
+def alteraaba():
+    global idlogado
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursur.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/destaques.html", foto=foto)
+
 @app.route("/obrigacriarconta", methods=['POST'])
 def obrigacriarconta():
     flash("Para confirmar presença no evento você deve realizar o login!")
