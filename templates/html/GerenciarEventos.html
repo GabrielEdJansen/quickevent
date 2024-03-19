@@ -10,7 +10,7 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
 </head>
 <body>
-
+<div class="container">
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
   <a href="destaques" class="navbar-brand" href="#"><img src="../static/LogoFundo.png" alt="Logo do Site" style="max-height: 40px; max-width: 120px;"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,22 +59,13 @@
     document.getElementById('searchForm').submit();
   });
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const profileDropdown = document.getElementById('profileDropdown');
-
-    profileDropdown.addEventListener('click', function(event) {
-      event.preventDefault(); // Prevenir o comportamento padrão do link
-
-      const dropdownMenu = profileDropdown.nextElementSibling;
-      dropdownMenu.classList.toggle('show');
-    });
+  document.getElementById('profileDropdown').addEventListener('click', function() {
+    document.getElementById('profileDropdown').nextElementSibling.classList.toggle('show');
   });
 </script>
     </ul>
   </div>
 </nav>
-
-<div class="container">
 
             {% with messages = get_flashed_messages() %}
             {% if messages %}
