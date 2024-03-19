@@ -59,8 +59,15 @@
     document.getElementById('searchForm').submit();
   });
 
-  document.getElementById('profileDropdown').addEventListener('click', function() {
-    document.getElementById('profileDropdown').nextElementSibling.classList.toggle('show');
+  document.addEventListener('DOMContentLoaded', function() {
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    profileDropdown.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevenir o comportamento padrão do link
+
+      const dropdownMenu = profileDropdown.nextElementSibling;
+      dropdownMenu.classList.toggle('show');
+    });
   });
 </script>
     </ul>
