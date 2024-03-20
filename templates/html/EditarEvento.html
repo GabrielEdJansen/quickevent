@@ -92,31 +92,28 @@
                 <div class="row">
         <!-- Abas à esquerda -->
         <div class="col-md-3">
-            <form id="alteraaba" action="alteraaba" method="post">
-                <div class="nav-container">
+            <div class="nav-container">
+                <form action="/alteraaba" method="post" enctype="multipart/form-data">
                     <ul class="nav flex-column nav-pills">
                         <li class="nav-item">
-                            <button type="submit" class="nav-link active btn btn-clean" data-toggle="pill" name="aba" value="dadosEvento">Dados do Evento</button>
+                            <button type="submit" class="nav-link active btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
                         </li>
                         <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-clean" data-toggle="pill" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
+                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
                         </li>
                         <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-clean" data-toggle="pill" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
+                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
                         </li>
                         <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-clean" data-toggle="pill" name="aba" value="listaParticipantes">Lista de Participantes</button>
+                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
                         </li>
                         <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-clean edit-event" data-toggle="pill" name="aba" value="editarEvento">Editar Evento</button>
+                            <button type="submit" class="nav-link btn btn-clean edit-event" name="aba" value="editarEvento">Editar Evento</button>
                         </li>
                     </ul>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-
-
-
 
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
