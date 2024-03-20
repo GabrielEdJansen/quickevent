@@ -988,7 +988,7 @@ def SalvarAlteracoes():
 @app.route("/buscar", methods=['GET', 'POST'])
 def buscar():
     global idlogado
-    filtro = request.args.get("filtrond")
+    filtro = request.args.get("filtro")
     data_inicial = request.args.get("dataInicial")
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
