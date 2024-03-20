@@ -88,8 +88,8 @@
         {% endwith %}
 
 
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="row">
+<div class="container">
+    <div class="row">
         <!-- Abas à esquerda -->
         <div class="col-md-3">
             <div class="nav-container">
@@ -114,10 +114,12 @@
                 </form>
             </div>
         </div>
-<form action="{{ url_for('SalvarAlteracoes') }}" method="post" enctype="multipart/form-data">
-                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                        <div class="card-body p-5 text-center">
+
+        <!-- Formulário -->
+        <div class="col-md-9">
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+                    <form action="{{ url_for('SalvarAlteracoes') }}" method="post" enctype="multipart/form-data">
 
                             <h3 class="mb-5">Editar evento</h3>
                             <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
