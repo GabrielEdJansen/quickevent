@@ -8,7 +8,8 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
-
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 </head>
 <body>
 
@@ -22,14 +23,15 @@
 
 <!-- Formulário com ação vazia para evitar o comportamento padrão de envio -->
 <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
-  <!-- Mantenha o input dentro do formulário -->
-  <input name="filtro" id="searchInput" class="form-control" type="search" placeholder="Buscar eventos" aria-label="Search" style="width: 50vw;">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <!-- Botão de busca com ícone de lupa -->
-<button type="submit" class="btn btn-outline-primary border border-secondary" style="min-width: 40px; height: 38px; background-color: transparent;">
-    <i class="bi bi-search text-white"></i> <!-- Ícone de lupa branco -->
-</button>
-
+  <!-- Another variation with a button -->
+  <div class="input-group" style="width: 400px;"> <!-- Definindo largura da div -->
+    <input name="filtro" id="searchInput" type="text" class="form-control" placeholder="Buscar eventos">
+    <div class="input-group-append">
+      <button class="btn btn-secondary" type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  </div>
 </form>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
@@ -477,5 +479,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
