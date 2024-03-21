@@ -59,12 +59,8 @@
 .increased-size {
     width: 800px; /* ajuste o tamanho conforme necessário */
 }
- /* Cor de fundo amarela ao passar o mouse */
-.navbar-nav .nav-item .nav-link:hover {
-    background-color: yellow !important;
-}
-
- /* Cor de fundo amarela ao clicar */
+  /* Cor do texto amarelo ao passar o mouse */
+.navbar-nav .nav-item .nav-link:hover,
 .navbar-nav .nav-item .nav-link:active {
-    background-color: yellow !important;
+    color: yellow !important;
 }
