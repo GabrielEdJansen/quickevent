@@ -56,3 +56,6 @@
     pointer-events: none;
     color: #aaa;
 }
+.increased-size {
+    width: 800px; /* ajuste o tamanho conforme necessário */
+}
