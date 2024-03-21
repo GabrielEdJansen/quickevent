@@ -6,16 +6,6 @@
     .navbar-custom .navbar-brand {
       color: #ffffff; /* Cor do texto do logo */
     }
-    .navbar-custom .form-control {
-      width: 291px; /* Largura do input de busca */
-      order: 1; /* Posiciona o campo de busca após o botão */
-      border-radius: 20px; /* Borda mais arredondada */
-      background-color: #ffffff; /* Fundo branco */
-      color: #1DA1F2; /* Cor do texto */
-      padding-left: 38px; /* Espaçamento para o ícone */
-      background-repeat: no-repeat;
-      background-position: 10px center; /* Posição do ícone */
-    }
     /* Aumenta o tamanho da navbar em telas menores */
     @media (max-width: 768px) {
       .navbar-custom {
@@ -66,4 +56,18 @@
 
     .btn-clean:hover {
         background-color: rgba(0, 123, 255, 0.1); /* cor de fundo ao passar o mouse */
+    }
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 4rem; /* Ajuste o tamanho conforme necessário */
+        height: 4rem; /* Ajuste o tamanho conforme necessário */
+        line-height: 4rem; /* Ajuste o tamanho conforme necessário */
+        text-align: center;
+        pointer-events: none;
+        color: #aaa;
+    }
+    .increased-size {
+        width: 800px; /* ajuste o tamanho conforme necessário */
     }
