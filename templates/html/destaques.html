@@ -22,15 +22,9 @@
 
 <!-- Formulário com ação vazia para evitar o comportamento padrão de envio -->
 <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
-  <!-- Actual search box -->
-  <div class="form-group has-search">
-    <span class="fa fa-search form-control-feedback"></span>
-    <input type="text" class="form-control" placeholder="Search">
-  </div>
-
   <!-- Another variation with a button -->
   <div class="input-group">
-    <input type="text" class="form-control" placeholder="Search this blog">
+    <input name="filtro" id="searchInput" type="text" class="form-control" placeholder="Search this blog">
     <div class="input-group-append">
       <button class="btn btn-secondary" type="submit">
         <i class="fa fa-search"></i>
