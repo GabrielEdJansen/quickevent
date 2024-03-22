@@ -986,13 +986,14 @@ def SalvarAlteracoes():
 
 @app.route("/buscar", methods=['GET', 'POST'])
 def buscar():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")
+
     filtro = request.args.get("filtro")
     data_inicial = request.args.get("dataInicial")
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
     acao = request.args.get('acao')
-
 
     connect_BD = configbanco(db_type='mysql-connector')
 
@@ -1001,7 +1002,7 @@ def buscar():
 
         # Consulta para obter a foto do usuário logado
         cursor.execute(
-            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            f'SELECT foto FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
         )
         usuario = cursor.fetchone()
 
@@ -1025,26 +1026,29 @@ def buscar():
                 eventos AS e WHERE 1 = 1
         '''
         if filtro:
-            query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
+            query += f' AND (e.nome_evento LIKE %s OR e.local_evento LIKE %s)'
+            filtro = f"%{filtro}%"
 
         if data_inicial:
-            query += f' AND e.data_evento >= "{data_inicial}"'
+            query += f' AND e.data_evento >= %s'
 
         if data_final:
-            query += f' AND e.data_evento <= "{data_final}"'
+            query += f' AND e.data_evento <= %s'
 
         if categoria:
-            query += f' AND e.categoria = "{categoria}"'
+            query += f' AND e.categoria = %s'
 
         if acao == 'hoje':
             # Tratamento para a ação 'hoje'
             data_atual = datetime.now().date()
-            query += f' AND e.data_evento = "{data_atual}"'
+            query += f' AND e.data_evento = %s'
+            acao = data_atual
         elif acao == 'estefind':
             # Tratamento para a ação 'estefind'
             data_atual = datetime.now().date()
             proximo_fim_de_semana = data_atual + timedelta(days=(5 - data_atual.weekday()))
-            query += f' AND e.data_evento BETWEEN "{data_atual}" AND "{proximo_fim_de_semana}"'
+            query += f' AND e.data_evento BETWEEN %s AND %s'
+            acao = (data_atual, proximo_fim_de_semana)
         elif acao == 'musica':
             query += ' AND e.categoria = 15'
 
@@ -1055,9 +1059,8 @@ def buscar():
         }
 
         # Executa a consulta
-        cursor.execute(query)
+        cursor.execute(query, (filtro, filtro, data_inicial, data_final, categoria, acao))
         eventos = cursor.fetchall()
-        print(eventos)
 
         # Se não houver eventos encontrados, renderizar a página buscarnd.html
         if not eventos:
@@ -1068,12 +1071,14 @@ def buscar():
 
 @app.route("/InformacaoConta")
 def InformacaoConta():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")
+
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
         cursur = connect_BD.cursor()
         cursur.execute(
-            f'SELECT nome, sobrenome, foto_nome, foto, nascimento, endereco, rua, cidade, numero FROM usuarios WHERE id_usuario = "{idlogado}"'
+            f'SELECT nome, sobrenome, foto_nome, foto, nascimento, endereco, rua, cidade, numero FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
         )
         usuario = cursur.fetchone()
 
@@ -1912,23 +1917,22 @@ def InicioGerenciarEventos():
 
 @app.route("/GerenciarEventos", methods=['POST'])
 def EditarEvento():
-    global idlogado
-    #eventoPresenca = request.form.get('eventoPresenca')
+    if 'idlogado' not in session:
+        return redirect("/")
 
     eventoPresenca = request.form.get('botaoEditar')
     print(eventoPresenca)
     eventosList = []
     if eventoPresenca:
-        #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-        connect_BD  = configbanco(db_type='mysql-connector')
+        connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor()
         cursur.execute(
-            f"SELECT * FROM eventos e, categoria c where e.categoria = c.id_categoria and e.id_eventos = '{eventoPresenca}';")
+            f"SELECT * FROM eventos e, categoria c where e.categoria = c.id_categoria and e.id_eventos = %s;", (eventoPresenca,)
+        )
         eventos = cursur.fetchall()
 
         for linha in eventos:
             horOri = linha[5]
-
 
         horAlt = str(horOri)
         horAlt = horAlt[:2]
@@ -1937,7 +1941,6 @@ def EditarEvento():
         horAlt = int(horAlt)
         if horAlt < 10:
             horOri = '0' + str(horOri)
-
 
         eventosList.append(linha[0])
         eventosList.append(linha[1])
@@ -1969,15 +1972,14 @@ def EditarEvento():
         if connect_BD.is_connected():
             cursur = connect_BD.cursor()
             cursur.execute(
-                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+                f'SELECT foto FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
             )
             usuario = cursur.fetchone()
 
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-
-        connect_BD  = configbanco(db_type='mysql-connector')
+        connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
         query = (
             f"SELECT i.titulo_ingresso, "
@@ -1991,19 +1993,19 @@ def EditarEvento():
             f"i.quantidade_maxima, "
             f"i.observacao_ingresso "
             f"FROM eventos e, ingressos i "
-            f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = '{eventoPresenca}';"
+            f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = %s;"
         )
 
         # Executar a consulta SQL
-        cursur.execute(query)
+        cursur.execute(query, (eventoPresenca,))
         ingresso = cursur.fetchall()
 
-        connect_BD  = configbanco(db_type='mysql-connector')
+        connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
-        query = (f"SELECT c.nome_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = '{eventoPresenca}';")
+        query = (f"SELECT c.nome_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
 
         # Executar a consulta SQL
-        cursur.execute(query)
+        cursur.execute(query, (eventoPresenca,))
         campo_adicional = cursur.fetchall()
 
         return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso, campo_adicional=campo_adicional)
