@@ -1458,24 +1458,28 @@ def login():
 
 @app.route("/InicioCriarEvento")
 def criarevento():
-    global idlogado
-    connect_BD = configbanco(db_type='mysql-connector')
-    if connect_BD.is_connected():
-        cursur = connect_BD.cursor()
-        cursur.execute(
-            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
-        )
-        usuario = cursur.fetchone()
+    if 'idlogado' in session:
+        idlogado = session['idlogado']
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursur = connect_BD.cursor()
+            cursur.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            )
+            usuario = cursur.fetchone()
 
-        if usuario:
-            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/CriarEvento.html", foto=foto)
+        return render_template("html/CriarEvento.html", foto=foto)
+    else:
+        # Redirecionar para a página de login se o usuário não estiver logado
+        return redirect("/")
 
 
-@app.route("/CriarEvento", methods=['POST'])
 def CriarEvento():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")
 
     foto = request.files["img_divulga"]
 
@@ -1484,26 +1488,12 @@ def CriarEvento():
         # Abra a imagem usando PIL
         img = Image.open(foto)
 
-        # Verifique as dimensões da imagem redimensionada
-        # if img.size[0] > 200 or img.size[1] > 200:
-        #    flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
-        #    return redirect(url_for("InformacaoConta"))
-
         # Gere um nome único para a foto usando secure_filename
         foto_nome = secure_filename(foto.filename)
 
-        # Converta a imagem redimensionada para dados binários
+        # Converta a imagem para dados binários
         img_buffer = BytesIO()
-
-        # Salve a imagem no formato apropriado (JPEG, PNG, GIF) com base na extensão original
-        file_extension = foto.filename.rsplit('.', 1)[1].lower()
-        if file_extension in {'jpg', 'jpeg'}:
-            img.save(img_buffer, format="JPEG")
-        elif file_extension == 'png':
-            img.save(img_buffer, format="PNG")
-        elif file_extension == 'gif':
-            img.save(img_buffer, format="GIF")
-
+        img.save(img_buffer, format=img.format)
         img_binario = img_buffer.getvalue()
 
         # Converta os dados binários para base64 (representação de texto)
@@ -1529,17 +1519,14 @@ def CriarEvento():
     horCadFin = request.form.get('horCadFin')
     data_atual = datetime.now().date()
     hora_atual = datetime.now().time()
-    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date() #+ timedelta(days=1)
+    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date()
     horCad = datetime.strptime(horCad, "%H:%M").time()
-
-    latitude = request.form.get('latitude')
-    longitude = request.form.get('longitude')
 
     if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
         flash("A data fornecida é menor que a data atual.")
         return render_template("html/CriarEvento.html")
 
-    dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date() #+ timedelta(days=1)
+    dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date()
     horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
 
     nome_produtor = request.form.get('nome_produtor')
@@ -1570,53 +1557,16 @@ def CriarEvento():
                     bairro,
                     complemento,
                     foto_evento,
-                    foto_evento_nome,
-                    latitude,
-                    longitude
+                    foto_evento_nome
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )"""
 
         cursor.execute(sql, (
-        descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
-        classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, foto_texto, foto_nome, latitude, longitude))
-
-        # Recuperar o ID do evento recém-inserido
-        sql_last_insert_id = "SELECT LAST_INSERT_ID()"
-        cursor.execute(sql_last_insert_id)
-        id_eventos = cursor.fetchone()[0]
-
-        # Inserir os dados dos campos adicionais
-        campos_adicionais = request.form.getlist('nome_campo[]')
-        for campo in campos_adicionais:
-            sql_campos_adicionais = """INSERT INTO campo_adicional (id_eventos, nome_campo) VALUES (%s, %s)"""
-            cursor.execute(sql_campos_adicionais, (id_eventos, campo))
-
-        titulos = request.form.getlist('titulo_ingresso[]')
-        quantidades = request.form.getlist('quantidade_ingresso[]')
-        precos = request.form.getlist('preco_ingresso[]')
-        datas_inicio_vendas = request.form.getlist('data_inicio_vendas[]')
-        datas_fim_vendas = request.form.getlist('data_fim_vendas[]')
-        horas_inicio_vendas = request.form.getlist('hora_inicio_vendas[]')
-        horas_fim_vendas = request.form.getlist('hora_fim_vendas[]')
-        disponibilidades = request.form.getlist('disponibilidade_ingresso[]')
-        quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
-        observacoes = request.form.getlist('observacao_ingresso[]')
-
-        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_inicio_vendas]
-        horas_inicio_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_inicio_vendas]
-
-        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
-        horas_fim_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_fim_vendas]
-
-        for i in range(len(titulos)):
-            # Insira os dados do ingresso no banco de dados
-            sql = """INSERT INTO ingressos (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, 
-                     data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
-                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-            cursor.execute(sql, (id_eventos, titulos[i], quantidades[i], precos[i], datas_inicio_vendas[i],
-                                 datas_fim_vendas[i], horas_inicio_vendas[i], horas_fim_vendas[i],
-                                 disponibilidades[i], quantidades_maximas[i], observacoes[i]))
+            descricaocad, nomeEventocad, categoriacad, dataCad, horCad, session['idlogado'], endereco,
+            totalParticipantescad,
+            classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado,
+            bairro, complemento, foto_texto, foto_nome))
 
         conexao.commit()
         flash("Evento criado com sucesso!")
@@ -1864,7 +1814,8 @@ def ConfirmarPresenca():
 
 @app.route("/InicioGerenciarEventos")
 def InicioGerenciarEventos():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/login")
 
     # Obtém os parâmetros de filtro do request
     data_inicial = request.args.get("dataInicial")
@@ -1898,17 +1849,22 @@ def InicioGerenciarEventos():
         LEFT JOIN
             presencas AS p ON p.id_evento_presente = e.id_eventos
         WHERE
-            e.id_usuario_evento = "{idlogado}"
+            e.id_usuario_evento = %s
     '''
 
+    query_params = [session['idlogado']]
+
     if nome_evento:
-        query += f' AND e.nome_evento LIKE "%{nome_evento}%"'
+        query += f' AND e.nome_evento LIKE %s'
+        query_params.append(f'%{nome_evento}%')
 
     if data_inicial:
-        query += f' AND e.data_evento >= "{data_inicial}"'
+        query += f' AND e.data_evento >= %s'
+        query_params.append(data_inicial)
 
     if data_final:
-        query += f' AND e.data_evento <= "{data_final}"'
+        query += f' AND e.data_evento <= %s'
+        query_params.append(data_final)
 
     query += '''
         GROUP BY
@@ -1929,7 +1885,7 @@ def InicioGerenciarEventos():
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
         cursur = connect_BD.cursor()
-        cursur.execute(query)
+        cursur.execute(query, query_params)
         eventos = cursur.fetchall()
 
     filtro_aplicado = {
@@ -1944,7 +1900,7 @@ def InicioGerenciarEventos():
     if connect_BD.is_connected():
         cursur = connect_BD.cursor()
         cursur.execute(
-            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            f'SELECT foto FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
         )
         usuario = cursur.fetchone()
 
@@ -1952,7 +1908,6 @@ def InicioGerenciarEventos():
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
     return render_template("html/GerenciarEventos.html", eventos=eventos, filtro=filtro_aplicado, foto=foto)
-
 
 @app.route("/GerenciarEventos", methods=['POST'])
 def EditarEvento():
