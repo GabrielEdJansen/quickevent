@@ -1362,105 +1362,153 @@ def cadastro():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    #global idlogado
     if request.method == 'POST':
+        idlogado = 0
         email = request.form.get('email')
         senha = request.form.get('senha')
         subId = request.form.get('subId')
         eventoPresenca = request.form.get('eventoPresenca')
 
         if subId is not None:
+            # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+
             connect_BD = configbanco(db_type='mysql-connector')
 
             if connect_BD.is_connected():
-                cursor = connect_BD.cursor()
-                cursor.execute("SELECT * FROM usuarios WHERE email = %s AND senha = %s;", (email, subId))
-                usuario = cursor.fetchone()
-                cursor.close()
-                connect_BD.close()
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
 
-                if usuario:
-                    session['idlogado'] = usuario[0]
-                    if eventoPresenca == '0':
+            for usuarios in usuariosBD:
+                cont += 1
+                #idlogado = str(usuarios[0])
+                session['idlogado'] = usuario[0]
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[6])
+
+                if usuariosEmail == email and usuariosSenha == subId:
+                    print(idlogado)
+                    eventoPresenca = request.args.get('eventoPresenca')
+                    print("Evt:",eventoPresenca)
+                    if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
                         return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-                else:
-                    flash('Usuário inválido!')
+
+                if cont >= len(usuariosBD):
+                    #flash('Usuário inválido!')
                     return redirect("/")
             else:
-                flash('Erro na conexão com o banco de dados!')
                 return redirect("/")
         else:
-            connect_BD = configbanco(db_type='mysql-connector')
+            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+
+            connect_BD  = configbanco(db_type='mysql-connector')
 
             if connect_BD.is_connected():
-                cursor = connect_BD.cursor()
-                cursor.execute("SELECT * FROM usuarios WHERE email = %s AND senha = %s;", (email, senha))
-                usuario = cursor.fetchone()
-                cursor.close()
-                connect_BD.close()
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
 
-                if usuario:
-                    session['idlogado'] = usuario[0]
-                    if eventoPresenca == '0':
+            for usuarios in usuariosBD:
+                cont += 1
+                #idlogado = str(usuarios[0])
+                session['idlogado'] = usuario[0]
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[4])
+
+                if usuariosEmail == email and usuariosSenha == senha:
+                    print(idlogado)
+                    eventoPresenca = request.form.get('eventoPresenca')
+                    eventoPresenca = request.args.get('eventoPresenca')
+                    print("Evt:", eventoPresenca)
+                    if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
                         return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-                else:
+
+                if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
                     return redirect("/logininicio")
             else:
-                flash('Erro na conexão com o banco de dados!')
                 return redirect("/")
     elif request.method == 'GET':
+        idlogado = 0
         email = request.args.get('email')
         senha = request.args.get('senha')
         subId = request.args.get('subId')
         eventoPresenca = request.form.get('eventoPresenca')
-
         if subId is not None:
+            # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+
             connect_BD = configbanco(db_type='mysql-connector')
 
             if connect_BD.is_connected():
-                cursor = connect_BD.cursor()
-                cursor.execute("SELECT * FROM usuarios WHERE email = %s AND senha = %s;", (email, subId))
-                usuario = cursor.fetchone()
-                cursor.close()
-                connect_BD.close()
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
 
-                if usuario:
-                    session['idlogado'] = usuario[0]
-                    if eventoPresenca == '0':
+            for usuarios in usuariosBD:
+                cont += 1
+                #idlogado = str(usuarios[0])
+                session['idlogado'] = usuario[0]
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[6])
+
+                if usuariosEmail == email and usuariosSenha == subId:
+                    print(idlogado)
+                    eventoPresenca = request.args.get('eventoPresenca')
+                    print("Evt:", eventoPresenca)
+                    if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
                         return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-                else:
+
+                if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
                     return redirect("/")
             else:
-                flash('Erro na conexão com o banco de dados!')
                 return redirect("/")
         else:
-            connect_BD = configbanco(db_type='mysql-connector')
+            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
+
+            connect_BD  = configbanco(db_type='mysql-connector')
 
             if connect_BD.is_connected():
-                cursor = connect_BD.cursor()
-                cursor.execute("SELECT * FROM usuarios WHERE email = %s AND senha = %s;", (email, senha))
-                usuario = cursor.fetchone()
-                cursor.close()
-                connect_BD.close()
+                cont = 0
+                print('conectado')
+                cursur = connect_BD.cursor()
+                cursur.execute("select * from usuarios;")
+                usuariosBD = cursur.fetchall()
 
-                if usuario:
-                    session['idlogado'] = usuario[0]
-                    if eventoPresenca == '0':
+            for usuarios in usuariosBD:
+                cont += 1
+                #idlogado = str(usuarios[0])
+                session['idlogado'] = usuario[0]
+                usuariosEmail = str(usuarios[3])
+                usuariosSenha = str(usuarios[4])
+
+                if usuariosEmail == email and usuariosSenha == senha:
+                    print(idlogado)
+                    eventoPresenca = request.form.get('eventoPresenca')
+                    eventoPresenca = request.args.get('eventoPresenca')
+                    print("Evt:", eventoPresenca)
+                    if eventoPresenca == 0:
                         return redirect("/destaques")
                     else:
                         return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-                else:
+
+                if cont >= len(usuariosBD):
                     flash('Usuário inválido!')
                     return redirect("/logininicio")
             else:
-                flash('Erro na conexão com o banco de dados!')
                 return redirect("/")
 
 @app.route("/InicioCriarEvento")
