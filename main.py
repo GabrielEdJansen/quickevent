@@ -39,7 +39,11 @@ def logininicio():
 
 @app.route("/alteraaba")
 def alteraaba():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
+    idlogado = session['idlogado']
+
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
         cursur = connect_BD.cursor()
@@ -212,7 +216,7 @@ def InicioEventosParticipados():
 @app.route("/processarPresenca", methods=['POST'])
 def processarPresenca():
     if 'idlogado' not in session:
-        return redirect("/login")
+        return redirect("/")
 
     if request.form.get('acao') == 'cancelar_presenca':
         eventoPresenca = request.form.get('eventoPresenca')
@@ -520,8 +524,12 @@ def processarPresenca():
 
 @app.route("/cancelarPresenca", methods=['POST'])
 def cancelarPresenca():
-    global idlogado
-    x=0
+    if 'idlogado' not in session:
+        return redirect("/")
+
+    # Obter o ID do usuário da sessão
+    idlogado = session['idlogado']
+    x = 0
 
     session.pop('_flashes', None)
 
@@ -529,12 +537,12 @@ def cancelarPresenca():
     tipo_ingresso = request.form.get("tipoIngresso")
 
     if not eventoPresenca:
-        x=1
+        x = 1
         data = request.json
         eventoPresenca = data.get('eventoPresenca')
 
     if not tipo_ingresso:
-        x=1
+        x = 1
         data = request.json
         tipo_ingresso = data.get('tipoIngresso')
 
@@ -561,7 +569,6 @@ def cancelarPresenca():
         f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
     )
 
-
     cursur.execute(query)
     eventos = cursur.fetchall()
 
@@ -579,6 +586,7 @@ def cancelarPresenca():
         f"WHERE "
         f"i.id_eventos = '{eventoPresenca}';"
     )
+
     cursur.execute(query)
     ingresso = cursur.fetchall()
 
@@ -598,19 +606,20 @@ def cancelarPresenca():
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
-    f"SELECT "
-    f"i.id_ingresso, "
-    f"p.id_usuario_presente, "
-    f"p.id_evento_presente "
-    f"FROM "
-    f"presencas p, ingressos i "
-    f"WHERE "
-    f"p.id_evento_presente = i.id_eventos and "
-    f"p.id_ingresso = i.id_ingresso and "
-    f"p.id_evento_presente = '{eventoPresenca}' and "
-    f"p.id_usuario_presente = '{idlogado}' and "
-    f"p.id_ingresso = '{tipo_ingresso}';"
+        f"SELECT "
+        f"i.id_ingresso, "
+        f"p.id_usuario_presente, "
+        f"p.id_evento_presente "
+        f"FROM "
+        f"presencas p, ingressos i "
+        f"WHERE "
+        f"p.id_evento_presente = i.id_eventos and "
+        f"p.id_ingresso = i.id_ingresso and "
+        f"p.id_evento_presente = '{eventoPresenca}' and "
+        f"p.id_usuario_presente = '{idlogado}' and "
+        f"p.id_ingresso = '{tipo_ingresso}';"
     )
+
     cursur.execute(query)
     presenca = cursur.fetchall()
 
@@ -636,10 +645,12 @@ def cancelarPresenca():
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
-
 @app.route("/confirmaPresenca", methods=['POST'])
 def confirmaPresenca():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
+    idlogado = session['idlogado']
 
     eventoPresenca = request.form.get('eventoPresenca')
     tipo_ingresso = request.form.get("tipoIngresso")
@@ -666,7 +677,6 @@ def confirmaPresenca():
         f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
     )
 
-
     cursur.execute(query)
     eventos = cursur.fetchall()
 
@@ -674,7 +684,7 @@ def confirmaPresenca():
     cursur = connect_BD.cursor(dictionary=True)
     query = (
         f"SELECT i.titulo_ingresso, "
-        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "
         f"i.id_ingresso, "
         f"p.id_usuario_presente, "
         f"p.id_evento_presente "
@@ -734,17 +744,15 @@ def confirmaPresenca():
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
+
 @app.route("/InformacoesEventos", methods=['POST', 'GET'])
 def InformacoesEventos():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
 
-    eventoPresenca = request.form.get('botaoDetalhes')
+    idlogado = session['idlogado']
 
-    if eventoPresenca is None or eventoPresenca == "":
-        eventoPresenca = request.form.get('eventoPresenca')
-
-    if eventoPresenca is None or eventoPresenca == "":
-        eventoPresenca = request.args.get('eventoPresenca')
+    eventoPresenca = request.form.get('botaoDetalhes') or request.form.get('eventoPresenca') or request.args.get('eventoPresenca')
 
     print("evt2:", eventoPresenca)
 
@@ -767,7 +775,6 @@ def InformacoesEventos():
         f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
     )
 
-
     cursur.execute(query)
     eventos = cursur.fetchall()
 
@@ -775,7 +782,7 @@ def InformacoesEventos():
     cursur = connect_BD.cursor(dictionary=True)
     query = (
         f"SELECT i.titulo_ingresso, "
-        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "
         f"i.id_ingresso, "
         f"p.id_usuario_presente, "
         f"p.id_evento_presente "
@@ -804,8 +811,7 @@ def InformacoesEventos():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso = ingresso)
-
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
 @app.route("/SalvarAlteracoes", methods=['POST'])
 def SalvarAlteracoes():
@@ -1315,8 +1321,6 @@ def decode_token(token):
 
 @app.route("/cadastro", methods=['POST'])
 def cadastro():
-    global idlogado
-    idlogado = 0
     user = []
     nomecad = request.form.get('nomecad')
     sobrenomecad = request.form.get('sobrenomecad')
@@ -1334,11 +1338,10 @@ def cadastro():
         if existing_user:
             return redirect(url_for('login', email=emailcad, subId=subId))
         else:
-            # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
             conexao = configbanco(db_type='pymysql')
             cursor = conexao.cursor()
-            cursor.execute(
-                f"insert into usuarios values (default, '{nomecad}', '{sobrenomecad}', '{emailcad}', default, default,'{subId}','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',default,default,default,default,default,default);")
+            cursor.execute("INSERT INTO usuarios VALUES (default, %s, %s, %s, %s, default, default, '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',default,default,default,default,default,default);",
+                           (nomecad, sobrenomecad, emailcad, senhacad, subId))
             conexao.commit()
             conexao.close()
             return render_template('/logininicio', nomecadastro=nomecad + " cadastrado!")
@@ -1360,8 +1363,9 @@ def cadastro():
             connect_BD = configbanco(db_type='pymysql')
 
             cursor = connect_BD.cursor()
-            cursor.execute("INSERT INTO usuarios VALUES (default, %s, %s, %s, %s, default, default, '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',default,default,default,default,default,default);",
-                            (nomecad, sobrenomecad, emailcad, senhacad))
+            cursor.execute(
+                "INSERT INTO usuarios VALUES (default, %s, %s, %s, default, default, default, %s, default, default, default, default);",
+                (nomecad, sobrenomecad, emailcad, senhacad))
             connect_BD.commit()
             connect_BD.close()
             return redirect(url_for('login', email=emailcad, senha=senhacad))
@@ -1585,25 +1589,25 @@ def CriarEvento():
 
 @app.route("/ConfirmarCancelarPresenca", methods=['POST'])
 def CancelarPresenca():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
     eventoPresenca = request.form.get('eventoPresenca')
     botaoConfirma = request.form.get('botaoConfirma')
     botaoCancela = request.form.get('botaoCancela')
 
-    if botaoCancela == 'true':
-       # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-        connect_BD  = configbanco(db_type='mysql-connector')
+    idlogado = session['idlogado']  # Obter o ID do usuário da sessão
 
+    if botaoCancela == 'true':
+        connect_BD  = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
             cont = 0
-            # print('conectado')
             cursur = connect_BD.cursor()
             cursur.execute(
                 f"select * from presencas where id_evento_presente = '{eventoPresenca}' and id_usuario_presente = '{idlogado}';")
             presencasBD = cursur.fetchall()
 
         if len(presencasBD) == 0:
-            # print('Sua presença já está cancelada!')
             flash('Sua presença já está cancelada!')
             cursur = connect_BD.cursor()
             cursur.execute(
@@ -1639,21 +1643,15 @@ def CancelarPresenca():
             eventos = cursur.fetchall()
             return render_template("html/BuscarEventos.html", eventos=eventos)
         else:
-           # conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
             conexao = configbanco(db_type='pymysql')
             cursor = conexao.cursor()
-            print(eventoPresenca)
-            print(idlogado)
             cursor.execute(
                 f"DELETE FROM presencas WHERE ID_EVENTO_PRESENTE = '{eventoPresenca}' AND ID_USUARIO_PRESENTE = '{idlogado}';")
             conexao.commit()
             conexao.close()
 
-            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
             connect_BD  = configbanco(db_type='mysql-connector')
-
             if connect_BD.is_connected():
-                print('conectado')
                 cursur = connect_BD.cursor()
                 cursur.execute(
                     'SELECT\
@@ -1692,17 +1690,19 @@ def CancelarPresenca():
 
 
 def ConfirmarPresenca():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
     eventoPresenca = request.form.get('eventoPresenca')
     botaoConfirma = request.form.get('botaoConfirma')
     botaoCancela = request.form.get('botaoCancela')
-    #print(botaoConfirma)
+
+    idlogado = session['idlogado']  # Obter o ID do usuário da sessão
+
     if botaoConfirma == 'true':
-        #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
         connect_BD  = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
             cont = 0
-            #print('conectado')
 
             cursur = connect_BD.cursor()
             cursur.execute(
@@ -1765,20 +1765,15 @@ def ConfirmarPresenca():
             eventos = cursur.fetchall()
             return render_template("html/BuscarEventos.html", eventos=eventos)
         else:
-            #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
             conexao = configbanco(db_type='pymysql')
             cursor = conexao.cursor()
-            print(eventoPresenca)
-            print(idlogado)
             cursor.execute(
                 f"INSERT INTO presencas VALUES ('{eventoPresenca}','{idlogado}');")
             conexao.commit()
             conexao.close()
 
-           # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
             connect_BD  = configbanco(db_type='mysql-connector')
             if connect_BD.is_connected():
-                #print('conectado')
                 cursur = connect_BD.cursor()
                 cursur.execute(
                     'SELECT\
@@ -2012,40 +2007,35 @@ def EditarEvento():
 
 
 def ExcluirEvento():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
     eventoPresenca = request.form.get('eventoPresenca')
     botaoExcluirEvento = request.form.get('botaoExcluirEvento')
 
     if botaoExcluirEvento == 'true':
+        idlogado = session['idlogado']  # Obter o ID do usuário da sessão
 
-        #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+        # Conexão com o banco de dados e execução das consultas de exclusão
         conexao = configbanco(db_type='pymysql')
         cursor = conexao.cursor()
+
         cursor.execute(
             f"DELETE FROM presencas WHERE ID_EVENTO_PRESENTE = '{eventoPresenca}';")
         conexao.commit()
-        conexao.close()
 
-        conexao = configbanco(db_type='pymysql')
-        cursor = conexao.cursor()
         cursor.execute(
             f"DELETE FROM campo_adicional WHERE id_eventos = '{eventoPresenca}';")
         conexao.commit()
-        conexao.close()
 
-        conexao = configbanco(db_type='pymysql')
-        cursor = conexao.cursor()
         cursor.execute(
             f"DELETE FROM ingressos WHERE id_eventos =  '{eventoPresenca}';")
         conexao.commit()
-        conexao.close()
 
-        #conexao = pymysql.connect(db='usuarios', user='root', passwd='1234')
-        conexao = configbanco(db_type='pymysql')
-        cursor = conexao.cursor()
         cursor.execute(
             f"DELETE FROM eventos WHERE ID_EVENTOS = '{eventoPresenca}' and ID_USUARIO_EVENTO = '{idlogado}';")
         conexao.commit()
+
         conexao.close()
 
         flash("Evento excluído com sucesso!")
@@ -2055,12 +2045,14 @@ def ExcluirEvento():
 
 
 def Detalhes():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
+    idlogado = session['idlogado']  # Obter o ID do usuário da sessão
+
     eventoPresenca = request.form.get('eventoPresenca')
-    #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
     connect_BD  = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
-        print('conectado')
         cursur = connect_BD.cursor()
         cursur.execute(
             f'SELECT\
@@ -2082,7 +2074,7 @@ def Detalhes():
               categoria AS c ON c.id_categoria = e.categoria\
               INNER JOIN\
               usuarios AS u ON u.id_usuario = e.id_usuario_evento\
-              where e.id_usuario_evento = "{idlogado}" and e.id_eventos = "{eventoPresenca}" \
+              where e.id_usuario_evento = %s and e.id_eventos = %s \
               GROUP BY\
               e.total_participantes,\
               e.local_evento,\
@@ -2092,29 +2084,26 @@ def Detalhes():
               e.data_evento,\
               e.hora_evento,\
               c.descricao_categoria,\
-              u.nome;')
+              u.nome;', (idlogado, eventoPresenca))
         eventos = cursur.fetchall()
 
-       # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-        connect_BD  = configbanco(db_type='mysql-connector')
         if connect_BD.is_connected():
-            print('conectado')
             cursur = connect_BD.cursor()
             cursur.execute(
-                f'SELECT concat(u.nome, " ",u.sobrenome) as nomeCompleto FROM presencas as p, usuarios as u where p.id_usuario_presente = u.id_usuario and p.id_evento_presente = "{eventoPresenca}";')
+                f'SELECT concat(u.nome, " ",u.sobrenome) as nomeCompleto FROM presencas as p, usuarios as u where p.id_usuario_presente = u.id_usuario and p.id_evento_presente = %s;', (eventoPresenca,))
             presentes = cursur.fetchall()
 
     return render_template("html/Detalhes.html", eventos=eventos, presentes=presentes)
 
-
 @app.route("/EditarEvento", methods=['POST'])
 def EditarEventoEfetivo():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
     eventoEditar = request.form.get('eventoEditar')
     nomeEventocad = request.form.get('nomeEventocad')
     descricaocad = request.form.get('descricaocad')
     categoriacad = request.form.get('categoriacad')
-
     dataCad = request.form.get('dataCad')
     horCad = request.form.get('horCad')
     localEventocad = request.form.get('localEventocad')
@@ -2128,15 +2117,17 @@ def EditarEventoEfetivo():
         horCad = horCad[:-3]
     horCad = datetime.strptime(horCad, "%H:%M").time()
     if dataCad < data_atual:
-        flash("A data fornecida é menor que à data atual.")
+        flash("A data fornecida é menor que a data atual.")
         return render_template("html/CriarEvento.html")
     elif dataCad == data_atual and horCad < hora_atual:
-        flash("A hora fornecida é menor que à hora atual.")
-    #conexao = pymysql.connect(db='quickevent', user='root', passwd='1234')
+        flash("A hora fornecida é menor que a hora atual.")
+
+    idlogado = session['idlogado']  # Obter o ID do usuário da sessão
+
     conexao = configbanco(db_type='pymysql')
     cursor = conexao.cursor()
     cursor.execute(
-        f"UPDATE eventos SET descricao_evento ='{descricaocad}',nome_evento = '{nomeEventocad}',categoria = '{categoriacad}',data_evento = '{dataCad}',hora_evento = '{horCad}',local_evento = '{localEventocad}',total_participantes = {totalParticipantescad} WHERE id_eventos = {eventoEditar};")
+        f"UPDATE eventos SET descricao_evento ='{descricaocad}',nome_evento = '{nomeEventocad}',categoria = '{categoriacad}',data_evento = '{dataCad}',hora_evento = '{horCad}',local_evento = '{localEventocad}',total_participantes = {totalParticipantescad} WHERE id_eventos = {eventoEditar} AND id_usuario_evento = {idlogado};")
     conexao.commit()
     conexao.close()
 
