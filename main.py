@@ -1385,7 +1385,7 @@ def login():
             for usuarios in usuariosBD:
                 cont += 1
                 #idlogado = str(usuarios[0])
-                session['idlogado'] = usuario[0]
+                session['idlogado'] = str(usuarios[0])
                 usuariosEmail = str(usuarios[3])
                 usuariosSenha = str(usuarios[6])
 
@@ -1418,7 +1418,7 @@ def login():
             for usuarios in usuariosBD:
                 cont += 1
                 #idlogado = str(usuarios[0])
-                session['idlogado'] = usuario[0]
+                session['idlogado'] = str(usuarios[0])
                 usuariosEmail = str(usuarios[3])
                 usuariosSenha = str(usuarios[4])
 
@@ -1458,7 +1458,7 @@ def login():
             for usuarios in usuariosBD:
                 cont += 1
                 #idlogado = str(usuarios[0])
-                session['idlogado'] = usuario[0]
+                session['idlogado'] = str(usuarios[0])
                 usuariosEmail = str(usuarios[3])
                 usuariosSenha = str(usuarios[6])
 
@@ -1491,7 +1491,7 @@ def login():
             for usuarios in usuariosBD:
                 cont += 1
                 #idlogado = str(usuarios[0])
-                session['idlogado'] = usuario[0]
+                session['idlogado'] = str(usuarios[0])
                 usuariosEmail = str(usuarios[3])
                 usuariosSenha = str(usuarios[4])
 
