@@ -815,7 +815,8 @@ def InformacoesEventos():
 
 @app.route("/SalvarAlteracoes", methods=['POST'])
 def SalvarAlteracoes():
-    global idlogado
+    if 'idlogado' not in session:
+        return redirect("/login")
 
     foto = request.files["img_divulga"]
     eventoPresenca = request.form.get('eventoPresenca')
@@ -911,7 +912,7 @@ def SalvarAlteracoes():
                     longitude = %s
                 WHERE id_eventos = %s"""
 
-        cursor.execute(sql, (descricaocad, nomeEventocad, categoriacad, dataCad, horCad, idlogado, endereco, totalParticipantescad,
+        cursor.execute(sql, (descricaocad, nomeEventocad, categoriacad, dataCad, horCad, session['idlogado'], endereco, totalParticipantescad,
         classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado, bairro, complemento, latitude, longitude, eventoPresenca))
 
         if foto and allowed_file(foto.filename):
@@ -1108,6 +1109,9 @@ def allowed_file(filename):
 
 @app.route("/salvar_informacoes", methods=["POST"])
 def salvar_informacoes():
+    if 'idlogado' not in session:
+        return redirect("/")
+
     if request.method == "POST":
         # Obtenha o arquivo da imagem do formulário
         foto = request.files["profile_pic"]
@@ -1123,9 +1127,10 @@ def salvar_informacoes():
         if connection.is_connected():
             cursor = connection.cursor()
 
-            # Atualize a foto e o nome do arquivo do usuário com base no idlogado
+            # Atualize a foto e o nome do arquivo do usuário com base no idlogado na sessão
             cursor.execute(
-                f'UPDATE usuarios SET cidade = "{cidade}",rua = "{rua}", nascimento = "{nascimento}", endereco = "{endereco}", numero = "{numero}" WHERE id_usuario = "{idlogado}"'
+                'UPDATE usuarios SET cidade = %s, rua = %s, nascimento = %s, endereco = %s, numero = %s WHERE id_usuario = %s',
+                (cidade, rua, nascimento, endereco, numero, session['idlogado'])
             )
 
             # Commit para salvar as alterações no banco de dados
@@ -1138,7 +1143,7 @@ def salvar_informacoes():
                 img = Image.open(foto)
 
                 # Verifique as dimensões da imagem redimensionada
-                #if img.size[0] > 200 or img.size[1] > 200:
+                # if img.size[0] > 200 or img.size[1] > 200:
                 #    flash("A foto deve ter dimensões no máximo 200x200 pixels.", "error")
                 #    return redirect(url_for("InformacaoConta"))
 
@@ -1161,8 +1166,6 @@ def salvar_informacoes():
 
                 # Converta os dados binários para base64 (representação de texto)
                 foto_texto = base64.b64encode(img_binario).decode('utf-8')
-                #conteudo_arquivo = foto.read()
-                #foto_texto = base64.b64encode(conteudo_arquivo).decode('utf-8')
 
                 # Conecte-se ao banco de dados
                 try:
@@ -1171,9 +1174,10 @@ def salvar_informacoes():
                     if connection.is_connected():
                         cursor = connection.cursor()
 
-                        # Atualize a foto e o nome do arquivo do usuário com base no idlogado
+                        # Atualize a foto e o nome do arquivo do usuário com base no idlogado na sessão
                         cursor.execute(
-                            f'UPDATE usuarios SET cidade = "{cidade}",rua = "{rua}",foto = "{foto_texto}", foto_nome = "{foto_nome}", nascimento = "{nascimento}", endereco = "{endereco}", numero = "{numero}" WHERE id_usuario = "{idlogado}"'
+                            'UPDATE usuarios SET cidade = %s, rua = %s, foto = %s, foto_nome = %s, nascimento = %s, endereco = %s, numero = %s WHERE id_usuario = %s',
+                            (cidade, rua, foto_texto, foto_nome, nascimento, endereco, numero, session['idlogado'])
                         )
 
                         # Commit para salvar as alterações no banco de dados
