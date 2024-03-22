@@ -1194,19 +1194,23 @@ def salvar_informacoes():
 
 @app.route("/destaques")
 def destaques():
-    global idlogado
-    connect_BD = configbanco(db_type='mysql-connector')
-    if connect_BD.is_connected():
-        cursur = connect_BD.cursor()
-        cursur.execute(
-            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
-        )
-        usuario = cursur.fetchone()
+    if 'idlogado' in session:
+        idlogado = session['idlogado']
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursur = connect_BD.cursor()
+            cursur.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            )
+            usuario = cursur.fetchone()
 
-        if usuario:
-            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/destaques.html", foto=foto)
+        return render_template("html/destaques.html", foto=foto)
+    else:
+        # Redirecionar para a página de login se o usuário não estiver logado
+        return redirect("/login")
 
 @app.route("/cadastrar")
 def cadastrar():
@@ -1362,152 +1366,94 @@ def cadastro():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    #global idlogado
     if request.method == 'POST':
-        idlogado = 0
         email = request.form.get('email')
         senha = request.form.get('senha')
         subId = request.form.get('subId')
-        eventoPresenca = request.form.get('eventoPresenca')
 
         if subId is not None:
-            # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-
             connect_BD = configbanco(db_type='mysql-connector')
-
             if connect_BD.is_connected():
-                cont = 0
-                print('conectado')
                 cursur = connect_BD.cursor()
                 cursur.execute("select * from usuarios;")
                 usuariosBD = cursur.fetchall()
 
-            for usuarios in usuariosBD:
-                cont += 1
-                #idlogado = str(usuarios[0])
-                session['idlogado'] = str(usuarios[0])
-                usuariosEmail = str(usuarios[3])
-                usuariosSenha = str(usuarios[6])
+                for usuario in usuariosBD:
+                    if usuario[3] == email and usuario[6] == subId:
+                        session['idlogado'] = usuario[0]
+                        eventoPresenca = request.args.get('eventoPresenca')
+                        if eventoPresenca == 0:
+                            return redirect("/destaques")
+                        else:
+                            return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
-                if usuariosEmail == email and usuariosSenha == subId:
-                    print(idlogado)
-                    eventoPresenca = request.args.get('eventoPresenca')
-                    print("Evt:",eventoPresenca)
-                    if eventoPresenca == 0:
-                        return redirect("/destaques")
-                    else:
-                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-
-                if cont >= len(usuariosBD):
-                    #flash('Usuário inválido!')
-                    return redirect("/")
+                flash('Usuário inválido!')
+                return redirect("/")
             else:
                 return redirect("/")
         else:
-            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-
-            connect_BD  = configbanco(db_type='mysql-connector')
-
+            connect_BD = configbanco(db_type='mysql-connector')
             if connect_BD.is_connected():
-                cont = 0
-                print('conectado')
                 cursur = connect_BD.cursor()
                 cursur.execute("select * from usuarios;")
                 usuariosBD = cursur.fetchall()
 
-            for usuarios in usuariosBD:
-                cont += 1
-                #idlogado = str(usuarios[0])
-                session['idlogado'] = str(usuarios[0])
-                usuariosEmail = str(usuarios[3])
-                usuariosSenha = str(usuarios[4])
+                for usuario in usuariosBD:
+                    if usuario[3] == email and usuario[4] == senha:
+                        session['idlogado'] = usuario[0]
+                        eventoPresenca = request.args.get('eventoPresenca')
+                        if eventoPresenca == 0:
+                            return redirect("/destaques")
+                        else:
+                            return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
-                if usuariosEmail == email and usuariosSenha == senha:
-                    print(idlogado)
-                    eventoPresenca = request.form.get('eventoPresenca')
-                    eventoPresenca = request.args.get('eventoPresenca')
-                    print("Evt:", eventoPresenca)
-                    if eventoPresenca == 0:
-                        return redirect("/destaques")
-                    else:
-                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-
-                if cont >= len(usuariosBD):
-                    flash('Usuário inválido!')
-                    return redirect("/logininicio")
+                flash('Usuário inválido!')
+                return redirect("/logininicio")
             else:
                 return redirect("/")
     elif request.method == 'GET':
-        idlogado = 0
         email = request.args.get('email')
         senha = request.args.get('senha')
         subId = request.args.get('subId')
-        eventoPresenca = request.form.get('eventoPresenca')
+
         if subId is not None:
-            # connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-
             connect_BD = configbanco(db_type='mysql-connector')
-
             if connect_BD.is_connected():
-                cont = 0
-                print('conectado')
                 cursur = connect_BD.cursor()
                 cursur.execute("select * from usuarios;")
                 usuariosBD = cursur.fetchall()
 
-            for usuarios in usuariosBD:
-                cont += 1
-                #idlogado = str(usuarios[0])
-                session['idlogado'] = str(usuarios[0])
-                usuariosEmail = str(usuarios[3])
-                usuariosSenha = str(usuarios[6])
+                for usuario in usuariosBD:
+                    if usuario[3] == email and usuario[6] == subId:
+                        session['idlogado'] = usuario[0]
+                        eventoPresenca = request.args.get('eventoPresenca')
+                        if eventoPresenca == 0:
+                            return redirect("/destaques")
+                        else:
+                            return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
-                if usuariosEmail == email and usuariosSenha == subId:
-                    print(idlogado)
-                    eventoPresenca = request.args.get('eventoPresenca')
-                    print("Evt:", eventoPresenca)
-                    if eventoPresenca == 0:
-                        return redirect("/destaques")
-                    else:
-                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-
-                if cont >= len(usuariosBD):
-                    flash('Usuário inválido!')
-                    return redirect("/")
+                flash('Usuário inválido!')
+                return redirect("/")
             else:
                 return redirect("/")
         else:
-            #connect_BD = mysql.connector.connect(host='localhost', database='quickevent', user='root', password='1234')
-
-            connect_BD  = configbanco(db_type='mysql-connector')
-
+            connect_BD = configbanco(db_type='mysql-connector')
             if connect_BD.is_connected():
-                cont = 0
-                print('conectado')
                 cursur = connect_BD.cursor()
                 cursur.execute("select * from usuarios;")
                 usuariosBD = cursur.fetchall()
 
-            for usuarios in usuariosBD:
-                cont += 1
-                #idlogado = str(usuarios[0])
-                session['idlogado'] = str(usuarios[0])
-                usuariosEmail = str(usuarios[3])
-                usuariosSenha = str(usuarios[4])
+                for usuario in usuariosBD:
+                    if usuario[3] == email and usuario[4] == senha:
+                        session['idlogado'] = usuario[0]
+                        eventoPresenca = request.args.get('eventoPresenca')
+                        if eventoPresenca == 0:
+                            return redirect("/destaques")
+                        else:
+                            return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
-                if usuariosEmail == email and usuariosSenha == senha:
-                    print(idlogado)
-                    eventoPresenca = request.form.get('eventoPresenca')
-                    eventoPresenca = request.args.get('eventoPresenca')
-                    print("Evt:", eventoPresenca)
-                    if eventoPresenca == 0:
-                        return redirect("/destaques")
-                    else:
-                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-
-                if cont >= len(usuariosBD):
-                    flash('Usuário inválido!')
-                    return redirect("/logininicio")
+                flash('Usuário inválido!')
+                return redirect("/logininicio")
             else:
                 return redirect("/")
 
