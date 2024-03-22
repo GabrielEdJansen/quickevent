@@ -1477,6 +1477,7 @@ def criarevento():
         return redirect("/")
 
 
+@app.route("/CriarEvento", methods=['POST'])
 def CriarEvento():
     if 'idlogado' not in session:
         return redirect("/")
