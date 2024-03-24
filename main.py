@@ -141,74 +141,76 @@ def InformacoesEventosLink():
 
 @app.route("/InicioEventosParticipados")
 def InicioEventosParticipados():
-    if 'idlogado' in session:
-        idlogado = session['idlogado']
-        filtro = request.args.get("filtro")
-        data_inicial = request.args.get("dataInicial")
-        data_final = request.args.get("dataFinal")
-        categoria = request.args.get("categoria")
+    if 'idlogado' not in session:
+        return redirect("/login")
 
-        # Conexão com o banco de dados
-        connect_BD = configbanco(db_type='mysql-connector')
+    idlogado = [session['idlogado']]
+    filtro = request.args.get("filtro")
+    data_inicial = request.args.get("dataInicial")
+    data_final = request.args.get("dataFinal")
+    categoria = request.args.get("categoria")
 
-        if connect_BD.is_connected():
-            cursor = connect_BD.cursor()
+    # Conexão com o banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
 
-            # Consulta para obter a foto do usuário logado
-            cursor.execute(
-                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
-            )
-            usuario = cursor.fetchone()
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
 
-            # Verifica se o usuário tem uma foto
-            if usuario:
-                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
 
-            # Consulta SQL para buscar os eventos
-            query = f'''
-            select 
-            e.id_eventos,
-            e.descricao_evento,
-            e.nome_evento,
-            e.data_evento,
-            e.hora_evento,
-            e.local_evento,
-            e.latitude,
-            e.longitude,
-            e.foto_evento,
-            p.id_evento_presente, 
-            p.id_usuario_presente 
-            from eventos e, presencas p 
-            where e.id_eventos = p.id_evento_presente and p.id_usuario_presente = "{idlogado}"
-            '''
+        # Verifica se o usuário tem uma foto
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-            if filtro:
-                query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
+        # Consulta SQL para buscar os eventos
+        query = f'''
+        select 
+        e.id_eventos,
+        e.descricao_evento,
+        e.nome_evento,
+        e.data_evento,
+        e.hora_evento,
+        e.local_evento,
+        e.latitude,
+        e.longitude,
+        e.foto_evento,
+        p.id_evento_presente, 
+        p.id_usuario_presente 
+        from eventos e, presencas p 
+        where e.id_eventos = p.id_evento_presente and p.id_usuario_presente = "{idlogado}"
+        '''
 
-            if data_inicial:
-                query += f' AND e.data_evento >= "{data_inicial}"'
+        if filtro:
+            query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
 
-            if data_final:
-                query += f' AND e.data_evento <= "{data_final}"'
+        if data_inicial:
+            query += f' AND e.data_evento >= "{data_inicial}"'
 
-            if categoria:
-                query += f' AND e.categoria = "{categoria}"'
+        if data_final:
+            query += f' AND e.data_evento <= "{data_final}"'
 
-            filtro_aplicado = {
-                "dataInicial": data_inicial,
-                "dataFinal": data_final,
-                "categoria": categoria
-            }
+        if categoria:
+            query += f' AND e.categoria = "{categoria}"'
 
-            # Executa a consulta
-            cursor.execute(query)
-            eventos = cursor.fetchall()
+        filtro_aplicado = {
+            "dataInicial": data_inicial,
+            "dataFinal": data_final,
+            "categoria": categoria
+        }
 
-            # Se não houver eventos encontrados, renderizar a página buscarnd.html
-            if not eventos:
-                return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
+        # Executa a consulta
+        cursor.execute(query)
+        eventos = cursor.fetchall()
 
-            return render_template("html/EventosParticipados.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
+        # Se não houver eventos encontrados, renderizar a página buscarnd.html
+        if not eventos:
+            return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
+
+        return render_template("html/EventosParticipados.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
     else:
         # Redirecionar para a página de login se o usuário não estiver logado
         return redirect("/")
