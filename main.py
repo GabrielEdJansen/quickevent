@@ -150,7 +150,9 @@ def alteraaba():
 
             return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
     elif acao == 'usuariosOrganizadores':
-        return render_template("html/UsuáriosOrganizadores.html", foto=foto)
+        eventosList.append(eventoPresenca)
+
+        return render_template("html/UsuáriosOrganizadores.html", foto=foto, eventos=eventosList)
     elif acao == 'chatOrganizadores':
         UsuáriosOrganizadores
     elif acao == 'listaParticipantes':
