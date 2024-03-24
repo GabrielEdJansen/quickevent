@@ -519,7 +519,7 @@ def processarPresenca():
                 cursur.execute(query)
                 ingresso = cursur.fetchall()
 
-                return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto,ingresso=ingresso)
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto,ingresso=ingresso)
 
 
 @app.route("/cancelarPresenca", methods=['POST'])
