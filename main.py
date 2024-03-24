@@ -59,10 +59,95 @@ def alteraaba():
     acao = request.form.get('aba')
     eventoPresenca = request.form.get('eventoPresenca')
     if acao == 'dadosEvento':
-        # Lógica para lidar com o botão "Dados do Evento"
-        # Por exemplo:
-        return render_template("html/GerenciarEventos.html", eventos=eventos, filtro=filtro_aplicado, foto=foto)
-        return redirect(url_for('/GerenciarEventos', eventoPresenca=eventoPresenca))
+        eventosList = []
+        if eventoPresenca:
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursur = connect_BD.cursor()
+            cursur.execute(
+                f"SELECT * FROM eventos e, categoria c where e.categoria = c.id_categoria and e.id_eventos = %s;",
+                (eventoPresenca,)
+            )
+            eventos = cursur.fetchall()
+
+            for linha in eventos:
+                horOri = linha[5]
+
+            horAlt = str(horOri)
+            horAlt = horAlt[:2]
+            horAlt = re.sub(r'[^\w\s]', '', horAlt)
+
+            horAlt = int(horAlt)
+            if horAlt < 10:
+                horOri = '0' + str(horOri)
+
+            eventosList.append(linha[0])
+            eventosList.append(linha[1])
+            eventosList.append(linha[2])
+            eventosList.append(linha[10])
+            eventosList.append(linha[3])
+            eventosList.append(linha[4])
+            eventosList.append(horOri)
+            eventosList.append(linha[6])
+            eventosList.append(linha[7])
+            eventosList.append(linha[8])
+            eventosList.append(linha[9])
+            eventosList.append(linha[11])
+            eventosList.append(linha[12])
+            eventosList.append(linha[13])
+            eventosList.append(linha[14])
+            eventosList.append(linha[15])
+            eventosList.append(linha[16])
+            eventosList.append(linha[17])
+            eventosList.append(linha[18])
+            eventosList.append(linha[19])
+            eventosList.append(linha[20])
+            eventosList.append(linha[21])
+            eventosList.append(linha[22])
+            eventosList.append(linha[23])
+            eventosList.append(linha[24])
+
+            connect_BD = configbanco(db_type='mysql-connector')
+            if connect_BD.is_connected():
+                cursur = connect_BD.cursor()
+                cursur.execute(
+                    f'SELECT foto FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
+                )
+                usuario = cursur.fetchone()
+
+                if usuario:
+                    foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursur = connect_BD.cursor(dictionary=True)
+            query = (
+                f"SELECT i.titulo_ingresso, "
+                f"i.quantidade, "
+                f"i.preco, "
+                f"i.data_ini_venda, "
+                f"i.data_fim_venda, "
+                f"i.hora_ini_venda, "
+                f"i.hora_fim_venda, "
+                f"i.disponibilidade, "
+                f"i.quantidade_maxima, "
+                f"i.observacao_ingresso "
+                f"FROM eventos e, ingressos i "
+                f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = %s;"
+            )
+
+            # Executar a consulta SQL
+            cursur.execute(query, (eventoPresenca,))
+            ingresso = cursur.fetchall()
+
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursur = connect_BD.cursor(dictionary=True)
+            query = (
+                f"SELECT c.nome_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+
+            # Executar a consulta SQL
+            cursur.execute(query, (eventoPresenca,))
+            campo_adicional = cursur.fetchall()
+
+            return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
     elif acao == 'usuariosOrganizadores':
         # Lógica para lidar com o botão "Usuários Organizadores"
         # Por exemplo:
