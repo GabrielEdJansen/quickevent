@@ -1387,6 +1387,7 @@ def login():
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca == 0:
+                            print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
@@ -1404,10 +1405,10 @@ def login():
 
                 for usuario in usuariosBD:
                     if usuario[3] == email and usuario[4] == senha:
-                        print("idlog:", usuario[0])
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca == 0:
+                            print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
@@ -1433,6 +1434,7 @@ def login():
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca == 0:
+                            print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
@@ -1453,6 +1455,7 @@ def login():
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca == 0:
+                            print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))

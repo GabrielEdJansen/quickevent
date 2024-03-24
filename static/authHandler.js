@@ -27,57 +27,31 @@
                 email.value = decodedData.email;
                 subId.value = decodedData.sub;
 
-                const form = document.getElementById('meuFormulario');
-
-                // Código para enviar os dados do formulário (exemplo com fetch) ao carregar a página
-                fetch(form.action, {
-                    method: form.method,
-                    body: new FormData(form)
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Erro ao enviar requisição.');
-                    }
-                })
-                .then(data => {
-                    console.log('Requisição enviada com sucesso!', data);
-                    // Faça algo com os dados, se necessário
-                })
-                .catch(error => {
-                    console.error('Erro ao enviar requisição:', error);
-                });
-
-                var emailValue = decodedData.email; // Obtém o valor do email de decodedData
-                var subIdValue = decodedData.sub; // Obtém o valor da senha de decodedData
-
                 // Realiza a requisição POST com os dados do formulário
                 fetch('/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: 'email=' + encodeURIComponent(emailValue) + '&senha=' + encodeURIComponent(subIdValue) + '&eventoPresenca=' + eventoPresenca
+                    body: 'email=' + encodeURIComponent(email.value) + '&senha=' + encodeURIComponent(subId.value) + '&eventoPresenca=' + eventoPresenca
                 })
                 .then(response => {
                     if (response.ok) {
-                        // Realizaaar ações após o envio bem-sucedido, se necessário
-                        if (eventoPresenca > 0){
-                            console.log('Dados enviados com sucesso');
-                            window.location.href = '/InformacoesEventos?eventoPresenca=' + eventoPresenca;
-                        } else{
-                            console.log('Dados enviados com sucesso');
-                            window.location.href = '/destaques';
-                        }
+                        return response.json();
                     } else {
                         throw new Error('Erro ao enviar dados');
                     }
                 })
+                .then(data => {
+                    console.log('Dados enviados com sucesso');
+                    if (eventoPresenca > 0) {
+                        window.location.href = '/InformacoesEventos?eventoPresenca=' + eventoPresenca;
+                    } else {
+                        window.location.href = '/destaques'; // Redirecionar para /destaques
+                    }
+                })
                 .catch(error => {
                     console.error('Erro:', error);
-                })
-                .finally(() => {
                 });
 
                 return decodedData;
