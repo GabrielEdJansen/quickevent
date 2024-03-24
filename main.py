@@ -37,25 +37,30 @@ def home():
 def logininicio():
     return render_template("html/login.html")
 
-@app.route("/alteraaba")
+@app.route("/alteraaba", methods=['GET', 'POST'])
 def alteraaba():
     if 'idlogado' not in session:
         return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
 
     idlogado = session['idlogado']
 
-    connect_BD = configbanco(db_type='mysql-connector')
-    if connect_BD.is_connected():
-        cursur = connect_BD.cursor()
-        cursur.execute(
-            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
-        )
-        usuario = cursur.fetchone()
+    if request.method == 'POST':
+        # Lógica para processar dados enviados por POST, se necessário
+        pass
+    else:
+        # Lógica para lidar com solicitações GET
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursur = connect_BD.cursor()
+            cursur.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+            )
+            usuario = cursur.fetchone()
 
-        if usuario:
-            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/destaques.html", foto=foto)
+        return render_template("html/destaques.html", foto=foto)
 
 @app.route("/obrigacriarconta", methods=['POST'])
 def obrigacriarconta():
