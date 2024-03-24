@@ -150,6 +150,9 @@ def InicioEventosParticipados():
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
 
+
+    # Suponho que idlogado já esteja definido em algum lugar do seu código
+
     # Conexão com o banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
 
@@ -205,15 +208,13 @@ def InicioEventosParticipados():
         # Executa a consulta
         cursor.execute(query)
         eventos = cursor.fetchall()
+        print(eventos)
 
         # Se não houver eventos encontrados, renderizar a página buscarnd.html
         if not eventos:
             return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
 
         return render_template("html/EventosParticipados.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
-    else:
-        # Redirecionar para a página de login se o usuário não estiver logado
-        return redirect("/")
 
 @app.route("/processarPresenca", methods=['POST'])
 def processarPresenca():
