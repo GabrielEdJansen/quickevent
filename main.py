@@ -56,6 +56,25 @@ def alteraaba():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
+    acao = request.form.get('aba')
+    eventoPresenca = request.form.get('eventoPresenca')
+    if acao == 'dadosEvento':
+        # Lógica para lidar com o botão "Dados do Evento"
+        # Por exemplo:
+        return redirect(url_for('GerenciarEventos', eventoPresenca=eventoPresenca))
+    elif acao == 'usuariosOrganizadores':
+        # Lógica para lidar com o botão "Usuários Organizadores"
+        # Por exemplo:
+        return redirect('/usuarios_organizadores')
+    elif acao == 'chatOrganizadores':
+        # Lógica para lidar com o botão "Chat dos Organizadores"
+        # Por exemplo:
+        return redirect('/chat_organizadores')
+    elif acao == 'listaParticipantes':
+        # Lógica para lidar com o botão "Lista de Participantes"
+        # Por exemplo:
+        return redirect('/lista_participantes')
+
     return render_template("html/destaques.html", foto=foto)
 
 @app.route("/obrigacriarconta", methods=['POST'])
