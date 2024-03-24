@@ -61,7 +61,7 @@ def alteraaba():
     if acao == 'dadosEvento':
         # Lógica para lidar com o botão "Dados do Evento"
         # Por exemplo:
-        return redirect(url_for('EditarEvento', eventoPresenca=eventoPresenca))
+        return redirect(url_for('/GerenciarEventos', eventoPresenca=eventoPresenca))
     elif acao == 'usuariosOrganizadores':
         # Lógica para lidar com o botão "Usuários Organizadores"
         # Por exemplo:
