@@ -150,9 +150,6 @@ def InicioEventosParticipados():
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
 
-
-    # Suponho que idlogado já esteja definido em algum lugar do seu código
-
     # Conexão com o banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
 
@@ -170,49 +167,64 @@ def InicioEventosParticipados():
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
         # Consulta SQL para buscar os eventos
-        query = f'''
-        select 
-        e.id_eventos,
-        e.descricao_evento,
-        e.nome_evento,
-        e.data_evento,
-        e.hora_evento,
-        e.local_evento,
-        e.latitude,
-        e.longitude,
-        e.foto_evento,
-        p.id_evento_presente, 
-        p.id_usuario_presente 
-        from eventos e, presencas p 
-        where e.id_eventos = p.id_evento_presente and p.id_usuario_presente = "{idlogado}"
+        query = '''
+        SELECT 
+            e.id_eventos,
+            e.descricao_evento,
+            e.nome_evento,
+            e.data_evento,
+            e.hora_evento,
+            e.local_evento,
+            e.latitude,
+            e.longitude,
+            e.foto_evento,
+            p.id_evento_presente, 
+            p.id_usuario_presente 
+        FROM 
+            eventos e 
+        JOIN 
+            presencas p ON e.id_eventos = p.id_evento_presente 
+        WHERE 
+            p.id_usuario_presente = %s
         '''
 
+        query_params = [idlogado]
+
         if filtro:
-            query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
+            query += ' AND (e.nome_evento LIKE %s OR e.local_evento LIKE %s)'
+            query_params.extend([f'%{filtro}%', f'%{filtro}%'])
 
         if data_inicial:
-            query += f' AND e.data_evento >= "{data_inicial}"'
+            query += ' AND e.data_evento >= %s'
+            query_params.append(data_inicial)
 
         if data_final:
-            query += f' AND e.data_evento <= "{data_final}"'
+            query += ' AND e.data_evento <= %s'
+            query_params.append(data_final)
 
         if categoria:
-            query += f' AND e.categoria = "{categoria}"'
+            query += ' AND e.categoria = %s'
+            query_params.append(categoria)
+
+        # Executa a consulta
+        cursor.execute(query, query_params)
+        eventos = cursor.fetchall()
+
+        # Se não houver eventos encontrados, renderizar a página buscarnd.html
+        if not eventos:
+            filtro_aplicado = {
+                "dataInicial": data_inicial,
+                "dataFinal": data_final,
+                "categoria": categoria
+            }
+            return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
 
         filtro_aplicado = {
             "dataInicial": data_inicial,
             "dataFinal": data_final,
-            "categoria": categoria
+            "categoria": categoria,
+            "filtro": filtro
         }
-
-        # Executa a consulta
-        cursor.execute(query)
-        eventos = cursor.fetchall()
-        print(eventos)
-
-        # Se não houver eventos encontrados, renderizar a página buscarnd.html
-        if not eventos:
-            return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
 
         return render_template("html/EventosParticipados.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
 
