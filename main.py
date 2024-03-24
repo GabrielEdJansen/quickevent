@@ -59,6 +59,7 @@ def alteraaba():
     acao = request.form.get('aba')
     eventoPresenca = request.form.get('eventoPresenca')
     if acao == 'dadosEvento':
+        print("evtpre:",eventoPresenca)
         eventosList = []
         if eventoPresenca:
             connect_BD = configbanco(db_type='mysql-connector')
