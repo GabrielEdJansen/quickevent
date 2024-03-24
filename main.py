@@ -1578,6 +1578,44 @@ def CriarEvento():
             classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado,
             bairro, complemento, foto_texto, foto_nome))
 
+        # Recuperar o ID do evento recém-inserido
+        sql_last_insert_id = "SELECT LAST_INSERT_ID()"
+        cursor.execute(sql_last_insert_id)
+        id_eventos = cursor.fetchone()[0]
+
+        # Inserir os dados dos campos adicionais
+        campos_adicionais = request.form.getlist('nome_campo[]')
+        for campo in campos_adicionais:
+            sql_campos_adicionais = """INSERT INTO campo_adicional (id_eventos, nome_campo) VALUES (%s, %s)"""
+            cursor.execute(sql_campos_adicionais, (id_eventos, campo))
+
+        titulos = request.form.getlist('titulo_ingresso[]')
+        quantidades = request.form.getlist('quantidade_ingresso[]')
+        precos = request.form.getlist('preco_ingresso[]')
+        datas_inicio_vendas = request.form.getlist('data_inicio_vendas[]')
+        datas_fim_vendas = request.form.getlist('data_fim_vendas[]')
+        horas_inicio_vendas = request.form.getlist('hora_inicio_vendas[]')
+        horas_fim_vendas = request.form.getlist('hora_fim_vendas[]')
+        disponibilidades = request.form.getlist('disponibilidade_ingresso[]')
+        quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
+        observacoes = request.form.getlist('observacao_ingresso[]')
+
+        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in
+                               datas_inicio_vendas]
+        horas_inicio_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_inicio_vendas]
+
+        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
+        horas_fim_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_fim_vendas]
+
+        for i in range(len(titulos)):
+            # Insira os dados do ingresso no banco de dados
+            sql = """INSERT INTO ingressos (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, 
+                            data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+            cursor.execute(sql, (id_eventos, titulos[i], quantidades[i], precos[i], datas_inicio_vendas[i],
+                                 datas_fim_vendas[i], horas_inicio_vendas[i], horas_fim_vendas[i],
+                                 disponibilidades[i], quantidades_maximas[i], observacoes[i]))
+
         conexao.commit()
         flash("Evento criado com sucesso!")
         return redirect("/buscar")
