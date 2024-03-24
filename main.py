@@ -1200,8 +1200,6 @@ def salvar_informacoes():
 
 @app.route("/destaques")
 def destaques():
-    idlogado = session['idlogado']
-    print("Idlogado::",idlogado)
     if 'idlogado' in session:
         idlogado = session['idlogado']
         connect_BD = configbanco(db_type='mysql-connector')
@@ -1386,6 +1384,7 @@ def login():
 
                 for usuario in usuariosBD:
                     if usuario[3] == email and usuario[6] == subId:
+                        print("idlog:",usuario[0])
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca == 0:
