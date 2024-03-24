@@ -754,7 +754,7 @@ def InformacoesEventos():
 
     eventoPresenca = request.form.get('botaoDetalhes') or request.form.get('eventoPresenca') or request.args.get('eventoPresenca')
 
-    print("evt2:", eventoPresenca)
+    #print("evt2:", eventoPresenca)
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
@@ -1200,6 +1200,8 @@ def salvar_informacoes():
 
 @app.route("/destaques")
 def destaques():
+    idlogado = session['idlogado']
+    print("Idlogado::",idlogado)
     if 'idlogado' in session:
         idlogado = session['idlogado']
         connect_BD = configbanco(db_type='mysql-connector')
