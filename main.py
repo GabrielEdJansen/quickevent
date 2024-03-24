@@ -150,17 +150,11 @@ def alteraaba():
 
             return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
     elif acao == 'usuariosOrganizadores':
-        # Lógica para lidar com o botão "Usuários Organizadores"
-        # Por exemplo:
-        return redirect('/usuarios_organizadores')
+        return render_template("html/UsuáriosOrganizadores.html", foto=foto)
     elif acao == 'chatOrganizadores':
-        # Lógica para lidar com o botão "Chat dos Organizadores"
-        # Por exemplo:
-        return redirect('/chat_organizadores')
+        UsuáriosOrganizadores
     elif acao == 'listaParticipantes':
-        # Lógica para lidar com o botão "Lista de Participantes"
-        # Por exemplo:
-        return redirect('/lista_participantes')
+        UsuáriosOrganizadores
 
     return render_template("html/destaques.html", foto=foto)
 
