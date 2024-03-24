@@ -61,6 +61,7 @@ def alteraaba():
     if acao == 'dadosEvento':
         # Lógica para lidar com o botão "Dados do Evento"
         # Por exemplo:
+        return render_template("html/GerenciarEventos.html", eventos=eventos, filtro=filtro_aplicado, foto=foto)
         return redirect(url_for('/GerenciarEventos', eventoPresenca=eventoPresenca))
     elif acao == 'usuariosOrganizadores':
         # Lógica para lidar com o botão "Usuários Organizadores"
@@ -1984,7 +1985,7 @@ def InicioGerenciarEventos():
     return render_template("html/GerenciarEventos.html", eventos=eventos, filtro=filtro_aplicado, foto=foto)
 
 @app.route("/GerenciarEventos", methods=['POST'])
-def EditarEvento():
+def GerenciarEventos():
     if 'idlogado' not in session:
         return redirect("/")
 
