@@ -1384,7 +1384,6 @@ def login():
 
                 for usuario in usuariosBD:
                     if usuario[3] == email and usuario[6] == subId:
-                        print("idlog:",usuario[0])
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca == 0:
@@ -1405,6 +1404,7 @@ def login():
 
                 for usuario in usuariosBD:
                     if usuario[3] == email and usuario[4] == senha:
+                        print("idlog:", usuario[0])
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca == 0:
