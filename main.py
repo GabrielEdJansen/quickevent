@@ -144,7 +144,7 @@ def InicioEventosParticipados():
     if 'idlogado' not in session:
         return redirect("/login")
 
-    idlogado = session['idlogado']
+    idlogado = str(session['idlogado'])
     filtro = request.args.get("filtro")
     data_inicial = request.args.get("dataInicial")
     data_final = request.args.get("dataFinal")
