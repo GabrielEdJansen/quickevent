@@ -1317,7 +1317,7 @@ def salvar_informacoes():
     # Redirecione para a rota /InformacaoConta sem mensagem de erro
     return redirect(url_for("InformacaoConta"))
 
-@app.route("/destaques")
+@app.route("/destaques", methods=['GET', 'POST'])
 def destaques():
     if 'idlogado' in session:
         idlogado = session['idlogado']
