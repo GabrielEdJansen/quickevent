@@ -1489,6 +1489,7 @@ def cadastro():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    session.clear()
     if request.method == 'POST':
         email = request.form.get('email')
         senha = request.form.get('senha')
