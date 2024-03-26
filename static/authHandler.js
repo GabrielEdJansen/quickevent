@@ -14,8 +14,10 @@ function handleCredentialResponse(response) {
         var emailValue = decodedData.email;
         var subIdValue = decodedData.sub;
 
-        // Defina os valores dos campos ocultos no formulário
-        document.getElementById('email').value = emailValue;
+        // Defina o valor do campo de entrada de email visível
+        document.getElementById('inputEmail').value = emailValue;
+
+        // Defina o valor do campo oculto de senha
         document.getElementById('senha').value = subIdValue;
 
         // Submeta o formulário
