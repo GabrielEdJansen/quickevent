@@ -1,4 +1,4 @@
- function handleCredentialResponse(response) {
+function handleCredentialResponse(response) {
     const token = response.credential;
 
     fetch(`/decode-token/${token}`, {
@@ -11,28 +11,15 @@
         return response.json();
     })
     .then(decodedData => {
-        var emailValue = decodedData.email; // Obtém o valor do email de decodedData
-        var subIdValue = decodedData.sub; // Obtém o valor da senha de decodedData
+        var emailValue = decodedData.email;
+        var subIdValue = decodedData.sub;
 
-        // Realiza a requisição POST com os dados do formulário
-        fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'email=' + encodeURIComponent(emailValue) + '&senha=' + encodeURIComponent(subIdValue)
-        })
-        .then(response => {
-            if (response.ok) {
-                // Se a resposta estiver OK, submeta o formulário
-                document.getElementById('loginForm').submit();
-            } else {
-                throw new Error('Erro ao enviar dados');
-            }
-        })
-        .catch(error => {
-            console.error('Erro:', error);
-        });
+        // Defina os valores dos campos ocultos no formulário
+        document.getElementById('email').value = emailValue;
+        document.getElementById('senha').value = subIdValue;
+
+        // Submeta o formulário
+        document.getElementById('loginForm').submit();
     })
     .catch(error => {
         console.error('Erro:', error);
