@@ -1507,7 +1507,7 @@ def login():
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca is None or eventoPresenca == 0:
                             print("idlog:", usuario[0])
-                            return redirect("/destaques")
+                            return redirect(url_for("/destaques"))
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
@@ -1528,7 +1528,7 @@ def login():
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca is None or eventoPresenca == 0:
                             print("idlog:", usuario[0])
-                            return redirect("/destaques")
+                            return redirect(url_for("/destaques"))
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
@@ -1554,7 +1554,8 @@ def login():
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca is None or eventoPresenca == 0:
                             print("idlog:", usuario[0])
-                            return redirect("/destaques")
+                            #return redirect("/destaques")
+                            return redirect(url_for("/destaques"))
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
@@ -1575,7 +1576,7 @@ def login():
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca is None or eventoPresenca == 0:
                             print("idlog:", usuario[0])
-                            return redirect("/destaques")
+                            return redirect(url_for("/destaques"))
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
