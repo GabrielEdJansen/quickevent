@@ -1505,7 +1505,7 @@ def login():
                     if usuario[3] == email and usuario[6] == subId:
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
-                        if eventoPresenca == 0:
+                        if eventoPresenca is None or eventoPresenca == 0:
                             print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
@@ -1526,7 +1526,7 @@ def login():
                     if usuario[3] == email and usuario[4] == senha:
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
-                        if eventoPresenca == 0:
+                        if eventoPresenca is None or eventoPresenca == 0:
                             print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
@@ -1552,7 +1552,7 @@ def login():
                     if usuario[3] == email and usuario[6] == subId:
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
-                        if eventoPresenca == 0:
+                        if eventoPresenca is None or eventoPresenca == 0:
                             print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
@@ -1573,7 +1573,7 @@ def login():
                     if usuario[3] == email and usuario[4] == senha:
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
-                        if eventoPresenca == 0:
+                        if eventoPresenca is None or eventoPresenca == 0:
                             print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
