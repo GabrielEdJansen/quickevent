@@ -65,10 +65,10 @@
                         // Realizaaar ações após o envio bem-sucedido, se necessário
                         if (eventoPresenca > 0){
                             console.log('Dados enviados com sucesso');
-                            window.location.href = '/InformacoesEventos?eventoPresenca=' + eventoPresenca;
+                            //window.location.href = '/InformacoesEventos?eventoPresenca=' + eventoPresenca;
                         } else{
                             console.log('Dados enviados com sucesso');
-                            window.location.href = '/destaques';
+                            //window.location.href = '/destaques';
                         }
                     } else {
                         throw new Error('Erro ao enviar dados');
