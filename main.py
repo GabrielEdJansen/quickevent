@@ -38,19 +38,20 @@ def home():
 def buscar_usuario():
     if 'idlogado' not in session:
         return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
     idlogado = str(session['idlogado'])
 
     nome_usuario = request.args.get('nome')  # Obtém o parâmetro 'nome' da solicitação GET
     id_evento = request.args.get('eventoPresenca')
-    if nome_usuario:
+
+    if nome_usuario and id_evento:
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor()
 
         # Executa a consulta SQL para buscar usuários pelo nome
-        #cursor.execute("SELECT id_usuario, nome, sobrenome FROM usuarios WHERE nome LIKE %s", ('%' + nome_usuario + '%',))
         cursor.execute(
             "SELECT id_usuario, nome, sobrenome FROM usuarios WHERE nome LIKE %s AND id_usuario NOT IN (SELECT id_usuario FROM eventos_usuarios WHERE id_evento = %s)",
-            ('%' + nome_usuario + '%', eventoPresenca))
+            ('%' + nome_usuario + '%', id_evento))
 
         usuarios = cursor.fetchall()  # Obtém todos os resultados da consulta
 
@@ -58,6 +59,7 @@ def buscar_usuario():
 
         # Lista para armazenar os IDs e nomes completos dos usuários
         ids_nomes_usuarios = []
+
         # Itera sobre os resultados e extrai os IDs e nomes completos dos usuários
         for usuario in usuarios:
             id_usuario = usuario[0]
@@ -65,9 +67,9 @@ def buscar_usuario():
             ids_nomes_usuarios.append({'id_usuario': id_usuario, 'nome_completo': nome_completo})
 
         # Retorna os IDs e nomes completos dos usuários como parte da resposta JSON
-        return jsonify({'usuarios': ids_nomes_usuarios})
+        return jsonify({'usuarios': ids_nomes_usuarios}), 200
     else:
-        return 'Por favor, forneça um nome de usuário para pesquisar.', 400
+        return 'Por favor, forneça um nome de usuário e um ID de evento válido para pesquisar.', 400
 
 @app.route('/adicionar_organizador', methods=['GET','POST'])
 def adicionar_organizador():
