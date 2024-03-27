@@ -60,7 +60,7 @@ def buscar_usuario():
     else:
         return 'Por favor, forneça um nome de usuário para pesquisar.', 400
 
-@app.route('/adicionar_organizador', methods=['POST'])
+@app.route('/adicionar_organizador', methods=['GET','POST'])
 def adicionar_organizador():
     # Obtém o ID do usuário e do evento a partir dos dados enviados pelo AJAX
     id_usuario = request.form.get('id_usuario')
@@ -82,8 +82,8 @@ def adicionar_organizador():
 @app.route('/remover_usuario', methods=['POST'])
 def remover_usuario():
     # Obtém o ID do usuário a ser removido dos dados enviados pelo AJAX
-    data = request.json
-    userId = data['userId']
+    userId = request.json.get('userId')
+    id_evento = request.form.get('eventoPresenca')
 
     # Conecta-se ao banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
