@@ -103,10 +103,10 @@
         <section id="usuarios-section">
           <ul>
               {% for usuario in usuarios %}
-                  <li>{{ usuario.id_usuario }} - {{ usuario.nome }}</li>
+                  <li>{{ usuario[0] }} - {{ usuario[1] }} {{ usuario[2] }}</li>
               {% endfor %}
           </ul>
-      </section>
+        </section>
       </div>
     </div>
   </div>
