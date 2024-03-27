@@ -219,45 +219,38 @@ def alteraaba():
 
             return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
     elif acao == 'usuariosOrganizadores':
-        try:
-            eventosList = [eventoPresenca]
+        eventosList = [eventoPresenca]
 
-            # Verificar se o ID do evento foi fornecido
-            if eventoPresenca is None:
-                return jsonify({'error': 'ID do evento não fornecido.'}), 400
+        # Verificar se o ID do evento foi fornecido
+        if eventoPresenca is None:
+            return jsonify({'error': 'ID do evento não fornecido.'}), 400
 
-            # Configurar a conexão com o banco de dados
-            conexao_bd = configbanco(db_type='mysql-connector')
+        # Configurar a conexão com o banco de dados
+        conexao_bd = configbanco(db_type='mysql-connector')
 
-            # Consulta SQL para obter os usuários organizadores por evento
-            sql = "SELECT * FROM eventos_usuarios WHERE id_evento = %s"
+        # Consulta SQL para obter os usuários organizadores por evento
+        sql = "SELECT * FROM eventos_usuarios WHERE id_evento = %s"
 
-            # Criar um cursor para executar a consulta
-            cursor = conexao_bd.cursor()
+        # Criar um cursor para executar a consulta
+        cursor = conexao_bd.cursor()
 
-            # Executar a consulta e obter os resultados
-            cursor.execute(sql, (eventoPresenca,))
+        # Executar a consulta e obter os resultados
+        cursor.execute(sql, (eventoPresenca,))
 
-            # Obter os resultados da consulta
-            resultados = cursor.fetchall()
+        # Obter os resultados da consulta
+        resultados = cursor.fetchall()
 
-            # Fechar o cursor e a conexão com o banco de dados
-            cursor.close()
-            conexao_bd.close()
+        # Fechar o cursor e a conexão com o banco de dados
+        cursor.close()
+        conexao_bd.close()
 
-            # Criar uma lista de usuários
-            usuarios_organizadores = []
-            for resultado in resultados:
-                usuarios_organizadores.append(resultado)
+        # Criar uma lista de usuários
+        usuarios_organizadores = []
+        for resultado in resultados:
+            usuarios_organizadores.append(resultado)
 
-            # Renderizar o template HTML e passar os usuários organizadores para ele
-            return render_template("html/UsuariosOrganizadores.html", usuarios=usuarios_organizadores)
-
-        except Exception as e:
-            # Log do erro para fins de depuração
-            app.logger.error('Erro ao obter usuários organizadores: %s', str(e))
-            # Retorna uma mensagem de erro genérica
-            return jsonify({'error': 'Ocorreu um erro ao processar a solicitação.'}), 500
+        # Renderizar o template HTML e passar os usuários organizadores para ele
+        return render_template("html/UsuariosOrganizadores.html", usuarios=usuarios_organizadores)
 
         #return render_template("html/UsuáriosOrganizadores.html", foto=foto, eventos=eventosList)
     elif acao == 'chatOrganizadores':
