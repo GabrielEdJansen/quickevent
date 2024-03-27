@@ -138,7 +138,8 @@
             $('#usuariosList').append('<li class="list-group-item">' + usuario.id + ' - ' + usuario.nome + ' ' + usuario.sobrenome + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id + ')">Adicionar</button></li>');
           });
         },
-        error: function() {
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
           alert('Ocorreu um erro ao pesquisar usuários.');
         }
       });
