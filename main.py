@@ -34,49 +34,6 @@ def home():
     return render_template("html/paginainicial.html")
 
 
-@app.route('/usuarios_presentes_evento/<int:evento_id>', methods=['GET'])
-def usuarios_presentes_evento(evento_id):
-    # Obtenha o valor do parâmetro eventopresente, se estiver presente na solicitação
-    eventopresente = request.args.get('eventopresente')
-
-    # Execute a consulta SQL para obter os usuários presentes no evento
-    query = '''
-        SELECT 
-            presencas.id_evento_presente,
-            presencas.id_usuario_presente,
-            presencas.id_ingresso,
-            presencas.quantidade_convites,
-            usuarios.nome,
-            usuarios.sobrenome
-        FROM 
-            presencas, usuarios 
-        WHERE 
-            presencas.id_usuario_presente = usuarios.id_usuario 
-            AND presencas.id_evento_presente = %s
-    '''
-
-    connect_BD = configbanco(db_type='mysql-connector')
-    cursor = connect_BD.cursor()
-    cursor.execute(query, (evento_id,))
-    usuarios_presentes = cursor.fetchall()
-    connect_BD.close()
-
-    # Formate os resultados em um formato JSON
-    usuarios_formatados = []
-    for usuario in usuarios_presentes:
-        usuario_formatado = {
-            'id_evento_presente': usuario[0],
-            'id_usuario_presente': usuario[1],
-            'id_ingresso': usuario[2],
-            'quantidade_convites': usuario[3],
-            'nome': usuario[4],
-            'sobrenome': usuario[5]
-        }
-        usuarios_formatados.append(usuario_formatado)
-
-    # Retorne os usuários presentes no evento como JSON, juntamente com o valor de eventopresente, se estiver presente
-    return jsonify({'usuarios_presentes': usuarios_formatados, 'eventopresente': eventopresente})
-
 @app.route('/buscar_usuario', methods=['GET'])
 def buscar_usuario():
     if 'idlogado' not in session:
@@ -383,9 +340,41 @@ def alteraaba():
         if eventoPresenca is None:
             return jsonify({'error': 'ID do evento não fornecido.'}), 400
 
+        query = '''
+            SELECT 
+                presencas.id_evento_presente,
+                presencas.id_usuario_presente,
+                presencas.id_ingresso,
+                presencas.quantidade_convites,
+                usuarios.nome,
+                usuarios.sobrenome
+            FROM 
+                presencas, usuarios 
+            WHERE 
+                presencas.id_usuario_presente = usuarios.id_usuario 
+                AND presencas.id_evento_presente = %s
+        '''
 
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursor = connect_BD.cursor()
+        cursor.execute(query, (eventoPresenca,))
+        usuarios_presentes = cursor.fetchall()
+        connect_BD.close()
 
-        return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList)
+        # Formate os resultados em um formato JSON
+        usuarios_formatados = []
+        for usuario in usuarios_presentes:
+            usuario_formatado = {
+                'id_evento_presente': usuario[0],
+                'id_usuario_presente': usuario[1],
+                'id_ingresso': usuario[2],
+                'quantidade_convites': usuario[3],
+                'nome': usuario[4],
+                'sobrenome': usuario[5]
+            }
+            usuarios_formatados.append(usuario_formatado)
+
+        return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList, presentes=usuarios_formatados)
 
 
     return render_template("html/destaques.html", foto=foto)

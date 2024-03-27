@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 </head>
@@ -58,10 +58,8 @@
 
 
 <section class="vh-100">
-
-        <div class="container py-5 h-100">
-
-            {% with messages = get_flashed_messages() %}
+    <div class="container py-5 h-100">
+        {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -71,73 +69,54 @@
             {% endif %}
         {% endwith %}
 
-
-            <div class="container">
-                <div class="row">
-                    <!-- Abas à esquerda -->
-                    <div class="col-md-3">
-                        <div class="nav-container">
-                            <form action="/alteraaba" method="post" enctype="multipart/form-data">
-                                <ul class="nav flex-column nav-pills">
-                                    <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
-                                    <li class="nav-item">
-                                        <button type="submit" class="nav-link btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button type="submit" class="nav-link active btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
-                                    </li>
-                                </ul>
-                            </form>
-                        </div>
+        <div class="container">
+            <div class="row">
+                <!-- Abas à esquerda -->
+                <div class="col-md-3">
+                    <div class="nav-container">
+                        <form action="/alteraaba" method="post" enctype="multipart/form-data">
+                            <ul class="nav flex-column nav-pills">
+                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
+                                <li class="nav-item">
+                                    <button type="submit" class="nav-link btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="submit" class="nav-link active btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
+                                </li>
+                            </ul>
+                        </form>
                     </div>
+                </div>
 
-
+                <!-- Lista de Participantes à direita -->
+                <div class="col-md-9">
+                    <h2>Lista de Participantes</h2>
+                    <ul>
+                        <!-- Loop para exibir os participantes -->
+                        {% for participante in presentes %}
+                            <li>{{ participante.nome }} {{ participante.sobrenome }}</li>
+                        {% endfor %}
+                    </ul>
+                    <!-- Exibir o total de participantes -->
+                    <p>Total de Participantes: {{ presentes|length }}</p>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </section>
+
 <!-- JavaScript necessário para o Bootstrap -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-
-<script>
-$(document).ready(function() {
-    // ID do evento
-    var eventoPresenca = document.getElementById('eventoPresenca').value;
-
-    // Solicitação AJAX para obter usuários presentes no evento
-    $.ajax({
-        type: 'GET',
-        url: '/usuarios_presentes_evento/' + evento_id,
-        success: function(response) {
-            // Limpe a lista de usuários antes de adicionar os novos usuários
-            $('#usuariosList').empty();
-
-            // Adicione os usuários presentes à lista na página HTML
-            response.usuarios_presentes.forEach(function(usuario) {
-                var nomeCompleto = usuario.nome + ' ' + usuario.sobrenome;
-                $('#usuariosList').append('<li>' + nomeCompleto + '</li>');
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            alert('Ocorreu um erro ao obter os usuários presentes no evento.');
-        }
-    });
-});
-</script>
-</script>
 
 </body>
 </html>
