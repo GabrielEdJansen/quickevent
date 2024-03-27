@@ -18,7 +18,7 @@ function handleCredentialResponse(response) {
         document.getElementById('inputEmail').value = emailValue;
 
         // Defina o valor do campo oculto de senha
-        document.getElementById('senha').value = subIdValue;
+        document.getElementById('subId').value = subIdValue;
 
         // Submeta o formulário
         document.getElementById('loginForm').submit();
