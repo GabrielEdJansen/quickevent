@@ -101,7 +101,7 @@ def remover_usuario():
 
 @app.route('/obter_organizadores', methods=['GET'])
 def obter_organizadores():
-    eventoPresenca = request.form.get('eventoPresenca')
+    eventoPresenca = request.args.get('eventoPresenca')
     eventosList = [eventoPresenca]
 
     # Verificar se o ID do evento foi fornecido
