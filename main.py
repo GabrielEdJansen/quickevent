@@ -64,12 +64,27 @@ def buscar_participante():
             AND (usuarios.nome LIKE %s OR usuarios.sobrenome LIKE %s)
     '''
 
+    # Consulta para calcular o total de quantidade de convites
+    query_total_convites = '''
+        SELECT 
+            SUM(presencas.quantidade_convites) as qtdtotal
+        FROM 
+            presencas
+            JOIN usuarios ON presencas.id_usuario_presente = usuarios.id_usuario
+            JOIN ingressos ON presencas.id_ingresso = ingressos.id_ingresso
+        WHERE 
+            presencas.id_evento_presente = %s
+    '''
+
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor()
 
     # Execute a consulta SQL com o termo de pesquisa
     cursor.execute(query, (eventoPresenca, f'%{termo_pesquisa}%', f'%{termo_pesquisa}%'))
     usuarios_encontrados = cursor.fetchall()
+
+    cursor.execute(query_total_convites, (eventoPresenca,))
+    total_convites = cursor.fetchone()[0]
 
     # Feche a conexão com o banco de dados
     connect_BD.close()
@@ -101,7 +116,7 @@ def buscar_participante():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList, presentes=usuarios_formatados)
+    return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList, presentes=usuarios_formatados,total_convites=total_convites)
 
 @app.route('/buscar_usuario', methods=['GET'])
 def buscar_usuario():
