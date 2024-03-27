@@ -239,6 +239,7 @@ def alteraaba():
 
         # Obter os resultados da consulta
         resultados = cursor.fetchall()
+        print(resultados)
 
         # Fechar o cursor e a conexão com o banco de dados
         cursor.close()
@@ -248,6 +249,8 @@ def alteraaba():
         usuarios_organizadores = []
         for resultado in resultados:
             usuarios_organizadores.append(resultado)
+
+        print(usuarios_organizadores)
 
         # Renderizar o template HTML e passar os usuários organizadores para ele
         return render_template("html/UsuariosOrganizadores.html", usuarios=usuarios_organizadores, foto=foto, eventos=eventosList)
