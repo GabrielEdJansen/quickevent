@@ -101,6 +101,10 @@ def buscar_participante():
         }
         usuarios_formatados.append(usuario_formatado)
 
+    # Verificar se nenhum participante foi encontrado e exibir um flash
+    if not usuarios_formatados:
+        flash('Nenhum usuário encontrado.', 'warning')
+
     # Verificar se nenhum participante foi encontrado
     if not usuarios_formatados:
         # Se nenhum participante foi encontrado, buscar todos os participantes
@@ -131,12 +135,6 @@ def buscar_participante():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    # Verificar se nenhum participante foi encontrado e exibir um flash
-    print(usuarios_formatados)
-    if not usuarios_formatados:
-        print(usuarios_formatados)
-        print('entrou aqui')
-        flash('Nenhum usuário encontrado.', 'warning')
 
     connect_BD.close()
 
