@@ -2175,11 +2175,13 @@ def InicioGerenciarEventos():
             usuarios AS u ON u.id_usuario = e.id_usuario_evento
         LEFT JOIN
             presencas AS p ON p.id_evento_presente = e.id_eventos
+        LEFT JOIN
+            eventos_usuarios AS eu ON eu.id_evento = e.id_eventos
         WHERE
-            e.id_usuario_evento = %s
+            e.id_usuario_evento = %s OR eu.id_usuario = %s
     '''
 
-    query_params = [session['idlogado']]
+    query_params = [session['idlogado'], session['idlogado']]
 
     if nome_evento:
         query += f' AND e.nome_evento LIKE %s'
