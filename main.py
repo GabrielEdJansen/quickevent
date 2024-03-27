@@ -86,8 +86,6 @@ def buscar_participante():
     cursor.execute(query_total_convites, (eventoPresenca,))
     total_convites = cursor.fetchone()[0]
 
-    connect_BD.close()
-
     # Formatar os resultados em um formato JSON
     usuarios_formatados = []
     for usuario in usuarios_encontrados:
@@ -103,8 +101,9 @@ def buscar_participante():
         }
         usuarios_formatados.append(usuario_formatado)
 
-    # Verificar se nenhum participante foi encontrado e, se não, buscar todos os participantes
+    # Verificar se nenhum participante foi encontrado
     if not usuarios_formatados:
+        # Se nenhum participante foi encontrado, buscar todos os participantes
         cursor.execute(query, (eventoPresenca, '%', '%'))
         usuarios_encontrados = cursor.fetchall()
         for usuario in usuarios_encontrados:
@@ -120,6 +119,13 @@ def buscar_participante():
             }
             usuarios_formatados.append(usuario_formatado)
 
+    # Verificar se nenhum participante foi encontrado e exibir um flash
+    if not usuarios_formatados:
+        flash('Nenhum usuário encontrado.', 'warning')
+
+    connect_BD.close()
+
+    # Obter a foto do usuário
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
         cursor = connect_BD.cursor()
@@ -130,10 +136,6 @@ def buscar_participante():
 
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
-
-    # Verificar se nenhum participante foi encontrado e exibir um flash
-    if not usuarios_formatados:
-        flash('Nenhum usuário encontrado.', 'warning')
 
     return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList, presentes=usuarios_formatados, total_convites=total_convites)
 
