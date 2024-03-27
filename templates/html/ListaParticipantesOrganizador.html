@@ -93,18 +93,29 @@
                         </form>
                     </div>
                 </div>
-
-                <!-- Lista de Participantes à direita -->
                 <div class="col-md-9">
-                    <h2>Lista de Participantes</h2>
-                    <ul>
-                        <!-- Loop para exibir os participantes -->
-                        {% for participante in presentes %}
-                            <li>{{ participante.nome }} {{ participante.sobrenome }}</li>
-                        {% endfor %}
-                    </ul>
-                    <!-- Exibir o total de participantes -->
-                    <p>Total de Participantes: {{ presentes|length }}</p>
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Lista de Participantes</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group">
+                                <!-- Loop para exibir os participantes -->
+                                {% for participante in presentes %}
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ participante.nome }} {{ participante.sobrenome }}</h6>
+                                            <!-- Adicione mais detalhes se necessário -->
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="card-footer bg-light">
+                            <!-- Exibir o total de participantes -->
+                            <p class="mb-0">Total de Participantes: {{ presentes|length }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
