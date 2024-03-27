@@ -161,7 +161,7 @@ function pesquisarUsuarios() {
   // Associar a função de pesquisa ao clique do botão de pesquisa
   $('#searchUserButton').click(pesquisarUsuarios);
 
-  // Função para adicionar um usuário como organizador
+// Função para adicionar um usuário como organizador
 function adicionarOrganizador(idUsuario, eventoPresenca) {
   // Envia uma solicitação AJAX POST para adicionar o usuário como organizador
   $.ajax({
@@ -173,6 +173,8 @@ function adicionarOrganizador(idUsuario, eventoPresenca) {
       alert(response);
       // Atualiza a lista de usuários organizadores
       atualizarOrganizadores(eventoPresenca);
+      // Realiza um reload da página após o sucesso
+      location.reload();
     },
     error: function(xhr, status, error) {
       // Exibe uma mensagem de erro em caso de falha
