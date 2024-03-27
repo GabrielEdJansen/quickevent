@@ -42,7 +42,7 @@ def buscar_usuario():
         cursor = connect_BD.cursor()
 
         # Executa a consulta SQL para buscar usuários pelo nome
-        cursor.execute("SELECT * FROM usuarios WHERE nome LIKE ?", ('%' + nome_usuario + '%',))
+        cursor.execute("SELECT * FROM usuarios WHERE nome LIKE %s", ('%' + nome_usuario + '%',))
         usuarios = cursor.fetchall()  # Obtém todos os resultados da consulta
 
         connect_BD.close()  # Fecha a conexão com o banco de dados
