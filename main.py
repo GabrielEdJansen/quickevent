@@ -137,7 +137,7 @@ def buscar_participante():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList, presentes=usuarios_formatados, total_convites=total_convites)
+    return render_template("html/ListaParticipantesOrganizador.html", messages=get_flashed_messages(),foto=foto, eventos=eventosList, presentes=usuarios_formatados, total_convites=total_convites)
 
 @app.route('/buscar_usuario', methods=['GET'])
 def buscar_usuario():
