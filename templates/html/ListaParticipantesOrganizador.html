@@ -56,10 +56,10 @@
   </div>
 </nav>
 
+</section>
 
-<section class="vh-100">
-    <div class="container py-5 h-100">
-        {% with messages = get_flashed_messages() %}
+        <div class="container">
+            {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -68,12 +68,6 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
-
-        <!-- Seu conteúdo HTML restante aqui -->
-    </div>
-</section>
-
-        <div class="container">
             <div class="row">
                 <!-- Abas à esquerda -->
                 <div class="col-md-3">
