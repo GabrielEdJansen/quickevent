@@ -33,6 +33,27 @@ mail = Mail(app)
 def home():
     return render_template("html/paginainicial.html")
 
+
+@app.route('/buscar_usuario', methods=['GET'])
+def buscar_usuario():
+    nome_usuario = request.args.get('nome')  # Obtém o parâmetro 'nome' da solicitação GET
+    if nome_usuario:
+        # Conecta-se ao banco de dados
+        conn = connect_db()
+        cursor = conn.cursor()
+
+        # Executa a consulta SQL para buscar usuários pelo nome
+        cursor.execute("SELECT * FROM usuarios WHERE nome LIKE ?", ('%' + nome_usuario + '%',))
+        usuarios = cursor.fetchall()  # Obtém todos os resultados da consulta
+
+        conn.close()  # Fecha a conexão com o banco de dados
+
+        # Retorna os resultados da consulta como JSON
+        return {'usuarios': usuarios}
+    else:
+        return 'Por favor, forneça um nome de usuário para pesquisar.', 400
+
+
 @app.route("/logininicio")
 def logininicio():
     return render_template("html/login.html")

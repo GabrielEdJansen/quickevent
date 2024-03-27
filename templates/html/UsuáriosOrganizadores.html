@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 </head>
@@ -58,56 +57,102 @@
 
 
 <section class="vh-100">
+  <div class="container py-5 h-100">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 
-        <div class="container py-5 h-100">
-
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
-
-            <div class="container">
-                <div class="row">
-                    <!-- Abas à esquerda -->
-                    <div class="col-md-3">
-                        <div class="nav-container">
-                            <form action="/alteraaba" method="post" enctype="multipart/form-data">
-                                <ul class="nav flex-column nav-pills">
-                                    <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
-                                    <li class="nav-item">
-                                        <button type="submit" class="nav-link active btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button type="submit" class="nav-link btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
-                                    </li>
-                                </ul>
-                            </form>
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
+    <div class="container">
+      <div class="row">
+        <!-- Abas à esquerda -->
+        <div class="col-md-3">
+          <div class="nav-container">
+            <form action="/alteraaba" method="post" enctype="multipart/form-data">
+              <ul class="nav flex-column nav-pills">
+                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
+                <li class="nav-item">
+                  <button type="submit" class="nav-link active btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
+                </li>
+                <li class="nav-item">
+                  <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
+                </li>
+                <li class="nav-item">
+                  <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
+                </li>
+                <li class="nav-item">
+                  <button type="submit" class="nav-link btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
+                </li>
+              </ul>
+            </form>
+          </div>
         </div>
-    </form>
+
+        <!-- Usuários Organizadores -->
+        <div class="col-md-9">
+          <h2>Usuários Organizadores</h2>
+          <!-- Input de pesquisa -->
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchUserInput" placeholder="Nome do usuário" aria-label="Nome do usuário" aria-describedby="button-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="searchUserButton"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+          <!-- Botões "Adicionar organizador" e "Remover organizador" -->
+          <div class="btn-group mb-3" role="group" aria-label="Adicionar ou remover organizador">
+            <button type="button" class="btn btn-primary">Adicionar organizador</button>
+            <button type="button" class="btn btn-danger">Remover organizador</button>
+          </div>
+          <!-- Tabela ou lista de usuários organizadores -->
+          <!-- Aqui você pode adicionar a tabela ou lista de usuários organizadores -->
+          <!-- Exemplo de tabela simples -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Usuário 1</td>
+                <td>
+                  <!-- Botão para remover o organizador -->
+                  <button type="button" class="btn btn-sm btn-danger">Remover</button>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Usuário 2</td>
+                <td>
+                  <!-- Botão para remover o organizador -->
+                  <button type="button" class="btn btn-sm btn-danger">Remover</button>
+                </td>
+              </tr>
+              <!-- Adicione mais linhas conforme necessário -->
+            </tbody>
+          </table>
+          <!-- Botão "Salvar" -->
+          <button type="button" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
 <!-- JavaScript necessário para o Bootstrap -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
