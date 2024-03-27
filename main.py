@@ -132,6 +132,7 @@ def buscar_participante():
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
     # Verificar se nenhum participante foi encontrado e exibir um flash
+    print(usuarios_formatados)
     if not usuarios_formatados:
         print(usuarios_formatados)
         print('entrou aqui')
