@@ -121,32 +121,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  // Função para realizar a pesquisa de usuários
-  function pesquisarUsuarios() {
-    var nomeUsuario = document.getElementById('searchUserInput').value;
-    if (nomeUsuario.trim() !== '') {
-      // Envia a solicitação AJAX para a rota Flask
-      $.ajax({
-        type: 'GET',
-        url: '/buscar_usuario',
-        data: { nome: nomeUsuario },
-        success: function(data) {
-          // Limpa a lista de usuários
-          $('#usuariosList').empty();
-          // Adiciona os usuários retornados pela pesquisa à lista
-          data.usuarios.forEach(function(usuario) {
-            $('#usuariosList').append('<li class="list-group-item">' + usuario.id + ' - ' + usuario.nome + ' ' + usuario.sobrenome + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id + ')">Adicionar</button></li>');
-          });
-        },
-        error: function(xhr, status, error) {
-          console.error(xhr.responseText);
-          alert('Ocorreu um erro ao pesquisar usuários.');
-        }
-      });
-    } else {
-      alert('Por favor, insira um nome de usuário para pesquisar.');
-    }
+ // Função para realizar a pesquisa de usuários
+function pesquisarUsuarios() {
+  var nomeUsuario = document.getElementById('searchUserInput').value;
+  if (nomeUsuario.trim() !== '') {
+    // Envia a solicitação AJAX para a rota Flask
+    $.ajax({
+      type: 'GET',
+      url: '/buscar_usuario',
+      data: { nome: nomeUsuario },
+      success: function(data) {
+        // Limpa a lista de usuários
+        $('#usuariosList').empty();
+        // Adiciona os usuários retornados pela pesquisa à lista
+        data.usuarios.forEach(function(usuario) {
+          $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id_usuario + ')">Adicionar</button></li>');
+        });
+      },
+      error: function(xhr, status, error) {
+        console.error(xhr.responseText);
+        alert('Ocorreu um erro ao pesquisar usuários.');
+      }
+    });
+  } else {
+    alert('Por favor, insira um nome de usuário para pesquisar.');
   }
+}
 
   // Associar a função de pesquisa ao clique do botão de pesquisa
   $('#searchUserButton').click(pesquisarUsuarios);
