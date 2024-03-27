@@ -62,16 +62,16 @@ def buscar_usuario():
 
 @app.route('/adicionar_organizador', methods=['POST'])
 def adicionar_organizador():
-    # Obtém o ID do usuário e do evento a serem removidos dos dados enviados pelo AJAX
-    id_usuario = request.json.get('userId')
-    id_evento = request.json.get('eventoPresenca')
+    # Obtém o ID do usuário e do evento a partir dos dados enviados pelo AJAX
+    id_usuario = request.form.get('id_usuario')
+    id_evento = request.form.get('eventoPresenca')
 
     # Conecta-se ao banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor()
 
-    # Remover o usuário da tabela eventos_usuarios
-    cursor.execute("DELETE FROM eventos_usuarios WHERE id_usuario = %s AND id_evento = %s", (id_usuario, id_evento))
+    # Insere os dados na tabela eventos_usuarios
+    cursor.execute("INSERT INTO eventos_usuarios (id_evento, id_usuario) VALUES (%s, %s)", (id_evento, id_usuario))
     connect_BD.commit()  # Confirma a transação
 
     connect_BD.close()  # Fecha a conexão com o banco de dados
@@ -90,7 +90,7 @@ def remover_usuario():
     cursor = connect_BD.cursor()
 
     # Remover o usuário da tabela eventos_usuarios
-    cursor.execute("DELETE FROM eventos_usuarios WHERE id_usuario = %s", (userId,))
+    cursor.execute("DELETE FROM eventos_usuarios WHERE id_usuario = %s AND id_evento = %s", (id_usuario, id_evento))
     connect_BD.commit()  # Confirma a transação
 
     connect_BD.close()  # Fecha a conexão com o banco de dados
