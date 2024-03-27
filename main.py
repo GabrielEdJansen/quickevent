@@ -74,14 +74,33 @@ def adicionar_organizador():
     cursor.execute("INSERT INTO eventos_usuarios (id_evento, id_usuario) VALUES (%s, %s)", (id_evento, id_usuario))
     connect_BD.commit()  # Confirma a transação
 
-    # Recupera os usuários associados ao evento
-    cursor.execute("SELECT id_usuario, nome_completo FROM eventos_usuarios JOIN usuarios ON eventos_usuarios.id_usuario = usuarios.id WHERE id_evento = %s", (id_evento,))
-    usuarios_associados = cursor.fetchall()
-
     connect_BD.close()  # Fecha a conexão com o banco de dados
 
-    # Retorna os usuários associados como uma resposta JSON
-    return jsonify(usuarios_associados), 200
+    # Retorna uma resposta para o AJAX
+    return 'Usuário adicionado como organizador com sucesso.', 200
+
+
+@app.route('/obter_organizadores', methods=['GET'])
+def obter_organizadores():
+    try:
+        # Obtém o ID do evento do parâmetro da consulta
+        id_evento = request.args.get('id_evento')
+
+        # Verifica se o ID do evento foi fornecido
+        if id_evento is None:
+            return 'ID do evento não fornecido.', 400
+
+        # Consulta SQL para obter os organizadores por evento
+        sql = "SELECT * FROM eventos_usuarios WHERE id_evento = %s"
+
+        # Executa a consulta e obtém os resultados
+        resultados = execute_query(sql, (id_evento,))
+
+        # Retorna os resultados em formato JSON
+        return jsonify({'organizadores': resultados})
+
+    except Exception as e:
+        return str(e)
 
 @app.route("/logininicio")
 def logininicio():

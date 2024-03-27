@@ -171,7 +171,7 @@ function atualizarOrganizadores(eventoPresenca) {
   $.ajax({
     type: 'GET',
     url: '/obter_organizadores',
-    data: { eventoPresenca: eventoPresenca },
+    data: { id_evento: eventoPresenca },
     success: function(data) {
       // Limpa a lista de usuários
       $('#usuariosList').empty();
