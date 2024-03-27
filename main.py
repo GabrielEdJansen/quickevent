@@ -250,9 +250,9 @@ def alteraaba():
             usuarios_organizadores.append(resultado)
 
         # Renderizar o template HTML e passar os usuários organizadores para ele
-        return render_template("html/UsuariosOrganizadores.html", usuarios=usuarios_organizadores)
+        return render_template("html/UsuariosOrganizadores.html", usuarios=usuarios_organizadores, foto=foto, eventos=eventosList)
+       #return render_template("html/UsuariosOrganizadores.html", foto=foto, eventos=eventosList)
 
-        #return render_template("html/UsuariosOrganizadores.html", foto=foto, eventos=eventosList)
     elif acao == 'chatOrganizadores':
         UsuáriosOrganizadores
     elif acao == 'listaParticipantes':
