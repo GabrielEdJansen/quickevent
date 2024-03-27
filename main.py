@@ -36,13 +36,21 @@ def home():
 
 @app.route('/buscar_usuario', methods=['GET'])
 def buscar_usuario():
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+    idlogado = str(session['idlogado'])
+
     nome_usuario = request.args.get('nome')  # Obtém o parâmetro 'nome' da solicitação GET
     if nome_usuario:
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor()
 
         # Executa a consulta SQL para buscar usuários pelo nome
-        cursor.execute("SELECT id_usuario, nome, sobrenome FROM usuarios WHERE nome LIKE %s", ('%' + nome_usuario + '%',))
+        #cursor.execute("SELECT id_usuario, nome, sobrenome FROM usuarios WHERE nome LIKE %s", ('%' + nome_usuario + '%',))
+        cursor.execute(
+            "SELECT id_usuario, nome, sobrenome FROM usuarios WHERE nome LIKE %s AND id_usuario NOT IN (SELECT id_usuario FROM eventos_usuarios WHERE id_evento = %s)",
+            ('%' + nome_usuario + '%', eventoPresenca))
+
         usuarios = cursor.fetchall()  # Obtém todos os resultados da consulta
 
         connect_BD.close()  # Fecha a conexão com o banco de dados
@@ -62,6 +70,10 @@ def buscar_usuario():
 
 @app.route('/adicionar_organizador', methods=['GET','POST'])
 def adicionar_organizador():
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+    idlogado = str(session['idlogado'])
+
     # Obtém o ID do usuário e do evento a partir dos dados enviados pelo AJAX
     id_usuario = request.form.get('id_usuario')
     id_evento = request.form.get('eventoPresenca')
@@ -77,10 +89,14 @@ def adicionar_organizador():
     connect_BD.close()  # Fecha a conexão com o banco de dados
 
     # Retorna uma resposta para o AJAX
-    return redirect(url_for('obter_organizadores', eventoPresenca=id_evento))
+    return 'Usuário adicionado com sucesso!.', 200
 
 @app.route('/remover_usuario', methods=['POST'])
 def remover_usuario():
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+    idlogado = str(session['idlogado'])
+
     # Obtém o ID do usuário a ser removido e o ID do evento dos dados enviados pelo AJAX
     data = request.json
     userId = data.get('userId')
@@ -97,7 +113,7 @@ def remover_usuario():
     connect_BD.close()  # Fecha a conexão com o banco de dados
 
     # Retorna uma resposta para o AJAX
-    return redirect(url_for('obter_organizadores', eventoPresenca=id_evento))
+    return 'Usuário removido com sucesso!.', 200
 
 @app.route('/obter_organizadores', methods=['GET'])
 def obter_organizadores():
