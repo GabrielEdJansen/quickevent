@@ -34,14 +34,14 @@ def home():
     return render_template("html/paginainicial.html")
 
 
-# Rota para pesquisar usuários pelo nome
 @app.route('/buscar_usuario', methods=['GET'])
 def buscar_usuario():
     nome_usuario = request.args.get('nome')  # Obtém o parâmetro 'nome' da solicitação GET
     if nome_usuario:
-        # Conecta-se ao banco de dados
-        conn = connect_db()
-        cursor = conn.cursor()
+
+        connect_BD = configbanco(db_type='mysql-connector')
+
+        cursor = connect_BD.cursor()
 
         # Executa a consulta SQL para buscar usuários pelo nome
         cursor.execute("SELECT * FROM usuarios WHERE nome LIKE ?", ('%' + nome_usuario + '%',))
