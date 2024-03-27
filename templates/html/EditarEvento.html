@@ -58,6 +58,7 @@
 
 
 
+        <div class="container">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
@@ -66,32 +67,30 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            {% endwith %}
-
-<div class="container">
-    <div class="row">
-        <!-- Abas à esquerda -->
-        <div class="col-md-3">
-            <div class="nav-container">
-                <form action="/alteraaba" method="post" enctype="multipart/form-data">
-                    <ul class="nav flex-column nav-pills">
-                        <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
-                        <li class="nav-item">
-                            <button type="submit" class="nav-link active btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
-                        </li>
-                    </ul>
-                </form>
-            </div>
-        </div>
+        {% endwith %}
+            <div class="row">
+                <!-- Abas à esquerda -->
+                <div class="col-md-3">
+                    <div class="nav-container">
+                        <form action="/alteraaba" method="post" enctype="multipart/form-data">
+                            <ul class="nav flex-column nav-pills">
+                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
+                                <li class="nav-item">
+                                    <button type="submit" class="nav-link active btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="submit" class="nav-link btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
 <section class="vh-100">
     <form action="{{ url_for('SalvarAlteracoes') }}" method="post" enctype="multipart/form-data">
         <!-- Conteúdo das abas à direita -->
@@ -493,14 +492,13 @@
                                         Salvar alterações
                                     </button>
                                 </div>
-
-                    </div>
-                </div>
+                             </div>
+                        </div>
+                     </div>
                 </form>
             </section>
         </div>
     </div>
-</div>
 <!-- JavaScript necessário para o Bootstrap -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
