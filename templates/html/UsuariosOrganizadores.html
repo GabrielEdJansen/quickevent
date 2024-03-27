@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function() {
   removeButtons.forEach(function(button) {
     button.addEventListener('click', function() {
       var userId = button.getAttribute('data-id'); // ID do usuário a ser removido
-      var eventoPresenca = button.getAttribute('data-evento'); // ID do evento
+      var eventoPresenca = document.getElementById('eventoPresenca').value;
 
       // Enviar solicitação para remover o usuário
       removerUsuario(userId, eventoPresenca);
