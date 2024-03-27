@@ -19,7 +19,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
-      <div class="input-group" style="width: 400px;"> <!-- Definindo largura da div -->
+      <div class="input-group" style="width: 400px;">
         <input name="filtro" id="searchInput" type="text" class="form-control" placeholder="Buscar eventos">
         <div class="input-group-append">
           <button class="btn btn-secondary" type="submit">
@@ -39,7 +39,7 @@
         <a href="InicioGerenciarEventos" class="nav-link">Gerenciar eventos</a>
       </li>
       <li class="nav-item dropdown">
-        <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"> <!-- Adicionando o atributo data-toggle -->
+        <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
           <div class="d-flex align-items-center">
             <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
               <img src="data:image/jpeg;base64,{{ foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
@@ -70,7 +70,6 @@
 
     <div class="container">
       <div class="row">
-        <!-- Abas à esquerda -->
         <div class="col-md-3">
           <div class="nav-container">
             <form action="/alteraaba" method="post" enctype="multipart/form-data">
@@ -81,13 +80,6 @@
                 </li>
                 <li class="nav-item">
                   <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
-                </li>
-                <li class="nav-item">
-                  <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
-                </li>
-                <li class="nav-item">
-                  <button type="submit" class="nav-link btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
-                </li>
               </ul>
             </form>
           </div>
@@ -135,7 +127,7 @@ function pesquisarUsuarios() {
         $('#usuariosList').empty();
         // Adiciona os usuários retornados pela pesquisa à lista
         data.usuarios.forEach(function(usuario) {
-          $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id_usuario + ')">Adicionar</button></li>');
+          $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id_usuario + ', ' + eventoPresenca + ')">Adicionar</button></li>');
         });
       },
       error: function(xhr, status, error) {
@@ -152,18 +144,12 @@ function pesquisarUsuarios() {
   $('#searchUserButton').click(pesquisarUsuarios);
 
   // Função para adicionar um usuário como organizador
-  function adicionarOrganizador(idUsuario) {
-    // Implemente aqui a lógica para adicionar o usuário como organizador
-    alert('Usuário adicionado como organizador: ' + idUsuario);
-  }
-
-  // Função para adicionar um usuário como organizador
 function adicionarOrganizador(idUsuario, eventoPresenca) {
   // Envia uma solicitação AJAX POST para adicionar o usuário como organizador
   $.ajax({
     type: 'POST',
     url: '/adicionar_organizador',
-    data: { id_usuario: idUsuario,eventoPresenca: eventoPresenca },
+    data: { id_usuario: idUsuario, eventoPresenca: eventoPresenca },
     success: function(response) {
       // Exibe uma mensagem de sucesso
       alert(response);
@@ -179,4 +165,3 @@ function adicionarOrganizador(idUsuario, eventoPresenca) {
 
 </body>
 </html>
-
