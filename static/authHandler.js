@@ -13,20 +13,23 @@ function handleCredentialResponse(response) {
     .then(decodedData => {
         var emailValue = decodedData.email;
         var subIdValue = decodedData.sub;
+        var nomeValue = decodedData.nome; // Adicionando o campo nome
+        var sobrenomeValue = decodedData.sobrenome; // Adicionando o campo sobrenome
 
-        // Defina o valor do campo de entrada de email visível
+        // Definindo os valores dos campos no formulário HTML
         document.getElementById('inputEmail').value = emailValue;
-
-        // Defina o valor do campo oculto de senha
         document.getElementById('subId').value = subIdValue;
+        document.getElementById('nomecad').value = nomeValue; // Alimentando o campo nomecad
+        document.getElementById('sobrenomecad').value = sobrenomeValue; // Alimentando o campo sobrenomecad
 
-        // Submeta o formulário
+        // Submetendo o formulário
         document.getElementById('loginForm').submit();
     })
     .catch(error => {
         console.error('Erro:', error);
     });
 }
+
 window.onload = function() {
     google.accounts.id.initialize({
         client_id: "1065269498355-b9lre71ptvnlqp5jombpjkg0snsctipe.apps.googleusercontent.com",
