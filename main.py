@@ -34,6 +34,7 @@ def home():
     return render_template("html/paginainicial.html")
 
 
+# Rota para pesquisar usuários pelo nome
 @app.route('/buscar_usuario', methods=['GET'])
 def buscar_usuario():
     nome_usuario = request.args.get('nome')  # Obtém o parâmetro 'nome' da solicitação GET
@@ -49,7 +50,7 @@ def buscar_usuario():
         conn.close()  # Fecha a conexão com o banco de dados
 
         # Retorna os resultados da consulta como JSON
-        return {'usuarios': usuarios}
+        return jsonify({'usuarios': usuarios})
     else:
         return 'Por favor, forneça um nome de usuário para pesquisar.', 400
 

@@ -151,8 +151,42 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Seu script JavaScript -->
+<script>
+  $(document).ready(function() {
+    // Função para realizar a pesquisa de usuários
+    function pesquisarUsuarios() {
+      var nomeUsuario = $('#searchUserInput').val().trim();
+      if (nomeUsuario !== '') {
+        // Envia a solicitação AJAX para a rota Flask
+        $.ajax({
+          type: 'GET',
+          url: '/buscar_usuario',
+          data: { nome: nomeUsuario },
+          success: function(data) {
+            // Limpa a tabela de usuários
+            $('#usuariosTable tbody').empty();
+            // Preenche a tabela com os usuários encontrados
+            data.usuarios.forEach(function(usuario) {
+              $('#usuariosTable tbody').append('<tr><th scope="row">' + usuario.id + '</th><td>' + usuario.nome + '</td><td><button type="button" class="btn btn-sm btn-danger">Remover</button></td></tr>');
+            });
+          },
+          error: function() {
+            alert('Ocorreu um erro ao pesquisar usuários.');
+          }
+        });
+      } else {
+        alert('Por favor, insira um nome de usuário para pesquisar.');
+      }
+    }
+
+    // Registrar o evento de clique do botão de pesquisa
+    $('#searchUserButton').click(pesquisarUsuarios);
+  });
+</script>
+
 
 </body>
 </html>
