@@ -141,13 +141,16 @@ function pesquisarUsuarios() {
       data: { nome: nomeUsuario, eventoPresenca: eventoPresenca },
       success: function(data) {
         $('#usuariosList').empty(); // Limpa a lista de usuários
-        $.each(data.usuarios, function(index, usuario) {
-          $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id_usuario + ', ' + eventoPresenca + ')">Adicionar</button></li>');
-        });
+        if (data.usuarios.length === 0) {
+          alert('Nenhum usuário encontrado.');
+        } else {
+          $.each(data.usuarios, function(index, usuario) {
+            $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id_usuario + ', ' + eventoPresenca + ')">Adicionar</button></li>');
+          });
+        }
       },
       error: function(xhr, status, error) {
         console.error(xhr.responseText);
-        alert('Ocorreu um erro ao pesquisar usuários.');
       }
     });
   } else {
