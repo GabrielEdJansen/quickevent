@@ -38,16 +38,14 @@ def home():
 def buscar_usuario():
     nome_usuario = request.args.get('nome')  # Obtém o parâmetro 'nome' da solicitação GET
     if nome_usuario:
-
         connect_BD = configbanco(db_type='mysql-connector')
-
         cursor = connect_BD.cursor()
 
         # Executa a consulta SQL para buscar usuários pelo nome
         cursor.execute("SELECT * FROM usuarios WHERE nome LIKE ?", ('%' + nome_usuario + '%',))
         usuarios = cursor.fetchall()  # Obtém todos os resultados da consulta
 
-        conn.close()  # Fecha a conexão com o banco de dados
+        connect_BD.close()  # Fecha a conexão com o banco de dados
 
         # Retorna os resultados da consulta como JSON
         return jsonify({'usuarios': usuarios})
