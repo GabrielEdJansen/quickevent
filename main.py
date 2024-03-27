@@ -351,7 +351,7 @@ def alteraaba():
                 usuarios.nome,
                 usuarios.sobrenome,
                 ingressos.titulo_ingresso,
-                ingressos.quantidade
+                presencas.quantidade_convites
             FROM 
                 presencas, usuarios, ingressos
             WHERE 
