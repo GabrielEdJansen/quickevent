@@ -33,6 +33,75 @@ mail = Mail(app)
 def home():
     return render_template("html/paginainicial.html")
 
+@app.route('/buscar_participante', methods=['GET'])
+def buscar_participante():
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+    idlogado = str(session['idlogado'])
+
+    # Obter o termo de pesquisa do formulário
+    termo_pesquisa = request.args.get('termo_pesquisa', '')
+    eventoPresenca = request.args.get('eventoPresenca', None)
+    # Sua lógica de busca aqui
+    # Modifique sua consulta SQL para incluir a cláusula WHERE para filtrar pelo termo de pesquisa fornecido
+    query = '''
+        SELECT 
+            presencas.id_evento_presente,
+            presencas.id_usuario_presente,
+            presencas.id_ingresso,
+            presencas.quantidade_convites,
+            usuarios.nome,
+            usuarios.sobrenome,
+            ingressos.titulo_ingresso,
+            presencas.quantidade_convites
+        FROM 
+            presencas, usuarios, ingressos
+        WHERE 
+            presencas.id_ingresso = ingressos.id_ingresso
+            AND presencas.id_evento_presente = ingressos.id_eventos
+            AND presencas.id_usuario_presente = usuarios.id_usuario 
+            AND presencas.id_evento_presente = %s
+            AND (usuarios.nome LIKE %s OR usuarios.sobrenome LIKE %s)
+    '''
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursor = connect_BD.cursor()
+
+    # Execute a consulta SQL com o termo de pesquisa
+    cursor.execute(query, (eventoPresenca, f'%{termo_pesquisa}%', f'%{termo_pesquisa}%'))
+    usuarios_encontrados = cursor.fetchall()
+
+    # Feche a conexão com o banco de dados
+    connect_BD.close()
+
+    # Formate os resultados em um formato JSON
+    usuarios_formatados = []
+    for usuario in usuarios_encontrados:
+        usuario_formatado = {
+            'id_evento_presente': usuario[0],
+            'id_usuario_presente': usuario[1],
+            'id_ingresso': usuario[2],
+            'quantidade_convites': usuario[3],
+            'nome': usuario[4],
+            'sobrenome': usuario[5],
+            'titulo_ingresso': usuario[6],
+            'quantidade_ingresso': usuario[7]
+        }
+        usuarios_formatados.append(usuario_formatado)
+
+    # Lógica para lidar com solicitações GET
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursur.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList, presentes=usuarios_formatados)
 
 @app.route('/buscar_usuario', methods=['GET'])
 def buscar_usuario():
