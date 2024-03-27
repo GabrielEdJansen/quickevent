@@ -119,12 +119,6 @@ def buscar_participante():
             }
             usuarios_formatados.append(usuario_formatado)
 
-    # Verificar se nenhum participante foi encontrado e exibir um flash
-    if not usuarios_formatados:
-        flash('Nenhum usuário encontrado.', 'warning')
-
-    connect_BD.close()
-
     # Obter a foto do usuário
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
@@ -136,6 +130,14 @@ def buscar_participante():
 
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    # Verificar se nenhum participante foi encontrado e exibir um flash
+    if not usuarios_formatados:
+        print(usuarios_formatados)
+        print('entrou aqui')
+        flash('Nenhum usuário encontrado.', 'warning')
+
+    connect_BD.close()
 
     return render_template("html/ListaParticipantesOrganizador.html", messages=get_flashed_messages(),foto=foto, eventos=eventosList, presentes=usuarios_formatados, total_convites=total_convites)
 
