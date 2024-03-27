@@ -41,6 +41,7 @@ def buscar_usuario():
     idlogado = str(session['idlogado'])
 
     nome_usuario = request.args.get('nome')  # Obtém o parâmetro 'nome' da solicitação GET
+    id_evento = request.args.get('eventoPresenca')
     if nome_usuario:
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor()

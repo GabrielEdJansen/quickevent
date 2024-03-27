@@ -234,6 +234,7 @@ document.addEventListener("DOMContentLoaded", function() {
     xhr.onload = function() {
       if (xhr.status === 200) {
         // Atualizar a lista de usuários após a remoção
+        console.error(xhr.responseText);
         location.reload();
       } else {
         console.error('Erro ao remover o usuário:', xhr.responseText);
