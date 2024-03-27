@@ -23,12 +23,14 @@ function handleCredentialResponse(response) {
         document.getElementById('nomecad').value = nomeValue; // Alimentando o campo nomecad
         document.getElementById('sobrenomecad').value = sobrenomeValue; // Alimentando o campo sobrenomecad
 
-        // Submetendo o formulário
-        document.getElementById('loginForm').submit();
-    })
-    .catch(error => {
-        console.error('Erro:', error);
-    });
+        setTimeout(() => {
+                // Submetendo o formulário após o atraso de 10 segundos
+                document.getElementById('loginForm').submit();
+            }, 10000); // 10000 milissegundos = 10 segundos
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+        });
 }
 
 window.onload = function() {
