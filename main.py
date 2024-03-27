@@ -1495,95 +1495,93 @@ def login():
         senha = request.form.get('senha')
         subId = request.form.get('subId')
 
-        if subId is not None:
-            connect_BD = configbanco(db_type='mysql-connector')
-            if connect_BD.is_connected():
-                cursur = connect_BD.cursor()
-                cursur.execute("select * from usuarios;")
-                usuariosBD = cursur.fetchall()
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursor = connect_BD.cursor()
+            cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+            usuario = cursor.fetchone()
 
-                for usuario in usuariosBD:
-                    if usuario[3] == email and usuario[6] == subId:
+            if usuario:
+                if subId:
+                    if usuario[6] == subId:
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca is None or eventoPresenca == 0:
-                            print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-
-                flash('Usuário inválido!')
-                return redirect("/")
+                elif usuario[4] == senha:
+                    session['idlogado'] = usuario[0]
+                    eventoPresenca = request.args.get('eventoPresenca')
+                    if eventoPresenca is None or eventoPresenca == 0:
+                        return redirect("/destaques")
+                    else:
+                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
             else:
-                return redirect("/")
+                if subId:  # Se o usuário tem um subId, mas não está registrado
+                    connect_BD = configbanco(db_type='mysql-connector')
+                    cursor = connect_BD.cursor()
+                    cursor.execute("INSERT INTO usuarios (nome, sobrenome, email, senha, subId) VALUES (%s, %s, %s, %s, %s)",
+                                   (request.form.get('nomecad'), request.form.get('sobrenomecad'), email, senha, subId))
+                    connect_BD.commit()
+                    connect_BD.close()
+                    session['idlogado'] = cursor.lastrowid
+                    eventoPresenca = request.args.get('eventoPresenca')
+                    if eventoPresenca is None or eventoPresenca == 0:
+                        return redirect("/destaques")
+                    else:
+                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
+
+            flash('Usuário inválido!')
+            return redirect("/")
         else:
-            connect_BD = configbanco(db_type='mysql-connector')
-            if connect_BD.is_connected():
-                cursur = connect_BD.cursor()
-                cursur.execute("select * from usuarios;")
-                usuariosBD = cursur.fetchall()
-
-                for usuario in usuariosBD:
-                    if usuario[3] == email and usuario[4] == senha:
-                        session['idlogado'] = usuario[0]
-                        eventoPresenca = request.args.get('eventoPresenca')
-                        if eventoPresenca is None or eventoPresenca == 0:
-                            print("idlog:", usuario[0])
-                            return redirect("/destaques")
-                        else:
-                            return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-
-                flash('Usuário inválido!')
-                return redirect("/logininicio")
-            else:
-                return redirect("/")
+            return redirect("/")
     elif request.method == 'GET':
         email = request.args.get('email')
         senha = request.args.get('senha')
         subId = request.args.get('subId')
 
-        if subId is not None:
-            connect_BD = configbanco(db_type='mysql-connector')
-            if connect_BD.is_connected():
-                cursur = connect_BD.cursor()
-                cursur.execute("select * from usuarios;")
-                usuariosBD = cursur.fetchall()
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursor = connect_BD.cursor()
+            cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+            usuario = cursor.fetchone()
 
-                for usuario in usuariosBD:
-                    if usuario[3] == email and usuario[6] == subId:
+            if usuario:
+                if subId:
+                    if usuario[6] == subId:
                         session['idlogado'] = usuario[0]
                         eventoPresenca = request.args.get('eventoPresenca')
                         if eventoPresenca is None or eventoPresenca == 0:
-                            print("idlog:", usuario[0])
                             return redirect("/destaques")
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-
-                flash('Usuário inválido!')
-                return redirect("/")
+                elif usuario[4] == senha:
+                    session['idlogado'] = usuario[0]
+                    eventoPresenca = request.args.get('eventoPresenca')
+                    if eventoPresenca is None or eventoPresenca == 0:
+                        return redirect("/destaques")
+                    else:
+                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
             else:
-                return redirect("/")
+                if subId:  # Se o usuário tem um subId, mas não está registrado
+                    connect_BD = configbanco(db_type='mysql-connector')
+                    cursor = connect_BD.cursor()
+                    cursor.execute("INSERT INTO usuarios (nome, sobrenome, email, senha, subId) VALUES (%s, %s, %s, %s, %s)",
+                                   (request.args.get('nomecad'), request.args.get('sobrenomecad'), email, senha, subId))
+                    connect_BD.commit()
+                    connect_BD.close()
+                    session['idlogado'] = cursor.lastrowid
+                    eventoPresenca = request.args.get('eventoPresenca')
+                    if eventoPresenca is None or eventoPresenca == 0:
+                        return redirect("/destaques")
+                    else:
+                        return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
+
+            flash('Usuário inválido!')
+            return redirect("/")
         else:
-            connect_BD = configbanco(db_type='mysql-connector')
-            if connect_BD.is_connected():
-                cursur = connect_BD.cursor()
-                cursur.execute("select * from usuarios;")
-                usuariosBD = cursur.fetchall()
-
-                for usuario in usuariosBD:
-                    if usuario[3] == email and usuario[4] == senha:
-                        session['idlogado'] = usuario[0]
-                        eventoPresenca = request.args.get('eventoPresenca')
-                        if eventoPresenca is None or eventoPresenca == 0:
-                            print("idlog:", usuario[0])
-                            return redirect("/destaques")
-                        else:
-                            return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-
-                flash('Usuário inválido!')
-                return redirect("/logininicio")
-            else:
-                return redirect("/")
+            return redirect("/")
 
 @app.route("/InicioCriarEvento")
 def criarevento():
