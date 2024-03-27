@@ -62,45 +62,77 @@ def buscar_usuario():
 
 @app.route('/adicionar_organizador', methods=['POST'])
 def adicionar_organizador():
-    # Obtém o ID do usuário e do evento a partir dos dados enviados pelo AJAX
-    id_usuario = request.form.get('id_usuario')
-    id_evento = request.form.get('eventoPresenca')
+    # Obtém o ID do usuário e do evento a serem removidos dos dados enviados pelo AJAX
+    id_usuario = request.json.get('userId')
+    id_evento = request.json.get('eventoPresenca')
 
     # Conecta-se ao banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor()
 
-    # Insere os dados na tabela eventos_usuarios
-    cursor.execute("INSERT INTO eventos_usuarios (id_evento, id_usuario) VALUES (%s, %s)", (id_evento, id_usuario))
+    # Remover o usuário da tabela eventos_usuarios
+    cursor.execute("DELETE FROM eventos_usuarios WHERE id_usuario = %s AND id_evento = %s", (id_usuario, id_evento))
     connect_BD.commit()  # Confirma a transação
 
     connect_BD.close()  # Fecha a conexão com o banco de dados
 
     # Retorna uma resposta para o AJAX
-    return 'Usuário adicionado como organizador com sucesso.', 200
+    return redirect('/obter_organizadores')
 
+@app.route('/remover_usuario', methods=['POST'])
+def remover_usuario():
+    # Obtém o ID do usuário a ser removido dos dados enviados pelo AJAX
+    data = request.json
+    userId = data['userId']
+
+    # Conecta-se ao banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursor = connect_BD.cursor()
+
+    # Remover o usuário da tabela eventos_usuarios
+    cursor.execute("DELETE FROM eventos_usuarios WHERE id_usuario = %s", (userId,))
+    connect_BD.commit()  # Confirma a transação
+
+    connect_BD.close()  # Fecha a conexão com o banco de dados
+
+    # Retorna uma resposta para o AJAX
+    return redirect('/obter_organizadores')
 
 @app.route('/obter_organizadores', methods=['GET'])
 def obter_organizadores():
-    try:
-        # Obtém o ID do evento do parâmetro da consulta
-        id_evento = request.args.get('id_evento')
+    eventoPresenca = request.form.get('eventoPresenca')
+    eventosList = [eventoPresenca]
 
-        # Verifica se o ID do evento foi fornecido
-        if id_evento is None:
-            return 'ID do evento não fornecido.', 400
+    # Verificar se o ID do evento foi fornecido
+    if eventoPresenca is None:
+        return jsonify({'error': 'ID do evento não fornecido.'}), 400
 
-        # Consulta SQL para obter os organizadores por evento
-        sql = "SELECT * FROM eventos_usuarios WHERE id_evento = %s"
+    # Configurar a conexão com o banco de dados
+    conexao_bd = configbanco(db_type='mysql-connector')
 
-        # Executa a consulta e obtém os resultados
-        resultados = execute_query(sql, (id_evento,))
+    # Consulta SQL para obter os usuários organizadores por evento
+    sql = "select eventos_usuarios.id_usuario, usuarios.nome, usuarios.sobrenome from eventos_usuarios, usuarios where eventos_usuarios.id_usuario = usuarios.id_usuario and id_evento = %s"
 
-        # Retorna os resultados em formato JSON
-        return jsonify({'organizadores': resultados})
+    # Criar um cursor para executar a consulta
+    cursor = conexao_bd.cursor()
 
-    except Exception as e:
-        return str(e)
+    # Executar a consulta e obter os resultados
+    cursor.execute(sql, (eventoPresenca,))
+
+    # Obter os resultados da consulta
+    resultados = cursor.fetchall()
+
+    # Fechar o cursor e a conexão com o banco de dados
+    cursor.close()
+    conexao_bd.close()
+
+    # Criar uma lista de usuários
+    usuarios_organizadores = []
+    for resultado in resultados:
+        usuarios_organizadores.append(resultado)
+
+    # Renderizar o template HTML e passar os usuários organizadores para ele
+    return render_template("html/UsuariosOrganizadores.html", usuarios=usuarios_organizadores, foto=foto, eventos=eventosList)
 
 @app.route("/logininicio")
 def logininicio():

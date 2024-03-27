@@ -1,0 +1,96 @@
+ /* Estilo personalizado para a navbar */
+    .navbar-custom {
+      background-color: #00549A; /* Cor de fundo da navbar */
+      min-height: 80px; /* Altura mínima da navbar */
+    }
+    .navbar-custom .navbar-brand {
+      color: #ffffff; /* Cor do texto do logo */
+    }
+    /* Aumenta o tamanho da navbar em telas menores */
+    @media (max-width: 768px) {
+      .navbar-custom {
+        min-height: 60px; /* Ajuste de altura para telas menores */
+      }
+    }
+
+    .carousel {
+      width: 100%;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+    }
+
+    .small-images {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .small-images img {
+      height: auto;
+      margin: 0 10px; /* Add some spacing between the images */
+    }
+
+    .btn-container {
+        display: flex;
+        gap: 10px; /* Ajuste este valor para o espaçamento desejado */
+    }
+    .btn-container button {
+        flex: 1; /* Distribui o espaço igualmente entre os botões */
+    }
+    .btn-criar-evento {
+            margin-top: 15px;
+    }
+    .nav-container {
+        border: 1px solid #ccc; /* Borda sólida com cor cinza */
+        border-radius: 5px; /* Cantos arredondados */
+        padding: 10px; /* Espaçamento interno */
+    }
+
+    .btn-clean {
+        border: none;
+        background-color: transparent;
+        color: #007bff; /* cor do texto azul */
+    }
+
+    .btn-clean:hover {
+        background-color: rgba(0, 123, 255, 0.1); /* cor de fundo ao passar o mouse */
+    }
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 4rem; /* Ajuste o tamanho conforme necessário */
+        height: 4rem; /* Ajuste o tamanho conforme necessário */
+        line-height: 4rem; /* Ajuste o tamanho conforme necessário */
+        text-align: center;
+        pointer-events: none;
+        color: #aaa;
+    }
+    .increased-size {
+        width: 800px; /* ajuste o tamanho conforme necessário */
+    }
+.navbar-nav .nav-item .nav-link:hover,
+.navbar-nav .nav-item .nav-link:active {
+    color: yellow !important;
+}
+/* Estilo para o elemento <li> */
+#usuarios-section ul li {
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Estilo para o botão de remoção */
+.remove-button {
+  background-color: #ff6347; /* Cor de fundo vermelha */
+  color: #fff; /* Cor do texto branco */
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}

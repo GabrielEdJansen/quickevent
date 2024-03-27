@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Quickevent</title>
-  <link href="../static/style/styleNavBarEditarEvento.css" rel="stylesheet">
+  <link href="../static/style/styleNavBarUsuarioOrganizador.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -101,9 +101,12 @@
           </ul>
           <section id="usuarios-section">
             <ul>
-                {% for usuario in usuarios %}
-                    <li>{{ usuario[0]|string }} - {{ usuario[1] }} {{ usuario[2] }}</li>
-                {% endfor %}
+              {% for usuario in usuarios %}
+                <li>
+                  <span>{{ usuario[0]|string }} - {{ usuario[1] }} {{ usuario[2] }}</span>
+                  <button class="remove-button" data-id="{{ usuario[0] }}">Remover</button>
+                </li>
+              {% endfor %}
             </ul>
           </section>
         </div>
@@ -197,6 +200,42 @@ function atualizarOrganizadores(eventoPresenca) {
     }
   });
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Seletor de todos os botões de remoção
+  var removeButtons = document.querySelectorAll('.remove-button');
+
+  // Adicionar evento de clique para cada botão de remoção
+  removeButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      var userId = button.getAttribute('data-id'); // ID do usuário a ser removido
+      var eventoPresenca = button.getAttribute('data-evento'); // ID do evento
+
+      // Enviar solicitação para remover o usuário
+      removerUsuario(userId, eventoPresenca);
+    });
+  });
+
+  // Função para remover o usuário
+  function removerUsuario(userId, eventoPresenca) {
+    // Envie uma solicitação AJAX POST para remover o usuário
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/remover_usuario', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        // Atualizar a lista de usuários após a remoção
+        location.reload();
+      } else {
+        console.error('Erro ao remover o usuário:', xhr.responseText);
+      }
+    };
+    xhr.onerror = function() {
+      console.error('Erro de rede ao remover o usuário.');
+    };
+    xhr.send(JSON.stringify({ userId: userId, eventoPresenca: eventoPresenca }));
+  }
+});
 </script>
 
 </body>
