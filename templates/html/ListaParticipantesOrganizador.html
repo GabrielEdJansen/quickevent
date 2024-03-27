@@ -110,7 +110,6 @@
                                             </div>
                                             <p class="mb-1">ID do usuário: {{ participante.id_usuario_presente }}</p>
                                         </a>
-                                        {% set total_ingressos = total_ingressos + participante.quantidade_ingresso %}
                                     {% endfor %}
                                 </div>
                             </div>
@@ -118,7 +117,7 @@
                                 <!-- Exibir o total de participantes -->
                                 <p class="mb-0">Total de Participantes: {{ presentes|length }}</p>
                                 <!-- Exibir o total de ingressos -->
-                                <p class="mb-0">Total de Ingressos: {{ total_ingressos }}</p>
+                                <p class="mb-0">Total de Ingressos: {{ total_convites }}</p>
                             </div>
                         </div>
                     </div>

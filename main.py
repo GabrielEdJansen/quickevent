@@ -361,6 +361,18 @@ def alteraaba():
                 AND presencas.id_evento_presente = %s
         '''
 
+        # Consulta para calcular o total de quantidade de convites
+        query_total_convites = '''
+            SELECT 
+                SUM(presencas.quantidade_convites) as qtdtotal
+            FROM 
+                presencas
+                JOIN usuarios ON presencas.id_usuario_presente = usuarios.id_usuario
+                JOIN ingressos ON presencas.id_ingresso = ingressos.id_ingresso
+            WHERE 
+                presencas.id_evento_presente = %s
+        '''
+
         connect_BD = configbanco(db_type='mysql-connector')
 
         cursor = connect_BD.cursor()
@@ -368,6 +380,9 @@ def alteraaba():
         cursor.execute(query, (eventoPresenca,))
 
         usuarios_presentes = cursor.fetchall()
+
+        cursor.execute(query_total_convites, (eventoPresenca,))
+        total_convites = cursor.fetchone()[0]
 
         connect_BD.close()
 
@@ -389,7 +404,7 @@ def alteraaba():
 
             usuarios_formatados.append(usuario_formatado)
 
-        return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList,presentes=usuarios_formatados)
+        return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList,presentes=usuarios_formatados, total_convites=total_convites)
 
     return render_template("html/destaques.html", foto=foto)
 
