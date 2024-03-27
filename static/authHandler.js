@@ -14,8 +14,8 @@ function handleCredentialResponse(response) {
         console.log(decodedData);
         var emailValue = decodedData.email;
         var subIdValue = decodedData.sub;
-        var nomeValue = decodedData.nome; // Adicionando o campo nome
-        var sobrenomeValue = decodedData.sobrenome; // Adicionando o campo sobrenome
+        var nomeValue = decodedData.given_name; // Adicionando o campo nome
+        var sobrenomeValue = decodedData.family_name; // Adicionando o campo sobrenome
 
         // Definindo os valores dos campos no formulário HTML
         document.getElementById('inputEmail').value = emailValue;
