@@ -80,6 +80,7 @@
                 </li>
                 <li class="nav-item">
                   <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
+                </li>
               </ul>
             </form>
           </div>
@@ -153,11 +154,36 @@ function adicionarOrganizador(idUsuario, eventoPresenca) {
     success: function(response) {
       // Exibe uma mensagem de sucesso
       alert(response);
+      // Atualiza a lista de usuários organizadores
+      atualizarOrganizadores(eventoPresenca);
     },
     error: function(xhr, status, error) {
       // Exibe uma mensagem de erro em caso de falha
       console.error(xhr.responseText);
       alert('Ocorreu um erro ao adicionar o usuário como organizador.');
+    }
+  });
+}
+
+// Função para atualizar a lista de usuários organizadores
+function atualizarOrganizadores(eventoPresenca) {
+  // Envia uma solicitação AJAX GET para obter a lista atualizada de organizadores
+  $.ajax({
+    type: 'GET',
+    url: '/obter_organizadores',
+    data: { eventoPresenca: eventoPresenca },
+    success: function(data) {
+      // Limpa a lista de usuários
+      $('#usuariosList').empty();
+      // Adiciona os usuários organizadores à lista
+      data.organizadores.forEach(function(organizador) {
+        $('#usuariosList').append('<li class="list-group-item">' + organizador.id_usuario + ' - ' + organizador.nome_completo + '</li>');
+      });
+    },
+    error: function(xhr, status, error) {
+      // Exibe uma mensagem de erro em caso de falha
+      console.error(xhr.responseText);
+      alert('Ocorreu um erro ao obter a lista de organizadores.');
     }
   });
 }

@@ -74,10 +74,14 @@ def adicionar_organizador():
     cursor.execute("INSERT INTO eventos_usuarios (id_evento, id_usuario) VALUES (%s, %s)", (id_evento, id_usuario))
     connect_BD.commit()  # Confirma a transação
 
+    # Recupera os usuários associados ao evento
+    cursor.execute("SELECT id_usuario, nome_completo FROM eventos_usuarios JOIN usuarios ON eventos_usuarios.id_usuario = usuarios.id WHERE id_evento = %s", (id_evento,))
+    usuarios_associados = cursor.fetchall()
+
     connect_BD.close()  # Fecha a conexão com o banco de dados
 
-    # Retorna uma resposta para o AJAX
-    return 'Usuário adicionado como organizador com sucesso.', 200
+    # Retorna os usuários associados como uma resposta JSON
+    return jsonify(usuarios_associados), 200
 
 @app.route("/logininicio")
 def logininicio():
