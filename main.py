@@ -60,6 +60,24 @@ def buscar_usuario():
     else:
         return 'Por favor, forneça um nome de usuário para pesquisar.', 400
 
+@app.route('/adicionar_organizador', methods=['POST'])
+def adicionar_organizador():
+    # Obtém o ID do usuário e do evento a partir dos dados enviados pelo AJAX
+    id_usuario = request.form.get('id_usuario')
+    id_evento = request.form.get('eventoPresenca')
+
+    # Conecta-se ao banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursor = connect_BD.cursor()
+
+    # Insere os dados na tabela eventos_usuarios
+    cursor.execute("INSERT INTO eventos_usuarios (id_evento, id_usuario) VALUES (%s, %s)", (id_evento, id_usuario))
+    connect_BD.commit()  # Confirma a transação
+
+    connect_BD.close()  # Fecha a conexão com o banco de dados
+
+    # Retorna uma resposta para o AJAX
+    return 'Usuário adicionado como organizador com sucesso.', 200
 
 @app.route("/logininicio")
 def logininicio():

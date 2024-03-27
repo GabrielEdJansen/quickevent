@@ -93,7 +93,6 @@
           </div>
         </div>
 
-        <!-- Usuários Organizadores -->
         <div class="col-md-9">
           <h2>Usuários Organizadores</h2>
           <!-- Input de pesquisa -->
@@ -156,6 +155,25 @@ function pesquisarUsuarios() {
     // Implemente aqui a lógica para adicionar o usuário como organizador
     alert('Usuário adicionado como organizador: ' + idUsuario);
   }
+
+  // Função para adicionar um usuário como organizador
+function adicionarOrganizador(idUsuario, idEvento) {
+  // Envia uma solicitação AJAX POST para adicionar o usuário como organizador
+  $.ajax({
+    type: 'POST',
+    url: '/adicionar_organizador',
+    data: { id_usuario: idUsuario, id_evento: idEvento },
+    success: function(response) {
+      // Exibe uma mensagem de sucesso
+      alert(response);
+    },
+    error: function(xhr, status, error) {
+      // Exibe uma mensagem de erro em caso de falha
+      console.error(xhr.responseText);
+      alert('Ocorreu um erro ao adicionar o usuário como organizador.');
+    }
+  });
+}
 </script>
 
 </body>
