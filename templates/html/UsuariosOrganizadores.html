@@ -99,14 +99,15 @@
           <ul class="list-group" id="usuariosList">
             <!-- Os usuários retornados pela pesquisa serão adicionados aqui -->
           </ul>
+          <section id="usuarios-section">
+            <ul>
+                {% for usuario in usuarios %}
+                    <li>{{ usuario[0]|string }} - {{ usuario[1] }} {{ usuario[2] }}</li>
+                {% endfor %}
+            </ul>
+          </section>
         </div>
-        <section id="usuarios-section">
-          <ul>
-              {% for usuario in usuarios %}
-                  <li>{{ usuario[0] }} - {{ usuario[1] }} {{ usuario[2] }}</li>
-              {% endfor %}
-          </ul>
-        </section>
+
       </div>
     </div>
   </div>
