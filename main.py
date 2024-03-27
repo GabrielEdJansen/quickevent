@@ -42,6 +42,7 @@ def buscar_participante():
     # Obter o termo de pesquisa do formulário
     termo_pesquisa = request.args.get('termo_pesquisa', '')
     eventoPresenca = request.args.get('eventoPresenca', None)
+    eventosList = [eventoPresenca]
     # Sua lógica de busca aqui
     # Modifique sua consulta SQL para incluir a cláusula WHERE para filtrar pelo termo de pesquisa fornecido
     query = '''
