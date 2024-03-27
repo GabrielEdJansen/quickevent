@@ -42,13 +42,21 @@ def buscar_usuario():
         cursor = connect_BD.cursor()
 
         # Executa a consulta SQL para buscar usuários pelo nome
-        cursor.execute("SELECT * FROM usuarios WHERE nome LIKE %s", ('%' + nome_usuario + '%',))
+        cursor.execute("SELECT id_usuario, nome, sobrenome FROM usuarios WHERE nome LIKE %s", ('%' + nome_usuario + '%',))
         usuarios = cursor.fetchall()  # Obtém todos os resultados da consulta
 
         connect_BD.close()  # Fecha a conexão com o banco de dados
 
-        # Retorna os resultados da consulta como JSON
-        return jsonify({'usuarios': usuarios})
+        # Lista para armazenar os IDs e nomes completos dos usuários
+        ids_nomes_usuarios = []
+        # Itera sobre os resultados e extrai os IDs e nomes completos dos usuários
+        for usuario in usuarios:
+            id_usuario = usuario[0]
+            nome_completo = f"{usuario[1]} {usuario[2]}"
+            ids_nomes_usuarios.append({'id_usuario': id_usuario, 'nome_completo': nome_completo})
+
+        # Retorna os IDs e nomes completos dos usuários como parte da resposta JSON
+        return jsonify({'usuarios': ids_nomes_usuarios})
     else:
         return 'Por favor, forneça um nome de usuário para pesquisar.', 400
 
