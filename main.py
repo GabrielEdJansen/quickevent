@@ -229,7 +229,7 @@ def alteraaba():
         conexao_bd = configbanco(db_type='mysql-connector')
 
         # Consulta SQL para obter os usuários organizadores por evento
-        sql = "SELECT * FROM eventos_usuarios WHERE id_evento = %s"
+        sql = "select eventos_usuarios.id_usuario, usuarios.nome, usuarios.sobrenome from eventos_usuarios, usuarios where eventos_usuarios.id_usuario = usuarios.id_usuario and id_evento = %s"
 
         # Criar um cursor para executar a consulta
         cursor = conexao_bd.cursor()
