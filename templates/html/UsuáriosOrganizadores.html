@@ -123,6 +123,7 @@
  // Função para realizar a pesquisa de usuários
 function pesquisarUsuarios() {
   var nomeUsuario = document.getElementById('searchUserInput').value;
+  var eventoPresenca = document.getElementById('eventoPresenca').value;
   if (nomeUsuario.trim() !== '') {
     // Envia a solicitação AJAX para a rota Flask
     $.ajax({
@@ -157,12 +158,12 @@ function pesquisarUsuarios() {
   }
 
   // Função para adicionar um usuário como organizador
-function adicionarOrganizador(idUsuario, idEvento) {
+function adicionarOrganizador(idUsuario, eventoPresenca) {
   // Envia uma solicitação AJAX POST para adicionar o usuário como organizador
   $.ajax({
     type: 'POST',
     url: '/adicionar_organizador',
-    data: { id_usuario: idUsuario, id_evento: idEvento },
+    data: { id_usuario: idUsuario,eventoPresenca: eventoPresenca },
     success: function(response) {
       // Exibe uma mensagem de sucesso
       alert(response);
