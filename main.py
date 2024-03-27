@@ -101,8 +101,26 @@ def remover_usuario():
 
 @app.route('/obter_organizadores', methods=['GET'])
 def obter_organizadores():
+
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
     eventoPresenca = request.args.get('eventoPresenca')
     eventosList = [eventoPresenca]
+
+    idlogado = str(session['idlogado'])
+
+    # Lógica para lidar com solicitações GET
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursur.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
     # Verificar se o ID do evento foi fornecido
     if eventoPresenca is None:
