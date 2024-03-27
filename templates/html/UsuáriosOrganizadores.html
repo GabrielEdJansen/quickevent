@@ -103,44 +103,10 @@
               <button class="btn btn-outline-secondary" type="button" id="searchUserButton"><i class="fa fa-search"></i></button>
             </div>
           </div>
-          <!-- Botões "Adicionar organizador" e "Remover organizador" -->
-          <div class="btn-group mb-3" role="group" aria-label="Adicionar ou remover organizador">
-            <button type="button" class="btn btn-primary">Adicionar organizador</button>
-            <button type="button" class="btn btn-danger">Remover organizador</button>
-          </div>
-          <!-- Tabela ou lista de usuários organizadores -->
-          <!-- Aqui você pode adicionar a tabela ou lista de usuários organizadores -->
-          <!-- Exemplo de tabela simples -->
-          <table class="table" id="usuariosTable">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Usuário 1</td>
-                <td>
-                  <!-- Botão para remover o organizador -->
-                  <button type="button" class="btn btn-sm btn-danger">Remover</button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Usuário 2</td>
-                <td>
-                  <!-- Botão para remover o organizador -->
-                  <button type="button" class="btn btn-sm btn-danger">Remover</button>
-                </td>
-              </tr>
-              <!-- Adicione mais linhas conforme necessário -->
-            </tbody>
-          </table>
-          <!-- Botão "Salvar" -->
-            <button type="button" class="btn btn-primary">Salvar</button>
+          <!-- Lista de usuários -->
+          <ul class="list-group" id="usuariosList">
+            <!-- Os usuários retornados pela pesquisa serão adicionados aqui -->
+          </ul>
         </div>
       </div>
     </div>
@@ -151,40 +117,46 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-// JavaScript
 <script>
-    // Função para realizar a pesquisa de usuários
-    function pesquisarUsuarios() {
-        var nomeUsuario = document.getElementById('searchUserInput').value;
-        if (nomeUsuario.trim() !== '') {
-            // Envia a solicitação AJAX para a rota Flask
-            $.ajax({
-                type: 'GET',
-                url: '/buscar_usuario',
-                data: { nome: nomeUsuario },
-                success: function(data) {
-                    // Limpa o corpo da tabela de usuários
-                    $('#usuariosTable tbody').empty();
-                    // Preenche a tabela com os usuários encontrados
-                    data.usuarios.forEach(function(usuario, index) {
-                        $('#usuariosTable tbody').append('<tr><th scope="row">' + (index + 1) + '</th><td>' + usuario.nome_completo + '</td><td><button type="button" class="btn btn-sm btn-danger">Remover</button></td></tr>');
-                    });
-                },
-                error: function() {
-                    alert('Ocorreu um erro ao pesquisar usuários.');
-                }
-            });
-        } else {
-            alert('Por favor, insira um nome de usuário para pesquisar.');
+  // Função para realizar a pesquisa de usuários
+  function pesquisarUsuarios() {
+    var nomeUsuario = document.getElementById('searchUserInput').value;
+    if (nomeUsuario.trim() !== '') {
+      // Envia a solicitação AJAX para a rota Flask
+      $.ajax({
+        type: 'GET',
+        url: '/buscar_usuario',
+        data: { nome: nomeUsuario },
+        success: function(data) {
+          // Limpa a lista de usuários
+          $('#usuariosList').empty();
+          // Adiciona os usuários retornados pela pesquisa à lista
+          data.usuarios.forEach(function(usuario) {
+            $('#usuariosList').append('<li class="list-group-item">' + usuario.id + ' - ' + usuario.nome + ' ' + usuario.sobrenome + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id + ')">Adicionar</button></li>');
+          });
+        },
+        error: function() {
+          alert('Ocorreu um erro ao pesquisar usuários.');
         }
+      });
+    } else {
+      alert('Por favor, insira um nome de usuário para pesquisar.');
     }
+  }
 
-    // Associar a função de pesquisa ao clique do botão de pesquisa
-    $('#searchUserButton').click(pesquisarUsuarios);
+  // Associar a função de pesquisa ao clique do botão de pesquisa
+  $('#searchUserButton').click(pesquisarUsuarios);
+
+  // Função para adicionar um usuário como organizador
+  function adicionarOrganizador(idUsuario) {
+    // Implemente aqui a lógica para adicionar o usuário como organizador
+    alert('Usuário adicionado como organizador: ' + idUsuario);
+  }
 </script>
-
 
 </body>
 </html>
+
