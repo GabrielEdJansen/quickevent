@@ -77,7 +77,7 @@ def adicionar_organizador():
     connect_BD.close()  # Fecha a conexão com o banco de dados
 
     # Retorna uma resposta para o AJAX
-    return redirect('/obter_organizadores')
+    return redirect(url_for('obter_organizadores', eventoPresenca=id_evento))
 
 @app.route('/remover_usuario', methods=['POST'])
 def remover_usuario():
