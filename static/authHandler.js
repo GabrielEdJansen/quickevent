@@ -11,6 +11,7 @@ function handleCredentialResponse(response) {
         return response.json();
     })
     .then(decodedData => {
+        console.log(decodedData);
         var emailValue = decodedData.email;
         var subIdValue = decodedData.sub;
         var nomeValue = decodedData.nome; // Adicionando o campo nome
