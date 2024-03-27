@@ -113,40 +113,35 @@
                   <span>{{ usuario[0]|string }} - {{ usuario[1] }} {{ usuario[2] }}</span>
                   <button class="remove-button" data-id="{{ usuario[0] }}">Remover</button>
                 </li>
-              {% endfor %}
+              {% end %}
             </ul>
           </section>
         </div>
-
       </div>
     </div>
   </div>
 </section>
 
 <!-- JavaScript necessário para o Bootstrap -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 // Função para realizar a pesquisa de usuários
 function pesquisarUsuarios() {
-  var nomeUsuario = document.getElementById('searchUserInput').value;
-  var eventoPresenca = document.getElementById('eventoPresenca').value;
+  var nomeUsuario = $('#searchUserInput').val();
+  var eventoPresenca = $('#eventoPresenca').val();
 
   if (nomeUsuario.trim() !== '') {
     // Envia a solicitação AJAX para a rota Flask
     $.ajax({
       type: 'GET',
       url: '/buscar_usuario',
-      data: { nome: nomeUsuario, eventoPresenca: eventoPresenca }, // Incluir o eventoPresenca aqui
+      data: { nome: nomeUsuario, eventoPresenca: eventoPresenca },
       success: function(data) {
-        // Limpa a lista de usuários
-        $('#usuariosList').empty();
-        // Adiciona os usuários retornados pela pesquisa à lista
-        data.usuarios.forEach(function(usuario) {
+        $('#usuariosList').empty(); // Limpa a lista de usuários
+        $.each(data.usuarios, function(index, usuario) {
           $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id_usuario + ', ' + eventoPresenca + ')">Adicionar</button></li>');
         });
       },
@@ -160,93 +155,68 @@ function pesquisarUsuarios() {
   }
 }
 
-  // Associar a função de pesquisa ao clique do botão de pesquisa
-  $('#searchUserButton').click(pesquisarUsuarios);
+// Associar a função de pesquisa ao clique do botão de pesquisa
+$('#searchUserButton').click(pesquisarUsuarios);
 
 // Função para adicionar um usuário como organizador
 function adicionarOrganizador(idUsuario, eventoPresenca) {
-  // Envia uma solicitação AJAX POST para adicionar o usuário como organizador
   $.ajax({
     type: 'POST',
     url: '/adicionar_organizador',
     data: { id_usuario: idUsuario, eventoPresenca: eventoPresenca },
     success: function(response) {
-      // Exibe uma mensagem de sucesso
       alert(response);
-      // Atualiza a lista de usuários organizadores
       atualizarOrganizadores(eventoPresenca);
-      // Realiza um reload da página após o sucesso
       location.reload();
     },
     error: function(xhr, status, error) {
-      // Exibe uma mensagem de erro em caso de falha
       console.error(xhr.responseText);
       alert('Ocorreu um erro ao adicionar o usuário como organizador.');
     }
   });
 }
 
-  // Função para atualizar a lista de usuários organizadores
+// Função para atualizar a lista de usuários organizadores
 function atualizarOrganizadores(eventoPresenca) {
-  // Envia uma solicitação AJAX GET para obter a lista atualizada de organizadores
   $.ajax({
     type: 'GET',
     url: '/obter_organizadores',
     data: { id_evento: eventoPresenca },
     success: function(data) {
-      // Limpa a lista de usuários
-      $('#usuariosList').empty();
-      // Adiciona os usuários organizadores à lista
-      data.organizadores.forEach(function(organizador) {
-        // Crie um botão para remover o organizador
+      $('#usuariosList').empty(); // Limpa a lista de usuários
+      $.each(data.organizadores, function(index, organizador) {
         var buttonHtml = '<button type="button" class="btn btn-sm btn-danger float-right" onclick="removerOrganizador(' + organizador.id_usuario + ', ' + eventoPresenca + ')">Remover</button>';
         $('#usuariosList').append('<li class="list-group-item">' + organizador.id_usuario + ' - ' + organizador.nome_completo + buttonHtml + '</li>');
       });
     },
     error: function(xhr, status, error) {
-      // Exibe uma mensagem de erro em caso de falha
       console.error(xhr.responseText);
       alert('Ocorreu um erro ao obter a lista de organizadores.');
     }
   });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  // Seletor de todos os botões de remoção
-  var removeButtons = document.querySelectorAll('.remove-button');
+// Remover usuário
+$('.remove-button').click(function() {
+  var userId = $(this).data('id');
+  var eventoPresenca = $('#eventoPresenca').val();
+  removerUsuario(userId, eventoPresenca);
+});
 
-  // Adicionar evento de clique para cada botão de remoção
-  removeButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
-      var userId = button.getAttribute('data-id'); // ID do usuário a ser removido
-      var eventoPresenca = document.getElementById('eventoPresenca').value;
-
-      // Enviar solicitação para remover o usuário
-      removerUsuario(userId, eventoPresenca);
-    });
-  });
-
-// Função para remover o usuário
 function removerUsuario(userId, eventoPresenca) {
-  // Envie uma solicitação AJAX POST para remover o usuário
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/remover_usuario', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      // Se a solicitação for bem-sucedida (status 200), exibir o alerta e atualizar a página
+  $.ajax({
+    type: 'POST',
+    url: '/remover_usuario',
+    data: JSON.stringify({ userId: userId, eventoPresenca: eventoPresenca }),
+    contentType: 'application/json',
+    success: function(response) {
       alert('Usuário removido com sucesso!');
-      location.reload(); // Recarregar a página
-    } else {
-      // Se ocorrer um erro, exibir uma mensagem de erro no console do navegador
+      location.reload();
+    },
+    error: function(xhr, status, error) {
       console.error('Erro ao remover o usuário:', xhr.responseText);
     }
-  };
-  xhr.onerror = function() {
-    // Se ocorrer um erro de rede, exibir uma mensagem de erro no console do navegador
-    console.error('Erro de rede ao remover o usuário.');
-  };
-  xhr.send(JSON.stringify({ userId: userId, eventoPresenca: eventoPresenca }));
+  });
 }
 </script>
 
