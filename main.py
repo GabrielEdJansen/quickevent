@@ -235,7 +235,7 @@ def alteraaba():
         cursor = conexao_bd.cursor()
 
         # Executar a consulta e obter os resultados
-        cursor.execute(sql, (eventoPresenca))
+        cursor.execute(sql, (eventoPresenca,))
 
         # Obter os resultados da consulta
         resultados = cursor.fetchall()
