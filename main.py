@@ -334,9 +334,11 @@ def alteraaba():
         return render_template("html/ChatOrganizadores.html", foto=foto, eventos=eventosList)
 
     elif acao == 'listaParticipantes':
+
         eventosList = [eventoPresenca]
 
         # Verificar se o ID do evento foi fornecido
+
         if eventoPresenca is None:
             return jsonify({'error': 'ID do evento não fornecido.'}), 400
 
@@ -347,22 +349,32 @@ def alteraaba():
                 presencas.id_ingresso,
                 presencas.quantidade_convites,
                 usuarios.nome,
-                usuarios.sobrenome
+                usuarios.sobrenome,
+                ingressos.titulo_ingresso,
+                ingressos.quantidade
             FROM 
-                presencas, usuarios 
+                presencas, usuarios, ingressos
             WHERE 
-                presencas.id_usuario_presente = usuarios.id_usuario 
+                presencas.id_ingresso = ingressos.id_ingresso
+                AND presencas.id_evento_presente = ingressos.id_eventos
+                AND presencas.id_usuario_presente = usuarios.id_usuario 
                 AND presencas.id_evento_presente = %s
         '''
 
         connect_BD = configbanco(db_type='mysql-connector')
+
         cursor = connect_BD.cursor()
+
         cursor.execute(query, (eventoPresenca,))
+
         usuarios_presentes = cursor.fetchall()
+
         connect_BD.close()
 
         # Formate os resultados em um formato JSON
+
         usuarios_formatados = []
+
         for usuario in usuarios_presentes:
             usuario_formatado = {
                 'id_evento_presente': usuario[0],
@@ -370,12 +382,14 @@ def alteraaba():
                 'id_ingresso': usuario[2],
                 'quantidade_convites': usuario[3],
                 'nome': usuario[4],
-                'sobrenome': usuario[5]
+                'sobrenome': usuario[5],
+                'titulo_ingresso': usuario[6],
+                'quantidade_ingresso': usuario[7]
             }
+
             usuarios_formatados.append(usuario_formatado)
 
-        return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList, presentes=usuarios_formatados)
-
+        return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList,presentes=usuarios_formatados)
 
     return render_template("html/destaques.html", foto=foto)
 
