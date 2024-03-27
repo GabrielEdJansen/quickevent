@@ -93,35 +93,35 @@
                         </form>
                     </div>
                 </div>
-                    <div class="col-md-9">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white">
-                                <h5 class="card-title mb-0">Lista de Participantes</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="list-group">
-                                    <!-- Loop para exibir os participantes -->
-                                    {% set total_ingressos = 0 %}
-                                    {% for participante in presentes %}
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">{{ participante.nome }} {{ participante.sobrenome }}</h6>
-                                                <small>{{ participante.titulo_ingresso }} - {{ participante.quantidade_ingresso }}</small>
-                                            </div>
-                                            <p class="mb-1">ID do usuário: {{ participante.id_usuario_presente }}</p>
-                                        </a>
-                                        {% set total_ingressos = total_ingressos + participante.quantidade_ingresso %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="card-footer bg-light">
-                                <!-- Exibir o total de participantes -->
-                                <p class="mb-0">Total de Participantes: {{ presentes|length }}</p>
-                                <!-- Exibir o total de ingressos -->
-                                <p class="mb-0">Total de Ingressos: {{ total_ingressos }}</p>
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">Lista de Participantes</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group">
+                                <!-- Loop para exibir os participantes -->
+                                {% set total_ingressos = 0 %}
+                                {% for participante in presentes %}
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">{{ participante.nome }} {{ participante.sobrenome }}</h6>
+                                            <small>{{ participante.titulo_ingresso }} - {{ participante.quantidade_ingresso }}</small>
+                                        </div>
+                                        <p class="mb-1">ID do usuário: {{ participante.id_usuario_presente }}</p>
+                                    </a>
+                                    {% set total_ingressos = total_ingressos + participante.quantidade_ingresso %}
+                                {% endfor %}
                             </div>
                         </div>
+                        <div class="card-footer bg-light">
+                            <!-- Exibir o total de participantes -->
+                            <p class="mb-0">Total de Participantes: {{ presentes|length }}</p>
+                            <!-- Exibir o total de ingressos -->
+                            <p class="mb-0">Total de Ingressos: {{ total_ingressos }}</p>
+                        </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
