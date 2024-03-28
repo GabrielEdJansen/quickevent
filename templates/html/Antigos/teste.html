@@ -1,13 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carousel de Cartões Bootstrap</title>
+  <!-- Inclua os arquivos CSS do Bootstrap -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Personalização para o terceiro cartão */
+    .carousel-item:nth-child(3) .card {
+      opacity: 0.6; /* Torna o cartão mais transparente */
+      transform: scale(0.8); /* Reduz o tamanho do cartão */
+    }
 
-  <title>Hello World!</title>
+    /* Estilizando o botão "Saiba Mais" */
+    .saiba-mais-button {
+      background-color: #ffc107; /* Amarelo */
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      margin: 0 auto; /* Centraliza horizontalmente */
+      margin-top: 10px; /* Espaçamento superior */
+      width: 150px; /* Largura do botão */
+      border-radius: 5px; /* Borda arredondada */
+    }
+
+    /* Estilizando os cartões */
+    .card {
+      border-radius: 15px; /* Borda arredondada */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombreamento de fundo */
+      margin-bottom: 20px; /* Espaçamento entre os cartões */
+    }
+
+    /* Arredondando as imagens nos cartões */
+    .card-img-top {
+      border-radius: 15px 15px 0 0; /* Borda arredondada apenas no topo */
+    }
+
+    /* Estilizando o título do card */
+    .card-title {
+      color: #00549A; /* Azul */
+      font-size: 24px; /* Tamanho do título */
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button type="button" class="btn btn-info">Info</button>
-  </body>
+
+<div class="container mt-5">
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card">
+              <img src="2.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Primeiro Cartão</h5>
+                <p class="card-text">Este é o primeiro cartão do carrossel.</p>
+                <a href="#" class="saiba-mais-button">Saiba Mais</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <img src="2.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Segundo Cartão</h5>
+                <p class="card-text">Este é o segundo cartão do carrossel.</p>
+                <a href="#" class="saiba-mais-button">Saiba Mais</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <img src="2.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Terceiro Cartão</h5>
+                <p class="card-text">Este é o terceiro cartão do carrossel.</p>
+                <a href="#" class="saiba-mais-button">Saiba Mais</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card">
+              <img src="2.png" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">Quarto Cartão</h5>
+                <p class="card-text">Este é o quarto cartão do carrossel.</p>
+                <a href="#" class="saiba-mais-button">Saiba Mais</a>
+              </div>
+            </div>
+          </div>
+          <!-- Adicione mais cartões conforme necessário -->
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Próximo</span>
+    </a>
+  </div>
+</div>
+
+<!-- Inclua os arquivos JS do Bootstrap (opcional, se quiser utilizar funcionalidades como navegação no carrossel) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
 </html>

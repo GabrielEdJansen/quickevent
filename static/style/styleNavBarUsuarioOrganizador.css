@@ -73,7 +73,7 @@
     }
 .navbar-nav .nav-item .nav-link:hover,
 .navbar-nav .nav-item .nav-link:active {
-    color: yellow !important;
+    color: #feb930;
 }
 /* Estilo para o elemento <li> */
 #usuarios-section ul li {
