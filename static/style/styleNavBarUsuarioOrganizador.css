@@ -71,26 +71,27 @@
     .increased-size {
         width: 800px; /* ajuste o tamanho conforme necessário */
     }
-.navbar-nav .nav-item .nav-link:hover,
-.navbar-nav .nav-item .nav-link:active {
-    color: #feb930;
-}
-/* Estilo para o elemento <li> */
-#usuarios-section ul li {
-  margin-bottom: 10px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-}
+    /* Estilo para o elemento <li> */
+    #usuarios-section ul li {
+      margin-bottom: 10px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
 
-/* Estilo para o botão de remoção */
-.remove-button {
-  background-color: #FF0000; /* Cor de fundo vermelha */
-  color: #fff; /* Cor do texto branco */
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    /* Estilo para o botão de remoção */
+    .remove-button {
+      background-color: #FF0000; /* Cor de fundo vermelha */
+      color: #fff; /* Cor do texto branco */
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    /* Cor do texto amarelo ao passar o mouse */
+    .navbar-nav .nav-item .nav-link:hover,
+    .navbar-nav .nav-item .nav-link:active {
+        color: #feb930;
+    }

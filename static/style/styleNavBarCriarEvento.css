@@ -56,7 +56,7 @@
     .increased-size {
         width: 800px; /* ajuste o tamanho conforme necessário */
     }
-.navbar-nav .nav-item .nav-link:hover,
-.navbar-nav .nav-item .nav-link:active {
-    color: #feb930;
-}
+    .navbar-nav .nav-item .nav-link:hover,
+    .navbar-nav .nav-item .nav-link:active {
+        color: #feb930;
+    }
