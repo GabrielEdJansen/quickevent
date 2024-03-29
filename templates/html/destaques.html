@@ -65,12 +65,13 @@
   <div class="col-md-12 text-center">
     <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
-        {% for evento in eventos_populares %}
+        {% for chunk in eventos_populares|batch(3) %}
         <div class="carousel-item {% if loop.first %}active{% endif %}">
           <div class="row">
+            {% for evento in chunk %}
             <div class="col-md-4">
               <div class="card">
-                <img src="{{ evento.foto_evento }}" class="card-img-top" alt="{{ evento.foto_evento }}">
+                <img src="data:image/jpeg;base64,{{ evento.foto_evento }}" class="card-img-top" alt="{{ evento.foto_evento }}">
                 <div class="card-body">
                   <h5 class="card-title">{{ evento.nome_evento }}</h5>
                   <p class="card-text">{{ evento.descricao_evento }}</p>
@@ -78,6 +79,7 @@
                 </div>
               </div>
             </div>
+            {% endfor %}
           </div>
         </div>
         {% endfor %}
