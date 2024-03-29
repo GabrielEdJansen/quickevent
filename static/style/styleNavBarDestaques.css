@@ -67,3 +67,41 @@
   .navbar-nav .nav-item .nav-link:hover {
     color: #feb930; /* Cor desejada */
   }
+    /* Personalização para o terceiro cartão */
+    .carousel-item:nth-child(3) .card {
+      opacity: 0.6; /* Torna o cartão mais transparente */
+      transform: scale(0.8); /* Reduz o tamanho do cartão */
+    }
+
+    /* Estilizando o botão "Saiba Mais" */
+    .saiba-mais-button {
+      background-color: #ffc107; /* Amarelo */
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      margin: 0 auto; /* Centraliza horizontalmente */
+      margin-top: 10px; /* Espaçamento superior */
+      width: 150px; /* Largura do botão */
+      border-radius: 5px; /* Borda arredondada */
+    }
+
+    /* Estilizando os cartões */
+    .card {
+      border-radius: 15px; /* Borda arredondada */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombreamento de fundo */
+      margin-bottom: 20px; /* Espaçamento entre os cartões */
+    }
+
+    /* Arredondando as imagens nos cartões */
+    .card-img-top {
+      border-radius: 15px 15px 0 0; /* Borda arredondada apenas no topo */
+    }
+
+    /* Estilizando o título do card */
+    .card-title {
+      color: #00549A; /* Azul */
+      font-size: 24px; /* Tamanho do título */
+    }
