@@ -1710,10 +1710,18 @@ def destaques():
                 cursur.execute(query)
                 eventos = cursur.fetchall()
 
-            if not eventos:
-                flash('Nenhum evento popular encontrado.', 'warning')
+            eventos_json = []
+            for evento in eventos:
+                evento_dict = {
+                    'id_evento': evento[0],
+                    'nome_evento': evento[1],
+                    'descricao_evento': evento[2],
+                    'foto_evento': evento[3],
+                    'total_convites': evento[4]
+                }
+                eventos_json.append(evento_dict)
 
-            return render_template("html/destaques.html", foto=foto, eventos_populares=eventos)
+            return render_template("html/destaques.html", foto=foto, eventos_populares=eventos_json)
 
 
 @app.route("/cadastrar")
