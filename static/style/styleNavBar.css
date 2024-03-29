@@ -50,6 +50,6 @@
 .navbar-nav .nav-item .nav-link:active {
     color: #feb930;
 }*/
-    .navbar-nav .nav-link {
+    .navbar-nav .nav-link .nav-item {
         color: #feb930; /* Cor amarela */
     }
