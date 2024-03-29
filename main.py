@@ -1670,6 +1670,7 @@ def salvar_informacoes():
     # Redirecione para a rota /InformacaoConta sem mensagem de erro
     return redirect(url_for("InformacaoConta"))
 
+
 @app.route("/destaques", methods=['GET', 'POST'])
 def destaques():
     if 'idlogado' in session:
@@ -1685,10 +1686,35 @@ def destaques():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-        return render_template("html/destaques.html", foto=foto)
-    else:
-        # Redirecionar para a página de login se o usuário não estiver logado
-        return redirect("/")
+            query = '''
+                SELECT 
+                    eventos.id_eventos,
+                    eventos.nome_evento,
+                    eventos.descricao_evento,
+                    eventos.foto_evento,
+                    SUM(presencas.quantidade_convites) AS total_convites
+                FROM 
+                    eventos
+                    JOIN presencas ON presencas.id_evento_presente = eventos.id_eventos
+                GROUP BY 
+                    eventos.id_eventos, eventos.nome_evento, eventos.descricao_evento, eventos.foto_evento
+                ORDER BY 
+                    total_convites DESC
+                LIMIT 12;
+            '''
+
+            # Executa a consulta
+            connect_BD = configbanco(db_type='mysql-connector')
+            if connect_BD.is_connected():
+                cursur = connect_BD.cursor()
+                cursur.execute(query)
+                eventos = cursur.fetchall()
+
+            if not eventos:
+                flash('Nenhum evento popular encontrado.', 'warning')
+
+            return render_template("html/destaques.html", foto=foto, eventos_populares=eventos)
+
 
 @app.route("/cadastrar")
 def cadastrar():
