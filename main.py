@@ -1468,6 +1468,7 @@ def SalvarAlteracoes():
                                datas_inicio_vendas]
         datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
 
+        print(titulos)
         # Validar se id_ingresso tem informações
         if id_ingresso:
             # Lista para armazenar os IDs dos ingressos que foram processados
