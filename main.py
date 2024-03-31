@@ -1555,10 +1555,11 @@ def SalvarAlteracoes():
        #                          disponibilidades[i], quantidades_maximas[i], observacoes[i]))
 #
        # conexao.commit()
-
+        print("Evento alterado com sucesso!")
         flash("Evento alterado com sucesso!")
         return redirect("/InicioGerenciarEventos")
     except Exception as e:
+        print(str(e))
         flash(f"Erro ao criar evento: {str(e)}")
         return render_template("html/EditarEvento.html")
     finally:
