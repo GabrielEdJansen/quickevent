@@ -1557,7 +1557,6 @@ def SalvarAlteracoes():
        #                          disponibilidades[i], quantidades_maximas[i], observacoes[i]))
 #
        # conexao.commit()
-        flash("Evento alterado com sucesso!")
         #return redirect("/InicioGerenciarEventos")
 
         eventosList = []
