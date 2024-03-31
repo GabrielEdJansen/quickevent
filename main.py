@@ -1412,7 +1412,10 @@ def SalvarAlteracoes():
 
         # Validar se id_campo tem informações
         if id_campo:
-            # Se houver informações em id_campo, processar os dados
+            # Lista para armazenar os IDs dos campos adicionais que foram processados
+            campos_processados = []
+
+            # Processar os dados
             for i, id in enumerate(id_campo):
                 if id:
                     # Se o id do campo adicional existir, atualizar os dados correspondentes (caso necessário)
@@ -1423,6 +1426,7 @@ def SalvarAlteracoes():
                         WHERE id_campo = %s
                     """
                     cursor.execute(sql_update_campo, (campos_adicionais[i], id))
+                    campos_processados.append(id)
                 else:
                     # Caso contrário, inserir um novo campo adicional
                     sql_insert_campo = """
@@ -1430,9 +1434,22 @@ def SalvarAlteracoes():
                         VALUES (%s, %s)
                     """
                     cursor.execute(sql_insert_campo, (eventoPresenca, campos_adicionais[i]))
+                    # Obtém o ID do último campo adicionado
+                    id_campo_inserido = cursor.lastrowid
+                    campos_processados.append(id_campo_inserido)
 
             # Confirmar as alterações no banco de dados
             conexao.commit()
+
+            # Deletar os campos adicionais que não foram processados
+            if campos_processados:
+                placeholders = ', '.join(['%s'] * len(campos_processados))
+                sql_delete_campo = f"""
+                    DELETE FROM campo_adicional
+                    WHERE id_eventos = %s AND id_campo NOT IN ({placeholders})
+                """
+                cursor.execute(sql_delete_campo, [eventoPresenca] + campos_processados)
+                conexao.commit()
 
         id_ingresso = request.form.getlist('id_ingresso[]')
         titulos = request.form.getlist('titulo_ingresso[]')
@@ -1453,11 +1470,14 @@ def SalvarAlteracoes():
 
         # Validar se id_ingresso tem informações
         if id_ingresso:
-            # Se houver informações em id_ingresso, processar os dados
+            # Lista para armazenar os IDs dos ingressos que foram processados
+            ingressos_processados = []
+
+            # Processar os dados dos ingressos
             for i, id in enumerate(id_ingresso):
                 if id:
                     # Se o id do ingresso existir, atualizar os dados correspondentes
-                    sql_update = """
+                    sql_update_ingresso = """
                         UPDATE ingressos 
                         SET 
                             titulo = %s,
@@ -1472,7 +1492,7 @@ def SalvarAlteracoes():
                             observacao = %s
                         WHERE id_ingresso = %s
                     """
-                    cursor.execute(sql_update, (
+                    cursor.execute(sql_update_ingresso, (
                         titulos[i],
                         quantidades[i],
                         precos[i],
@@ -1485,14 +1505,15 @@ def SalvarAlteracoes():
                         observacoes[i],
                         id
                     ))
+                    ingressos_processados.append(id)
                 else:
                     # Caso contrário, inserir um novo ingresso
-                    sql_insert = """
+                    sql_insert_ingresso = """
                         INSERT INTO ingressos 
                         (id_eventos, titulo, quantidade, preco, data_inicio_vendas, data_fim_vendas, hora_inicio_vendas, hora_fim_vendas, disponibilidade, quantidade_maxima_compra, observacao) 
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
-                    cursor.execute(sql_insert, (
+                    cursor.execute(sql_insert_ingresso, (
                         eventoPresenca,
                         titulos[i],
                         quantidades[i],
@@ -1505,8 +1526,22 @@ def SalvarAlteracoes():
                         quantidades_maximas[i],
                         observacoes[i]
                     ))
+                    # Obtém o ID do último ingresso adicionado
+                    id_ingresso_inserido = cursor.lastrowid
+                    ingressos_processados.append(id_ingresso_inserido)
+
             # Confirmar as alterações no banco de dados
             conexao.commit()
+
+            # Deletar os ingressos que não foram processados
+            if ingressos_processados:
+                placeholders = ', '.join(['%s'] * len(ingressos_processados))
+                sql_delete_ingresso = f"""
+                    DELETE FROM ingressos
+                    WHERE id_eventos = %s AND id_ingresso NOT IN ({placeholders})
+                """
+                cursor.execute(sql_delete_ingresso, [eventoPresenca] + ingressos_processados)
+                conexao.commit()
 
         print(titulos)
 
