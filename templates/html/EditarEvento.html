@@ -323,7 +323,7 @@
                                         <!-- Primeiro ingresso -->
                                         {% for ingresso in ingresso %}
                                         <div class="form-outline mb-4 ingresso">
-                                            <input name="id_ingresso[]" type="text" class="form-control form-control-lg" placeholder="idingresso" required value="{{ ingresso.id_ingresso }}"/>
+                                            <input name="id_ingresso[]" type="hidden" class="form-control form-control-lg" placeholder="idingresso" required value="{{ ingresso.id_ingresso }}"/>
                                             <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required value="{{ ingresso.titulo_ingresso }}"/>
                                             <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
 
