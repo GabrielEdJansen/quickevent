@@ -1480,7 +1480,7 @@ def SalvarAlteracoes():
                     sql_update_ingresso = """
                         UPDATE ingressos 
                         SET 
-                            titulo = %s,
+                            titulo_ingresso = %s,
                             quantidade = %s,
                             preco = %s,
                             data_inicio_vendas = %s,
@@ -1510,7 +1510,7 @@ def SalvarAlteracoes():
                     # Caso contrário, inserir um novo ingresso
                     sql_insert_ingresso = """
                         INSERT INTO ingressos 
-                        (id_eventos, titulo, quantidade, preco, data_inicio_vendas, data_fim_vendas, hora_inicio_vendas, hora_fim_vendas, disponibilidade, quantidade_maxima_compra, observacao) 
+                        (id_eventos, titulo_ingresso, quantidade, preco, data_inicio_vendas, data_fim_vendas, hora_inicio_vendas, hora_fim_vendas, disponibilidade, quantidade_maxima_compra, observacao) 
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     cursor.execute(sql_insert_ingresso, (
