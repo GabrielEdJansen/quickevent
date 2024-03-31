@@ -375,7 +375,8 @@ def alteraaba():
                 f"i.hora_fim_venda, "
                 f"i.disponibilidade, "
                 f"i.quantidade_maxima, "
-                f"i.observacao_ingresso "
+                f"i.observacao_ingresso,"
+                f"i.id_ingresso "
                 f"FROM eventos e, ingressos i "
                 f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = %s;"
             )
@@ -387,7 +388,7 @@ def alteraaba():
             connect_BD = configbanco(db_type='mysql-connector')
             cursur = connect_BD.cursor(dictionary=True)
             query = (
-                f"SELECT c.nome_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+                f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
 
             # Executar a consulta SQL
             cursur.execute(query, (eventoPresenca,))
@@ -2654,7 +2655,7 @@ def GerenciarEventos():
 
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
-        query = (f"SELECT c.nome_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+        query = (f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
 
         # Executar a consulta SQL
         cursur.execute(query, (eventoPresenca,))
