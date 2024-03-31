@@ -63,14 +63,14 @@
     <p>Os eventos mais populares entre os usuários</p>
   </div>
   <div class="col-md-12 text-center">
-    <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel" data-interval="false">
       <div class="carousel-inner">
-        {% for chunk in eventos_populares|batch(3) %}
+        {% for chunk in eventos_populares|batch(1) %}
         <div class="carousel-item {% if loop.first %}active{% endif %}">
           <div class="row">
             {% for evento in chunk %}
-            <div class="col-md-4">
-              <div class="card">
+            <div class="col">
+              <div class="card mx-auto d-block">
                 <img src="data:image/jpeg;base64,{{ evento.foto_evento }}" class="card-img-top" alt="{{ evento.foto_evento }}">
                 <div class="card-body">
                   <h5 class="card-title">{{ evento.nome_evento }}</h5>
@@ -96,7 +96,6 @@
   </div>
 </div>
 
-
 <!-- Título e Carrossel: Categorias -->
 <div class="row mt-5">
   <div class="col text-right">
@@ -104,13 +103,13 @@
     <p>As principais categorias procuradas pelos usuários</p>
   </div>
   <div class="col-md-12 text-center">
-    <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel" data-interval="false">
       <div class="carousel-inner">
         <div class="carousel-item active">
           <div class="row">
             <!-- Card 1: Feriados e Festas Tradicionais -->
-            <div class="col-md-4">
-              <div class="card">
+            <div class="col">
+              <div class="card mx-auto d-block">
                 <img src="../static/img/tradicional.jpg" class="card-img-top" alt="Feriados e Festas Tradicionais">
                 <div class="card-body">
                   <h5 class="card-title">Feriados e Festas Tradicionais</h5>
@@ -119,8 +118,8 @@
               </div>
             </div>
             <!-- Card 2: Família e Educação -->
-            <div class="col-md-4">
-              <div class="card">
+            <div class="col">
+              <div class="card mx-auto d-block">
                 <img src="../static/img/familia.jpg" class="card-img-top" alt="Família e Educação">
                 <div class="card-body">
                   <h5 class="card-title">Família e Educação</h5>
@@ -129,8 +128,8 @@
               </div>
             </div>
             <!-- Card 3: Viagens e Ao ar livre -->
-            <div class="col-md-4">
-              <div class="card">
+            <div class="col">
+              <div class="card mx-auto d-block">
                 <img src="../static/img/viagem.jpg" class="card-img-top" alt="Viagens e Ao ar livre">
                 <div class="card-body">
                   <h5 class="card-title">Viagens e Ao ar livre</h5>
@@ -143,8 +142,8 @@
         <div class="carousel-item">
           <div class="row">
             <!-- Card 4: Ciência e Tecnologia -->
-            <div class="col-md-4">
-              <div class="card">
+            <div class="col">
+              <div class="card mx-auto d-block">
                 <img src="../static/img/tecnologia.jpg" class="card-img-top" alt="Ciência e Tecnologia">
                 <div class="card-body">
                   <h5 class="card-title">Ciência e Tecnologia</h5>
@@ -153,8 +152,8 @@
               </div>
             </div>
             <!-- Card 5: Religião e Espiritualidade -->
-            <div class="col-md-4">
-              <div class="card">
+            <div class="col">
+              <div class="card mx-auto d-block">
                 <img src="../static/img/religiao.jpeg" class="card-img-top" alt="Religião e Espiritualidade">
                 <div class="card-body">
                   <h5 class="card-title">Religião e Espiritualidade</h5>
@@ -163,8 +162,8 @@
               </div>
             </div>
             <!-- Card 6: Atividades Escolares -->
-            <div class="col-md-4">
-              <div class="card">
+            <div class="col">
+              <div class="card mx-auto d-block">
                 <img src="../static/img/escolar.jpeg" class="card-img-top" alt="Atividades Escolares">
                 <div class="card-body">
                   <h5 class="card-title">Atividades Escolares</h5>
@@ -185,7 +184,6 @@
       </a>
     </div>
   </div>
-</div>
 </div>
 
 <!-- JavaScript necessário para o Bootstrap -->
