@@ -1407,12 +1407,34 @@ def SalvarAlteracoes():
         conexao.commit()
 
         # Inserir os dados dos campos adicionais
+        id_campo = request.form.getlist('id_campo[]')
         campos_adicionais = request.form.getlist('nome_campo[]')
-        for campo in campos_adicionais:
-            sql_campos_adicionais = """INSERT INTO campo_adicional (id_eventos, nome_campo) VALUES (%s, %s)"""
-            cursor.execute(sql_campos_adicionais, (eventoPresenca, campo))
 
+        # Validar se id_campo tem informações
+        if id_campo:
+            # Se houver informações em id_campo, processar os dados
+            for i, id in enumerate(id_campo):
+                if id:
+                    # Se o id do campo adicional existir, atualizar os dados correspondentes (caso necessário)
+                    # Como não foi especificado no seu código, vou assumir que o campo adicional pode ser atualizado.
+                    sql_update_campo = """
+                        UPDATE campo_adicional
+                        SET nome_campo = %s
+                        WHERE id = %s
+                    """
+                    cursor.execute(sql_update_campo, (campos_adicionais[i], id))
+                else:
+                    # Caso contrário, inserir um novo campo adicional
+                    sql_insert_campo = """
+                        INSERT INTO campo_adicional (id_eventos, nome_campo)
+                        VALUES (%s, %s)
+                    """
+                    cursor.execute(sql_insert_campo, (eventoPresenca, campos_adicionais[i]))
 
+            # Confirmar as alterações no banco de dados
+            conexao.commit()
+
+        id_ingresso = request.form.getlist('id_ingresso[]')
         titulos = request.form.getlist('titulo_ingresso[]')
         quantidades = request.form.getlist('quantidade_ingresso[]')
         precos = request.form.getlist('preco_ingresso[]')
@@ -1424,15 +1446,67 @@ def SalvarAlteracoes():
         quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
         observacoes = request.form.getlist('observacao_ingresso[]')
 
-        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_inicio_vendas]
-        #horas_inicio_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_inicio_vendas]
-
+        # Converter datas de strings para objetos datetime.date
+        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in
+                               datas_inicio_vendas]
         datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
-        #horas_fim_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_fim_vendas]
 
-        sql_delete = "DELETE FROM ingressos WHERE id_eventos = %s"
-        cursor.execute(sql_delete, (eventoPresenca))
-        conexao.commit()
+        # Validar se id_ingresso tem informações
+        if id_ingresso:
+            # Se houver informações em id_ingresso, processar os dados
+            for i, id in enumerate(id_ingresso):
+                if id:
+                    # Se o id do ingresso existir, atualizar os dados correspondentes
+                    sql_update = """
+                        UPDATE ingressos 
+                        SET 
+                            titulo = %s,
+                            quantidade = %s,
+                            preco = %s,
+                            data_inicio_vendas = %s,
+                            data_fim_vendas = %s,
+                            hora_inicio_vendas = %s,
+                            hora_fim_vendas = %s,
+                            disponibilidade = %s,
+                            quantidade_maxima_compra = %s,
+                            observacao = %s
+                        WHERE id = %s
+                    """
+                    cursor.execute(sql_update, (
+                        titulos[i],
+                        quantidades[i],
+                        precos[i],
+                        datas_inicio_vendas[i],
+                        datas_fim_vendas[i],
+                        horas_inicio_vendas[i],
+                        horas_fim_vendas[i],
+                        disponibilidades[i],
+                        quantidades_maximas[i],
+                        observacoes[i],
+                        id
+                    ))
+                else:
+                    # Caso contrário, inserir um novo ingresso
+                    sql_insert = """
+                        INSERT INTO ingressos 
+                        (id_eventos, titulo, quantidade, preco, data_inicio_vendas, data_fim_vendas, hora_inicio_vendas, hora_fim_vendas, disponibilidade, quantidade_maxima_compra, observacao) 
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """
+                    cursor.execute(sql_insert, (
+                        eventoPresenca,
+                        titulos[i],
+                        quantidades[i],
+                        precos[i],
+                        datas_inicio_vendas[i],
+                        datas_fim_vendas[i],
+                        horas_inicio_vendas[i],
+                        horas_fim_vendas[i],
+                        disponibilidades[i],
+                        quantidades_maximas[i],
+                        observacoes[i]
+                    ))
+            # Confirmar as alterações no banco de dados
+            conexao.commit()
 
         print(titulos)
 
@@ -2531,7 +2605,8 @@ def GerenciarEventos():
             f"i.hora_fim_venda, "
             f"i.disponibilidade, "
             f"i.quantidade_maxima, "
-            f"i.observacao_ingresso "
+            f"i.observacao_ingresso,"
+            f"i.id_ingresso "
             f"FROM eventos e, ingressos i "
             f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = %s;"
         )

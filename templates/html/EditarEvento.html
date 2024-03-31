@@ -323,6 +323,7 @@
                                         <!-- Primeiro ingresso -->
                                         {% for ingresso in ingresso %}
                                         <div class="form-outline mb-4 ingresso">
+                                            <input name="id_ingresso[]" type="hidden" class="form-control form-control-lg" placeholder="idingresso" required value="{{ ingresso.id_ingresso }}"/>
                                             <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required value="{{ ingresso.titulo_ingresso }}"/>
                                             <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
 
@@ -454,6 +455,7 @@
                                             <!-- Adiciona o campo inicial -->
                                             {% for campo_adicional in campo_adicional %}
                                             <div class="form-outline mb-4">
+                                                <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="{{ campo_adicional.id_campo }}"/>
                                                 <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}"/>
                                                 <label class="form-label" for="nome_campo">Nome do Campo</label>
                                             </div>
