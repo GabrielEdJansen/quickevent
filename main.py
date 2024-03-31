@@ -1483,13 +1483,13 @@ def SalvarAlteracoes():
                             titulo_ingresso = %s,
                             quantidade = %s,
                             preco = %s,
-                            data_inicio_vendas = %s,
-                            data_fim_vendas = %s,
-                            hora_inicio_vendas = %s,
-                            hora_fim_vendas = %s,
+                            data_ini_venda = %s,
+                            data_fim_venda = %s,
+                            hora_ini_venda = %s,
+                            hora_fim_venda = %s,
                             disponibilidade = %s,
-                            quantidade_maxima_compra = %s,
-                            observacao = %s
+                            quantidade_maxima = %s,
+                            observacao_ingresso = %s
                         WHERE id_ingresso = %s
                     """
                     cursor.execute(sql_update_ingresso, (
@@ -1510,7 +1510,7 @@ def SalvarAlteracoes():
                     # Caso contrário, inserir um novo ingresso
                     sql_insert_ingresso = """
                         INSERT INTO ingressos 
-                        (id_eventos, titulo_ingresso, quantidade, preco, data_inicio_vendas, data_fim_vendas, hora_inicio_vendas, hora_fim_vendas, disponibilidade, quantidade_maxima_compra, observacao) 
+                        (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     cursor.execute(sql_insert_ingresso, (
