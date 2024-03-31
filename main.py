@@ -1402,9 +1402,9 @@ def SalvarAlteracoes():
         cursor.execute(sql_last_insert_id)
         id_eventos = cursor.fetchone()[0]
 
-        sql_delete = "DELETE FROM campo_adicional WHERE id_eventos = %s"
-        cursor.execute(sql_delete, (eventoPresenca))
-        conexao.commit()
+        #sql_delete = "DELETE FROM campo_adicional WHERE id_eventos = %s"
+        #cursor.execute(sql_delete, (eventoPresenca))
+        #conexao.commit()
 
         # Inserir os dados dos campos adicionais
         id_campo = request.form.getlist('id_campo[]')
@@ -1420,7 +1420,7 @@ def SalvarAlteracoes():
                     sql_update_campo = """
                         UPDATE campo_adicional
                         SET nome_campo = %s
-                        WHERE id = %s
+                        WHERE id_campo = %s
                     """
                     cursor.execute(sql_update_campo, (campos_adicionais[i], id))
                 else:
@@ -1470,7 +1470,7 @@ def SalvarAlteracoes():
                             disponibilidade = %s,
                             quantidade_maxima_compra = %s,
                             observacao = %s
-                        WHERE id = %s
+                        WHERE id_ingresso = %s
                     """
                     cursor.execute(sql_update, (
                         titulos[i],
@@ -1510,16 +1510,16 @@ def SalvarAlteracoes():
 
         print(titulos)
 
-        for i in range(len(titulos)):
-            # Insira os dados do ingresso no banco de dados
-            sql = """INSERT INTO ingressos (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, 
-                     data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
-                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-            cursor.execute(sql, (eventoPresenca, titulos[i], quantidades[i], precos[i], datas_inicio_vendas[i],
-                                 datas_fim_vendas[i], horas_inicio_vendas[i], horas_fim_vendas[i],
-                                 disponibilidades[i], quantidades_maximas[i], observacoes[i]))
-
-        conexao.commit()
+       # for i in range(len(titulos)):
+       #     # Insira os dados do ingresso no banco de dados
+       #     sql = """INSERT INTO ingressos (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda,
+       #              data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso)
+       #              VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+       #     cursor.execute(sql, (eventoPresenca, titulos[i], quantidades[i], precos[i], datas_inicio_vendas[i],
+       #                          datas_fim_vendas[i], horas_inicio_vendas[i], horas_fim_vendas[i],
+       #                          disponibilidades[i], quantidades_maximas[i], observacoes[i]))
+#
+       # conexao.commit()
 
         flash("Evento alterado com sucesso!")
         return redirect("/InicioGerenciarEventos")
