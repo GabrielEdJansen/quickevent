@@ -480,6 +480,8 @@ def alteraaba():
 
         # Verifique se o ID do evento foi fornecido
 
+        eventosList = [eventoPresenca]
+
         if not eventoPresenca:
             return jsonify({'error': 'ID do evento não fornecido.'}), 400
 
