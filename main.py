@@ -55,27 +55,29 @@ def inserir_mensagem(id_evento, id_usuario, mensagem):
     except Exception as e:
         print(f"Erro ao inserir mensagem no banco de dados: {e}")
         return False
+
 @app.route('/enviar_mensagem', methods=['POST'])
 def enviar_mensagem():
-    if request.method == 'POST':
-        # Obter os dados da mensagem do formulário
-        if 'idlogado' not in session:
-            return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+    # Obter os dados da mensagem do formulário
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
 
-        id_evento = request.args.get('eventoPresenca', None)
-        id_usuario = str(session['idlogado'])
-        mensagem = request.form['mensagem']
+    id_evento = request.args.get('eventoPresenca', None)
+    id_usuario = str(session['idlogado'])
+    mensagem = request.form['mensagem']
 
-        print(id_evento)
-        print(id_usuario)
-        print(mensagem)
+    print("ID do evento:", id_evento)
+    print("ID do usuário:", id_usuario)
+    print("Mensagem:", mensagem)
 
-        # Inserir a mensagem no banco de dados
-        if inserir_mensagem(id_evento, id_usuario, mensagem):
-            # Redirecionar de volta para a rota original após o envio bem-sucedido
-            return redirect(url_for('index'))
-        else:
-            return jsonify({'status': 'error', 'message': 'Erro ao enviar mensagem.'})
+    # Inserir a mensagem no banco de dados
+    if inserir_mensagem(id_evento, id_usuario, mensagem):
+        # Redirecionar de volta para a rota original após o envio bem-sucedido
+        return redirect(url_for('index'))
+    else:
+        # Imprimir mensagem de erro no console
+        print('Erro ao enviar mensagem.')
+        return jsonify({'status': 'error', 'message': 'Erro ao enviar mensagem.'})
 
 
 @app.route('/buscar_participante', methods=['GET'])
