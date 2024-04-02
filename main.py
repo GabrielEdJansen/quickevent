@@ -42,7 +42,7 @@ def inserir_mensagem(id_evento, id_usuario, mensagem):
         cursor = conn.cursor()
 
         # Inserir a mensagem no banco de dados
-        cursor.execute('INSERT INTO chat (id_evento, id_usuario, mensagem) VALUES (?, ?, ?)',
+        cursor.execute('INSERT INTO chat_organizadores (id_evento, id_usuario, mensagem) VALUES (?, ?, ?)',
                        (id_evento, id_usuario, mensagem))
 
         # Commit das alterações
