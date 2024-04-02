@@ -491,7 +491,7 @@ def alteraaba():
 
         # Execute a consulta SQL filtrando pelo ID do evento
 
-        cursor.execute("SELECT * FROM chat_fornecedores WHERE id_evento = %s", (eventoPresenca,))
+        cursor.execute("SELECT * FROM chat_organizadores WHERE id_evento = %s", (eventoPresenca,))
 
         # Recupere todas as linhas do resultado da consulta
 
