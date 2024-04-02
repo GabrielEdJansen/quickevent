@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 </head>
@@ -56,7 +55,6 @@
   </div>
 </nav>
 
-
 <section class="vh-100">
 
         <div class="container py-5 h-100">
@@ -97,7 +95,28 @@
                         </div>
                     </div>
 
-
+                    <!-- Conteúdo da aba do chat -->
+                    <div class="col-md-9">
+                        <div id="chat-container" class="container-fluid">
+                            <h4>Chat dos Organizadores</h4>
+                            <!-- Aqui você pode adicionar o conteúdo do chat -->
+                            <div id="chat-messages">
+                                {% for message in chat_data %}
+                                    <p>{{ message.mensagem }}</p>
+                                    <p>Enviado por: {{ message.id_usuario }}</p>
+                                    <p>Data de Envio: {{ message.data_envio }}</p>
+                                    <hr> <!-- Adiciona uma linha horizontal entre as mensagens -->
+                                {% endfor %}
+                            </div>
+                            <!-- Formulário para enviar mensagens -->
+                            <form id="chat-form" action="/enviar_mensagem" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="message" rows="3" placeholder="Digite sua mensagem"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,5 +128,28 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Faça uma solicitação AJAX para obter os dados do chat
+        $.ajax({
+            url: '/get_chat_data',
+            method: 'GET',
+            success: function(response) {
+                // Manipule os dados do chat retornados aqui
+                console.log(response);
+                // Por exemplo, você pode iterar sobre os dados do chat e exibi-los na página
+                response.forEach(function(message) {
+                    $('#chat-messages').append('<p>' + message.mensagem + '</p>');
+                });
+            },
+            error: function(error) {
+                // Manipule erros de solicitação aqui
+                console.error(error);
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

@@ -33,6 +33,51 @@ mail = Mail(app)
 def home():
     return render_template("html/paginainicial.html")
 
+
+# Função para inserir mensagem no banco de dados
+def inserir_mensagem(id_evento, id_usuario, mensagem):
+    try:
+        # Conectar ao banco de dados
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+
+        # Inserir a mensagem no banco de dados
+        cursor.execute('INSERT INTO chat (id_evento, id_usuario, mensagem) VALUES (?, ?, ?)',
+                       (id_evento, id_usuario, mensagem))
+
+        # Commit das alterações
+        conn.commit()
+
+        # Fechar a conexão
+        conn.close()
+
+        return True
+    except Exception as e:
+        print(f"Erro ao inserir mensagem no banco de dados: {e}")
+        return False
+@app.route('/enviar_mensagem', methods=['POST'])
+def enviar_mensagem():
+    if request.method == 'POST':
+        # Obter os dados da mensagem do formulário
+        if 'idlogado' not in session:
+            return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
+        id_evento = request.args.get('eventoPresenca', None)
+        id_usuario = str(session['idlogado'])
+        mensagem = request.form['mensagem']
+
+        print(id_evento)
+        print(id_usuario)
+        print(mensagem)
+
+        # Inserir a mensagem no banco de dados
+        if inserir_mensagem(id_evento, id_usuario, mensagem):
+            # Redirecionar de volta para a rota original após o envio bem-sucedido
+            return redirect(url_for('index'))
+        else:
+            return jsonify({'status': 'error', 'message': 'Erro ao enviar mensagem.'})
+
+
 @app.route('/buscar_participante', methods=['GET'])
 def buscar_participante():
     if 'idlogado' not in session:
@@ -432,13 +477,46 @@ def alteraaba():
        #return render_template("html/UsuariosOrganizadores.html", foto=foto, eventos=eventosList)
 
     elif acao == 'chatOrganizadores':
-        eventosList = [eventoPresenca]
 
-        # Verificar se o ID do evento foi fornecido
-        if eventoPresenca is None:
+        # Verifique se o ID do evento foi fornecido
+
+        if not eventoPresenca:
             return jsonify({'error': 'ID do evento não fornecido.'}), 400
 
-        return render_template("html/ChatOrganizadores.html", foto=foto, eventos=eventosList)
+        # Conecte-se ao banco de dados
+
+        connect_BD = configbanco(db_type='mysql-connector')
+
+        cursor = connect_BD.cursor()
+
+        # Execute a consulta SQL filtrando pelo ID do evento
+
+        cursor.execute("SELECT * FROM chat_fornecedores WHERE id_evento = %s", (eventoPresenca,))
+
+        # Recupere todas as linhas do resultado da consulta
+
+        chat_data = cursor.fetchall()
+
+        # Feche o cursor e a conexão com o banco de dados
+
+        cursor.close()
+
+        connect_BD.close()
+
+        # Converta os dados do chat para um formato adequado para JSON e retorne-os como resposta JSON
+
+        chat_json = []
+
+        for row in chat_data:
+            chat_json.append({
+                'id_evento': row[1],
+                'id_usuario': row[2],
+                'mensagem': row[3],
+                'data_envio': row[4].strftime('%Y-%m-%d %H:%M:%S') if row[4] else None
+                # Formate a data e hora como string, se existir
+            })
+        # Retorne os dados do chat como resposta JSON
+        return render_template("html/ChatOrganizadores.html", foto=foto, eventos=eventosList, chat_data=chat_json)
 
     elif acao == 'listaParticipantes':
 
