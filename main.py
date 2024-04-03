@@ -63,7 +63,7 @@ def enviar_mensagem():
         if 'idlogado' not in session:
             return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
 
-        id_evento = request.args.get('eventoPresenca', None)
+        id_evento = request.form['eventoPresenca']
         id_usuario = str(session['idlogado'])
         mensagem = request.form['mensagem']
 
