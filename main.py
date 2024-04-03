@@ -87,8 +87,61 @@ def enviar_mensagem():
             cursor.close()
             connect_BD.close()
 
-            # Redirecionar de volta para a rota original após o envio bem-sucedido
-            return render_template('ChatOrganizadores.html')
+            # Verifique se o ID do evento foi fornecido
+
+            idlogado = str(session['idlogado'])
+
+            # Lógica para lidar com solicitações GET
+            connect_BD = configbanco(db_type='mysql-connector')
+            if connect_BD.is_connected():
+                cursur = connect_BD.cursor()
+                cursur.execute(
+                    f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+                )
+                usuario = cursur.fetchone()
+
+                if usuario:
+                    foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+            eventosList = [eventoPresenca]
+
+            if not eventoPresenca:
+                return jsonify({'error': 'ID do evento não fornecido.'}), 400
+
+            # Conecte-se ao banco de dados
+
+            connect_BD = configbanco(db_type='mysql-connector')
+
+            cursor = connect_BD.cursor()
+
+            # Execute a consulta SQL filtrando pelo ID do evento
+
+            cursor.execute("SELECT * FROM chat_organizadores WHERE id_evento = %s", (eventoPresenca,))
+
+            # Recupere todas as linhas do resultado da consulta
+
+            chat_data = cursor.fetchall()
+
+            # Feche o cursor e a conexão com o banco de dados
+
+            cursor.close()
+
+            connect_BD.close()
+
+            # Converta os dados do chat para um formato adequado para JSON e retorne-os como resposta JSON
+
+            chat_json = []
+
+            for row in chat_data:
+                chat_json.append({
+                    'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
+                    'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
+                    'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
+                    'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None
+                    # Formate a data e hora como string, se existir
+                })
+            # Retorne os dados do chat como resposta JSON
+            return render_template("html/ChatOrganizadores.html", foto=foto, eventos=eventosList, chat_data=chat_json)
         except Exception as e:
             # Imprimir mensagem de erro no console
             print('Erro ao inserir mensagem no banco de dados:', e)
