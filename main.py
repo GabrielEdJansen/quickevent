@@ -33,6 +33,28 @@ mail = Mail(app)
 def home():
     return render_template("html/paginainicial.html")
 
+@app.route('/delete_message', methods=['POST'])
+def delete_message():
+    # Obtenha os parâmetros de filtragem da solicitação POST
+    user_id = request.form.get('user_id')
+    event_id = request.form.get('event_id')
+    message_date = request.form.get('message_date')
+
+    # Verifique se todos os parâmetros foram fornecidos
+    if user_id is None or event_id is None or message_date is None:
+        return jsonify({"error": "Parâmetros de filtragem incompletos"}), 400
+
+    # Execute a consulta SQL para excluir a mensagem com base nos parâmetros fornecidos
+    cursor.execute("DELETE FROM chat_organizadores WHERE id_usuario = %s AND id_evento = %s AND data_envio = %s", (user_id, event_id, message_date))
+
+    # Confirme as alterações no banco de dados
+    connection.commit()
+
+    # Verifique se alguma linha foi afetada pela exclusão
+    if cursor.rowcount > 0:
+        return jsonify({"message": "Mensagens excluídas com sucesso"}), 200
+    else:
+        return jsonify({"error": "Nenhuma mensagem encontrada para os parâmetros fornecidos"}), 404
 
 # Função para inserir mensagem no banco de dados
 def inserir_mensagem(id_evento, id_usuario, mensagem):

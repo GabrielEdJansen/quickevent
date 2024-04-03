@@ -110,6 +110,7 @@
                                             <div class="message-info">Enviado por: {{ message.nome }} {{ message.sobrenome }}</div>
                                             <div class="message-info">Data de Envio: {{ message.data_envio }}</div>
                                             <div class="message-info">ID do Usuário: {{ message.id_usuario }}</div>
+                                            <button class="btn btn-danger btn-sm delete-message" data-message-id="{{ message.id }}">Deletar</button>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -156,6 +157,28 @@
             }
         });
     });
+
+$(document).on('click', '.delete-message', function() {
+    var messageId = $(this).data('message-id');
+    var $messageElement = $(this).closest('.chat-message'); // Armazena uma referência ao elemento da mensagem
+
+    $.ajax({
+        url: '/delete_message',
+        method: 'POST',
+        data: { message_id: messageId },
+        success: function(response) {
+            // Remova a mensagem excluída da interface do usuário
+            $messageElement.remove();
+            // Recarrega a página após a exclusão bem-sucedida
+            location.reload();
+        },
+        error: function(error) {
+            console.error(error);
+            // Exiba uma mensagem de erro ou tome outras medidas apropriadas
+        }
+    });
+});
+
 </script>
 
 </body>
