@@ -108,8 +108,8 @@
                                         <div class="message-content">
                                             <div class="message-text">{{ message.mensagem }}</div>
                                             <div class="message-info">Enviado por: {{ message.nome }} {{ message.sobrenome }}</div>
-                                            <div class="message-info">Data de Envio: {{ message.data_envio }}</div>
-                                            <div class="message-info">ID do Usuário: {{ message.id_usuario }}</div>
+                                            <div id="message-date" class="message-info">Data de Envio: {{ message.data_envio }}</div>
+                                            <div id="user-id" class="message-info">ID do Usuário: {{ message.id_usuario }}</div>
                                             <button class="btn btn-danger btn-sm delete-message" data-message-id="{{ message.id }}">Deletar</button>
                                         </div>
                                     </div>
