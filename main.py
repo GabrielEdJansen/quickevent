@@ -45,17 +45,28 @@ def delete_message():
     if user_id is None or event_id is None or message_date is None:
         return jsonify({"error": "Parâmetros de filtragem incompletos"}), 400
 
-    # Execute a consulta SQL para excluir a mensagem com base nos parâmetros fornecidos
-    cursor.execute("DELETE FROM chat_organizadores WHERE id_usuario = %s AND id_evento = %s AND data_envio = %s", (user_id, event_id, message_date))
+    # Estabeleça a conexão com o banco de dados usando a função configbanco
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursor = connect_BD.cursor()
 
-    # Confirme as alterações no banco de dados
-    connection.commit()
+    try:
+        # Execute a consulta SQL para excluir a mensagem com base nos parâmetros fornecidos
+        cursor.execute("DELETE FROM chat_organizadores WHERE id_usuario = %s AND id_evento = %s AND data_envio = %s", (user_id, event_id, message_date))
 
-    # Verifique se alguma linha foi afetada pela exclusão
-    if cursor.rowcount > 0:
-        return jsonify({"message": "Mensagens excluídas com sucesso"}), 200
-    else:
-        return jsonify({"error": "Nenhuma mensagem encontrada para os parâmetros fornecidos"}), 404
+        # Confirme as alterações no banco de dados
+        connect_BD.commit()
+
+        # Verifique se alguma linha foi afetada pela exclusão
+        if cursor.rowcount > 0:
+            return jsonify({"message": "Mensagens excluídas com sucesso"}), 200
+        else:
+            return jsonify({"error": "Nenhuma mensagem encontrada para os parâmetros fornecidos"}), 404
+    except Exception as e:
+        return jsonify({"error": f"Erro ao excluir mensagens: {e}"}), 500
+    finally:
+        # Feche o cursor e a conexão com o banco de dados
+        cursor.close()
+        connect_BD.close()
 
 # Função para inserir mensagem no banco de dados
 def inserir_mensagem(id_evento, id_usuario, mensagem):
