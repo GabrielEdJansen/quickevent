@@ -79,3 +79,29 @@
   .navbar-nav .nav-item .nav-link:hover {
     color: #feb930; /* Cor desejada */
   }
+
+    .chat-message {
+        background-color: #f1f1f1;
+        border-radius: 20px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        max-width: 80%; /* Limita a largura máxima da mensagem */
+    }
+
+    .chat-message .message-text {
+        margin-bottom: 5px;
+    }
+
+    .chat-message .message-info {
+        font-size: 0.8em;
+        color: #999;
+    }
+
+    .user-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-left: auto;
+        margin-bottom: 10px;
+    }

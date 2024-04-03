@@ -101,10 +101,14 @@
                             <!-- Aqui você pode adicionar o conteúdo do chat -->
                             <div id="chat-messages">
                                 {% for message in chat_data %}
-                                    <p>{{ message.mensagem }}</p>
-                                    <p>Enviado por: {{ message.id_usuario }}</p>
-                                    <p>Data de Envio: {{ message.data_envio }}</p>
-                                    <hr> <!-- Adiciona uma linha horizontal entre as mensagens -->
+                                    <div class="chat-message">
+                                        <div class="message-text">{{ message.mensagem }}</div>
+                                        <div class="message-info">Enviado por: {{ message.id_usuario }}</div>
+                                        <div class="message-info">Data de Envio: {{ message.data_envio }}</div>
+                                        <div class="user-avatar">
+                                            <img src="{{ foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
+                                        </div>
+                                    </div>
                                 {% endfor %}
                             </div>
                             <!-- Formulário para enviar mensagens -->
