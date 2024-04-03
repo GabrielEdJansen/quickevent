@@ -66,10 +66,12 @@ def enviar_mensagem():
         id_evento = request.form['eventoPresenca']
         id_usuario = str(session['idlogado'])
         mensagem = request.form['mensagem']
+        data_envio = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Obtém a data e hora atual
 
         print("ID do evento:", id_evento)
         print("ID do usuário:", id_usuario)
         print("Mensagem:", mensagem)
+        print("Data de envio:", data_envio)
 
         # Inserir a mensagem no banco de dados
         try:
@@ -77,7 +79,9 @@ def enviar_mensagem():
             cursor = connect_BD.cursor()
 
             # Executar a inserção da mensagem (ajuste conforme a estrutura da tabela)
-            cursor.execute("INSERT INTO mensagens (id_evento, id_usuario, mensagem) VALUES (%s, %s, %s)", (id_evento, id_usuario, mensagem))
+            cursor.execute(
+                "INSERT INTO chat_organizadores (id_evento, id_usuario, mensagem, data_envio) VALUES (%s, %s, %s, %s)",
+                (id_evento, id_usuario, mensagem, data_envio))
 
             connect_BD.commit()
             cursor.close()
