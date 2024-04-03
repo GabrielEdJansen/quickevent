@@ -94,25 +94,24 @@
                         </div>
                     </div>
 
-                    <!-- Conteúdo da aba do chat -->
                     <div class="col-md-9">
                         <div id="chat-container" class="container-fluid">
                             <h4>Chat dos Organizadores</h4>
                             <!-- Aqui você pode adicionar o conteúdo do chat -->
                             <div id="chat-messages">
-                            {% for message in chat_data %}
-                                <div class="chat-message">
-                                    <div class="message-text">{{ message.mensagem }}</div>
-                                    <div class="message-info">Enviado por: {{ message.nome }} {{ message.sobrenome }}</div>
-                                    <div class="message-info">Data de Envio: {{ message.data_envio }}</div>
-                                    <div class="user-avatar">
-                                        <img src="data:image/jpeg;base64,{{ message.foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
+                                {% for message in chat_data %}
+                                    <div class="chat-message">
+                                        <div class="user-avatar">
+                                            <img src="data:image/jpeg;base64,{{ message.foto }}" alt="User Photo" class="profile-pic">
+                                        </div>
+                                        <div class="message-content">
+                                            <div class="message-text">{{ message.mensagem }}</div>
+                                            <div class="message-info">Enviado por: {{ message.nome }} {{ message.sobrenome }}</div>
+                                            <div class="message-info">Data de Envio: {{ message.data_envio }}</div>
+                                            <div class="message-info">ID do Usuário: {{ message.id_usuario }}</div>
+                                        </div>
                                     </div>
-                                    <!-- Adicione o ID do evento e do usuário se desejar -->
-                                    <div class="message-info">ID do Evento: {{ message.id_evento }}</div>
-                                    <div class="message-info">ID do Usuário: {{ message.id_usuario }}</div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
                             </div>
                             <!-- Formulário para enviar mensagens -->
                             <form id="chat-form" action="/enviar_mensagem" method="post" enctype="multipart/form-data">

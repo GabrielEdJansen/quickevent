@@ -96,6 +96,7 @@
         padding: 10px;
         margin-bottom: 15px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative; /* Permitir posicionamento absoluto dos elementos internos */
     }
 
     .message-text {
@@ -107,6 +108,13 @@
         font-size: 12px;
         color: #666666;
         margin-bottom: 2px;
+    }
+
+    .user-avatar {
+        position: absolute; /* Posicione a foto do usuário absolutamente dentro da mensagem */
+        top: 0;
+        right: 0;
+        margin: 10px; /* Adicione margem para espaçamento */
     }
 
     .user-avatar img {
