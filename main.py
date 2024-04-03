@@ -84,7 +84,7 @@ def enviar_mensagem():
             connect_BD.close()
 
             # Redirecionar de volta para a rota original após o envio bem-sucedido
-            return redirect(url_for('index'))
+            return render_template('ChatOrganizadores.html')
         except Exception as e:
             # Imprimir mensagem de erro no console
             print('Erro ao inserir mensagem no banco de dados:', e)
