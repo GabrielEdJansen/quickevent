@@ -36,9 +36,10 @@ def home():
 @app.route('/delete_message', methods=['POST'])
 def delete_message():
     # Obtenha os parâmetros de filtragem da solicitação POST
-    user_id = request.form.get('user_id')
-    event_id = request.form.get('event_id')
-    message_date = request.form.get('message_date')
+    message_id = request.form.get('message_id')
+    user_id = request.form.get('id_usuario')
+    event_id = request.form.get('eventoPresenca')
+    message_date = request.form.get('data_envio')
 
     # Verifique se todos os parâmetros foram fornecidos
     if user_id is None or event_id is None or message_date is None:
