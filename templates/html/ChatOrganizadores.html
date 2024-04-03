@@ -109,9 +109,9 @@
                                 {% endfor %}
                             </div>
                             <!-- Formulário para enviar mensagens -->
-                            <form action="/enviar_mensagem" method="post">
+                            <form id="chat-form" action="/enviar_mensagem" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <textarea class="form-control" id="message" rows="3" placeholder="Digite sua mensagem"></textarea>
+                                    <textarea class="form-control" id="mensagem" name="mensagem" rows="3" placeholder="Digite sua mensagem"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Enviar</button>
                             </form>
