@@ -63,7 +63,7 @@ def enviar_mensagem():
         if 'idlogado' not in session:
             return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
 
-        id_evento = request.form['eventoPresenca']
+        id_evento = request.form.get('eventoPresenca')  # Corrigido para obter 'eventoPresenca' do formulário
         id_usuario = str(session['idlogado'])
         mensagem = request.form['mensagem']
         data_envio = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Obtém a data e hora atual
@@ -73,7 +73,10 @@ def enviar_mensagem():
         print("Mensagem:", mensagem)
         print("Data de envio:", data_envio)
 
-        # Inserir a mensagem no banco de dados
+        # Verifique se o ID do evento foi fornecido
+        if not id_evento:
+            return jsonify({'error': 'ID do evento não fornecido.'}), 400
+
         try:
             connect_BD = configbanco(db_type='mysql-connector')
             cursor = connect_BD.cursor()
@@ -87,49 +90,35 @@ def enviar_mensagem():
             cursor.close()
             connect_BD.close()
 
-            # Verifique se o ID do evento foi fornecido
-
-            idlogado = str(session['idlogado'])
-
             # Lógica para lidar com solicitações GET
             connect_BD = configbanco(db_type='mysql-connector')
             if connect_BD.is_connected():
-                cursur = connect_BD.cursor()
-                cursur.execute(
-                    f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+                cursor = connect_BD.cursor()
+                cursor.execute(
+                    f'SELECT foto FROM usuarios WHERE id_usuario = "{id_usuario}"'
                 )
-                usuario = cursur.fetchone()
+                usuario = cursor.fetchone()
 
                 if usuario:
                     foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-            eventosList = [eventoPresenca]
-
-            if not eventoPresenca:
-                return jsonify({'error': 'ID do evento não fornecido.'}), 400
+            eventosList = [id_evento]
 
             # Conecte-se ao banco de dados
-
             connect_BD = configbanco(db_type='mysql-connector')
-
             cursor = connect_BD.cursor()
 
             # Execute a consulta SQL filtrando pelo ID do evento
-
-            cursor.execute("SELECT * FROM chat_organizadores WHERE id_evento = %s", (eventoPresenca,))
+            cursor.execute("SELECT * FROM chat_organizadores WHERE id_evento = %s", (id_evento,))
 
             # Recupere todas as linhas do resultado da consulta
-
             chat_data = cursor.fetchall()
 
             # Feche o cursor e a conexão com o banco de dados
-
             cursor.close()
-
             connect_BD.close()
 
             # Converta os dados do chat para um formato adequado para JSON e retorne-os como resposta JSON
-
             chat_json = []
 
             for row in chat_data:
@@ -140,6 +129,7 @@ def enviar_mensagem():
                     'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None
                     # Formate a data e hora como string, se existir
                 })
+
             # Retorne os dados do chat como resposta JSON
             return render_template("html/ChatOrganizadores.html", foto=foto, eventos=eventosList, chat_data=chat_json)
         except Exception as e:
