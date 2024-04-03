@@ -112,7 +112,7 @@
                                             <div id="user-id2" class="message-info">ID do Usuário: {{ message.id_usuario }}</div>
                                             <div class="message-info" id="message-date" style="display: none;">{{ message.data_envio }}</div>
                                             <div class="message-info" id="user-id" style="display: none;">{{ message.id_usuario }}</div>
-                                            <div class="chat-message" id="message-{{ message.id }}">
+                                            <div class="chat-message" id="message-{{ message.data_envio  }}">
                                                 <!-- Conteúdo da mensagem aqui -->
                                                 <button class="btn btn-danger btn-sm delete-message" data-message-id="{{ message.id }}">Deletar</button>
                                             </div>
@@ -164,11 +164,11 @@
     });
 
 $(document).on('click', '.delete-message', function() {
+    var $messageElement = $(this).closest('.chat-message'); // Armazena uma referência ao elemento da mensagem
     var messageId = $(this).data('message-id');
     var eventId = $('#eventoPresenca').val(); // Obtenha o ID do evento
-    var userId = $('#user-id').text().trim(); // Obtenha o ID do usuário da mensagem
-    var messageDate = $('#message-date').text().trim(); // Obtenha a data de envio da mensagem
-    var $messageElement = $(this).closest('.chat-message'); // Armazena uma referência ao elemento da mensagem
+    var userId = $(this).data('user-id'); // Obtenha o ID do usuário da mensagem
+    var messageDate = $(this).data('message-date'); // Obtenha a data de envio da mensagem
 
     $.ajax({
         url: '/delete_message',
@@ -181,7 +181,7 @@ $(document).on('click', '.delete-message', function() {
         },
         success: function(response) {
             // Remova a mensagem excluída da interface do usuário
-            $('#message-' + messageId).remove();
+            $messageElement.remove();
             // Recarrega a página após a exclusão bem-sucedida
             location.reload();
         },
