@@ -112,7 +112,10 @@
                                             <div id="user-id2" class="message-info">ID do Usuário: {{ message.id_usuario }}</div>
                                             <div class="message-info" id="message-date" style="display: none;">{{ message.data_envio }}</div>
                                             <div class="message-info" id="user-id" style="display: none;">{{ message.id_usuario }}</div>
-                                            <button class="btn btn-danger btn-sm delete-message" data-message-id="{{ message.id }}">Deletar</button>
+                                            <div class="chat-message" id="message-{{ message.id }}">
+                                                <!-- Conteúdo da mensagem aqui -->
+                                                <button class="btn btn-danger btn-sm delete-message" data-message-id="{{ message.id }}">Deletar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -178,7 +181,7 @@ $(document).on('click', '.delete-message', function() {
         },
         success: function(response) {
             // Remova a mensagem excluída da interface do usuário
-            $messageElement.remove();
+            $('#message-' + messageId).remove();
             // Recarrega a página após a exclusão bem-sucedida
             location.reload();
         },
@@ -188,7 +191,6 @@ $(document).on('click', '.delete-message', function() {
         }
     });
 });
-
 </script>
 
 </body>
