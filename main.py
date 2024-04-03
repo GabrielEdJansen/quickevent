@@ -528,10 +528,10 @@ def alteraaba():
 
         for row in chat_data:
             chat_json.append({
-                'id_evento': row[1],
-                'id_usuario': row[2],
-                'mensagem': row[3],
-                'data_envio': row[4].strftime('%Y-%m-%d %H:%M:%S') if row[4] else None
+                'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
+                'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
+                'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
+                'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None
                 # Formate a data e hora como string, se existir
             })
         # Retorne os dados do chat como resposta JSON
