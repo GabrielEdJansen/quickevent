@@ -161,8 +161,8 @@
 $(document).on('click', '.delete-message', function() {
     var messageId = $(this).data('message-id');
     var eventId = $('#eventoPresenca').val(); // Obtenha o ID do evento
-    var userId = $(this).data('user-id'); // Obtenha o ID do usuário da mensagem
-    var messageDate = $(this).data('message-date'); // Obtenha a data de envio da mensagem
+    var userId = $('#user-id').text(); // Obtenha o ID do usuário da mensagem
+    var messageDate = $('#message-date').text(); // Obtenha a data de envio da mensagem
     var $messageElement = $(this).closest('.chat-message'); // Armazena uma referência ao elemento da mensagem
 
     $.ajax({
