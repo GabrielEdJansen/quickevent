@@ -73,11 +73,16 @@ def enviar_mensagem():
 
         # Inserir a mensagem no banco de dados
         try:
-            conn = sqlite3.connect('nome_do_banco.db')
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO mensagens (id_evento, id_usuario, mensagem) VALUES (?, ?, ?)", (id_evento, id_usuario, mensagem))
-            conn.commit()
-            conn.close()
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursor = connect_BD.cursor()
+
+            # Executar a inserção da mensagem (ajuste conforme a estrutura da tabela)
+            cursor.execute("INSERT INTO mensagens (id_evento, id_usuario, mensagem) VALUES (%s, %s, %s)", (id_evento, id_usuario, mensagem))
+
+            connect_BD.commit()
+            cursor.close()
+            connect_BD.close()
+
             # Redirecionar de volta para a rota original após o envio bem-sucedido
             return redirect(url_for('index'))
         except Exception as e:
