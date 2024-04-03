@@ -77,7 +77,6 @@
                         <div class="nav-container">
                             <form action="/alteraaba" method="post" enctype="multipart/form-data">
                                 <ul class="nav flex-column nav-pills">
-                                    <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
                                     <li class="nav-item">
                                         <button type="submit" class="nav-link btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
                                     </li>
@@ -111,6 +110,7 @@
                             <!-- Formulário para enviar mensagens -->
                             <form id="chat-form" action="/enviar_mensagem" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
+                                    <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
                                     <textarea class="form-control" id="mensagem" name="mensagem" rows="3" placeholder="Digite sua mensagem"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Enviar</button>

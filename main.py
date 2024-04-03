@@ -58,26 +58,32 @@ def inserir_mensagem(id_evento, id_usuario, mensagem):
 
 @app.route('/enviar_mensagem', methods=['POST'])
 def enviar_mensagem():
-    # Obter os dados da mensagem do formulário
-    if 'idlogado' not in session:
-        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+    if request.method == 'POST':
+        # Obter os dados da mensagem do formulário
+        if 'idlogado' not in session:
+            return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
 
-    id_evento = request.args.get('eventoPresenca', None)
-    id_usuario = str(session['idlogado'])
-    mensagem = request.form['mensagem']
+        id_evento = request.args.get('eventoPresenca', None)
+        id_usuario = str(session['idlogado'])
+        mensagem = request.form['mensagem']
 
-    print("ID do evento:", id_evento)
-    print("ID do usuário:", id_usuario)
-    print("Mensagem:", mensagem)
+        print("ID do evento:", id_evento)
+        print("ID do usuário:", id_usuario)
+        print("Mensagem:", mensagem)
 
-    # Inserir a mensagem no banco de dados
-    if inserir_mensagem(id_evento, id_usuario, mensagem):
-        # Redirecionar de volta para a rota original após o envio bem-sucedido
-        return redirect(url_for('index'))
-    else:
-        # Imprimir mensagem de erro no console
-        print('Erro ao enviar mensagem.')
-        return jsonify({'status': 'error', 'message': 'Erro ao enviar mensagem.'})
+        # Inserir a mensagem no banco de dados
+        try:
+            conn = sqlite3.connect('nome_do_banco.db')
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO mensagens (id_evento, id_usuario, mensagem) VALUES (?, ?, ?)", (id_evento, id_usuario, mensagem))
+            conn.commit()
+            conn.close()
+            # Redirecionar de volta para a rota original após o envio bem-sucedido
+            return redirect(url_for('index'))
+        except Exception as e:
+            # Imprimir mensagem de erro no console
+            print('Erro ao inserir mensagem no banco de dados:', e)
+            return jsonify({'status': 'error', 'message': 'Erro ao enviar mensagem.'})
 
 
 @app.route('/buscar_participante', methods=['GET'])
