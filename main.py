@@ -109,7 +109,9 @@ def enviar_mensagem():
             cursor = connect_BD.cursor()
 
             # Execute a consulta SQL filtrando pelo ID do evento
-            cursor.execute("SELECT * FROM chat_organizadores WHERE id_evento = %s", (id_evento,))
+            cursor.execute(
+                "SELECT chat_organizadores.id_evento, chat_organizadores.id_usuario, chat_organizadores.mensagem, chat_organizadores.data_envio, usuarios.nome, usuarios.sobrenome, usuarios.foto FROM chat_organizadores JOIN usuarios ON chat_organizadores.id_usuario = usuarios.id_usuario WHERE chat_organizadores.id_evento = %s",
+                (eventoPresenca,))
 
             # Recupere todas as linhas do resultado da consulta
             chat_data = cursor.fetchall()
@@ -126,8 +128,11 @@ def enviar_mensagem():
                     'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
                     'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
                     'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
-                    'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None
+                    'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None,
                     # Formate a data e hora como string, se existir
+                    'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
+                    'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
+                    'foto': row[6]  # Supondo que a foto do usuário em base64 é o sexto campo na tupla
                 })
 
             # Retorne os dados do chat como resposta JSON
@@ -553,7 +558,9 @@ def alteraaba():
 
         # Execute a consulta SQL filtrando pelo ID do evento
 
-        cursor.execute("SELECT * FROM chat_organizadores WHERE id_evento = %s", (eventoPresenca,))
+        cursor.execute(
+            "SELECT chat_organizadores.id_evento, chat_organizadores.id_usuario, chat_organizadores.mensagem, chat_organizadores.data_envio, usuarios.nome, usuarios.sobrenome, usuarios.foto FROM chat_organizadores JOIN usuarios ON chat_organizadores.id_usuario = usuarios.id_usuario WHERE chat_organizadores.id_evento = %s",
+            (eventoPresenca,))
 
         # Recupere todas as linhas do resultado da consulta
 
@@ -574,8 +581,11 @@ def alteraaba():
                 'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
                 'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
                 'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
-                'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None
+                'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None,
                 # Formate a data e hora como string, se existir
+                'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
+                'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
+                'foto': row[6]  # Supondo que a foto do usuário em base64 é o sexto campo na tupla
             })
         # Retorne os dados do chat como resposta JSON
         return render_template("html/ChatOrganizadores.html", foto=foto, eventos=eventosList, chat_data=chat_json)
