@@ -41,6 +41,10 @@ def delete_message():
     event_id = request.form.get('eventoPresenca')
     message_date = request.form.get('data_envio')
 
+    print(message_id)
+    print(user_id)
+    print(event_id)
+
     # Verifique se todos os parâmetros foram fornecidos
     if user_id is None or event_id is None or message_date is None:
         return jsonify({"error": "Parâmetros de filtragem incompletos"}), 400
@@ -51,7 +55,7 @@ def delete_message():
 
     try:
         # Execute a consulta SQL para excluir a mensagem com base nos parâmetros fornecidos
-        cursor.execute("DELETE FROM chat_organizadores WHERE id_usuario = %s AND id_evento = %s AND data_envio = %s AND id_chat_organizadores = %s", (user_id, event_id, message_date, message_id))
+        cursor.execute("DELETE FROM chat_organizadores WHERE id_usuario = %s AND id_evento = %s AND id_chat_organizadores = %s", (user_id, event_id, message_id))
 
         # Confirme as alterações no banco de dados
         connect_BD.commit()
