@@ -114,12 +114,18 @@
                                             <div class="message-info" id="user-id" style="display: none;">{{ message.id_usuario }}</div>
                                             <div class="chat-message" id="message-{{ message.data_envio  }}">
                                                 <!-- Conteúdo da mensagem aqui -->
-                                                <button class="btn btn-danger btn-sm delete-message"
-                                                        data-message-id="{{ message.id_chat_organizadores}}"
-                                                        data-user-id="{{ message.id_usuario }}"
-                                                        data-message-date="{{ message.data_envio }}">
-                                                    Deletar
-                                                </button>
+                                            <form id="deleteForm" action="/delete_message" method="post" style="display: none;">
+                                                <input type="hidden" name="message_id" id="messageId">
+                                                <input type="hidden" name="id_usuario" id="userId">
+                                                <input type="hidden" name="data_envio" id="messageDate">
+                                            </form>
+
+                                            <button class="btn btn-danger btn-sm delete-message" type="submit" form="deleteForm"
+                                                    data-message-id="{{ message.id_chat_organizadores }}"
+                                                    data-user-id="{{ message.id_usuario }}"
+                                                    data-message-date="{{ message.data_envio }}">
+                                                Deletar
+                                            </button>
                                             </div>
                                         </div>
                                     </div>
@@ -167,41 +173,6 @@
             }
         });
     });
-
-$(document).on('click', '.delete-message', function() {
-    var $messageElement = $(this).closest('.chat-message'); // Armazena uma referência ao elemento da mensagem
-    var messageId = $(this).data('message-id');
-    var eventId = $('#eventoPresenca').val(); // Obtenha o ID do evento
-    var userId = $(this).data('user-id'); // Obtenha o ID do usuário da mensagem
-    var messageDate = $(this).data('message-date'); // Obtenha a data de envio da mensagem
-
-    console.log("Message ID:", messageId);
-    console.log("Event ID:", eventId);
-    console.log("User ID:", userId);
-    console.log("Message Date:", messageDate);
-
-    $.ajax({
-        url: '/delete_message',
-        method: 'POST',
-        data: {
-            message_id: messageId,
-            eventoPresenca: eventId,
-            id_usuario: userId,
-            data_envio: messageDate
-        },
-        success: function(response) {
-            // Remova a mensagem excluída da interface do usuário
-            $messageElement.remove();
-            // Exiba uma mensagem de confirmação, se necessário
-            alert("Mensagem excluída com sucesso!");
-        },
-        error: function(error) {
-            console.error(error);
-            // Exiba uma mensagem de erro ou tome outras medidas apropriadas
-            alert("Ocorreu um erro ao excluir a mensagem. Por favor, tente novamente.");
-        }
-    });
-});
 </script>
 
 </body>
