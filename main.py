@@ -51,7 +51,7 @@ def delete_message():
 
     try:
         # Execute a consulta SQL para excluir a mensagem com base nos parâmetros fornecidos
-        cursor.execute("DELETE FROM chat_organizadores WHERE id_usuario = %s AND id_evento = %s AND data_envio = %s", (user_id, event_id, message_date))
+        cursor.execute("DELETE FROM chat_organizadores WHERE id_usuario = %s AND id_evento = %s AND data_envio = %s AND id_chat_organizadores = %s", (user_id, event_id, message_date, message_id))
 
         # Confirme as alterações no banco de dados
         connect_BD.commit()
@@ -145,7 +145,7 @@ def enviar_mensagem():
 
             # Execute a consulta SQL filtrando pelo ID do evento
             cursor.execute(
-                "SELECT chat_organizadores.id_evento, chat_organizadores.id_usuario, chat_organizadores.mensagem, chat_organizadores.data_envio, usuarios.nome, usuarios.sobrenome, usuarios.foto FROM chat_organizadores JOIN usuarios ON chat_organizadores.id_usuario = usuarios.id_usuario WHERE chat_organizadores.id_evento = %s",
+                "SELECT chat_organizadores.id_evento, chat_organizadores.id_usuario, chat_organizadores.mensagem, chat_organizadores.data_envio, usuarios.nome, usuarios.sobrenome, usuarios.foto FROM chat_organizadores JOIN usuarios ON chat_organizadores.id_usuario = usuarios.id_usuario, chat_organizadores.id_chat_organizadores WHERE chat_organizadores.id_evento = %s",
                 (eventoPresenca,))
 
             # Recupere todas as linhas do resultado da consulta
@@ -167,7 +167,8 @@ def enviar_mensagem():
                     # Formate a data e hora como string, se existir
                     'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
                     'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
-                    'foto': row[6]  # Supondo que a foto do usuário em base64 é o sexto campo na tupla
+                    'foto': row[6],  # Supondo que a foto do usuário em base64 é o sexto campo na tupla
+                    'id_chat_organizadores': row[7]
                 })
 
             # Retorne os dados do chat como resposta JSON
@@ -594,7 +595,7 @@ def alteraaba():
         # Execute a consulta SQL filtrando pelo ID do evento
 
         cursor.execute(
-            "SELECT chat_organizadores.id_evento, chat_organizadores.id_usuario, chat_organizadores.mensagem, chat_organizadores.data_envio, usuarios.nome, usuarios.sobrenome, usuarios.foto FROM chat_organizadores JOIN usuarios ON chat_organizadores.id_usuario = usuarios.id_usuario WHERE chat_organizadores.id_evento = %s",
+            "SELECT chat_organizadores.id_evento, chat_organizadores.id_usuario, chat_organizadores.mensagem, chat_organizadores.data_envio, usuarios.nome, usuarios.sobrenome, usuarios.foto, chat_organizadores.id_chat_organizadores FROM chat_organizadores JOIN usuarios ON chat_organizadores.id_usuario = usuarios.id_usuario WHERE chat_organizadores.id_evento = %s",
             (eventoPresenca,))
 
         # Recupere todas as linhas do resultado da consulta
@@ -620,7 +621,8 @@ def alteraaba():
                 # Formate a data e hora como string, se existir
                 'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
                 'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
-                'foto': row[6]  # Supondo que a foto do usuário em base64 é o sexto campo na tupla
+                'foto': row[6],  # Supondo que a foto do usuário em base64 é o sexto campo na tupla
+                'id_chat_organizadores': row[7]
             })
         # Retorne os dados do chat como resposta JSON
         return render_template("html/ChatOrganizadores.html", foto=foto, eventos=eventosList, chat_data=chat_json)
