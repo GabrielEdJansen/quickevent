@@ -190,12 +190,15 @@ $(document).on('click', '.delete-message', function() {
             data_envio: messageDate
         },
         success: function(response) {
-            // Recarrega a página após a exclusão bem-sucedida
-            location.reload();
+            // Remova a mensagem excluída da interface do usuário
+            $messageElement.remove();
+            // Exiba uma mensagem de confirmação, se necessário
+            alert("Mensagem excluída com sucesso!");
         },
         error: function(error) {
             console.error(error);
             // Exiba uma mensagem de erro ou tome outras medidas apropriadas
+            alert("Ocorreu um erro ao excluir a mensagem. Por favor, tente novamente.");
         }
     });
 });
