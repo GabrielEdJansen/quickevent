@@ -164,11 +164,15 @@
     });
 
 $(document).on('click', '.delete-message', function() {
-    var $messageElement = $(this).closest('.chat-message'); // Armazena uma referência ao elemento da mensagem
     var messageId = $(this).data('message-id');
     var eventId = $('#eventoPresenca').val(); // Obtenha o ID do evento
     var userId = $(this).data('user-id'); // Obtenha o ID do usuário da mensagem
     var messageDate = $(this).data('message-date'); // Obtenha a data de envio da mensagem
+
+    console.log("Message ID:", messageId);
+    console.log("Event ID:", eventId);
+    console.log("User ID:", userId);
+    console.log("Message Date:", messageDate);
 
     $.ajax({
         url: '/delete_message',
