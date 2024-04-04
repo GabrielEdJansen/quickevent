@@ -62,7 +62,7 @@ def delete_message():
     # Feche o cursor e a conexão com o banco de dados
     cursor.close()
     connect_BD.close()
-    return 0
+    return jsonify({"success": True}), 200
 
 # Função para inserir mensagem no banco de dados
 def inserir_mensagem(id_evento, id_usuario, mensagem):
