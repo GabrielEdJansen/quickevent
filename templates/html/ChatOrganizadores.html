@@ -114,7 +114,12 @@
                                             <div class="message-info" id="user-id" style="display: none;">{{ message.id_usuario }}</div>
                                             <div class="chat-message" id="message-{{ message.data_envio  }}">
                                                 <!-- Conteúdo da mensagem aqui -->
-                                                <button class="btn btn-danger btn-sm delete-message" data-message-id="{{ message.id }}">Deletar</button>
+                                                <button class="btn btn-danger btn-sm delete-message"
+                                                        data-message-id="{{ message.id }}"
+                                                        data-user-id="{{ message.id_usuario }}"
+                                                        data-message-date="{{ message.data_envio }}">
+                                                    Deletar
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -168,6 +173,7 @@ $(document).on('click', '.delete-message', function() {
     var eventId = $('#eventoPresenca').val(); // Obtenha o ID do evento
     var userId = $(this).data('user-id'); // Obtenha o ID do usuário da mensagem
     var messageDate = $(this).data('message-date'); // Obtenha a data de envio da mensagem
+
 
     console.log("Message ID:", messageId);
     console.log("Event ID:", eventId);
