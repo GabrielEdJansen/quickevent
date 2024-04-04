@@ -35,15 +35,15 @@ def home():
 
 @app.route('/delete_message', methods=['POST'])
 def delete_message():
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
     # Obtenha os parâmetros de filtragem da solicitação POST
     message_id = request.form.get('message_id')
     user_id = request.form.get('id_usuario')
     event_id = request.form.get('eventoPresenca')
     message_date = request.form.get('data_envio')
-
-    print(message_id)
-    print(user_id)
-    print(event_id)
+    id_usuario = str(session['idlogado'])
 
     # Verifique se todos os parâmetros foram fornecidos
     if user_id is None or event_id is None or message_date is None:
@@ -62,7 +62,54 @@ def delete_message():
     # Feche o cursor e a conexão com o banco de dados
     cursor.close()
     connect_BD.close()
-    return jsonify({"success": True}), 200
+    eventosList = [id_evento]
+
+    # Lógica para lidar com solicitações GET
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{id_usuario}"'
+        )
+        usuario = cursor.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    # Conecte-se ao banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursor = connect_BD.cursor()
+
+    # Execute a consulta SQL filtrando pelo ID do evento
+    cursor.execute(
+        "SELECT chat_organizadores.id_evento, chat_organizadores.id_usuario, chat_organizadores.mensagem, chat_organizadores.data_envio, usuarios.nome, usuarios.sobrenome, usuarios.foto, chat_organizadores.id_chat_organizadores  FROM chat_organizadores JOIN usuarios ON chat_organizadores.id_usuario = usuarios.id_usuario WHERE chat_organizadores.id_evento = %s",
+        (eventoPresenca,))
+
+    # Recupere todas as linhas do resultado da consulta
+    chat_data = cursor.fetchall()
+
+    # Feche o cursor e a conexão com o banco de dados
+    cursor.close()
+    connect_BD.close()
+
+    # Converta os dados do chat para um formato adequado para JSON e retorne-os como resposta JSON
+    chat_json = []
+
+    for row in chat_data:
+        chat_json.append({
+            'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
+            'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
+            'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
+            'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None,
+            # Formate a data e hora como string, se existir
+            'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
+            'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
+            'foto': row[6],  # Supondo que a foto do usuário em base64 é o sexto campo na tupla
+            'id_chat_organizadores': row[7]
+        })
+
+    # Retorne os dados do chat como resposta JSON
+    return render_template("html/ChatOrganizadores.html", foto=foto, eventos=eventosList, chat_data=chat_json)
 
 # Função para inserir mensagem no banco de dados
 def inserir_mensagem(id_evento, id_usuario, mensagem):
@@ -98,11 +145,6 @@ def enviar_mensagem():
         id_usuario = str(session['idlogado'])
         mensagem = request.form['mensagem']
         data_envio = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Obtém a data e hora atual
-
-        print("ID do evento:", id_evento)
-        print("ID do usuário:", id_usuario)
-        print("Mensagem:", mensagem)
-        print("Data de envio:", data_envio)
 
         # Verifique se o ID do evento foi fornecido
         if not id_evento:
