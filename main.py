@@ -44,6 +44,7 @@ def delete_message():
     event_id = request.form.get('eventoPresenca')
     message_date = request.form.get('data_envio')
     id_usuario = str(session['idlogado'])
+    eventoPresenca = request.form.get('eventoPresenca')
 
     # Verifique se todos os parâmetros foram fornecidos
     if user_id is None or event_id is None or message_date is None:
