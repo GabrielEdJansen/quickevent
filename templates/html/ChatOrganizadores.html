@@ -169,11 +169,11 @@
     });
 
 $(document).on('click', '.delete-message', function() {
+    var $messageElement = $(this).closest('.chat-message'); // Armazena uma referência ao elemento da mensagem
     var messageId = $(this).data('message-id');
     var eventId = $('#eventoPresenca').val(); // Obtenha o ID do evento
     var userId = $(this).data('user-id'); // Obtenha o ID do usuário da mensagem
     var messageDate = $(this).data('message-date'); // Obtenha a data de envio da mensagem
-
 
     console.log("Message ID:", messageId);
     console.log("Event ID:", eventId);
@@ -190,8 +190,6 @@ $(document).on('click', '.delete-message', function() {
             data_envio: messageDate
         },
         success: function(response) {
-            // Remova a mensagem excluída da interface do usuário
-            $messageElement.remove();
             // Recarrega a página após a exclusão bem-sucedida
             location.reload();
         },
