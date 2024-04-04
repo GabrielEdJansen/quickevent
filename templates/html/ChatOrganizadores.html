@@ -120,7 +120,7 @@
                                                 <input type="hidden" name="data_envio" id="messageDate">
                                             </form>
 
-                                            <button class="btn btn-danger btn-sm delete-message" type="submit" form="deleteForm"
+                                            <button class="btn btn-danger btn-sm delete-message" type="submit" onclick="fillDeleteForm(this)"
                                                     data-message-id="{{ message.id_chat_organizadores }}"
                                                     data-user-id="{{ message.id_usuario }}"
                                                     data-message-date="{{ message.data_envio }}">
@@ -154,6 +154,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    function fillDeleteForm(button) {
+        var messageId = button.getAttribute('data-message-id');
+        var userId = button.getAttribute('data-user-id');
+        var messageDate = button.getAttribute('data-message-date');
+
+        document.getElementById('messageId').value = messageId;
+        document.getElementById('userId').value = userId;
+        document.getElementById('messageDate').value = messageDate;
+
+        document.getElementById('deleteForm').submit();
+    }
+
     $(document).ready(function() {
         // Faça uma solicitação AJAX para obter os dados do chat
         $.ajax({
