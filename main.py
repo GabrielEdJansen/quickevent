@@ -62,7 +62,8 @@ def delete_message():
     # Feche o cursor e a conexão com o banco de dados
     cursor.close()
     connect_BD.close()
-    eventosList = [id_evento]
+
+    eventosList = [event_id]
 
     # Lógica para lidar com solicitações GET
     connect_BD = configbanco(db_type='mysql-connector')
