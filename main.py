@@ -98,6 +98,7 @@ def enviar_mensagem():
             return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
 
         id_evento = request.form.get('eventoPresenca')  # Corrigido para obter 'eventoPresenca' do formulário
+        eventoPresenca = request.form.get('eventoPresenca')
         id_usuario = str(session['idlogado'])
         mensagem = request.form['mensagem']
         data_envio = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Obtém a data e hora atual
