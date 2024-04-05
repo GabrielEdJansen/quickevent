@@ -918,7 +918,34 @@ def processarPresenca():
     if 'idlogado' not in session:
         return redirect("/")
 
-    if request.form.get('acao') == 'cancelar_presenca':
+    if request.form.get('acao') == 'complementar':
+        connect_BD = configbanco(db_type='mysql-connector')
+
+        if connect_BD.is_connected():
+            cursor = connect_BD.cursor()
+
+            # Consulta para obter a foto do usuário logado
+            cursor.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+            )
+            usuario = cursor.fetchone()
+
+            # Verifica se o usuário tem uma foto
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+        eventoPresenca = request.form.get('eventoPresenca')
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursor = connect_BD.cursor(dictionary=True)
+        query = ("SELECT * FROM AvaliacaoEventos WHERE id_evento = %s order by data_avaliacao")
+        cursor.execute(query, (eventoPresenca,))
+        avaliacoes = cursor.fetchall()
+        cursor.close()
+        connect_BD.close()
+        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventos, foto=foto)
+
+
+    elif request.form.get('acao') == 'cancelar_presenca':
         eventoPresenca = request.form.get('eventoPresenca')
         tipo_ingresso = request.form.get("tipoIngresso")
 
