@@ -548,7 +548,7 @@ def alteraabaparticipante():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-        return render_template("html/InformacoesEventos.html", eventos=eventosList, foto=foto, ingresso=ingresso)
+        return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
     elif acao == 'usuariosOrganizadores':
         x=0
     elif acao == 'participantes':
