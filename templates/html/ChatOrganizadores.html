@@ -115,6 +115,7 @@
                                             <div class="chat-message" id="message-{{ message.data_envio  }}">
                                                 <!-- Conteúdo da mensagem aqui -->
                                             <form id="deleteForm" action="/delete_message" method="post" style="display: none;">
+                                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
                                                 <input type="hidden" name="message_id" id="messageId">
                                                 <input type="hidden" name="id_usuario" id="userId">
                                                 <input type="hidden" name="data_envio" id="messageDate">
