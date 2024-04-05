@@ -476,6 +476,7 @@ def alteraabaparticipante():
 
     idlogado = str(session['idlogado'])
     eventoPresenca = request.form.get('eventoPresenca')
+    eventosList = [eventoPresenca]
 
     # Lógica para lidar com solicitações GET
     connect_BD = configbanco(db_type='mysql-connector')
@@ -488,8 +489,8 @@ def alteraabaparticipante():
 
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
-    acao = request.form.get('aba')
 
+    acao = request.form.get('aba')
 
     if acao == 'dadosEvento':
         connect_BD = configbanco(db_type='mysql-connector')
@@ -547,7 +548,7 @@ def alteraabaparticipante():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-        return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+        return render_template("html/InformacoesEventos.html", eventos=eventosList, foto=foto, ingresso=ingresso)
     elif acao == 'usuariosOrganizadores':
         x=0
     elif acao == 'participantes':
@@ -1007,28 +1008,7 @@ def processarPresenca():
 
     if request.form.get('acao') == 'complementar':
         eventoPresenca = request.form.get('eventoPresenca')
-        connect_BD = configbanco(db_type='mysql-connector')
-        cursur = connect_BD.cursor(dictionary=True)
-        query = (
-            f"SELECT e.id_eventos, "
-            f"e.hora_fim_evento, "
-            f"e.hora_evento, "
-            f"e.data_fim_evento, "
-            f"e.data_evento, "
-            f"c.id_categoria, "
-            f"e.categoria, "
-            f"e.descricao_evento, "
-            f"e.local_evento, "
-            f"c.descricao_categoria, "
-            f"e.nome_evento, "
-            f"e.foto_evento "
-            f"FROM eventos e, categoria c "
-            f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
-        )
-
-        cursur.execute(query)
-        eventos = cursur.fetchall()
-
+        eventosList = [eventoPresenca]
         connect_BD = configbanco(db_type='mysql-connector')
 
         if connect_BD.is_connected():
@@ -1051,7 +1031,7 @@ def processarPresenca():
         avaliacoes = cursor.fetchall()
         cursor.close()
         connect_BD.close()
-        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventos, foto=foto)
+        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
 
 
     elif request.form.get('acao') == 'cancelar_presenca':
