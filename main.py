@@ -33,6 +33,52 @@ mail = Mail(app)
 def home():
     return render_template("html/paginainicial.html")
 
+
+@app.route('/inserir_avaliacao', methods=['POST'])
+def inserir_avaliacao():
+    if request.method == 'POST':
+        if 'idlogado' not in session:
+            return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+        
+        id_usuario = str(session['idlogado'])
+        id_evento = request.form['id_evento']
+        eventosList = [id_evento]
+        nota_avaliacao = request.form['nota_avaliacao']
+        comentario = request.form['comentario']
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        if connect_BD.is_connected():
+            cursor = connect_BD.cursor()
+            cursor.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{id_usuario}"'
+            )
+            usuario = cursor.fetchone()
+
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursor = connect_BD.cursor(dictionary=True)
+        query = ("SELECT * FROM AvaliacaoEventos WHERE id_evento = %s order by data_avaliacao")
+        cursor.execute(query, (id_evento,))
+        avaliacoes = cursor.fetchall()
+        cursor.close()
+        connect_BD.close()
+
+        # Insira aqui a lógica para inserir a avaliação na tabela AvaliacaoEventos
+        try:
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursor = connect_BD.cursor()
+            cursor.execute("INSERT INTO AvaliacaoEventos (id_evento, nota_avaliacao, comentario, id_usuario) VALUES (%s, %s, %s, %s)",
+                           (id_evento, nota_avaliacao, comentario, id_usuario))
+            mysql.connection.commit()
+            cursor.close()
+            flash('Avaliação inserida com sucesso!', 'success')
+        except Exception as e:
+            flash(f'Erro ao inserir avaliação: {e}', 'error')
+
+        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
+
 @app.route('/delete_message', methods=['POST'])
 def delete_message():
     if 'idlogado' not in session:

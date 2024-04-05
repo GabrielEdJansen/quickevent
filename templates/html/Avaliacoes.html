@@ -114,6 +114,22 @@
                                 <!-- Exibir o total de avaliações -->
                                 <p class="mb-0">Total de Avaliações: {{ avaliacoes|length }}</p>
                             </div>
+                          <div class="container">
+                          <h5>Inserir Nova Avaliação</h5>
+                          <form action="/inserir_avaliacao" method="post">
+                            <!-- Campos para a avaliação -->
+                            <div class="form-group">
+                              <label for="nota">Nota:</label>
+                              <!-- Adicionando o input para as estrelas -->
+                              <input id="nota" name="nota" type="number" class="rating" min=0 max=5 step=1 data-size="sm">
+                            </div>
+                            <div class="form-group">
+                              <label for="comentario">Comentário:</label>
+                              <textarea id="comentario" name="comentario" class="form-control"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+                          </form>
+                        </div>
                         </div>
                     </div>
             </div>
