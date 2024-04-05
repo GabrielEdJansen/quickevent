@@ -1030,6 +1030,8 @@ def processarPresenca():
         cursur.execute(query)
         eventos = cursur.fetchall()
 
+        eventosList = [eventoPresenca]
+
         connect_BD = configbanco(db_type='mysql-connector')
 
         if connect_BD.is_connected():
@@ -1052,7 +1054,7 @@ def processarPresenca():
         avaliacoes = cursor.fetchall()
         cursor.close()
         connect_BD.close()
-        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventos, foto=foto)
+        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
 
 
     elif request.form.get('acao') == 'cancelar_presenca':
