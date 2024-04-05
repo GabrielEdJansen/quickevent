@@ -919,6 +919,7 @@ def processarPresenca():
         return redirect("/")
 
     if request.form.get('acao') == 'complementar':
+        eventoPresenca = request.form.get('eventoPresenca')
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
         query = (
@@ -956,7 +957,6 @@ def processarPresenca():
             if usuario:
                 foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-        eventoPresenca = request.form.get('eventoPresenca')
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor(dictionary=True)
         query = ("SELECT * FROM AvaliacaoEventos WHERE id_evento = %s order by data_avaliacao")
