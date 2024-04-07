@@ -36,10 +36,9 @@ def home():
 
 @app.route('/inserir_avaliacao', methods=['POST'])
 def inserir_avaliacao():
-    if request.method == 'POST':
         if 'idlogado' not in session:
             return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
-        
+
         id_usuario = str(session['idlogado'])
         id_evento = request.form['id_evento']
         eventosList = [id_evento]
@@ -73,9 +72,9 @@ def inserir_avaliacao():
                            (id_evento, nota_avaliacao, comentario, id_usuario))
             mysql.connection.commit()
             cursor.close()
-            flash('Avaliação inserida com sucesso!', 'success')
+            print('Avaliação inserida com sucesso!', 'success')
         except Exception as e:
-            flash(f'Erro ao inserir avaliação: {e}', 'error')
+            print(f'Erro ao inserir avaliação: {e}', 'error')
 
         return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
 
