@@ -42,11 +42,11 @@ def inserir_avaliacao():
     id_usuario = str(session['idlogado'])
 
     # Verificar se os campos estão presentes no formulário
-    if 'id_evento' not in request.form or 'nota_avaliacao' not in request.form or 'comentario' not in request.form:
+    if 'eventoPresenca' not in request.form or 'nota' not in request.form or 'comentario' not in request.form:
         return "Campos incompletos", 400
 
-    id_evento = request.form['id_evento']
-    nota_avaliacao = request.form['nota_avaliacao']
+    id_evento = request.form['eventoPresenca']
+    nota_avaliacao = request.form['nota']
     comentario = request.form['comentario']
 
     try:
