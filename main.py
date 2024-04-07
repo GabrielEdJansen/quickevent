@@ -36,47 +36,36 @@ def home():
 
 @app.route('/inserir_avaliacao', methods=['POST'])
 def inserir_avaliacao():
-        if 'idlogado' not in session:
-            return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
 
-        id_usuario = str(session['idlogado'])
-        id_evento = request.form['id_evento']
-        eventosList = [id_evento]
-        nota_avaliacao = request.form['nota_avaliacao']
-        comentario = request.form['comentario']
+    id_usuario = str(session['idlogado'])
 
-        connect_BD = configbanco(db_type='mysql-connector')
-        if connect_BD.is_connected():
-            cursor = connect_BD.cursor()
-            cursor.execute(
-                f'SELECT foto FROM usuarios WHERE id_usuario = "{id_usuario}"'
-            )
-            usuario = cursor.fetchone()
+    # Verificar se os campos estão presentes no formulário
+    if 'id_evento' not in request.form or 'nota_avaliacao' not in request.form or 'comentario' not in request.form:
+        return "Campos incompletos", 400
 
-            if usuario:
-                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+    id_evento = request.form['id_evento']
+    nota_avaliacao = request.form['nota_avaliacao']
+    comentario = request.form['comentario']
 
-        connect_BD = configbanco(db_type='mysql-connector')
-        cursor = connect_BD.cursor(dictionary=True)
-        query = ("SELECT * FROM AvaliacaoEventos WHERE id_evento = %s order by data_avaliacao")
-        cursor.execute(query, (id_evento,))
-        avaliacoes = cursor.fetchall()
+    try:
+        connect_BD = mysql.connector.connect(**your_database_config)
+        cursor = connect_BD.cursor()
+
+        cursor.execute("INSERT INTO AvaliacaoEventos (id_evento, nota_avaliacao, comentario, id_usuario) VALUES (%s, %s, %s, %s)",
+                       (id_evento, nota_avaliacao, comentario, id_usuario))
+
+        connect_BD.commit()
         cursor.close()
         connect_BD.close()
 
-        # Insira aqui a lógica para inserir a avaliação na tabela AvaliacaoEventos
-        try:
-            connect_BD = configbanco(db_type='mysql-connector')
-            cursor = connect_BD.cursor()
-            cursor.execute("INSERT INTO AvaliacaoEventos (id_evento, nota_avaliacao, comentario, id_usuario) VALUES (%s, %s, %s, %s)",
-                           (id_evento, nota_avaliacao, comentario, id_usuario))
-            mysql.connection.commit()
-            cursor.close()
-            print('Avaliação inserida com sucesso!', 'success')
-        except Exception as e:
-            print(f'Erro ao inserir avaliação: {e}', 'error')
+        print('Avaliação inserida com sucesso!', 'success')
+    except mysql.connector.Error as e:
+        print(f'Erro ao inserir avaliação: {e}', 'error')
+        return f'Erro ao inserir avaliação: {e}', 500
 
-        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
+    return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
 
 @app.route('/delete_message', methods=['POST'])
 def delete_message():
