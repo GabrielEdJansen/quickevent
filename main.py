@@ -50,7 +50,7 @@ def inserir_avaliacao():
     comentario = request.form['comentario']
 
     try:
-        connect_BD = mysql.connector.connect(**your_database_config)
+        connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor()
 
         cursor.execute("INSERT INTO AvaliacaoEventos (id_evento, nota_avaliacao, comentario, id_usuario) VALUES (%s, %s, %s, %s)",
