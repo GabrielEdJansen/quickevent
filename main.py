@@ -46,6 +46,7 @@ def inserir_avaliacao():
         return "Campos incompletos", 400
 
     id_evento = request.form['eventoPresenca']
+    eventoPresenca = request.form['eventoPresenca']
     nota_avaliacao = request.form['nota']
     comentario = request.form['comentario']
 
