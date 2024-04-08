@@ -53,7 +53,7 @@ def inserir_avaliacao():
     fnota_avaliacao = float(request.form['nota'])
     if fnota_avaliacao < 0 or fnota_avaliacao > 5:
         flash("A nota deve estar entre 0 e 5", "error")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca)
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
     try:
         connect_BD = configbanco(db_type='mysql-connector')
@@ -1069,7 +1069,7 @@ def processarPresenca():
     if 'idlogado' not in session:
         return redirect("/")
 
-    if request.form.get('acao') == 'complementar':
+    if request.form.get('acao') == 'complementar' or request.args.get('acao') == 'complementar':
         eventoPresenca = request.form.get('eventoPresenca')
         if not eventoPresenca:
             eventoPresenca = request.args.get('eventoPresenca')
