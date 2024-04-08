@@ -55,6 +55,14 @@ def inserir_avaliacao():
         flash("A nota deve estar entre 0 e 5", "error")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
+    if not comentario.strip():
+        flash("Insira o comentário!")
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+
+    if not fnota_avaliacao or fnota_avaliacao == '0':
+        flash("A nota deve estar entre 0 e 5", "error")
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+
     try:
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor()
