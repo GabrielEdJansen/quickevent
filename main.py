@@ -66,11 +66,9 @@ def inserir_avaliacao():
         flash("Insira a nota", "error")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
-    if not comentario:
+    if comentario is None or comentario.strip() == '':
         flash("Insira o comentário!", "error")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
-
-
 
     try:
         connect_BD = configbanco(db_type='mysql-connector')
