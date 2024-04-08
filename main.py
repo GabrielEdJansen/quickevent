@@ -1071,6 +1071,9 @@ def processarPresenca():
 
     if request.form.get('acao') == 'complementar':
         eventoPresenca = request.form.get('eventoPresenca')
+        if not eventoPresenca:
+            eventoPresenca = request.args.get('eventoPresenca')
+
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
         query = (
