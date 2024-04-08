@@ -45,10 +45,11 @@ def inserir_avaliacao():
     if 'eventoPresenca' not in request.form or 'nota' not in request.form or 'comentario' not in request.form:
         return "Campos incompletos", 400
 
-    id_evento = request.form.get['eventoPresenca']
-    eventoPresenca = request.form.get['eventoPresenca']
-    nota_avaliacao = request.form.get['nota']
-    comentario = request.form.get['comentario']
+    id_evento = request.form['eventoPresenca']
+    eventoPresenca = request.form['eventoPresenca']
+    nota_avaliacao = request.form['nota']
+    comentario = request.form.get('comentario')
+    comentario = comentario.strip() if comentario else ' '
 
     try:
         fnota_avaliacao = float(request.form['nota'])
