@@ -50,18 +50,23 @@ def inserir_avaliacao():
     nota_avaliacao = request.form['nota']
     comentario = request.form['comentario']
 
-    fnota_avaliacao = float(request.form['nota'])
-    if fnota_avaliacao < 0 or fnota_avaliacao > 5:
-        flash("A nota deve estar entre 0 e 5", "error")
+    try:
+        fnota_avaliacao = float(request.form['nota'])
+        if fnota_avaliacao < 0 or fnota_avaliacao > 5:
+            raise ValueError("A nota deve estar entre 0 e 5")
+    except ValueError:
+        flash("A nota deve ser um número válido", "error")
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+
+    if fnota_avaliacao == 0:
+        flash("A nota deve ser maior que 0", "error")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
     if not comentario.strip():
         flash("Insira o comentário!")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
-    if not fnota_avaliacao or fnota_avaliacao == '0':
-        flash("A nota deve estar entre 0 e 5", "error")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+
 
     try:
         connect_BD = configbanco(db_type='mysql-connector')
