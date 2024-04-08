@@ -60,9 +60,32 @@ def inserir_avaliacao():
         cursor.close()
         connect_BD.close()
 
-        print('Avaliação inserida com sucesso!', 'success')
+        eventosList = [eventoPresenca]
+
+        connect_BD = configbanco(db_type='mysql-connector')
+
+        if connect_BD.is_connected():
+            cursor = connect_BD.cursor()
+
+            # Consulta para obter a foto do usuário logado
+            cursor.execute(
+                f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+            )
+            usuario = cursor.fetchone()
+
+            # Verifica se o usuário tem uma foto
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursor = connect_BD.cursor(dictionary=True)
+        query = ("SELECT * FROM AvaliacaoEventos WHERE id_evento = %s order by data_avaliacao")
+        cursor.execute(query, (eventoPresenca,))
+        avaliacoes = cursor.fetchall()
+        cursor.close()
+        connect_BD.close()
+
     except mysql.connector.Error as e:
-        print(f'Erro ao inserir avaliação: {e}', 'error')
         return f'Erro ao inserir avaliação: {e}', 500
 
     return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
