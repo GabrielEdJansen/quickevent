@@ -50,6 +50,11 @@ def inserir_avaliacao():
     nota_avaliacao = request.form['nota']
     comentario = request.form['comentario']
 
+    fnota_avaliacao = float(request.form['nota'])
+    if fnota_avaliacao < 0 or fnota_avaliacao > 5:
+        flash("A nota deve estar entre 0 e 5", "error")
+        return redirect(request.referrer)  # Redirecionar de volta para a página anterior
+
     try:
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor()
