@@ -1064,7 +1064,7 @@ def InicioEventosParticipados():
 
         return render_template("html/EventosParticipados.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
 
-@app.route("/processarPresenca", methods=['POST'])
+@app.route("/processarPresenca", methods=['POST','GET'])
 def processarPresenca():
     if 'idlogado' not in session:
         return redirect("/")
