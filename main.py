@@ -45,10 +45,10 @@ def inserir_avaliacao():
     if 'eventoPresenca' not in request.form or 'nota' not in request.form or 'comentario' not in request.form:
         return "Campos incompletos", 400
 
-    id_evento = request.form['eventoPresenca']
-    eventoPresenca = request.form['eventoPresenca']
-    nota_avaliacao = request.form['nota']
-    comentario = request.form['comentario']
+    id_evento = request.form.get['eventoPresenca']
+    eventoPresenca = request.form.get['eventoPresenca']
+    nota_avaliacao = request.form.get['nota']
+    comentario = request.form.get['comentario']
 
     try:
         fnota_avaliacao = float(request.form['nota'])
@@ -66,7 +66,7 @@ def inserir_avaliacao():
         flash("Insira a nota", "error")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
-    if comentario is None or comentario.strip() == '':
+    if not comentario:
         flash("Insira o comentário!", "error")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
