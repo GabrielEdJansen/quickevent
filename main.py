@@ -2306,7 +2306,8 @@ def SalvarAlteracoes():
         cursur.execute(query, (eventoPresenca,))
         campo_adicional = cursur.fetchall()
         flash("Evento alterado com sucesso!")
-        return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
+        eventosList2 = [eventoPresenca]
+        return render_template("html/EditarEvento.html", evento=eventosList2,eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
 
     except Exception as e:
         print(str(e))
