@@ -956,8 +956,8 @@ def alteraaba():
             # Executar a consulta SQL
             cursur.execute(query, (eventoPresenca,))
             campo_adicional = cursur.fetchall()
-
-            return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
+            eventosList2 = [eventoPresenca]
+            return render_template("html/EditarEvento.html", evento=eventosList2,eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
     elif acao == 'usuariosOrganizadores':
         eventosList = [eventoPresenca]
 
@@ -3409,8 +3409,8 @@ def GerenciarEventos():
         # Executar a consulta SQL
         cursur.execute(query, (eventoPresenca,))
         campo_adicional = cursur.fetchall()
-
-        return render_template("html/EditarEvento.html", eventos=eventosList, foto=foto, ingresso=ingresso, campo_adicional=campo_adicional)
+        eventosList2 = [eventoPresenca]
+        return render_template("html/EditarEvento.html", evento=eventosList2,eventos=eventosList, foto=foto, ingresso=ingresso, campo_adicional=campo_adicional)
     else:
         return ExcluirEvento()
 
