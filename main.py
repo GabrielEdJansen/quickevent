@@ -736,7 +736,39 @@ def alteraabaparticipante():
 
         return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
     elif acao == 'usuariosOrganizadores':
-        x=0
+        eventosList = [eventoPresenca]
+
+        # Verificar se o ID do evento foi fornecido
+        if eventoPresenca is None:
+            return jsonify({'error': 'ID do evento não fornecido.'}), 400
+
+        # Configurar a conexão com o banco de dados
+        conexao_bd = configbanco(db_type='mysql-connector')
+
+        # Consulta SQL para obter os usuários organizadores por evento
+        sql = "select eventos_usuarios.id_usuario, usuarios.nome, usuarios.sobrenome from eventos_usuarios, usuarios where eventos_usuarios.id_usuario = usuarios.id_usuario and id_evento = %s"
+
+        # Criar um cursor para executar a consulta
+        cursor = conexao_bd.cursor()
+
+        # Executar a consulta e obter os resultados
+        cursor.execute(sql, (eventoPresenca,))
+
+        # Obter os resultados da consulta
+        resultados = cursor.fetchall()
+
+        # Fechar o cursor e a conexão com o banco de dados
+        cursor.close()
+        conexao_bd.close()
+
+        # Criar uma lista de usuários
+        usuarios_organizadores = []
+        for resultado in resultados:
+            usuarios_organizadores.append(resultado)
+
+        # Renderizar o template HTML e passar os usuários organizadores para ele
+        return render_template("html/OrganizadoresParticipantes.html", usuarios=usuarios_organizadores, foto=foto,eventos=eventosList)
+
     elif acao == 'participantes':
 
         eventosList = [eventoPresenca]
