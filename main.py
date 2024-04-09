@@ -298,6 +298,113 @@ def enviar_mensagem():
             return jsonify({'status': 'error', 'message': 'Erro ao enviar mensagem.'})
 
 
+@app.route('/buscar_participanteEvt', methods=['GET'])
+def buscar_participanteEvt():
+    if 'idlogado' not in session:
+        return redirect("/")  # Redirecionar para a página inicial se o usuário não estiver logado
+
+    idlogado = str(session['idlogado'])
+    termo_pesquisa = request.args.get('termo_pesquisa', '')
+    eventoPresenca = request.args.get('eventoPresenca', None)
+    eventosList = [eventoPresenca]
+
+    # Consulta para buscar os participantes com base no termo de pesquisa
+    query = '''
+        SELECT 
+            presencas.id_evento_presente,
+            presencas.id_usuario_presente,
+            presencas.id_ingresso,
+            presencas.quantidade_convites,
+            usuarios.nome,
+            usuarios.sobrenome,
+            ingressos.titulo_ingresso,
+            presencas.quantidade_convites
+        FROM 
+            presencas
+            JOIN usuarios ON presencas.id_usuario_presente = usuarios.id_usuario
+            JOIN ingressos ON presencas.id_ingresso = ingressos.id_ingresso
+        WHERE 
+            presencas.id_evento_presente = %s
+            AND (usuarios.nome LIKE %s OR usuarios.sobrenome LIKE %s)
+    '''
+
+    # Consulta para calcular o total de convites
+    query_total_convites = '''
+        SELECT 
+            SUM(presencas.quantidade_convites) as qtdtotal
+        FROM 
+            presencas
+            JOIN usuarios ON presencas.id_usuario_presente = usuarios.id_usuario
+            JOIN ingressos ON presencas.id_ingresso = ingressos.id_ingresso
+        WHERE 
+            presencas.id_evento_presente = %s
+    '''
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursor = connect_BD.cursor()
+
+    # Executar a consulta SQL para buscar os participantes
+    cursor.execute(query, (eventoPresenca, f'%{termo_pesquisa}%', f'%{termo_pesquisa}%'))
+    usuarios_encontrados = cursor.fetchall()
+
+    # Obter o total de convites
+    cursor.execute(query_total_convites, (eventoPresenca,))
+    total_convites = cursor.fetchone()[0]
+
+    # Formatar os resultados em um formato JSON
+    usuarios_formatados = []
+    for usuario in usuarios_encontrados:
+        usuario_formatado = {
+            'id_evento_presente': usuario[0],
+            'id_usuario_presente': usuario[1],
+            'id_ingresso': usuario[2],
+            'quantidade_convites': usuario[3],
+            'nome': usuario[4],
+            'sobrenome': usuario[5],
+            'titulo_ingresso': usuario[6],
+            'quantidade_ingresso': usuario[7]
+        }
+        usuarios_formatados.append(usuario_formatado)
+
+    # Verificar se nenhum participante foi encontrado e exibir um flash
+    if not usuarios_formatados:
+        flash('Nenhum usuário encontrado.', 'warning')
+
+    # Verificar se nenhum participante foi encontrado
+    if not usuarios_formatados:
+        # Se nenhum participante foi encontrado, buscar todos os participantes
+        cursor.execute(query, (eventoPresenca, '%', '%'))
+        usuarios_encontrados = cursor.fetchall()
+        for usuario in usuarios_encontrados:
+            usuario_formatado = {
+                'id_evento_presente': usuario[0],
+                'id_usuario_presente': usuario[1],
+                'id_ingresso': usuario[2],
+                'quantidade_convites': usuario[3],
+                'nome': usuario[4],
+                'sobrenome': usuario[5],
+                'titulo_ingresso': usuario[6],
+                'quantidade_ingresso': usuario[7]
+            }
+            usuarios_formatados.append(usuario_formatado)
+
+    # Obter a foto do usuário
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+
+    connect_BD.close()
+
+    return render_template("html/ListaParticipantes.html", messages=get_flashed_messages(),foto=foto, eventos=eventosList, presentes=usuarios_formatados, total_convites=total_convites)
+
 @app.route('/buscar_participante', methods=['GET'])
 def buscar_participante():
     if 'idlogado' not in session:
@@ -631,7 +738,78 @@ def alteraabaparticipante():
     elif acao == 'usuariosOrganizadores':
         x=0
     elif acao == 'participantes':
-        x=0
+
+        eventosList = [eventoPresenca]
+
+        # Verificar se o ID do evento foi fornecido
+
+        if eventoPresenca is None:
+            return jsonify({'error': 'ID do evento não fornecido.'}), 400
+
+        query = '''
+                SELECT 
+                    presencas.id_evento_presente,
+                    presencas.id_usuario_presente,
+                    presencas.id_ingresso,
+                    presencas.quantidade_convites,
+                    usuarios.nome,
+                    usuarios.sobrenome,
+                    ingressos.titulo_ingresso,
+                    presencas.quantidade_convites
+                FROM 
+                    presencas, usuarios, ingressos
+                WHERE 
+                    presencas.id_ingresso = ingressos.id_ingresso
+                    AND presencas.id_evento_presente = ingressos.id_eventos
+                    AND presencas.id_usuario_presente = usuarios.id_usuario 
+                    AND presencas.id_evento_presente = %s
+            '''
+
+        # Consulta para calcular o total de quantidade de convites
+        query_total_convites = '''
+                SELECT 
+                    SUM(presencas.quantidade_convites) as qtdtotal
+                FROM 
+                    presencas
+                    JOIN usuarios ON presencas.id_usuario_presente = usuarios.id_usuario
+                    JOIN ingressos ON presencas.id_ingresso = ingressos.id_ingresso
+                WHERE 
+                    presencas.id_evento_presente = %s
+            '''
+
+        connect_BD = configbanco(db_type='mysql-connector')
+
+        cursor = connect_BD.cursor()
+
+        cursor.execute(query, (eventoPresenca,))
+
+        usuarios_presentes = cursor.fetchall()
+
+        cursor.execute(query_total_convites, (eventoPresenca,))
+        total_convites = cursor.fetchone()[0]
+
+        connect_BD.close()
+
+        # Formate os resultados em um formato JSON
+
+        usuarios_formatados = []
+
+        for usuario in usuarios_presentes:
+            usuario_formatado = {
+                'id_evento_presente': usuario[0],
+                'id_usuario_presente': usuario[1],
+                'id_ingresso': usuario[2],
+                'quantidade_convites': usuario[3],
+                'nome': usuario[4],
+                'sobrenome': usuario[5],
+                'titulo_ingresso': usuario[6],
+                'quantidade_ingresso': usuario[7]
+            }
+
+            usuarios_formatados.append(usuario_formatado)
+
+        return render_template("html/ListaParticipantes.html", foto=foto, eventos=eventosList,
+                               presentes=usuarios_formatados, total_convites=total_convites)
     elif acao == 'avaliacao':
         x=0
 
