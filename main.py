@@ -2941,14 +2941,14 @@ def CriarEvento():
                     latitude,
                     longitude
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )"""
 
         cursor.execute(sql, (
             descricaocad, nomeEventocad, categoriacad, dataCad, horCad, session['idlogado'], endereco,
             totalParticipantescad,
             classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado,
-            bairro, complemento, foto_texto, foto_nome,latitude, longitude))
+            bairro, complemento, foto_texto, foto_nome, latitude, longitude))
 
         # Recuperar o ID do evento recém-inserido
         sql_last_insert_id = "SELECT LAST_INSERT_ID()"
