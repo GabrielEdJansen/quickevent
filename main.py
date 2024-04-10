@@ -2079,6 +2079,7 @@ def SalvarAlteracoes():
                 if id is not None and id != 0:
                     # Se o id do campo adicional existir, atualizar os dados correspondentes (caso necessário)
                     # Como não foi especificado no seu código, vou assumir que o campo adicional pode ser atualizado.
+                    print(f"Atualizando campo existente com id_campo = {id}")
                     sql_update_campo = """
                         UPDATE campo_adicional
                         SET nome_campo = %s
@@ -2087,6 +2088,7 @@ def SalvarAlteracoes():
                     cursor.execute(sql_update_campo, (campos_adicionais[i], id))
                     campos_processados.append(id)
                 else:
+                    print(f"Inserindo novo campo com nome = {campos_adicionais[i]}")
                     # Caso contrário, inserir um novo campo adicional
                     sql_insert_campo = """
                         INSERT INTO campo_adicional (id_eventos, nome_campo)
