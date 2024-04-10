@@ -2890,6 +2890,8 @@ def CriarEvento():
     estado = request.form.get('estado')
     bairro = request.form.get('bairro')
     complemento = request.form.get('complemento')
+    latitude = request.form.get('latitude')
+    longitude = request.form.get('longitude')
 
     dataCad = request.form.get('dataCad')
     dataCadFin = request.form.get('dataCadFin')
@@ -2935,7 +2937,9 @@ def CriarEvento():
                     bairro,
                     complemento,
                     foto_evento,
-                    foto_evento_nome
+                    foto_evento_nome,
+                    latitude,
+                    longitude
                 ) VALUES (
                     %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )"""
@@ -2944,7 +2948,7 @@ def CriarEvento():
             descricaocad, nomeEventocad, categoriacad, dataCad, horCad, session['idlogado'], endereco,
             totalParticipantescad,
             classificacaocad, rua, cidade, numero, dataCadFin, horCadFin, nome_produtor, descricao_produtor, estado,
-            bairro, complemento, foto_texto, foto_nome))
+            bairro, complemento, foto_texto, foto_nome,latitude, longitude))
 
         # Recuperar o ID do evento recém-inserido
         sql_last_insert_id = "SELECT LAST_INSERT_ID()"
