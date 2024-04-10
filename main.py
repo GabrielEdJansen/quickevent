@@ -2076,7 +2076,7 @@ def SalvarAlteracoes():
 
             # Processar os dados
             for i, id in enumerate(id_campo):
-                if id is not None and id != 0:
+                if id is not None and id != '0':
                     # Se o id do campo adicional existir, atualizar os dados correspondentes (caso necessário)
                     # Como não foi especificado no seu código, vou assumir que o campo adicional pode ser atualizado.
                     print(f"Atualizando campo existente com id_campo = {id}")
