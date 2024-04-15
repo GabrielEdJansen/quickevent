@@ -1490,19 +1490,18 @@ def processarPresenca():
 
                 results = cursor.fetchall()
 
-                connect_BD.close()
+                if connect_BD.is_connected():
+                    cursor = connect_BD.cursor()
 
-                connect_BD = configbanco(db_type='mysql-connector')
-                cursor = connect_BD.cursor(dictionary=True)
-                # Consulta para obter a foto do usuário logado
-                cursor.execute(
-                    f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
-                )
-                usuario = cursor.fetchone()
+                    # Consulta para obter a foto do usuário logado
+                    cursor.execute(
+                        f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+                    )
+                    usuario = cursor.fetchone()
 
-                # Verifica se o usuário tem uma foto
-                if usuario:
-                    foto = usuario[0] if usuario[0] else "Sem foto disponível"
+                    # Verifica se o usuário tem uma foto
+                    if usuario:
+                        foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursur = connect_BD.cursor(dictionary=True)
