@@ -1492,6 +1492,16 @@ def processarPresenca():
 
                 connect_BD.close()
 
+                # Consulta para obter a foto do usuário logado
+                cursor.execute(
+                    f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+                )
+                usuario = cursor.fetchone()
+
+                # Verifica se o usuário tem uma foto
+                if usuario:
+                    foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursur = connect_BD.cursor(dictionary=True)
                 query = (
