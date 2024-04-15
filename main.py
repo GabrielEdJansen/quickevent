@@ -1492,6 +1492,8 @@ def processarPresenca():
 
                 connect_BD.close()
 
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursor = connect_BD.cursor(dictionary=True)
                 # Consulta para obter a foto do usuário logado
                 cursor.execute(
                     f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
