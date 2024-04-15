@@ -1483,6 +1483,31 @@ def processarPresenca():
                 session.pop('_flashes', None)
 
                 connect_BD = configbanco(db_type='mysql-connector')
+                cursor = connect_BD.cursor(dictionary=True)
+
+                query = f"SELECT * FROM campo_adicional WHERE id_eventos = '{eventoPresenca}'"
+                cursor.execute(query)
+
+                results = cursor.fetchall()
+
+                connect_BD.close()
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursur = connect_BD.cursor(dictionary=True)
+                query = (
+                    f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+
+                # Executar a consulta SQL
+                cursur.execute(query, (eventoPresenca,))
+                campo_adicional = cursur.fetchall()
+
+                if results:
+                    eventosList = [eventoPresenca]
+                    eventosList2 = [eventoPresenca]
+                    return render_template("html/FormularioAdicional.html", evento=eventosList2, eventos=eventosList,
+                                           foto=foto, campo_adicional=campo_adicional)
+
+                connect_BD = configbanco(db_type='mysql-connector')
                 cursur = connect_BD.cursor(dictionary=True)
                 query = (
                     f"SELECT e.id_eventos, "
