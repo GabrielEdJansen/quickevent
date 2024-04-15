@@ -67,7 +67,7 @@
         {% endfor %}
     {% endif %}
     {% endwith %}
-    <div class="row">
+    <div class="row justify-content-center">
         <!-- Conteúdo das abas à direita -->
         <div class="col-md-9">
             <section class="vh-100">
@@ -77,12 +77,10 @@
                             <div class="card-body p-5 text-center">
                                 <!-- Conteúdo do formulário aqui -->
 
-                                <h3 class="mb-5">Editar evento</h3>
+                                <h3 class="mb-5">Informações solicitadas do evento</h3>
                                 <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
 
                                 <div id="campos-adicionais-container">
-                                    <h3 class="mb-5">Campos adicionais</h3>
-
                                     <form id="form-campos" action="/adicionar_campos" method="post">
                                         <!-- Campos dinâmicos -->
                                         <div class="campos-dinamicos">
@@ -90,45 +88,16 @@
                                             {% for campo_adicional in campo_adicional %}
                                             <div class="form-outline mb-4">
                                                 <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="{{ campo_adicional.id_campo }}"/>
-                                                <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}"/>
-                                                <label class="form-label" for="nome_campo">Nome do Campo</label>
+                                                <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo"/>
+                                                <label class="form-label" for="nome_campo">{{ campo_adicional.nome_campo }}</label>
                                             </div>
                                             {% endfor %}
                                         </div>
-                                        <!-- Botões Adicionar e Remover no final do último campo -->
-                                        <div class="btn-container row">
-                                            <button type="button" class="btn btn-primary col-md-6" onclick="adicionarCampo()">Adicionar Campo</button>
-                                            <button type="button" class="btn btn-danger col-md-6" onclick="removerCampo()">Remover Último Campo</button>
-                                        </div>
                                     </form>
                                 </div>
-
-                                <script>
-                                    function adicionarCampo() {
-                                        var camposDinamicos = document.querySelector('.campos-dinamicos');
-
-                                        var novoCampo = document.createElement('div');
-                                        novoCampo.className = 'form-outline mb-4';
-                                        novoCampo.innerHTML = `
-                                            <input name="id_campo[]" type="hidden" class="form-control form-control-lg" value="0">
-                                            <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
-                                            <label class="form-label" for="nome_campo">Nome do Campo</label>`;
-
-                                        camposDinamicos.appendChild(novoCampo);
-                                    }
-
-                                    function removerCampo() {
-                                        var camposDinamicos = document.querySelector('.campos-dinamicos');
-
-                                        // Certifica-se de que há mais de um campo antes de remover
-                                        if (camposDinamicos.children.length > 1) {
-                                            camposDinamicos.removeChild(camposDinamicos.lastElementChild);
-                                        }
-                                    }
-                                </script>
                                 <div class="btn-container btn-criar-evento mt-5">
                                     <button class="btn btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
-                                        Salvar alterações
+                                        Enviar informações
                                     </button>
                                 </div>
                              </div>
