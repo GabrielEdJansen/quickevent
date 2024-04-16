@@ -88,8 +88,8 @@
                                             <!-- Adiciona o campo inicial -->
                                             {% for campo_adicional in campo_adicional %}
                                             <div class="form-outline mb-4">
-                                                <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="{{ campo_adicional.id_campo }}"/>
-                                                <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Insira a informação"/>
+                                                <input name="id_campo" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="{{ campo_adicional.id_campo }}"/>
+                                                <input name="valor_campo" type="text" class="form-control form-control-lg" placeholder="Insira a informação"/>
                                                 <label class="form-label" for="nome_campo">{{ campo_adicional.nome_campo }}</label>
                                             </div>
                                             {% endfor %}

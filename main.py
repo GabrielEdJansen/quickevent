@@ -1988,6 +1988,8 @@ def EnviarInformacoes():
     quantidadeConvites = request.form.get("quantidadeConvites")
     idlogado = session['idlogado']
     eventoPresenca = request.form.get('eventoPresenca')
+    valor_campo = request.form.get('valor_campo')
+    id_campo = request.form.get('id_campo')
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
@@ -2043,6 +2045,23 @@ def EnviarInformacoes():
         # Verifica se o usuário tem uma foto
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursor = connect_BD.cursor(dictionary=True)
+
+        # Definir os dados a serem inseridos
+        dados = {
+            'id_campo': id_campo,
+            'id_eventos': eventoPresenca,
+            'id_usuario': idlogado,
+            'valor_campo': valor_campo
+        }
+
+        # Montar a query de inserção
+        query = "INSERT INTO formulario_adicional (id_campo, id_eventos, id_usuario, valor_campo) VALUES (%(id_campo)s, %(id_eventos)s, %(id_usuario)s, %(valor_campo)s)"
+
+        cursor.execute(query, dados)
+        connect_BD.commit()  # Confirmar a transação
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
