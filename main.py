@@ -2051,7 +2051,7 @@ def EnviarInformacoes():
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor(dictionary=True)
 
-        # Definir os dados a serem inseridos
+        # Definir os dados a serem inseridos/atualizados
         dados = {
             'id_campo': id_campo,
             'id_eventos': eventoPresenca,
@@ -2059,11 +2059,28 @@ def EnviarInformacoes():
             'valor_campo': valor_campo
         }
 
-        # Montar a query de inserção
-        query = "INSERT INTO formulario_adicional (id_campo, id_eventos, id_usuario, valor_campo) VALUES (%(id_campo)s, %(id_eventos)s, %(id_usuario)s, %(valor_campo)s)"
+        # Consultar se a informação já existe
+        consulta_query = "SELECT * FROM formulario_adicional WHERE id_eventos = %(id_eventos)s AND id_usuario = %(id_usuario)s"
+        cursor.execute(consulta_query, {'id_eventos': eventoPresenca, 'id_usuario': idlogado})
+        resultado = cursor.fetchone()
 
-        cursor.execute(query, dados)
-        connect_BD.commit()  # Confirmar a transação
+        # Se o resultado existe, execute um UPDATE; caso contrário, execute um INSERT
+        if resultado:
+            # Informação já existe, então faça um UPDATE
+            update_query = "UPDATE formulario_adicional SET valor_campo = %(valor_campo)s WHERE id_eventos = %(id_eventos)s AND id_usuario = %(id_usuario)s"
+            cursor.execute(update_query,
+                           {'valor_campo': valor_campo, 'id_eventos': eventoPresenca, 'id_usuario': idlogado})
+            connect_BD.commit()  # Confirmar a transação
+            print("Informação atualizada com sucesso!")
+        else:
+            # Informação não existe, então faça um INSERT
+            insert_query = "INSERT INTO formulario_adicional (id_campo, id_eventos, id_usuario, valor_campo) VALUES (%(id_campo)s, %(id_eventos)s, %(id_usuario)s, %(valor_campo)s)"
+            cursor.execute(insert_query, dados)
+            connect_BD.commit()  # Confirmar a transação
+            print("Informação inserida com sucesso!")
+
+        cursor.close()  # Fechar o cursor
+        connect_BD.close()  # Fechar a conexão com o banco de dados
 
         session.pop('_flashes', None)
 
