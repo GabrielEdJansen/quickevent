@@ -1634,7 +1634,8 @@ def processarPresenca():
                     if results:
                         eventosList = [eventoPresenca]
                         eventosList2 = [eventoPresenca]
-                        return render_template("html/FormularioAdicional.html", evento=eventosList2,eventos=eventosList, foto=foto, campo_adicional=campo_adicional)
+                        quantidadeConvitesaux = [quantidadeConvites]
+                        return render_template("html/FormularioAdicional.html", quantidadeConvites=quantidadeConvitesaux,evento=eventosList2,eventos=eventosList, foto=foto, campo_adicional=campo_adicional)
 
                     # Execute a instrução SQL de inserção
                     query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
@@ -1984,6 +1985,7 @@ def EnviarInformacoes():
     if 'idlogado' not in session:
         return redirect("/login")
 
+    quantidadeConvites = request.form.get("quantidadeConvites")
     idlogado = session['idlogado']
     eventoPresenca = request.form.get('eventoPresenca')
 
