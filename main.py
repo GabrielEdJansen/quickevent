@@ -2063,6 +2063,214 @@ def EnviarInformacoes():
         cursor.execute(query, dados)
         connect_BD.commit()  # Confirmar a transação
 
+        tipo_ingresso = id_campo
+
+        session.pop('_flashes', None)
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor(dictionary=True)
+        query = (
+                    f"SELECT e.id_eventos, "
+                    f"e.hora_fim_evento, "
+                    f"e.hora_evento, "
+                    f"e.data_fim_evento, "
+                    f"e.data_evento, "
+                    f"c.id_categoria, "
+                    f"e.categoria, "
+                    f"e.descricao_evento, "
+                    f"e.local_evento, "
+                    f"c.descricao_categoria, "
+                    f"e.nome_evento, "
+                    f"e.foto_evento "
+                    f"FROM eventos e, categoria c "
+                    f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
+        )
+
+        cursur.execute(query)
+        eventos = cursur.fetchall()
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor(dictionary=True)
+        query = (
+                    f"SELECT i.titulo_ingresso, "
+                    f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+                    f"i.id_ingresso, "
+                    f"p.id_usuario_presente, "
+                    f"p.id_evento_presente "
+                    f"FROM "
+                    f"ingressos i "
+                    f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{session['idlogado']}' "
+                    f"WHERE "
+                    f"i.id_eventos = '{eventoPresenca}';"
+        )
+        cursur.execute(query)
+        ingresso = cursur.fetchall()
+
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor(dictionary=True)
+        query = (
+                    f"SELECT "
+                    f"i.id_ingresso, "
+                    f"p.id_usuario_presente, "
+                    f"p.id_evento_presente "
+                    f"FROM "
+                    f"presencas p, ingressos i "
+                    f"WHERE "
+                    f"p.id_evento_presente = i.id_eventos and "
+                    f"p.id_ingresso = i.id_ingresso and "
+                    f"p.id_evento_presente = '{eventoPresenca}' and "
+                    f"p.id_usuario_presente = '{session['idlogado']}' and "
+                    f"p.id_ingresso = '{tipo_ingresso}';"
+        )
+        cursur.execute(query)
+        presenca = cursur.fetchall()
+
+        if connect_BD.is_connected():
+            cursor = connect_BD.cursor()
+
+            # Consulta para obter a foto do usuário logado
+            cursor.execute(
+                        f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+            )
+            usuario = cursor.fetchone()
+
+            # Verifica se o usuário tem uma foto
+            if usuario:
+                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+            if not presenca:
+                intquantidadeConvites = int(request.form.get("quantidadeConvites"))  # Converta para inteiro
+                if intquantidadeConvites <= 0:
+                    flash("Quantidade de ingressos deve ser maior que 0!")
+                    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursor = connect_BD.cursor(dictionary=True)
+                cursor.execute(
+                            "SELECT quantidade, quantidade_maxima FROM ingressos WHERE id_eventos = %s AND id_ingresso = %s",
+                            (eventoPresenca, tipo_ingresso))
+                qtding = cursor.fetchone()
+                cursor.close()
+                connect_BD.close()
+
+                quantidade_atual = qtding['quantidade']
+                quantidade_maxima = qtding['quantidade_maxima']
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursor = connect_BD.cursor(dictionary=True)
+                cursor.execute(
+                            "select sum(quantidade_convites) as qtdpre from presencas where id_evento_presente = %s and id_ingresso = %s",
+                            (eventoPresenca, tipo_ingresso))
+                qtding = cursor.fetchone()
+                cursor.close()
+                connect_BD.close()
+
+                quantidade_presentes = qtding['qtdpre']
+
+                if quantidade_presentes is None:
+                    quantidade_presentes = 0
+
+                quantidadeConvitesInt = int(quantidadeConvites)
+                quantidade_atual_sum = int(quantidade_presentes) + quantidadeConvitesInt
+                quantidade_restante = int(quantidade_atual) - int(quantidade_presentes)
+
+                if quantidadeConvitesInt > quantidade_maxima:
+                    flash("A quantidade máxima de ingressos por usuário é " + str(quantidade_maxima) + "!")
+                    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto,ingresso=ingresso)
+
+                print("quantidade_atual_sum:", quantidade_atual_sum)
+                print("quantidade_atual:", quantidade_atual)
+
+                if quantidade_atual_sum > quantidade_atual:
+                    flash("A quantidade de ingressos restantes é " + str(quantidade_restante) + "!")
+                    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto,
+                                                   ingresso=ingresso)
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursor = connect_BD.cursor(dictionary=True)
+
+                query = f"SELECT * FROM campo_adicional WHERE id_eventos = '{eventoPresenca}'"
+                cursor.execute(query)
+
+                results = cursor.fetchall()
+
+                if connect_BD.is_connected():
+                    cursor = connect_BD.cursor()
+
+                    # Consulta para obter a foto do usuário logado
+                    cursor.execute(
+                            f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+                    )
+                    usuario = cursor.fetchone()
+
+                    # Verifica se o usuário tem uma foto
+                    if usuario:
+                        foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursur = connect_BD.cursor(dictionary=True)
+                query = (
+                        f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+
+                # Executar a consulta SQL
+                cursur.execute(query, (eventoPresenca,))
+                campo_adicional = cursur.fetchall()
+
+                if results:
+                    eventosList = [eventoPresenca]
+                    eventosList2 = [eventoPresenca]
+                    quantidadeConvitesaux = [quantidadeConvites]
+                    return render_template("html/FormularioAdicional.html", quantidadeConvites=quantidadeConvitesaux,evento=eventosList2,eventos=eventosList, foto=foto, campo_adicional=campo_adicional)
+
+                # Execute a instrução SQL de inserção
+                query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
+                values = (eventoPresenca, session['idlogado'], tipo_ingresso, quantidadeConvites)
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursur = connect_BD.cursor(dictionary=True)
+                cursur.execute(query, values)
+                connect_BD.commit()
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursur = connect_BD.cursor(dictionary=True)
+                query = (
+                            f"SELECT "
+                            f"i.id_ingresso, "
+                            f"p.id_usuario_presente, "
+                            f"p.id_evento_presente "
+                            f"FROM "
+                            f"presencas p, ingressos i "
+                            f"WHERE "
+                            f"p.id_evento_presente = i.id_eventos and "
+                            f"p.id_ingresso = i.id_ingresso and "
+                            f"p.id_evento_presente = '{eventoPresenca}' and "
+                            f"p.id_usuario_presente = '{session['idlogado']}' and "
+                            f"p.id_ingresso = '{tipo_ingresso}';"
+                    )
+                cursur.execute(query)
+                presenca = cursur.fetchall()
+
+                flash("Presença confirmada!")
+            else:
+                flash("Presença já confirmada!")
+
+                connect_BD = configbanco(db_type='mysql-connector')
+                cursur = connect_BD.cursor(dictionary=True)
+                query = (
+                        f"SELECT i.titulo_ingresso, "
+                        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+                        f"i.id_ingresso, "
+                        f"p.id_usuario_presente, "
+                        f"p.id_evento_presente "
+                        f"FROM "
+                        f"ingressos i "
+                        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{session['idlogado']}' "
+                        f"WHERE "
+                        f"i.id_eventos = '{eventoPresenca}';"
+                )
+                cursur.execute(query)
+                ingresso = cursur.fetchall()
+
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
 
