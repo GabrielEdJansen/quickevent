@@ -2203,20 +2203,6 @@ def EnviarInformacoes():
                     if usuario:
                         foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-                connect_BD = configbanco(db_type='mysql-connector')
-                cursur = connect_BD.cursor(dictionary=True)
-                query = (f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
-
-                # Executar a consulta SQL
-                cursur.execute(query, (eventoPresenca,))
-                campo_adicional = cursur.fetchall()
-
-                if results:
-                    eventosList = [eventoPresenca]
-                    eventosList2 = [eventoPresenca]
-                    quantidadeConvitesaux = [quantidadeConvites]
-                    return render_template("html/FormularioAdicional.html", quantidadeConvites=quantidadeConvitesaux,evento=eventosList2,eventos=eventosList, foto=foto, campo_adicional=campo_adicional)
-
                 # Execute a instrução SQL de inserção
                 query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
                 values = (eventoPresenca, session['idlogado'], tipo_ingresso, quantidadeConvites)
