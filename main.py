@@ -1635,7 +1635,8 @@ def processarPresenca():
                         eventosList = [eventoPresenca]
                         eventosList2 = [eventoPresenca]
                         quantidadeConvitesaux = [quantidadeConvites]
-                        return render_template("html/FormularioAdicional.html", quantidadeConvites=quantidadeConvitesaux,evento=eventosList2,eventos=eventosList, foto=foto, campo_adicional=campo_adicional)
+                        tipoingressoaux = [tipo_ingresso]
+                        return render_template("html/FormularioAdicional.html", tipoingresso=tipoingressoaux,quantidadeConvites=quantidadeConvitesaux,evento=eventosList2,eventos=eventosList, foto=foto, campo_adicional=campo_adicional)
 
                     # Execute a instrução SQL de inserção
                     query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
@@ -1990,6 +1991,7 @@ def EnviarInformacoes():
     eventoPresenca = request.form.get('eventoPresenca')
     valor_campo = request.form.get('valor_campo')
     id_campo = request.form.get('id_campo')
+    tipo_ingresso = request.form.get("tipoIngresso")
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
@@ -2062,8 +2064,6 @@ def EnviarInformacoes():
 
         cursor.execute(query, dados)
         connect_BD.commit()  # Confirmar a transação
-
-        tipo_ingresso = id_campo
 
         session.pop('_flashes', None)
 
