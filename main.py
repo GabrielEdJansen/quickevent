@@ -2146,8 +2146,7 @@ def EnviarInformacoes():
 
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursor = connect_BD.cursor(dictionary=True)
-                cursor.execute(
-                            "SELECT quantidade, quantidade_maxima FROM ingressos WHERE id_eventos = %s AND id_ingresso = %s",
+                cursor.execute("SELECT quantidade, quantidade_maxima FROM ingressos WHERE id_eventos = %s AND id_ingresso = %s",
                             (eventoPresenca, tipo_ingresso))
                 qtding = cursor.fetchone()
                 cursor.close()
@@ -2158,8 +2157,7 @@ def EnviarInformacoes():
 
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursor = connect_BD.cursor(dictionary=True)
-                cursor.execute(
-                            "select sum(quantidade_convites) as qtdpre from presencas where id_evento_presente = %s and id_ingresso = %s",
+                cursor.execute("select sum(quantidade_convites) as qtdpre from presencas where id_evento_presente = %s and id_ingresso = %s",
                             (eventoPresenca, tipo_ingresso))
                 qtding = cursor.fetchone()
                 cursor.close()
@@ -2198,9 +2196,7 @@ def EnviarInformacoes():
                     cursor = connect_BD.cursor()
 
                     # Consulta para obter a foto do usuário logado
-                    cursor.execute(
-                            f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
-                    )
+                    cursor.execute(f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"')
                     usuario = cursor.fetchone()
 
                     # Verifica se o usuário tem uma foto
@@ -2209,8 +2205,7 @@ def EnviarInformacoes():
 
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursur = connect_BD.cursor(dictionary=True)
-                query = (
-                        f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+                query = (f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
 
                 # Executar a consulta SQL
                 cursur.execute(query, (eventoPresenca,))
@@ -2233,20 +2228,19 @@ def EnviarInformacoes():
 
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursur = connect_BD.cursor(dictionary=True)
-                query = (
-                            f"SELECT "
-                            f"i.id_ingresso, "
-                            f"p.id_usuario_presente, "
-                            f"p.id_evento_presente "
-                            f"FROM "
-                            f"presencas p, ingressos i "
-                            f"WHERE "
-                            f"p.id_evento_presente = i.id_eventos and "
-                            f"p.id_ingresso = i.id_ingresso and "
-                            f"p.id_evento_presente = '{eventoPresenca}' and "
-                            f"p.id_usuario_presente = '{session['idlogado']}' and "
-                            f"p.id_ingresso = '{tipo_ingresso}';"
-                    )
+                query = (f"SELECT "
+                         f"i.id_ingresso, "
+                         f"p.id_usuario_presente, "
+                         f"p.id_evento_presente "
+                         f"FROM "
+                         f"presencas p, ingressos i "
+                         f"WHERE "
+                         f"p.id_evento_presente = i.id_eventos and "
+                         f"p.id_ingresso = i.id_ingresso and "
+                         f"p.id_evento_presente = '{eventoPresenca}' and "
+                         f"p.id_usuario_presente = '{session['idlogado']}' and "
+                         f"p.id_ingresso = '{tipo_ingresso}';"
+                )
                 cursur.execute(query)
                 presenca = cursur.fetchall()
 
@@ -2257,16 +2251,16 @@ def EnviarInformacoes():
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursur = connect_BD.cursor(dictionary=True)
                 query = (
-                        f"SELECT i.titulo_ingresso, "
-                        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
-                        f"i.id_ingresso, "
-                        f"p.id_usuario_presente, "
-                        f"p.id_evento_presente "
-                        f"FROM "
-                        f"ingressos i "
-                        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{session['idlogado']}' "
-                        f"WHERE "
-                        f"i.id_eventos = '{eventoPresenca}';"
+                    f"SELECT i.titulo_ingresso, "
+                    f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "  # Usando IFNULL para substituir NULL por 0
+                    f"i.id_ingresso, "
+                    f"p.id_usuario_presente, "
+                    f"p.id_evento_presente "
+                    f"FROM "
+                    f"ingressos i "
+                    f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{session['idlogado']}' "
+                    f"WHERE "
+                    f"i.id_eventos = '{eventoPresenca}';"
                 )
                 cursur.execute(query)
                 ingresso = cursur.fetchall()
