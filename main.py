@@ -1483,42 +1483,6 @@ def processarPresenca():
                 session.pop('_flashes', None)
 
                 connect_BD = configbanco(db_type='mysql-connector')
-                cursor = connect_BD.cursor(dictionary=True)
-
-                query = f"SELECT * FROM campo_adicional WHERE id_eventos = '{eventoPresenca}'"
-                cursor.execute(query)
-
-                results = cursor.fetchall()
-
-                if connect_BD.is_connected():
-                    cursor = connect_BD.cursor()
-
-                    # Consulta para obter a foto do usuário logado
-                    cursor.execute(
-                        f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
-                    )
-                    usuario = cursor.fetchone()
-
-                    # Verifica se o usuário tem uma foto
-                    if usuario:
-                        foto = usuario[0] if usuario[0] else "Sem foto disponível"
-
-                connect_BD = configbanco(db_type='mysql-connector')
-                cursur = connect_BD.cursor(dictionary=True)
-                query = (
-                    f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
-
-                # Executar a consulta SQL
-                cursur.execute(query, (eventoPresenca,))
-                campo_adicional = cursur.fetchall()
-
-                if results:
-                    eventosList = [eventoPresenca]
-                    eventosList2 = [eventoPresenca]
-                    return render_template("html/FormularioAdicional.html", evento=eventosList2, eventos=eventosList,
-                                           foto=foto, campo_adicional=campo_adicional)
-
-                connect_BD = configbanco(db_type='mysql-connector')
                 cursur = connect_BD.cursor(dictionary=True)
                 query = (
                     f"SELECT e.id_eventos, "
@@ -1636,6 +1600,41 @@ def processarPresenca():
                         flash("A quantidade de ingressos restantes é " + str(quantidade_restante) + "!")
                         return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto,
                                                    ingresso=ingresso)
+
+                    connect_BD = configbanco(db_type='mysql-connector')
+                    cursor = connect_BD.cursor(dictionary=True)
+
+                    query = f"SELECT * FROM campo_adicional WHERE id_eventos = '{eventoPresenca}'"
+                    cursor.execute(query)
+
+                    results = cursor.fetchall()
+
+                    if connect_BD.is_connected():
+                        cursor = connect_BD.cursor()
+
+                        # Consulta para obter a foto do usuário logado
+                        cursor.execute(
+                            f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+                        )
+                        usuario = cursor.fetchone()
+
+                        # Verifica se o usuário tem uma foto
+                        if usuario:
+                            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+                    connect_BD = configbanco(db_type='mysql-connector')
+                    cursur = connect_BD.cursor(dictionary=True)
+                    query = (
+                        f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+
+                    # Executar a consulta SQL
+                    cursur.execute(query, (eventoPresenca,))
+                    campo_adicional = cursur.fetchall()
+
+                    if results:
+                        eventosList = [eventoPresenca]
+                        eventosList2 = [eventoPresenca]
+                        return render_template("html/FormularioAdicional.html", evento=eventosList2,eventos=eventosList, foto=foto, campo_adicional=campo_adicional)
 
                     # Execute a instrução SQL de inserção
                     query = "INSERT INTO presencas (id_evento_presente, id_usuario_presente, id_ingresso, quantidade_convites) VALUES (%s, %s, %s, %s)"
@@ -1979,6 +1978,71 @@ def InformacoesEventos():
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
+@app.route("/EnviarInformacoes", methods=['POST'])
+def EnviarInformacoes():
+    if 'idlogado' not in session:
+        return redirect("/login")
+
+    eventoPresenca = request.form.get('eventoPresenca')
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT e.id_eventos, "
+        f"e.hora_fim_evento, "
+        f"e.hora_evento, "
+        f"e.data_fim_evento, "
+        f"e.data_evento, "
+        f"c.id_categoria, "
+        f"e.categoria, "
+        f"e.descricao_evento, "
+        f"e.local_evento, "
+        f"c.descricao_categoria, "
+        f"e.nome_evento, "
+        f"e.foto_evento "
+        f"FROM eventos e, categoria c "
+        f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
+    )
+
+    cursur.execute(query)
+    eventos = cursur.fetchall()
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT i.titulo_ingresso, "
+        f"IFNULL(p.quantidade_convites, 0) AS quantidade_convites, "
+        f"i.id_ingresso, "
+        f"p.id_usuario_presente, "
+        f"p.id_evento_presente "
+        f"FROM "
+        f"ingressos i "
+        f"LEFT JOIN presencas p ON p.id_evento_presente = i.id_eventos AND p.id_ingresso = i.id_ingresso AND p.id_usuario_presente = '{idlogado}' "
+        f"WHERE "
+        f"i.id_eventos = '{eventoPresenca}';"
+    )
+    cursur.execute(query)
+    ingresso = cursur.fetchall()
+
+    # Conexão com o banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
+
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
+
+        # Verifica se o usuário tem uma foto
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
 
 @app.route("/SalvarAlteracoes", methods=['POST'])
 def SalvarAlteracoes():
