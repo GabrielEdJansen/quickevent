@@ -1984,6 +1984,7 @@ def EnviarInformacoes():
     if 'idlogado' not in session:
         return redirect("/login")
 
+    idlogado = session['idlogado']
     eventoPresenca = request.form.get('eventoPresenca')
 
     connect_BD = configbanco(db_type='mysql-connector')
