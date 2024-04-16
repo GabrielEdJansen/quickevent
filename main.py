@@ -1471,6 +1471,19 @@ def processarPresenca():
             cursur.execute(query)
             presenca = cursur.fetchall()
 
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursor = connect_BD.cursor()
+
+            # Defina a instrução SQL DELETE com a condição
+            query = "DELETE FROM formulario_adicional WHERE id_eventos = %s AND id_usuario = %s"
+
+            # Valores para a condição na instrução DELETE
+            values = (eventoPresenca, session['idlogado'])
+
+            # Execute a instrução SQL DELETE
+            cursor.execute(query, values)
+            connect_BD.commit()
+
             flash("Presença cancelada!")
 
             jsonify({"message": "Presença cancelada!"})
