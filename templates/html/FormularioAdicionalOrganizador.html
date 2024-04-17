@@ -82,12 +82,13 @@
                                 <div id="campos-adicionais-container">
                                     <form id="form-campos" action="/adicionar_campos" method="post">
                                         <!-- Input para o ID do usuário -->
+                                        {% for usuariopresente in usuariopresente %}
                                         <input type="text" name="id_usuario" class="form-control form-control-lg" value="{{ usuariopresente.id_usuario }}" disabled>
                                         <label class="form-label" for="nome_campo">Id usuário</label>
                                         <!-- Input para o nome completo do usuário -->
                                         <input type="text" name="nome_completo" class="form-control form-control-lg" value="{{ usuariopresente.nome }} {{ usuariopresente.sobrenome }}" disabled>
                                         <label class="form-label" for="nome_campo">Nome usuário</label>
-
+                                        {% endfor %}
                                         <!-- Campos dinâmicos -->
                                         <div class="campos-dinamicos">
                                             <!-- Adiciona o campo inicial -->

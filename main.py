@@ -2051,7 +2051,7 @@ def ExibirInforacoesComplementares():
     )
 
     # Executar a consulta SQL
-    cursur.execute(query, (usuarioPresente,eventoPresenca,))
+    cursur.execute(query, (eventoPresenca,usuarioPresente,))
     campo_adicional = cursur.fetchall()
 
     connect_BD = configbanco(db_type='mysql-connector')
