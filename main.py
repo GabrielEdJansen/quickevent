@@ -2049,7 +2049,7 @@ def ExibirInforacoesComplementares():
     )
 
     # Executar a consulta SQL
-    cursur.execute(query, (eventoPresenca,))
+    cursur.execute(query, (idlogado,eventoPresenca,))
     campo_adicional = cursur.fetchall()
 
     if results:
