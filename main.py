@@ -2019,8 +2019,8 @@ def EnviarInformacoes():
     eventoPresenca = request.form.get('eventoPresenca')
     #valor_campo = request.form.get('valor_campo')
     #id_campo = request.form.get('id_campo')
-    valores_campo = request.form.getlist('valor_campo')
-    ids_campo = request.form.getlist('id_campo')
+    valores_campo = request.form.getlist('valor_campo[]')
+    ids_campo = request.form.getlist('id_campo[]')
     tipo_ingresso = request.form.get("tipoIngresso")
 
     connect_BD = configbanco(db_type='mysql-connector')
@@ -2080,7 +2080,7 @@ def EnviarInformacoes():
 
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor(dictionary=True)
-
+        print(valores_campo)
         # Consultar se a informação já existe para cada campo adicional
         for i in range(len(valores_campo)):
             # Obter o id_campo atual
