@@ -1699,8 +1699,8 @@ def processarPresenca():
                 )
                 cursur.execute(query)
                 ingresso = cursur.fetchall()
-
-    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto,ingresso=ingresso)
+                quantidadeConvitesaux = [quantidadeConvites]
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso, quantidadeConvites=quantidadeConvitesaux)
 
 
 @app.route("/cancelarPresenca", methods=['POST'])
@@ -2281,7 +2281,9 @@ def EnviarInformacoes():
                 cursur.execute(query)
                 ingresso = cursur.fetchall()
 
-    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+                quantidadeConvitesaux = [quantidadeConvites]
+
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso, quantidadeConvites=quantidadeConvitesaux)
 
 
 @app.route("/SalvarAlteracoes", methods=['POST'])
