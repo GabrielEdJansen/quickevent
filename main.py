@@ -2017,8 +2017,10 @@ def EnviarInformacoes():
     quantidadeConvites = request.form.get("quantidadeConvites")
     idlogado = session['idlogado']
     eventoPresenca = request.form.get('eventoPresenca')
-    valor_campo = request.form.get('valor_campo')
-    id_campo = request.form.get('id_campo')
+    #valor_campo = request.form.get('valor_campo')
+    #id_campo = request.form.get('id_campo')
+    valores_campo = request.form.getlist('valor_campo')
+    ids_campo = request.form.getlist('id_campo')
     tipo_ingresso = request.form.get("tipoIngresso")
 
     connect_BD = configbanco(db_type='mysql-connector')
@@ -2087,28 +2089,37 @@ def EnviarInformacoes():
             'valor_campo': valor_campo
         }
 
-        # Consultar se a informação já existe
-        consulta_query = "SELECT * FROM formulario_adicional WHERE id_eventos = %(id_eventos)s AND id_usuario = %(id_usuario)s"
-        cursor.execute(consulta_query, {'id_eventos': eventoPresenca, 'id_usuario': idlogado})
-        resultado = cursor.fetchone()
+        for i in range(len(valores_campo)):
+            # Dados para a consulta ou inserção
+            dados = {
+                'id_campo': ids_campo[i],
+                'id_eventos': eventoPresenca,
+                'id_usuario': idlogado,
+                'valor_campo': valores_campo[i]
+            }
 
-        # Se o resultado existe, execute um UPDATE; caso contrário, execute um INSERT
-        if resultado:
-            # Informação já existe, então faça um UPDATE
-            update_query = "UPDATE formulario_adicional SET valor_campo = %(valor_campo)s WHERE id_eventos = %(id_eventos)s AND id_usuario = %(id_usuario)s"
-            cursor.execute(update_query,
-                           {'valor_campo': valor_campo, 'id_eventos': eventoPresenca, 'id_usuario': idlogado})
-            connect_BD.commit()  # Confirmar a transação
-            print("Informação atualizada com sucesso!")
-        else:
-            # Informação não existe, então faça um INSERT
-            insert_query = "INSERT INTO formulario_adicional (id_campo, id_eventos, id_usuario, valor_campo) VALUES (%(id_campo)s, %(id_eventos)s, %(id_usuario)s, %(valor_campo)s)"
-            cursor.execute(insert_query, dados)
-            connect_BD.commit()  # Confirmar a transação
-            print("Informação inserida com sucesso!")
+            # Consultar se a informação já existe
+            consulta_query = "SELECT * FROM formulario_adicional WHERE id_eventos = %(id_eventos)s AND id_usuario = %(id_usuario)s AND id_campo = %(id_campo)s"
+            cursor.execute(consulta_query, dados)
+            resultado = cursor.fetchone()
 
-        cursor.close()  # Fechar o cursor
-        connect_BD.close()  # Fechar a conexão com o banco de dados
+            # Se o resultado existe, execute um UPDATE; caso contrário, execute um INSERT
+            if resultado:
+                # Informação já existe, então faça um UPDATE
+                update_query = "UPDATE formulario_adicional SET valor_campo = %(valor_campo)s WHERE id_eventos = %(id_eventos)s AND id_usuario = %(id_usuario)s AND id_campo = %(id_campo)s"
+                cursor.execute(update_query, dados)
+                connect_BD.commit()  # Confirmar a transação
+                print("Informação atualizada com sucesso!")
+            else:
+                # Informação não existe, então faça um INSERT
+                insert_query = "INSERT INTO formulario_adicional (id_campo, id_eventos, id_usuario, valor_campo) VALUES (%(id_campo)s, %(id_eventos)s, %(id_usuario)s, %(valor_campo)s)"
+                cursor.execute(insert_query, dados)
+                connect_BD.commit()  # Confirmar a transação
+                print("Informação inserida com sucesso!")
+
+        # Fechar o cursor e a conexão com o banco de dados
+        cursor.close()
+        connect_BD.close()
 
         session.pop('_flashes', None)
 
