@@ -2089,10 +2089,14 @@ def EnviarInformacoes():
             'valor_campo': valor_campo
         }
 
+        # Consultar se a informação já existe para cada campo adicional
         for i in range(len(valores_campo)):
+            # Obter o id_campo atual
+            id_campo_atual = ids_campo[i]
+
             # Dados para a consulta ou inserção
             dados = {
-                'id_campo': ids_campo[i],
+                'id_campo': id_campo_atual,  # Usar o id_campo atual aqui
                 'id_eventos': eventoPresenca,
                 'id_usuario': idlogado,
                 'valor_campo': valores_campo[i]
