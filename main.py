@@ -2015,6 +2015,7 @@ def ExibirInforacoesComplementares():
         return redirect("/login")
 
     eventoPresenca = request.form.get('eventoPresenca')
+    idlogado = session['idlogado']
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor(dictionary=True)
