@@ -2054,6 +2054,16 @@ def ExibirInforacoesComplementares():
     cursur.execute(query, (usuarioPresente,eventoPresenca,))
     campo_adicional = cursur.fetchall()
 
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        "select u.nome, u.sobrenome, u.id_usuario from usuarios u WHERE u.id_usuario = %s;"
+    )
+
+    # Executar a consulta SQL
+    cursur.execute(query, (usuarioPresente,))
+    usuariopresente = cursur.fetchall()
+
     if results:
         eventosList = [eventoPresenca]
         eventosList2 = [eventoPresenca]
@@ -2074,7 +2084,7 @@ def ExibirInforacoesComplementares():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/FormularioAdicionalOrganizador.html",  evento=eventosList2, eventos=eventosList, foto=foto,campo_adicional=campo_adicional)
+    return render_template("html/FormularioAdicionalOrganizador.html",  evento=eventosList2, eventos=eventosList, foto=foto,campo_adicional=campo_adicional,usuariopresente=usuariopresente)
 
 @app.route("/EnviarInformacoes", methods=['POST'])
 def EnviarInformacoes():
