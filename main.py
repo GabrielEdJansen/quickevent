@@ -2014,6 +2014,8 @@ def ExibirInforacoesComplementares():
     if 'idlogado' not in session:
         return redirect("/login")
 
+    eventoPresenca = request.form.get('eventoPresenca')
+
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor(dictionary=True)
 
@@ -2047,8 +2049,6 @@ def ExibirInforacoesComplementares():
     if results:
         eventosList = [eventoPresenca]
         eventosList2 = [eventoPresenca]
-        quantidadeConvitesaux = [quantidadeConvites]
-        tipoingressoaux = [tipo_ingresso]
     return render_template("html/FormularioAdicionalOrganizador.html", tipoingresso=tipoingressoaux,quantidadeConvites=quantidadeConvitesaux, evento=eventosList2, eventos=eventosList, foto=foto,campo_adicional=campo_adicional)
 
 @app.route("/EnviarInformacoes", methods=['POST'])
