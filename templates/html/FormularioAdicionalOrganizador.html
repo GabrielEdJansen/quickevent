@@ -80,21 +80,25 @@
                                 <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
 
                                 <div id="campos-adicionais-container">
-                                    <form id="form-campos" action="/adicionar_campos" method="post">
-                                        <!-- Campos dinâmicos -->
-                                        <div class="campos-dinamicos">
-                                            <!-- Adiciona o campo inicial -->
-                                            {% for campo_adicional in campo_adicional %}
-                                            <div class="form-outline mb-4">
-                                                <!-- Input para o ID do campo adicional -->
-                                                <input type="hidden" name="id_campo[]" value="{{ campo_adicional.id_campo }}">
-                                                <!-- Input para o valor do campo adicional -->
-                                                <input type="text" name="valor_campo[]" class="form-control form-control-lg" placeholder="Insira a informação" value="{{ campo_adicional.valor_campo }}" disabled>
-                                                <label class="form-label" for="nome_campo">{{ campo_adicional.nome_campo }}</label>
+                                        <form id="form-campos" action="/adicionar_campos" method="post">
+                                            <!-- Campos dinâmicos -->
+                                            <div class="campos-dinamicos">
+                                                <!-- Adiciona o campo inicial -->
+                                                {% for campo_adicional in campo_adicional %}
+                                                <div class="form-outline mb-4">
+                                                    <!-- Input para o ID do campo adicional -->
+                                                    <input type="hidden" name="id_campo[]" value="{{ campo_adicional.id_campo }}">
+                                                    <!-- Input para o valor do campo adicional -->
+                                                    <input type="text" name="valor_campo[]" class="form-control form-control-lg" placeholder="Insira a informação" value="{{ campo_adicional.valor_campo }}" disabled>
+                                                    <label class="form-label" for="nome_campo">{{ campo_adicional.nome_campo }}</label>
+                                                </div>
+                                                {% endfor %}
                                             </div>
-                                            {% endfor %}
-                                        </div>
-                                    </form>
+                                            <!-- Input para o ID do usuário -->
+                                            <input type="hidden" name="id_usuario" value="{{ campo_adicional.id_usuario }}">
+                                            <!-- Input para o nome e sobrenome concatenados -->
+                                            <input type="hidden" name="nome_completo" value="{{ campo_adicional.nome }} {{ campo_adicional.sobrenome }}">
+                                        </form>
                                 </div>
                                 <div class="btn-container btn-criar-evento mt-5">
                                 </div>
