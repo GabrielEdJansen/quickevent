@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quickevent</title>
+  <link href="../static/style/styleNavBarEditarEvento.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <a href="destaques" class="navbar-brand" href="#"><img src="../static/LogoFundo.png" alt="Logo do Site" style="max-height: 40px; max-width: 120px;"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
+      <div class="input-group" style="width: 400px;"> <!-- Definindo largura da div -->
+        <input name="filtro" id="searchInput" type="text" class="form-control" placeholder="Buscar eventos">
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="InicioEventosParticipados" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Eventos participados</a>
+        </li>
+        <li class="nav-item">
+          <a href="InicioCriarEvento" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Criar eventos</a>
+        </li>
+        <li class="nav-item">
+          <a href="InicioGerenciarEventos" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Gerenciar eventos</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
+            <div class="d-flex align-items-center">
+              <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
+                <img src="data:image/jpeg;base64,{{ foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
+              </div>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+            <a class="dropdown-item" href="InformacaoConta">Informações da conta</a>
+            <a class="dropdown-item" href="/">Sair</a>
+          </div>
+        </li>
+      </ul>
+  </div>
+</nav>
+
+
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="row justify-content-center">
+        <!-- Conteúdo das abas à direita -->
+        <div class="col-md-9">
+            <section class="vh-100">
+                    <div class="container py-5 h-100">
+                        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                            <div class="card-body p-5 text-center">
+                                <!-- Conteúdo do formulário aqui -->
+
+                                <h3 class="mb-5">Informações solicitadas do evento</h3>
+                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
+
+                                <div id="campos-adicionais-container">
+                                    <form id="form-campos" action="/adicionar_campos" method="post">
+                                        <!-- Campos dinâmicos -->
+                                        <div class="campos-dinamicos">
+                                            <input type="hidden" class="form-control" id="quantidadeConvites" name="quantidadeConvites" value="{{quantidadeConvites[0]}}">
+                                            <input type="hidden" class="form-control" id="tipoIngresso" name="tipoIngresso" value="{{tipoingresso[0]}}">
+                                            <!-- Adiciona o campo inicial -->
+                                            {% for campo_adicional in campo_adicional %}
+                                            <div class="form-outline mb-4">
+                                                <!-- Input para o ID do campo adicional -->
+                                                <input type="hidden" name="id_campo[]" value="{{ campo_adicional.id_campo }}">
+                                                <!-- Input para o valor do campo adicional -->
+                                                <input type="text" name="valor_campo[]" class="form-control form-control-lg" placeholder="Insira a informação">
+                                                <label class="form-label" for="nome_campo">{{ campo_adicional.nome_campo }}</label>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="btn-container btn-criar-evento mt-5">
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- JavaScript necessário para o Bootstrap -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
