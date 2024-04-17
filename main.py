@@ -2280,7 +2280,7 @@ def EnviarInformacoes():
                 )
                 cursur.execute(query)
                 ingresso = cursur.fetchall()
-
+                print(ingresso)
     return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
 
