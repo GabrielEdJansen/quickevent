@@ -2041,7 +2041,12 @@ def ExibirInforacoesComplementares():
     connect_BD = configbanco(db_type='mysql-connector')
     cursur = connect_BD.cursor(dictionary=True)
     query = (
-        f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+        "SELECT c.nome_campo, c.id_campo, a.valor_campo "
+        "FROM eventos e "
+        "JOIN campo_adicional c ON e.id_eventos = c.id_eventos "
+        "LEFT JOIN formulario_adicional a ON e.id_eventos = a.id_eventos AND c.id_campo = a.id_campo AND a.id_usuario = %s "
+        "WHERE e.id_eventos = %s;"
+    )
 
     # Executar a consulta SQL
     cursur.execute(query, (eventoPresenca,))
