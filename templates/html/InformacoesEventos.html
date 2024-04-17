@@ -108,6 +108,19 @@
     </div>
     </form>
   </div>
+<script>
+  // Adicione um ouvinte de evento para o evento 'change' no select
+  document.getElementById('tipoIngresso').addEventListener('change', function() {
+    // Obtenha o elemento select
+    var select = document.getElementById('tipoIngresso');
+    // Obtenha a opção selecionada
+    var option = select.options[select.selectedIndex];
+    // Obtenha o valor do atributo data-quantidade da opção selecionada
+    var quantidade = option.getAttribute('data-quantidade');
+    // Defina o valor do campo quantidadeConvites com a quantidade obtida
+    document.getElementById('quantidadeConvites').value = quantidade;
+  });
+</script>
 <div class="floating-button">
   <button onclick="compartilharEvento()"><img src="../static/icon-compartilhar.png" alt="Compartilhar"></button>
 </div>
