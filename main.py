@@ -2049,7 +2049,24 @@ def ExibirInforacoesComplementares():
     if results:
         eventosList = [eventoPresenca]
         eventosList2 = [eventoPresenca]
-    return render_template("html/FormularioAdicionalOrganizador.html", tipoingresso=tipoingressoaux,quantidadeConvites=quantidadeConvitesaux, evento=eventosList2, eventos=eventosList, foto=foto,campo_adicional=campo_adicional)
+
+    # Conexão com o banco de dados
+    connect_BD = configbanco(db_type='mysql-connector')
+
+    if connect_BD.is_connected():
+        cursor = connect_BD.cursor()
+
+        # Consulta para obter a foto do usuário logado
+        cursor.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = "{idlogado}"'
+        )
+        usuario = cursor.fetchone()
+
+        # Verifica se o usuário tem uma foto
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/FormularioAdicionalOrganizador.html",  evento=eventosList2, eventos=eventosList, foto=foto,campo_adicional=campo_adicional)
 
 @app.route("/EnviarInformacoes", methods=['POST'])
 def EnviarInformacoes():
