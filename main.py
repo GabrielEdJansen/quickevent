@@ -2240,6 +2240,7 @@ def EnviarInformacoes():
                 cursur = connect_BD.cursor(dictionary=True)
                 cursur.execute(query, values)
                 connect_BD.commit()
+                connect_BD.close()
 
                 connect_BD = configbanco(db_type='mysql-connector')
                 cursur = connect_BD.cursor(dictionary=True)
