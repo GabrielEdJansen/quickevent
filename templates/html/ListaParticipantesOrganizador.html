@@ -108,29 +108,30 @@
                                     </form>
                                 </div>
                             </div>
-                            <form id="formInformacoesComplementares" action="/ExibirInformacoesComplementares" method="post">
                             <div class="card-body">
                                 <div class="list-group">
                                     <!-- Loop para exibir os participantes -->
                                     {% set total_ingressos = 0 %}
                                     {% for participante in presentes %}
-                                    <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
+                                    <form id="formInformacoesComplementares" action="/ExibirInformacoesComplementares" method="post">
                                         <a href="#" class="list-group-item list-group-item-action">
                                             <div class="d-flex w-100 justify-content-between">
                                                 <h6 class="mb-1">{{ participante.nome }} {{ participante.sobrenome }}</h6>
                                                 <small>Ingresso: {{ participante.titulo_ingresso }} - Quantidade de ingressos: {{ participante.quantidade_ingresso }}</small>
                                             </div>
                                             <div class="d-flex w-100 justify-content-between align-items-center">
+                                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
+                                                <input type="hidden" id="usuarioPresente" name="usuarioPresente" value="{{ participante.id_usuario_presente }}">
                                                 <p class="mb-1">ID do usuário: {{ participante.id_usuario_presente }}</p>
                                                 <button type="submit" class="btn btn-primary" data-toggle="collapse" data-target="#informacoesAdicionais" aria-expanded="false" aria-controls="informacoesAdicionais">
                                                     Informações adicionais
                                                 </button>
                                             </div>
                                         </a>
+                                        </form>
                                     {% endfor %}
                                 </div>
                             </div>
-                            </form>
                             <div class="card-footer bg-light">
                                 <!-- Exibir o total de participantes -->
                                 <p class="mb-0">Total de Participantes: {{ presentes|length }}</p>

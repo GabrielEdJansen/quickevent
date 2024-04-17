@@ -2015,6 +2015,7 @@ def ExibirInforacoesComplementares():
         return redirect("/login")
 
     eventoPresenca = request.form.get('eventoPresenca')
+    usuarioPresente = request.form.get('usuarioPresente')
     idlogado = session['idlogado']
 
     connect_BD = configbanco(db_type='mysql-connector')
@@ -2049,7 +2050,7 @@ def ExibirInforacoesComplementares():
     )
 
     # Executar a consulta SQL
-    cursur.execute(query, (idlogado,eventoPresenca,))
+    cursur.execute(query, (usuarioPresente,eventoPresenca,))
     campo_adicional = cursur.fetchall()
 
     if results:
