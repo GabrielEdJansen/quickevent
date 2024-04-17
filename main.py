@@ -1699,8 +1699,7 @@ def processarPresenca():
                 )
                 cursur.execute(query)
                 ingresso = cursur.fetchall()
-                quantidadeConvitesaux = [quantidadeConvites]
-    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso, quantidadeConvites=quantidadeConvitesaux)
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
 
 @app.route("/cancelarPresenca", methods=['POST'])
@@ -1976,8 +1975,6 @@ def InformacoesEventos():
     cursur.execute(query)
     ingresso = cursur.fetchall()
 
-    quantidadeConvitesaux = [ingresso.quantidade_convites]
-
     # Conexão com o banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
 
@@ -1994,7 +1991,7 @@ def InformacoesEventos():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso, quantidadeConvites=quantidadeConvitesaux)
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
 @app.route("/EnviarInformacoes", methods=['POST'])
 def EnviarInformacoes():
@@ -2283,9 +2280,7 @@ def EnviarInformacoes():
                 cursur.execute(query)
                 ingresso = cursur.fetchall()
 
-                quantidadeConvitesaux = [quantidadeConvites]
-
-    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso, quantidadeConvites=quantidadeConvitesaux)
+    return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
 
 @app.route("/SalvarAlteracoes", methods=['POST'])
