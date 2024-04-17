@@ -2081,14 +2081,6 @@ def EnviarInformacoes():
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor(dictionary=True)
 
-        # Definir os dados a serem inseridos/atualizados
-        dados = {
-            'id_campo': id_campo,
-            'id_eventos': eventoPresenca,
-            'id_usuario': idlogado,
-            'valor_campo': valor_campo
-        }
-
         # Consultar se a informação já existe para cada campo adicional
         for i in range(len(valores_campo)):
             # Obter o id_campo atual
