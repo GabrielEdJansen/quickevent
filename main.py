@@ -2155,6 +2155,10 @@ def EnviarInformacoes():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
+        if not valores_campo or '' in valores_campo:
+            flash('Todos os campos devem ser preenchidos', 'error')
+            return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor(dictionary=True)
         print(valores_campo)
