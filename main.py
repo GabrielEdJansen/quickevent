@@ -52,6 +52,8 @@ def inserir_avaliacao():
     comentario = request.form.get('comentario')
     comentario = comentario.strip() if comentario else ' '
 
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursor = connect_BD.cursor()
     # Verificar se a avaliação já existe para o usuário logado e o evento
     cursor.execute("SELECT COUNT(*) FROM AvaliacaoEventos WHERE id_evento = %s AND id_usuario = %s",
                    (id_evento, id_usuario))
