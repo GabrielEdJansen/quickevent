@@ -103,7 +103,7 @@
                                     <a href="#" class="list-group-item list-group-item-action">
                                         <div class="d-flex w-100 justify-content-between">
                                             <h6 class="mb-1">Nota: {{ avaliacao.nota_avaliacao }}</h6>
-                                            <small>Data da Avaliação: {{ avaliacao.data_avaliacao }}</small>
+                                            <small>Data da Avaliação: {{ avaliacao.data_avaliacao.strftime('%d/%m/%Y, %H:%M') }}</small>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
