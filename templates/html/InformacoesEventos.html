@@ -74,8 +74,8 @@
       <div class="col-md-6">
         <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos.id_eventos}}">
         <p>
-            <strong>Data início: {{eventos.data_evento.strftime('%d/%m/%Y')}} - Data fim: {{eventos.data_fim_evento.strftime('%d/%m/%Y')}}<br>
-            Hora início: {{eventos.hora_evento.strftime('%H:%M')}} - Hora fim: {{eventos.hora_fim_evento.strftime('%H:%M')}}</strong>
+          <strong>Data início: {{eventos.data_evento.strftime('%d/%m/%Y')}} - Data fim: {{eventos.data_fim_evento.strftime('%d/%m/%Y')}},
+          Hora: {{eventos.hora_evento}} - {{eventos.hora_fim_evento}}</strong>
         </p>
         <h1>{{eventos.nome_evento}}</h1>
         <p>Categoria: <strong>{{eventos.descricao_categoria}}</strong></p>
