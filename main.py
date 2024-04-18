@@ -1279,7 +1279,7 @@ def InicioEventosParticipados():
                 "dataFinal": data_final,
                 "categoria": categoria
             }
-            return render_template("html/buscarnd.html", foto=foto, filtro=filtro_aplicado)
+            flash('Nenhum evento encontrado!')
 
         filtro_aplicado = {
             "dataInicial": data_inicial,
@@ -2845,7 +2845,6 @@ def buscar():
         # Se não houver eventos encontrados, renderizar a página buscarnd.html
         if not eventos:
             flash('Nenhum evento encontrado!')
-            return render_template("html/buscarnd.html", foto=foto)
 
         return render_template("html/listabusca.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
 @app.route("/InformacaoConta")
