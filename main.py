@@ -17,6 +17,7 @@ from flask_mail import Mail, Message
 import secrets
 
 app = Flask(__name__)
+app.jinja_env.globals.update(datetime=datetime)
 app.config['SECRET_KEY'] = "gg123"
 CORS(app, resources={r"/*": {"origins": "*"}})
 
