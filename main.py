@@ -2857,7 +2857,7 @@ def InformacaoConta():
     if connect_BD.is_connected():
         cursur = connect_BD.cursor()
         cursur.execute(
-            f'SELECT nome, sobrenome, foto_nome, foto, nascimento, endereco, rua, cidade, numero FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
+            f'SELECT nome, sobrenome, foto_nome, foto, nascimento, endereco, rua, cidade, numero, id_usuario FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
         )
         usuario = cursur.fetchone()
 
@@ -2875,8 +2875,10 @@ def InformacaoConta():
             rua = usuario[6] if usuario[6] else "Rua será preenchida automaticamente"
             cidade = usuario[7] if usuario[7] else "Cidade será preenchida automaticamente"
             numero = usuario[8] if usuario[8] else "Número da residência será preenchido automaticamente"
+            id_usuario = usuario[9] if usuario[9] else "ID Usuário não disponível"
 
-    return render_template("html/InformacaoConta.html", nome=nome, sobrenome=sobrenome, foto_nome=foto_nome, foto=foto, nascimento=nascimento, endereco=endereco, rua=rua, cidade=cidade, numero=numero)
+
+    return render_template("html/InformacaoConta.html", nome=nome, sobrenome=sobrenome, foto_nome=foto_nome, foto=foto, nascimento=nascimento, endereco=endereco, rua=rua, cidade=cidade, numero=numero, id_usuario=id_usuario)
 
 def allowed_file(filename):
     # Adicione uma lógica para verificar se a extensão do arquivo é permitida
