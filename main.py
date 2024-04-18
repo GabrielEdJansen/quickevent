@@ -52,6 +52,15 @@ def inserir_avaliacao():
     comentario = request.form.get('comentario')
     comentario = comentario.strip() if comentario else ' '
 
+    # Verificar se a avaliação já existe para o usuário logado e o evento
+    cursor.execute("SELECT COUNT(*) FROM AvaliacaoEventos WHERE id_evento = %s AND id_usuario = %s",
+                   (id_evento, id_usuario))
+    avaliacao_existente = cursor.fetchone()[0]
+
+    if avaliacao_existente > 0:
+        flash("Você já avaliou este evento.", "warning")
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+
     try:
         fnota_avaliacao = float(request.form['nota'])
         if fnota_avaliacao < 0 or fnota_avaliacao > 5:
@@ -102,7 +111,7 @@ def inserir_avaliacao():
 
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor(dictionary=True)
-        query = ("SELECT * FROM AvaliacaoEventos WHERE id_evento = %s order by data_avaliacao")
+        query = ("SELECT a.nota_avaliacao, a.data_avaliacao, a.comentario, u.id_usuario, u.nome, u.sobrenome, u.foto FROM AvaliacaoEventos a, usuarios u WHERE a.id_evento = %s and u.id_usuario = a.id_usuario order by a.data_avaliacao")
         cursor.execute(query, (eventoPresenca,))
         avaliacoes = cursor.fetchall()
         cursor.close()
