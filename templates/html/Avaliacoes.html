@@ -105,9 +105,19 @@
                                             <h6 class="mb-1">Nota: {{ avaliacao.nota_avaliacao }}</h6>
                                             <small>Data da Avaliação: {{ avaliacao.data_avaliacao }}</small>
                                         </div>
-                                        <p class="mb-1">Comentário: {{ avaliacao.comentario }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <p class="mb-1">Comentário: {{ avaliacao.comentario }}</p>
+                                                <p class="mb-1">Nome: {{ avaliacao.nome }}</p>
+                                                <p class="mb-1">Sobrenome: {{ avaliacao.sobrenome }}</p>
+                                                <p class="mb-1">ID do Usuário: {{ avaliacao.id_usuario }}</p>
+                                            </div>
+                                            <div>
+                                                <img src="data:image/jpeg;base64,{{ avaliacao.foto }}" alt="Foto do Usuário" width="100">
+                                            </div>
+                                        </div>
                                     </a>
-                                    {% endfor %}
+                                {% endfor %}
                                 </div>
                             </div>
                             <div class="card-footer bg-light">
@@ -128,7 +138,7 @@
                               <label for="comentario">Comentário:</label>
                               <textarea id="comentario" name="comentario" class="form-control"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Enviar Avaliação</button>
+                            <button type="submit" class="btn btn-primary mb-3">Enviar Avaliação</button>
                           </form>
                         </div>
                         </div>

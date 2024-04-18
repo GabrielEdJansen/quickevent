@@ -1342,7 +1342,7 @@ def processarPresenca():
 
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor(dictionary=True)
-        query = ("SELECT * FROM AvaliacaoEventos WHERE id_evento = %s order by data_avaliacao")
+        query = ("SELECT a.nota_avaliacao, a.data_avaliacao, a.comentario, u.id_usuario, u.nome, u.sobrenome, u.foto FROM AvaliacaoEventos a, usuarios u WHERE a.id_evento = %s and u.id_usuario = a.id_usuario order by a.data_avaliacao")
         cursor.execute(query, (eventoPresenca,))
         avaliacoes = cursor.fetchall()
         cursor.close()
