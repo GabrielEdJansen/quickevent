@@ -758,7 +758,18 @@ def alteraabaparticipante():
         conexao_bd = configbanco(db_type='mysql-connector')
 
         # Consulta SQL para obter os usuários organizadores por evento
-        sql = "select eventos_usuarios.id_usuario, usuarios.nome, usuarios.sobrenome from eventos_usuarios, usuarios where eventos_usuarios.id_usuario = usuarios.id_usuario and id_evento = %s"
+        sql = """
+            SELECT 
+                u.id_usuario,
+                u.nome,
+                u.sobrenome
+            FROM 
+                eventos AS e
+                LEFT JOIN eventos_usuarios AS eu ON e.id_eventos = eu.id_evento
+                LEFT JOIN usuarios AS u ON eu.id_usuario = u.id_usuario OR e.id_usuario_evento = u.id_usuario
+            WHERE 
+                e.id_eventos = %s
+        """
 
         # Criar um cursor para executar a consulta
         cursor = conexao_bd.cursor()
