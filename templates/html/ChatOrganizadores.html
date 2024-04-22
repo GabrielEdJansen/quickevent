@@ -108,7 +108,7 @@
                                         <div class="message-content">
                                             <div class="message-text">{{ message.mensagem }}</div>
                                             <div class="message-info">Enviado por: {{ message.nome }} {{ message.sobrenome }}</div>
-                                            <div id="message-date2" class="message-info">Data e hora de Envio: {{ message.data_envio.strftime('%d/%m/%Y, %H:%M') }}</div>
+                                            <div id="message-date2" class="message-info">Data e hora de Envio: {{ message.data_envio }}</div>
                                             <div id="user-id2" class="message-info">ID do Usuário: {{ message.id_usuario }}</div>
                                             <div class="message-info" id="message-date" style="display: none;">{{ message.data_envio }}</div>
                                             <div class="message-info" id="user-id" style="display: none;">{{ message.id_usuario }}</div>

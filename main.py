@@ -1057,7 +1057,7 @@ def alteraaba():
                 'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
                 'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
                 'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
-                'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None,
+                'data_envio': row[3].strftime('%d-%m-%y %H:%M') if row[3] else None,
                 # Formate a data e hora como string, se existir
                 'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
                 'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
