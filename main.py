@@ -1321,11 +1321,8 @@ def processarPresenca():
 
         if presenca_confirmada == 0:
             flash("Você ainda não confirmou presença neste evento.", "error")
-            return redirect(url_for("rota_para_redirecionamento_de_erro"))
-
         # Se a presença foi confirmada, continuar com a função
         else:
-
             connect_BD = configbanco(db_type='mysql-connector')
             cursur = connect_BD.cursor(dictionary=True)
             query = (
