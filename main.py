@@ -1312,53 +1312,67 @@ def processarPresenca():
         if not eventoPresenca:
             eventoPresenca = request.args.get('eventoPresenca')
 
+        # Verifica se o usuário já confirmou presença no evento
         connect_BD = configbanco(db_type='mysql-connector')
-        cursur = connect_BD.cursor(dictionary=True)
-        query = (
-            f"SELECT e.id_eventos, "
-            f"e.hora_fim_evento, "
-            f"e.hora_evento, "
-            f"e.data_fim_evento, "
-            f"e.data_evento, "
-            f"c.id_categoria, "
-            f"e.categoria, "
-            f"e.descricao_evento, "
-            f"e.local_evento, "
-            f"c.descricao_categoria, "
-            f"e.nome_evento, "
-            f"e.foto_evento "
-            f"FROM eventos e, categoria c "
-            f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
-        )
+        cursor = connect_BD.cursor()
+        cursor.execute("SELECT COUNT(*) FROM presencas WHERE id_evento_presente = %s AND id_usuario_presente = %s",
+                       (eventoPresenca, session['idlogado']))
+        presenca_confirmada = cursor.fetchone()[0]
 
-        cursur.execute(query)
-        eventos = cursur.fetchall()
+        if presenca_confirmada == 0:
+            flash("Você ainda não confirmou presença neste evento.", "error")
+            return redirect(url_for("rota_para_redirecionamento_de_erro"))
 
-        eventosList = [eventoPresenca]
+        # Se a presença foi confirmada, continuar com a função
+        else:
 
-        connect_BD = configbanco(db_type='mysql-connector')
-
-        if connect_BD.is_connected():
-            cursor = connect_BD.cursor()
-
-            # Consulta para obter a foto do usuário logado
-            cursor.execute(
-                f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursur = connect_BD.cursor(dictionary=True)
+            query = (
+                f"SELECT e.id_eventos, "
+                f"e.hora_fim_evento, "
+                f"e.hora_evento, "
+                f"e.data_fim_evento, "
+                f"e.data_evento, "
+                f"c.id_categoria, "
+                f"e.categoria, "
+                f"e.descricao_evento, "
+                f"e.local_evento, "
+                f"c.descricao_categoria, "
+                f"e.nome_evento, "
+                f"e.foto_evento "
+                f"FROM eventos e, categoria c "
+                f"WHERE e.categoria = c.id_categoria AND e.id_eventos = '{eventoPresenca}';"
             )
-            usuario = cursor.fetchone()
 
-            # Verifica se o usuário tem uma foto
-            if usuario:
-                foto = usuario[0] if usuario[0] else "Sem foto disponível"
+            cursur.execute(query)
+            eventos = cursur.fetchall()
 
-        connect_BD = configbanco(db_type='mysql-connector')
-        cursor = connect_BD.cursor(dictionary=True)
-        query = ("SELECT a.nota_avaliacao, a.data_avaliacao, a.comentario, u.id_usuario, u.nome, u.sobrenome, u.foto FROM AvaliacaoEventos a, usuarios u WHERE a.id_evento = %s and u.id_usuario = a.id_usuario order by a.data_avaliacao")
-        cursor.execute(query, (eventoPresenca,))
-        avaliacoes = cursor.fetchall()
-        cursor.close()
-        connect_BD.close()
-        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
+            eventosList = [eventoPresenca]
+
+            connect_BD = configbanco(db_type='mysql-connector')
+
+            if connect_BD.is_connected():
+                cursor = connect_BD.cursor()
+
+                # Consulta para obter a foto do usuário logado
+                cursor.execute(
+                    f'SELECT foto FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+                )
+                usuario = cursor.fetchone()
+
+                # Verifica se o usuário tem uma foto
+                if usuario:
+                    foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+            connect_BD = configbanco(db_type='mysql-connector')
+            cursor = connect_BD.cursor(dictionary=True)
+            query = ("SELECT a.nota_avaliacao, a.data_avaliacao, a.comentario, u.id_usuario, u.nome, u.sobrenome, u.foto FROM AvaliacaoEventos a, usuarios u WHERE a.id_evento = %s and u.id_usuario = a.id_usuario order by a.data_avaliacao")
+            cursor.execute(query, (eventoPresenca,))
+            avaliacoes = cursor.fetchall()
+            cursor.close()
+            connect_BD.close()
+            return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
 
 
     elif request.form.get('acao') == 'cancelar_presenca':
