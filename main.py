@@ -193,7 +193,7 @@ def delete_message():
             'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
             'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
             'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
-            'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None,
+            'data_envio': row[3].strftime('%d/%m/%y - %H:%M') if row[3] else None,
             # Formate a data e hora como string, se existir
             'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
             'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
@@ -294,7 +294,7 @@ def enviar_mensagem():
                     'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
                     'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
                     'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
-                    'data_envio': row[3].strftime('%Y-%m-%d %H:%M:%S') if row[3] else None,
+                    'data_envio': row[3].strftime('%d/%m/%y - %H:%M') if row[3] else None,
                     # Formate a data e hora como string, se existir
                     'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
                     'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
@@ -866,7 +866,16 @@ def alteraabaparticipante():
         return render_template("html/ListaParticipantes.html", foto=foto, eventos=eventosList,
                                presentes=usuarios_formatados, total_convites=total_convites)
     elif acao == 'avaliacao':
-        x=0
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursor = connect_BD.cursor(dictionary=True)
+        query = (
+            "SELECT a.nota_avaliacao, a.data_avaliacao, a.comentario, u.id_usuario, u.nome, u.sobrenome, u.foto FROM AvaliacaoEventos a, usuarios u WHERE a.id_evento = %s and u.id_usuario = a.id_usuario order by a.data_avaliacao")
+        cursor.execute(query, (eventoPresenca,))
+        avaliacoes = cursor.fetchall()
+        cursor.close()
+        connect_BD.close()
+
+        return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
 
 @app.route("/alteraaba", methods=['GET', 'POST'])
 def alteraaba():
@@ -1057,7 +1066,7 @@ def alteraaba():
                 'id_evento': row[0],  # Supondo que o ID do evento é o primeiro campo na tupla
                 'id_usuario': row[1],  # Supondo que o ID do usuário é o segundo campo na tupla
                 'mensagem': row[2],  # Supondo que a mensagem é o terceiro campo na tupla
-                'data_envio': row[3].strftime('%d-%m-%y %H:%M') if row[3] else None,
+                'data_envio': row[3].strftime('%d/%m/%y - %H:%M') if row[3] else None,
                 # Formate a data e hora como string, se existir
                 'nome': row[4],  # Supondo que o nome do usuário é o quarto campo na tupla
                 'sobrenome': row[5],  # Supondo que o sobrenome do usuário é o quinto campo na tupla
