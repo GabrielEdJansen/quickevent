@@ -57,7 +57,8 @@
 </nav>
 
 
-<div class="container">
+<section class="vh-100">
+ <div class="container py-5 h-100">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for message in messages %}
@@ -67,6 +68,7 @@
         {% endfor %}
     {% endif %}
     {% endwith %}
+     <div class="container">
     <div class="row">
         <!-- Abas à esquerda -->
         <div class="col-md-3">
@@ -504,7 +506,9 @@
             </section>
         </div>
     </div>
-</div>
+   </div>
+ </div>
+</section>
 <!-- JavaScript necessário para o Bootstrap -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
