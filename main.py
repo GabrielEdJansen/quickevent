@@ -1149,6 +1149,18 @@ def alteraaba():
 
         return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList,presentes=usuarios_formatados, total_convites=total_convites)
 
+    elif acao == 'listaParticipantes':
+        eventosList = [eventoPresenca]
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursor = connect_BD.cursor(dictionary=True)
+        query = (
+            "SELECT a.nota_avaliacao, a.data_avaliacao, a.comentario, u.id_usuario, u.nome, u.sobrenome, u.foto FROM AvaliacaoEventos a, usuarios u WHERE a.id_evento = %s and u.id_usuario = a.id_usuario order by a.data_avaliacao")
+        cursor.execute(query, (eventoPresenca,))
+        avaliacoes = cursor.fetchall()
+        cursor.close()
+        connect_BD.close()
+        return render_template("html/AvaliacoesOrganizadores.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
+
     return render_template("html/destaques.html", foto=foto)
 
 @app.route("/obrigacriarconta", methods=['POST'])

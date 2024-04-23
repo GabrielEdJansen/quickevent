@@ -58,8 +58,7 @@
 
 </section>
 
-<section class="vh-100">
-  <div class="container py-5 h-100">
+        <div class="container">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
@@ -86,10 +85,10 @@
                                     <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="submit" class="nav-link active btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
+                                    <button type="submit" class="nav-link btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button type="submit" class="nav-link btn btn-clean" name="aba" value="avaliacoes">Avaliações</button>
+                                    <button type="submit" class="nav-link active btn btn-clean" name="aba" value="avaliacoes">Avaliações</button>
                                 </li>
                             </ul>
                         </form>
@@ -98,49 +97,35 @@
                     <div class="col-md-9">
                         <div class="card">
                             <div class="card-header bg-primary text-white">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h5 class="card-title mb-0">Lista de Participantes</h5>
-                                    <!-- Formulário de pesquisa -->
-                                    <form action="/buscar_participante" method="GET" class="form-inline">
-                                        <div class="input-group">
-                                            <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
-                                            <input type="text" class="form-control" name="termo_pesquisa" placeholder="Pesquisar participante">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-light" type="submit"><i class="fas fa-search"></i></button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                <h5 class="card-title mb-0">Avaliações de Eventos</h5>
                             </div>
                             <div class="card-body">
                                 <div class="list-group">
-                                    <!-- Loop para exibir os participantes -->
-                                    {% set total_ingressos = 0 %}
-                                    {% for participante in presentes %}
-                                    <form id="formInformacoesComplementares" action="/ExibirInformacoesComplementares" method="post">
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">{{ participante.nome }} {{ participante.sobrenome }}</h6>
-                                                <small>Ingresso: {{ participante.titulo_ingresso }} - Quantidade de ingressos: {{ participante.quantidade_ingresso }}</small>
+                                    <!-- Loop para exibir as avaliações -->
+                                    {% for avaliacao in avaliacoes %}
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">Nota: {{ avaliacao.nota_avaliacao }}</h6>
+                                            <small>Data e hora da Avaliação: {{ avaliacao.data_avaliacao.strftime('%d/%m/%Y, %H:%M') }}</small>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <p class="mb-1">Comentário: {{ avaliacao.comentario }}</p>
+                                                <p class="mb-1">Nome: {{ avaliacao.nome }}</p>
+                                                <p class="mb-1">Sobrenome: {{ avaliacao.sobrenome }}</p>
+                                                <p class="mb-1">ID do Usuário: {{ avaliacao.id_usuario }}</p>
                                             </div>
-                                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
-                                                <input type="hidden" id="usuarioPresente" name="usuarioPresente" value="{{ participante.id_usuario_presente }}">
-                                                <p class="mb-1">ID do usuário: {{ participante.id_usuario_presente }}</p>
-                                                <button type="submit" class="btn btn-primary" data-toggle="collapse" data-target="#informacoesAdicionais" aria-expanded="false" aria-controls="informacoesAdicionais">
-                                                    Informações adicionais
-                                                </button>
+                                            <div>
+                                                <img src="data:image/jpeg;base64,{{ avaliacao.foto }}" alt="Foto do Usuário" width="100">
                                             </div>
-                                        </a>
-                                        </form>
-                                    {% endfor %}
+                                        </div>
+                                    </a>
+                                {% endfor %}
                                 </div>
                             </div>
                             <div class="card-footer bg-light">
-                                <!-- Exibir o total de participantes -->
-                                <p class="mb-0">Total de Participantes: {{ presentes|length }}</p>
-                                <!-- Exibir o total de ingressos -->
-                                <p class="mb-0">Total de Ingressos: {{ total_convites }}</p>
+                                <!-- Exibir o total de avaliações -->
+                                <p class="mb-0">Total de Avaliações: {{ avaliacoes|length }}</p>
                             </div>
                         </div>
                     </div>
