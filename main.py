@@ -1149,7 +1149,7 @@ def alteraaba():
 
         return render_template("html/ListaParticipantesOrganizador.html", foto=foto, eventos=eventosList,presentes=usuarios_formatados, total_convites=total_convites)
 
-    elif acao == 'listaParticipantes':
+    elif acao == 'avaliacoes':
         eventosList = [eventoPresenca]
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor(dictionary=True)
