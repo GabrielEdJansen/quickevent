@@ -3965,7 +3965,23 @@ def ExcluirEvento():
         conexao.commit()
 
         cursor.execute(
-            f"DELETE FROM eventos WHERE ID_EVENTOS = '{eventoPresenca}' and ID_USUARIO_EVENTO = '{idlogado}';")
+            f"DELETE FROM eventos WHERE ID_EVENTOS = '{eventoPresenca}';")
+        conexao.commit()
+
+        cursor.execute(
+            f"DELETE FROM chat_organizadores WHERE ID_EVENTO = '{eventoPresenca}';")
+        conexao.commit()
+
+        cursor.execute(
+            f"DELETE FROM AvaliacaoEventos WHERE ID_EVENTO = '{eventoPresenca}';")
+        conexao.commit()
+
+        cursor.execute(
+            f"DELETE FROM eventos_usuarios WHERE ID_EVENTO = '{eventoPresenca}';")
+        conexao.commit()
+
+        cursor.execute(
+            f"DELETE FROM formulario_adicional WHERE ID_EVENTOS = '{eventoPresenca}';")
         conexao.commit()
 
         conexao.close()
