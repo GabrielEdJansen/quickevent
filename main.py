@@ -1725,7 +1725,7 @@ def processarPresenca():
                     connect_BD = configbanco(db_type='mysql-connector')
                     cursur = connect_BD.cursor(dictionary=True)
                     query = (
-                        f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+                        f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s and nome_campo <> null;")
 
                     # Executar a consulta SQL
                     cursur.execute(query, (eventoPresenca,))
