@@ -3944,6 +3944,8 @@ def ExcluirEvento():
 
     eventoPresenca = request.form.get('eventoPresenca')
     botaoExcluirEvento = request.form.get('botaoExcluirEvento')
+    eventoPresenca = botaoExcluirEvento
+    botaoExcluirEvento = 'true'
 
     if botaoExcluirEvento == 'true':
         idlogado = session['idlogado']  # Obter o ID do usuário da sessão
