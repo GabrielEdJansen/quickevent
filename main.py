@@ -57,6 +57,14 @@ def inserir_avaliacao():
         flash("Insira o comentário!", "error")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
+    if fnota_avaliacao <= 0:
+        flash("A nota deve ser maior que 0", "error")
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+
+    if not fnota_avaliacao:
+        flash("Insira a nota", "error")
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor()
     # Verificar se a avaliação já existe para o usuário logado e o evento
