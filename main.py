@@ -53,6 +53,10 @@ def inserir_avaliacao():
         flash("Campos incompletos.", "warning")
         return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
+    if comentario is None or comentario.strip() == '':
+        flash("Insira o comentário!", "error")
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor()
     # Verificar se a avaliação já existe para o usuário logado e o evento
