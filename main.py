@@ -51,13 +51,11 @@ def inserir_avaliacao():
     # Verificar se os campos estão presentes no formulário
     if 'eventoPresenca' not in request.form or 'nota' not in request.form or 'comentario' not in request.form:
         flash("Campos incompletos.", "warning")
-        # return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
-        return redirect(request.referrer)
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
     if comentario is None or comentario.strip() == '':
         flash("Insira o comentário!", "error")
-        # return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
-        return redirect(request.referrer)
+        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor()
@@ -1346,10 +1344,12 @@ def processarPresenca():
     if 'idlogado' not in session:
         return redirect("/")
 
-    if request.form.get('acao') == 'complementar' or request.args.get('acao') == 'complementar':
+    if request.method == 'POST':
+        acao = request.form.get('acao')
         eventoPresenca = request.form.get('eventoPresenca')
-        if not eventoPresenca:
-            eventoPresenca = request.args.get('eventoPresenca')
+    elif request.method == 'GET':
+        acao = request.args.get('acao')
+        eventoPresenca = request.args.get('eventoPresenca')
 
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
@@ -1427,7 +1427,7 @@ def processarPresenca():
             return render_template("html/Avaliacoes.html", avaliacoes=avaliacoes, eventos=eventosList, foto=foto)
 
 
-    elif request.form.get('acao') == 'cancelar_presenca':
+    elif acao == 'cancelar_presenca':
         eventoPresenca = request.form.get('eventoPresenca')
         tipo_ingresso = request.form.get("tipoIngresso")
 
@@ -1582,7 +1582,7 @@ def processarPresenca():
 
             jsonify({"message": "Presença cancelada!"})
 
-    elif request.form.get('acao') == 'confirmar_presenca':
+    elif acao == 'confirmar_presenca':
                 eventoPresenca = request.form.get('eventoPresenca')
                 tipo_ingresso = request.form.get("tipoIngresso")
                 quantidadeConvites = request.form.get("quantidadeConvites")
