@@ -1352,8 +1352,11 @@ def processarPresenca():
         eventoPresenca = request.args.get('eventoPresenca')
 
     if acao == 'complementar':
-        eventoPresenca = request.form.get('eventoPresenca')
-        if not eventoPresenca:
+        if request.method == 'POST':
+            acao = request.form.get('acao')
+            eventoPresenca = request.form.get('eventoPresenca')
+        elif request.method == 'GET':
+            acao = request.args.get('acao')
             eventoPresenca = request.args.get('eventoPresenca')
 
         connect_BD = configbanco(db_type='mysql-connector')
