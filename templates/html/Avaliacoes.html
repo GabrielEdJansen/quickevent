@@ -129,13 +129,12 @@
                           <form action="/inserir_avaliacao" method="post" enctype="multipart/form-data">
                             <!-- Campos para a avaliação -->
                             <div class="form-group">
-                              <label for="nota">Nota:</label>
-                              <!-- Adicionando o input para as estrelas -->
-                              <input id="nota" name="nota" type="number" class="rating" min=0 max=5 step=1 data-size="sm">
+                              <label for="nota">Nota</label><br>
+                              <input  id="nota" name="nota" type="number" class="rating" min=0 max=5 step=1 data-size="sm">
                                 <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
                             </div>
                             <div class="form-group">
-                              <label for="comentario">Comentário:</label>
+                              <label for="comentario">Comentário</label>
                               <textarea id="comentario" name="comentario" class="form-control"></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary mb-3">Enviar Avaliação</button>
