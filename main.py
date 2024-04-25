@@ -66,7 +66,7 @@ def inserir_avaliacao():
 
     if avaliacao_existente > 0:
         flash("Você já avaliou este evento.", "warning")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        return redirect(url_for('processarPresenca', eventoPresenca=eventoPresenca, acao='complementar'))
 
     try:
         fnota_avaliacao = float(request.form['nota'])
@@ -74,19 +74,19 @@ def inserir_avaliacao():
             raise ValueError("A nota deve estar entre 0 e 5")
     except ValueError:
         flash("A nota deve ser um número válido", "error")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        return redirect(url_for('processarPresenca', eventoPresenca=eventoPresenca, acao='complementar'))
 
     if fnota_avaliacao <= 0:
         flash("A nota deve ser maior que 0", "error")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        return redirect(url_for('processarPresenca', eventoPresenca=eventoPresenca, acao='complementar'))
 
     if not fnota_avaliacao:
         flash("Insira a nota", "error")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        return redirect(url_for('processarPresenca', eventoPresenca=eventoPresenca, acao='complementar'))
 
     if comentario is None or comentario.strip() == '':
         flash("Insira o comentário!", "error")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        return redirect(url_for('processarPresenca', eventoPresenca=eventoPresenca, acao='complementar'))
 
     try:
         connect_BD = configbanco(db_type='mysql-connector')
