@@ -92,8 +92,11 @@ def inserir_avaliacao():
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor()
 
-        cursor.execute("INSERT INTO AvaliacaoEventos (id_evento, nota_avaliacao, comentario, id_usuario) VALUES (%s, %s, %s, %s)",
-                       (id_evento, nota_avaliacao, comentario, id_usuario))
+        current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        cursor.execute(
+            "INSERT INTO AvaliacaoEventos (id_evento, nota_avaliacao, comentario, id_usuario, data_avaliacao) VALUES (%s, %s, %s, %s, %s)",
+            (id_evento, nota_avaliacao, comentario, id_usuario, current_datetime))
 
         connect_BD.commit()
         cursor.close()
