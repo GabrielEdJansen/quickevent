@@ -15,6 +15,7 @@ import re
 from flask_cors import CORS
 from flask_mail import Mail, Message
 import secrets
+import pytz
 
 app = Flask(__name__)
 app.jinja_env.globals.update(datetime=datetime)
@@ -89,14 +90,22 @@ def inserir_avaliacao():
         return redirect(url_for('processarPresenca', eventoPresenca=eventoPresenca, acao='complementar'))
 
     try:
+        # Definindo o fuso horário do Brasil
+        timezone = pytz.timezone('America/Sao_Paulo')
+
+        # Obtendo a data e hora atual do Brasil
+        current_datetime_brazil = datetime.now(timezone)
+
+        # Formatando a data e hora conforme necessário para inserção no MySQL (formato 'YYYY-MM-DD HH:MM:SS')
+        current_datetime_brazil_str = current_datetime_brazil.strftime('%Y-%m-%d %H:%M:%S')
+
         connect_BD = configbanco(db_type='mysql-connector')
         cursor = connect_BD.cursor()
 
-        current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
+        # Inserindo os dados, incluindo a data atual do Brasil
         cursor.execute(
             "INSERT INTO AvaliacaoEventos (id_evento, nota_avaliacao, comentario, id_usuario, data_avaliacao) VALUES (%s, %s, %s, %s, %s)",
-            (id_evento, nota_avaliacao, comentario, id_usuario, current_datetime))
+            (id_evento, nota_avaliacao, comentario, id_usuario, current_datetime_brazil_str))
 
         connect_BD.commit()
         cursor.close()
