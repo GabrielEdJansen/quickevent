@@ -263,11 +263,18 @@ def enviar_mensagem():
         try:
             connect_BD = configbanco(db_type='mysql-connector')
             cursor = connect_BD.cursor()
+            # Definindo o fuso horário do Brasil
+            timezone = pytz.timezone('America/Sao_Paulo')
 
+            # Obtendo a data e hora atual do Brasil
+            current_datetime_brazil = datetime.now(timezone)
+
+            # Formatando a data e hora conforme necessário para inserção no MySQL (formato 'YYYY-MM-DD HH:MM:SS')
+            current_datetime_brazil_str = current_datetime_brazil.strftime('%Y-%m-%d %H:%M:%S')
             # Executar a inserção da mensagem (ajuste conforme a estrutura da tabela)
             cursor.execute(
                 "INSERT INTO chat_organizadores (id_evento, id_usuario, mensagem, data_envio) VALUES (%s, %s, %s, %s)",
-                (id_evento, id_usuario, mensagem, data_envio))
+                (id_evento, id_usuario, mensagem, current_datetime_brazil_str))
 
             connect_BD.commit()
             cursor.close()
