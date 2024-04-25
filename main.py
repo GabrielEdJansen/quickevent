@@ -1351,6 +1351,11 @@ def processarPresenca():
         acao = request.args.get('acao')
         eventoPresenca = request.args.get('eventoPresenca')
 
+    if acao == 'complementar':
+        eventoPresenca = request.form.get('eventoPresenca')
+        if not eventoPresenca:
+            eventoPresenca = request.args.get('eventoPresenca')
+
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
         query = (
