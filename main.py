@@ -1351,6 +1351,9 @@ def processarPresenca():
         acao = request.args.get('acao')
         eventoPresenca = request.args.get('eventoPresenca')
 
+    print(acao)
+    print(eventoPresenca)
+
     if acao == 'complementar':
         if request.method == 'POST':
             acao = request.form.get('acao')
@@ -1358,6 +1361,7 @@ def processarPresenca():
         elif request.method == 'GET':
             acao = request.args.get('acao')
             eventoPresenca = request.args.get('eventoPresenca')
+
 
         connect_BD = configbanco(db_type='mysql-connector')
         cursur = connect_BD.cursor(dictionary=True)
