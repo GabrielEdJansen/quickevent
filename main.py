@@ -51,11 +51,13 @@ def inserir_avaliacao():
     # Verificar se os campos estão presentes no formulário
     if 'eventoPresenca' not in request.form or 'nota' not in request.form or 'comentario' not in request.form:
         flash("Campos incompletos.", "warning")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        # return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        return redirect(request.referrer)
 
     if comentario is None or comentario.strip() == '':
         flash("Insira o comentário!", "error")
-        return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        # return redirect(request.referrer + '?eventoPresenca=' + eventoPresenca + '&acao=complementar')
+        return redirect(request.referrer)
 
     connect_BD = configbanco(db_type='mysql-connector')
     cursor = connect_BD.cursor()
