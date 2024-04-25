@@ -72,27 +72,28 @@
                             </div>
                             {% endif %}
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="nomeEventocad">Nome do evento</label>
                                 <input name="nomeEventocad" type="text" id="nome" class="form-control form-control-lg"
                                        placeholder="Digite o nome do evento" required/>
-                                <label class="form-label" for="nomeEventocad">Nome do evento</label>
                             </div>
 
-                            <div class="form-outline mb-4">
-                                <input type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
-                                <input type="hidden" name="existing_photo" value="{{ foto }}">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                 <label class="form-label" >Imagem de divulgação (opcional)</label>
                                 <label class="form-label" >Obs: A dimensão recomendada é de 1600 x 838</label>
+                                <input type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
+                                <input type="hidden" name="existing_photo" value="{{ foto }}">
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="descricaocad">Descrição do evento</label>
                                 <textarea rows="5" name="descricaocad" type="text" id="descricaocad"
                                           class="form-control form-control-lg"
                                           placeholder="Digite a descrição do evento" required></textarea>
-                                <label class="form-label" for="descricaocad">Descrição do evento</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="email">Categoria</label>
                                 <select name="categoriacad" class="form-control form-control-lg"
                                         aria-label="Default select example" required>
                                     <option selected disabled value="">Selecione a categoria</option>
@@ -118,10 +119,10 @@
                                     <option value="20">Saúde e bem-estar</option>
                                     <option value="21">Viagens e Ao ar livre</option>
                                 </select>
-                                <label class="form-label" for="email">Categoria</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="classificacaocad">Classificação Indicativa</label>
                                 <select name="classificacaocad" class="form-control form-control-lg" aria-label="Default select example" required>
                                     <option selected disabled value="">Selecione a classificação indicativa</option>
                                     <option value="0">Livre</option>
@@ -131,13 +132,12 @@
                                     <option value="16">16 anos</option>
                                     <option value="18">18 anos</option>
                                 </select>
-                                <label class="form-label" for="classificacaocad">Classificação Indicativa</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="totalParticipantescad">Total de Participantes</label>
                                 <input name="totalParticipantescad" type="number" id="totalParticipantescad" class="form-control form-control-lg"
                                        placeholder="Digite o total de participantes" required min="0" step="1" oninput="validarValor(this)" />
-                                <label class="form-label" for="totalParticipantescad">Total de Participantes</label>
                             </div>
 
                             <script>
@@ -155,29 +155,29 @@
 
                             <h3 class="mb-5">Local do evento</h3>
 
-                            <div class="form-outline mb-4">
-                                <input name="endereco" type="text" id="endereco" class="form-control form-control-lg" placeholder="Digite o endereço" value="{{ endereco }}" required/>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                 <label class="form-label" for="endereco">Endereço</label>
+                                <input name="endereco" type="text" id="endereco" class="form-control form-control-lg" placeholder="Digite o endereço" value="{{ endereco }}" required/>
                             </div>
 
-                            <div class="form-outline mb-4">
-                                <input name="estado" type="text" id="estado" class="form-control form-control-lg" placeholder="Estado será preenchido automaticamente" value="{{ estado }}" readonly/>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                 <label class="form-label" for="cidade">Estado</label>
+                                <input name="estado" type="text" id="estado" class="form-control form-control-lg" placeholder="Estado será preenchido automaticamente" value="{{ estado }}" readonly/>
                             </div>
 
-                            <div class="form-outline mb-4">
-                                <input name="cidade" type="text" id="cidade" class="form-control form-control-lg" placeholder="Cidade será preenchida automaticamente" value="{{ cidade }}" readonly/>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                 <label class="form-label" for="cidade">Cidade</label>
+                                <input name="cidade" type="text" id="cidade" class="form-control form-control-lg" placeholder="Cidade será preenchida automaticamente" value="{{ cidade }}" readonly/>
                             </div>
 
-                            <div class="form-outline mb-4">
-                                <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ cidade }}" readonly/>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                 <label class="form-label" for="cidade">Bairro</label>
+                                <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ cidade }}" readonly/>
                             </div>
 
-                            <div class="form-outline mb-4">
-                                <input name="rua" type="text" id="rua" class="form-control form-control-lg" placeholder="Rua será preenchida automaticamente" value="{{ rua }}" readonly/>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                 <label class="form-label" for="rua">Rua</label>
+                                <input name="rua" type="text" id="rua" class="form-control form-control-lg" placeholder="Rua será preenchida automaticamente" value="{{ rua }}" readonly/>
                             </div>
 
                             <input type="hidden" name="latitude" id="latitude">
@@ -186,15 +186,15 @@
 
                             <input type="hidden" id="place_id" name="place_id">
 
-                            <div class="form-outline mb-4">
-                                <input name="numero" type="number" id="numero" class="form-control form-control-lg" placeholder="Número da residência será preenchido automaticamente" value="{{ numero }}" readonly/>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                 <label class="form-label" for="numero">Número da Residência</label>
+                                <input name="numero" type="number" id="numero" class="form-control form-control-lg" placeholder="Número da residência será preenchido automaticamente" value="{{ numero }}" readonly/>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="complemento">Complemento do endereço</label>
                                 <input name="complemento" type="text" id="complemento" class="form-control form-control-lg"
                                        placeholder="Digite o complemento do endereço" required/>
-                                <label class="form-label" for="complemento">Complemento do endereço</label>
                             </div>
 
                             <script>
@@ -260,71 +260,71 @@
                             </script>
                             <h3 class="mb-5">Data e hora do evento</h3>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="dataCad">Data inicial do evento</label>
                                 <input name="dataCad" type="date" id="dataCad"
                                        class="form-control form-control-lg" placeholder="Digite a data do evento"
                                        required/>
-                                <label class="form-label" for="dataCad">Data inicial do evento</label>
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="dataCad">Data final do evento</label>
                                 <input name="dataCadFin" type="date" id="dataCadFin"
                                        class="form-control form-control-lg" placeholder="Digite a data do evento"
                                        required/>
-                                <label class="form-label" for="dataCad">Data final do evento</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="horCad">Hora inicial do evento</label>
                                 <input name="horCad" type="time" id="horCad"
                                        class="form-control form-control-lg" placeholder="Digite a hora do evento"
                                        required/>
-                                <label class="form-label" for="horCad">Hora inicial do evento</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="horCad">Hora final do evento</label>
                                 <input name="horCadFin" type="time" id="horCadFin"
                                        class="form-control form-control-lg" placeholder="Digite a hora do evento"
                                        required/>
-                                <label class="form-label" for="horCad">Hora final do evento</label>
                             </div>
 
                             <div class="container mt-5">
                                 <div id="ingresso-container">
                                     <h3 class="mb-5">Ingresso do evento</h3>
                                     <!-- Primeiro ingresso -->
-                                    <div class="form-outline mb-4 ingresso">
-                                        <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required/>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start; ingresso">
                                         <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
+                                        <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" required/>
 
-                                        <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required/>
                                         <label class="form-label" for="quantidade_ingresso">Quantidade</label>
+                                        <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required/>
 
-                                        <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required/>
                                         <label class="form-label" for="preco_ingresso">Preço</label>
+                                        <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required/>
 
+                                        <label class="form-label" for="data_inicio_vendas"> Data início das vendas</label>
                                         <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required/>
-                                        <label class="form-label" for="data_inicio_vendas">Data início das vendas</label>
 
-                                        <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
                                         <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
+                                        <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
 
-                                        <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
                                         <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
+                                        <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
 
-                                        <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
                                         <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
+                                        <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
 
+                                        <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
                                         <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
                                             <option selected disabled value="">Selecione a disponibilidade</option>
                                             <option value="Publico">Público</option>
                                             <option value="Privado">Privado</option>
                                         </select>
-                                        <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
 
-                                        <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required/>
                                         <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
+                                        <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required/>
 
-                                        <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
                                         <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
+                                        <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
                                     </div>
                                     <!-- Fim do primeiro ingresso -->
                                 </div>
@@ -402,15 +402,15 @@
                                 <h3 class="mb-5">Sobre o produtor</h3>
 
                                 <!-- Nome do Produtor -->
-                                <div class="form-outline mb-4">
-                                    <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor"/>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                     <label class="form-label" for="nome_produtor">Nome do Produtor</label>
-                                </div>
+                                    <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor"/>
+                            </div>
 
                                 <!-- Descrição do Produtor (opcional) -->
-                                <div class="form-outline mb-4">
-                                    <textarea name="descricao_produtor" class="form-control form-control-lg" placeholder="Descrição do produtor"></textarea>
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                     <label class="form-label" for="descricao_produtor">Descrição do Produtor (Opcional)</label>
+                                    <textarea name="descricao_produtor" class="form-control form-control-lg" placeholder="Descrição do produtor"></textarea>
                                 </div>
                             </div>
 
@@ -420,9 +420,9 @@
                                     <!-- Campos dinâmicos -->
                                     <div class="campos-dinamicos">
                                         <!-- Adiciona o campo inicial -->
-                                        <div class="form-outline mb-4">
-                                            <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo"/>
+                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                             <label class="form-label" for="nome_campo">Nome do Campo</label>
+                                            <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo"/>
                                         </div>
                                     </div>
                                     <!-- Botões Adicionar e Remover no final do último campo -->
