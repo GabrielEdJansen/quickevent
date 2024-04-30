@@ -211,7 +211,29 @@
                                                     <label class="form-label" for="complemento">Complemento do endereço</label>
                                                     <input name="complemento" type="text" id="complemento" class="form-control form-control-lg" placeholder="Digite o complemento do endereço" required/>
                                                 </div>
+
                                             </div>
+                                                    <div id="map" style="height: 400px; width: 100%;"></div>
+                                            <script>
+                                                function initMap() {
+                                                    var latitude = parseFloat(document.getElementById('latitude').value);
+                                                    var longitude = parseFloat(document.getElementById('longitude').value);
+                                                    var myLatLng = { lat: latitude, lng: longitude };
+
+                                                    var map = new google.maps.Map(document.getElementById('map'), {
+                                                        zoom: 15,
+                                                        center: myLatLng
+                                                    });
+
+                                                    var marker = new google.maps.Marker({
+                                                        position: myLatLng,
+                                                        map: map,
+                                                        title: 'Local do evento'
+                                                    });
+                                                }
+                                            </script>
+                                            <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+                                        </div>
                                         </div>
 
                                         <input type="hidden" name="latitude" id="latitude">
