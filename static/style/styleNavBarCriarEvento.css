@@ -1,5 +1,5 @@
-    body {
-        background-color: #d2d4d6; /* Cor de fundo para toda a página */
+    .vh-100 {
+        background-color: #d2d4d6
     }
 
 /* Estilo personalizado para a navbar */
