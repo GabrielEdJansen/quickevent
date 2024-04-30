@@ -216,6 +216,24 @@
 
                                             <div id="map" style="height: 400px; width: 100%;"></div>
                                             <script>
+                                                function initMap() {
+                                                    var inputLatitude = document.getElementById('latitude');
+                                                    var inputLongitude = document.getElementById('longitude');
+                                                    var myLatLng = { lat: parseFloat(inputLatitude.value), lng: parseFloat(inputLongitude.value) };
+
+                                                    var map = new google.maps.Map(document.getElementById('map'), {
+                                                        zoom: 15,
+                                                        center: myLatLng
+                                                    });
+
+                                                    var marker = new google.maps.Marker({
+                                                        position: myLatLng,
+                                                        map: map,
+                                                        title: 'Local do evento'
+                                                    });
+                                                }
+                                            </script>
+                                            <script>
                                                 function initializeAutocomplete() {
                                                     var inputEndereco = document.getElementById('endereco');
                                                     var inputLatitude = document.getElementById('latitude');
@@ -230,100 +248,20 @@
                                                             return;
                                                         }
 
-                                                        // Atualizar o mapa com a nova localização
-                                                        var latitude = place.geometry.location.lat();
-                                                        var longitude = place.geometry.location.lng();
-                                                        var myLatLng = { lat: latitude, lng: longitude };
-
-                                                        var map = new google.maps.Map(document.getElementById('map'), {
-                                                            zoom: 15,
-                                                            center: myLatLng
-                                                        });
-
-                                                        var marker = new google.maps.Marker({
-                                                            position: myLatLng,
-                                                            map: map,
-                                                            title: 'Local do evento'
-                                                        });
-
                                                         // Atualizar os campos de latitude e longitude
-                                                        inputLatitude.value = latitude;
-                                                        inputLongitude.value = longitude;
+                                                        inputLatitude.value = place.geometry.location.lat();
+                                                        inputLongitude.value = place.geometry.location.lng();
+
+                                                        // Inicializar o mapa com a nova localização
+                                                        initMap();
                                                     });
                                                 }
 
                                                 // Chame a função initializeAutocomplete para configurar o Autocomplete
                                                 initializeAutocomplete();
                                             </script>
-                                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places&callback=initializeAutocomplete" async defer></script>
+                                            <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initializeAutocomplete" async defer></script>
                                         </div>
-                                        </div>
-
-                                        <input type="hidden" name="latitude" id="latitude">
-                                        <input type="hidden" name="longitude" id="longitude">
-                                        <input type="hidden" id="place_id" name="place_id">
-
-                                        <script>
-                                            function initializeAutocomplete() {
-                                                var inputEndereco = document.getElementById('endereco');
-                                                var inputNumeroResidencia = document.getElementById('numero');
-                                                var inputRua = document.getElementById('rua');
-                                                var inputCidade = document.getElementById('cidade');
-                                                var inputEstado = document.getElementById('estado');
-                                                var inputBairro = document.getElementById('bairro');
-                                                var inputLatitude = document.getElementById('latitude');
-                                                var inputLongitude = document.getElementById('longitude');
-                                                var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
-
-                                                autocomplete.addListener('place_changed', function () {
-                                                    var place = autocomplete.getPlace();
-
-                                                    if (!place.geometry) {
-                                                        console.error("Localização não encontrada para o endereço informado.");
-                                                        return;
-                                                    }
-
-                                                    // Preencher o campo de número da residência
-                                                    var numeroResidencia = getAddressComponent(place, 'street_number');
-                                                    inputNumeroResidencia.value = numeroResidencia || '';
-
-                                                    // Preencher o campo da rua
-                                                    inputRua.value = getAddressComponent(place, 'route') || '';
-
-                                                    // Preencher o campo da cidade e desabilitar para edição
-                                                    inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2');
-                                                    inputCidade.setAttribute('readonly', true);
-
-                                                    // Preencher o campo do estado e desabilitar para edição
-                                                    inputEstado.value = getAddressComponent(place, 'administrative_area_level_1') || '';
-                                                    inputEstado.setAttribute('readonly', true);
-
-                                                    // Preencher o campo do bairro
-                                                    inputBairro.value = getAddressComponent(place, 'sublocality') || '';
-
-                                                    // Preencher o campo do place_id, se necessário
-                                                    document.getElementById('place_id').value = place.place_id;
-
-                                                    inputLatitude.value = place.geometry.location.lat();
-                                                    inputLongitude.value = place.geometry.location.lng();
-                                                });
-                                            }
-
-                                            function getAddressComponent(place, component) {
-                                                for (var i = 0; i < place.address_components.length; i++) {
-                                                    var addressComponent = place.address_components[i];
-                                                    for (var j = 0; j < addressComponent.types.length; j++) {
-                                                        if (addressComponent.types[j] === component) {
-                                                            return addressComponent.long_name;
-                                                        }
-                                                    }
-                                                }
-                                                return '';
-                                            }
-
-                                            // Chame a função initializeAutocomplete para configurar o Autocomplete
-                                            initializeAutocomplete();
-                                        </script>
                                     </div>
                                 </div>
 
