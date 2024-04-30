@@ -1,5 +1,10 @@
     .vh-100 {
-        background-color: #d2d4d6
+        background-color: #d2d4d6;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
 /* Estilo personalizado para a navbar */
