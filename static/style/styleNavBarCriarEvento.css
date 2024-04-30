@@ -1,8 +1,8 @@
- body {
-     background-color: #d2d4d6; /* Cor de fundo para toda a página */
- }
+    body {
+        background-color: #d2d4d6; /* Cor de fundo para toda a página */
+    }
 
- /* Estilo personalizado para a navbar */
+/* Estilo personalizado para a navbar */
     .navbar-custom {
       background-color: #00549A; /* Cor de fundo da navbar */
       min-height: 80px; /* Altura mínima da navbar */
