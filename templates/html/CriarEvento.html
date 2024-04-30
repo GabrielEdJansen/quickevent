@@ -213,6 +213,9 @@
                                                 </div>
 
                                             </div>
+                                            <input type="hidden" name="latitude" id="latitude">
+                                            <input type="hidden" name="longitude" id="longitude">
+                                            <input type="hidden" id="place_id" name="place_id">
 
                                             <div id="map" style="height: 400px; width: 100%;"></div>
 
@@ -234,6 +237,7 @@
                                                     });
                                                 }
                                             </script>
+
                                             <script>
                                                 function initializeAutocomplete() {
                                                     var inputEndereco = document.getElementById('endereco');
