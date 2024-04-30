@@ -213,26 +213,49 @@
                                                 </div>
 
                                             </div>
-                                                    <div id="map" style="height: 400px; width: 100%;"></div>
+
+                                            <div id="map" style="height: 400px; width: 100%;"></div>
                                             <script>
-                                                function initMap() {
-                                                    var latitude = parseFloat(document.getElementById('latitude').value);
-                                                    var longitude = parseFloat(document.getElementById('longitude').value);
-                                                    var myLatLng = { lat: latitude, lng: longitude };
+                                                function initializeAutocomplete() {
+                                                    var inputEndereco = document.getElementById('endereco');
+                                                    var inputLatitude = document.getElementById('latitude');
+                                                    var inputLongitude = document.getElementById('longitude');
+                                                    var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
-                                                    var map = new google.maps.Map(document.getElementById('map'), {
-                                                        zoom: 15,
-                                                        center: myLatLng
-                                                    });
+                                                    autocomplete.addListener('place_changed', function () {
+                                                        var place = autocomplete.getPlace();
 
-                                                    var marker = new google.maps.Marker({
-                                                        position: myLatLng,
-                                                        map: map,
-                                                        title: 'Local do evento'
+                                                        if (!place.geometry) {
+                                                            console.error("Localização não encontrada para o endereço informado.");
+                                                            return;
+                                                        }
+
+                                                        // Atualizar o mapa com a nova localização
+                                                        var latitude = place.geometry.location.lat();
+                                                        var longitude = place.geometry.location.lng();
+                                                        var myLatLng = { lat: latitude, lng: longitude };
+
+                                                        var map = new google.maps.Map(document.getElementById('map'), {
+                                                            zoom: 15,
+                                                            center: myLatLng
+                                                        });
+
+                                                        var marker = new google.maps.Marker({
+                                                            position: myLatLng,
+                                                            map: map,
+                                                            title: 'Local do evento'
+                                                        });
+
+                                                        // Atualizar os campos de latitude e longitude
+                                                        inputLatitude.value = latitude;
+                                                        inputLongitude.value = longitude;
                                                     });
                                                 }
+
+                                                // Chame a função initializeAutocomplete para configurar o Autocomplete
+                                                initializeAutocomplete();
                                             </script>
-                                            <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+                                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places&callback=initializeAutocomplete" async defer></script>
                                         </div>
                                         </div>
 
