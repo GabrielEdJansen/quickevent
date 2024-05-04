@@ -297,7 +297,17 @@
                                                         marker.setPosition(place.geometry.location);
                                                     });
                                                 }
-
+                                                function getAddressComponent(place, component) {
+                                                    for (var i = 0; i < place.address_components.length; i++) {
+                                                        var addressComponent = place.address_components[i];
+                                                        for (var j = 0; j < addressComponent.types.length; j++) {
+                                                            if (addressComponent.types[j] === component) {
+                                                                return addressComponent.long_name;
+                                                            }
+                                                        }
+                                                    }
+                                                    return '';
+                                                }
                                                 // Chame a função initializeAutocomplete para configurar o Autocomplete
                                                 initializeAutocomplete();
                                             </script>
