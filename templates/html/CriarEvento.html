@@ -268,6 +268,8 @@
                                                     var inputNumeroResidencia = document.getElementById('numero');
                                                     var inputRua = document.getElementById('rua');
                                                     var inputBairro = document.getElementById('bairro');
+                                                    var inputCidade = document.getElementById('cidade');
+                                                    var inputEstado = document.getElementById('estado');
 
                                                     var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
@@ -287,6 +289,12 @@
 
                                                         // Preencher o campo de bairro
                                                         inputBairro.value = getAddressComponent(place, 'sublocality') || '';
+
+                                                        // Preencher o campo de cidade
+                                                        inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2') || '';
+
+                                                        // Preencher o campo de estado
+                                                        inputEstado.value = getAddressComponent(place, 'administrative_area_level_1') || '';
 
                                                         // Atualizar campos de latitude e longitude
                                                         inputLatitude.value = place.geometry.location.lat();
