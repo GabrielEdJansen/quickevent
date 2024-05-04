@@ -42,59 +42,63 @@
   </div>
 </nav>
 
-  <div class="container mt-4">
-              {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div id="flashMessages" class="alert alert-warning alert-dismissible fade show" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    {% for eventos in eventos %}
-    <!-- Imagem do evento grande no topo da página -->
-    <img src="data:image/jpeg;base64,{{ eventos.foto_evento }}" alt="Imagem de divulgação" class="event-image mb-4">
-    <div class="row">
-      <!-- Lado esquerdo: Detalhes do evento -->
-      <div class="col-md-6">
-        <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos.id_eventos}}">
-        <p><strong>Data início: {{eventos.data_evento.strftime('%d/%m/%Y')}} - Data fim: {{eventos.data_fim_evento.strftime('%d/%m/%Y')}}</strong></p>
-        {% set hora_inicio = datetime.min + eventos.hora_evento %}
-        {% set hora_fim = datetime.min + eventos.hora_fim_evento %}
-        <p><strong>Hora início: {{ hora_inicio.strftime('%H:%M') }} - Hora fim: {{ hora_fim.strftime('%H:%M') }}</strong></p>
-        <h1>{{eventos.nome_evento}}</h1>
-        <p>Categoria: <strong>{{eventos.descricao_categoria}}</strong></p>
-        <p>Localização: <strong>{{eventos.local_evento}}</strong></p>
-        <p>Descrição do Evento:</p>
-        <p>{{eventos.descricao_evento}}</p>
-      </div>
-      {% endfor %}
-      <!-- Lado direito: Opção de ingresso e botão de reserva -->
-      <div class="col-md-6">
+<div class="container mt-4">
+  <div class="card mb-4 rounded">
+    <div class="card-body">
+                  {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div id="flashMessages" class="alert alert-warning alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        {% for eventos in eventos %}
+        <!-- Imagem do evento grande no topo da página -->
+        <img src="data:image/jpeg;base64,{{ eventos.foto_evento }}" alt="Imagem de divulgação" class="event-image mb-4">
+        <div class="row">
+          <!-- Lado esquerdo: Detalhes do evento -->
+          <div class="col-md-6">
+            <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos.id_eventos}}">
+            <p><strong>Data início: {{eventos.data_evento.strftime('%d/%m/%Y')}} - Data fim: {{eventos.data_fim_evento.strftime('%d/%m/%Y')}}</strong></p>
+            {% set hora_inicio = datetime.min + eventos.hora_evento %}
+            {% set hora_fim = datetime.min + eventos.hora_fim_evento %}
+            <p><strong>Hora início: {{ hora_inicio.strftime('%H:%M') }} - Hora fim: {{ hora_fim.strftime('%H:%M') }}</strong></p>
+            <h1>{{eventos.nome_evento}}</h1>
+            <p>Categoria: <strong>{{eventos.descricao_categoria}}</strong></p>
+            <p>Localização: <strong>{{eventos.local_evento}}</strong></p>
+            <p>Descrição do Evento:</p>
+            <p>{{eventos.descricao_evento}}</p>
+          </div>
+          {% endfor %}
+          <!-- Lado direito: Opção de ingresso e botão de reserva -->
+          <div class="col-md-6">
 
-        <div class="mb-4">
-          <label for="tipoIngresso">Selecione o Tipo de Ingresso:</label>
-          <select class="form-control" id="tipoIngresso" name="tipoIngresso">
-            {% for ingresso in ingresso %}
-                <option value="{{ ingresso.id_ingresso }}" data-quantidade="{{ ingresso.quantidade_convites }}">{{ ingresso.titulo_ingresso }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="row mb-4">
-            <div class="col">
-                <label for="quantidadeConvites">Quantidade de Convites:</label>
-                <input type="text" class="form-control" id="quantidadeConvites" name="quantidadeConvites">
+            <div class="mb-4">
+              <label for="tipoIngresso">Selecione o Tipo de Ingresso:</label>
+              <select class="form-control" id="tipoIngresso" name="tipoIngresso">
+                {% for ingresso in ingresso %}
+                    <option value="{{ ingresso.id_ingresso }}" data-quantidade="{{ ingresso.quantidade_convites }}">{{ ingresso.titulo_ingresso }}</option>
+                {% endfor %}
+              </select>
             </div>
-            <div class="col">
-                <small id="convitesHelpBlock" class="form-text text-danger"></small>
+            <div class="row mb-4">
+                <div class="col">
+                    <label for="quantidadeConvites">Quantidade de Convites:</label>
+                    <input type="text" class="form-control" id="quantidadeConvites" name="quantidadeConvites">
+                </div>
+                <div class="col">
+                    <small id="convitesHelpBlock" class="form-text text-danger"></small>
+                </div>
             </div>
+              <button type="submit" class="btn btn-primary" name="acao" value="confirmar_presenca">Confirmar presença</button>
+              <button type="submit" class="btn btn-danger" name="acao" value="cancelar_presenca">Cancelar presença</button>
+          </div>
         </div>
-          <button type="submit" class="btn btn-primary" name="acao" value="confirmar_presenca">Confirmar presença</button>
-          <button type="submit" class="btn btn-danger" name="acao" value="cancelar_presenca">Cancelar presença</button>
-      </div>
     </div>
   </div>
+</div>
  </form>
 <script>
 function cancelarPresenca() {
