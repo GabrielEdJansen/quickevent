@@ -70,15 +70,15 @@
                     <h5 class="card-title mb-4">Filtros</h5>
                     <form>
                         <div class="mb-4">
-                            <label for="dataInicial" class="form-label">Data Inicial:</label>
+                            <label for="dataInicial" class="form-label">Data Inicial</label>
                             <input type="date" class="form-control" id="dataInicial" name="dataInicial" value="{{ filtro.dataInicial }}">
                         </div>
                         <div class="mb-4">
-                            <label for="dataFinal" class="form-label">Data Final:</label>
+                            <label for="dataFinal" class="form-label">Data Final</label>
                             <input type="date" class="form-control" id="dataFinal" name="dataFinal" value="{{ filtro.dataFinal }}">
                         </div>
                         <div class="mb-4">
-                            <label for="categoria" class="form-label">Categoria:</label>
+                            <label for="categoria" class="form-label">Categoria</label>
                             <select class="form-select" id="categoria" name="categoria" style="width: 100%;">
                                     <option selected disabled value="" {% if not filtro.categoria %} selected {% endif %}>Todas</option>
                                     <option value="1" {% if filtro.categoria == '1' %} selected {% endif %}>Artes Dramáticas e Visuais</option>

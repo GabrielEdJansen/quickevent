@@ -63,45 +63,47 @@
             <div class="col-md-6 right">
                 <h1 style="font-family: 'Roboto', sans-serif;">Crie Novas Emoções</h1> <!-- Título -->
                 <p style="font-family: 'Roboto', sans-serif;">Junte-se ao Quickevent hoje</p> <!-- Subtítulo -->
-                        <h3 class="mb-5">Cadastro</h3>
+                        <div class="text-left">
+                            <h3 class="mb-5">Cadastro</h3>
+                        </div>
                           {% set mensagens = get_flashed_messages() %}
                             {% if mensagens %}
                             <div class="alert-danger">
                                 <strong>{{mensagens[0]}}</strong>
                             </div>
                             {% endif %}
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="nome">Nome</label>
                                 <input name="nomecad" type="text" id="nome" class="form-control form-control-lg"
                                        placeholder="Digite seu nome" required/>
-                                <label class="form-label" for="nome">Nome</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="sobrenome">Sobrenome</label>
                                 <input name="sobrenomecad" type="text" id="sobrenome"
                                        class="form-control form-control-lg" placeholder="Digite seu sobrenome"
                                        required/>
-                                <label class="form-label" for="sobrenome">Sobrenome</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="email">E-mail</label>
                                 <input name="emailcad" type="email" id="email" class="form-control form-control-lg"
                                        placeholder="Digite seu e-mail" required/>
-                                <label class="form-label" for="email">E-mail</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="password">Senha</label>
                                 <input name="senhacad" type="password" id="password"
                                        class="form-control form-control-lg" placeholder="Digite sua senha" required/>
-                                <label class="form-label" for="password">Senha</label>
                             </div>
 
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="confirmaSenhacad">Confirme sua senha</label>
                                 <input name="confirmaSenhacad" type="password" id="confirmaSenhacad"
                                        class="form-control form-control-lg" placeholder="Confirme sua senha" required/>
-                                <label class="form-label" for="confirmaSenhacad">Confirme sua senha</label>
                             </div>
 
-                            <button class="btn btn-lg btn-primary btn-block button" type="submit" value="cadastrar">
+                            <button class="btn btn-primary" type="submit" value="cadastrar">
                                 Cadastrar-se
                             </button>
 

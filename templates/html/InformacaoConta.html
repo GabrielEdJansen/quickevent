@@ -66,6 +66,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <div class="container mt-5">
+    <div class="card mb-4 rounded">
+    <div class="card-body">
     <h2>Informações da Conta</h2>
     <div id="flash-container" style="background-color: #ff0000; color: #fff; border-radius: 5px; width: 300px;"></div>
     <form action="{{ url_for('salvar_informacoes') }}" method="POST" enctype="multipart/form-data">
@@ -116,8 +118,12 @@
             <label for="numero">Número da Residência</label>
             <input type="number" class="form-control" id="numero" name="numero" value="{{ numero }}" placeholder="Número da residência será preenchido automaticamente" readonly>
         </div>
-        <button type="submit" class="btn btn-primary">Salvar Informações</button>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary">Salvar Informações</button>
+            </div>
     </form>
+</div>
+</div>
 </div>
 
 
