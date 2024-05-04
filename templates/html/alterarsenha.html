@@ -61,34 +61,36 @@
             <div class="col-md-6 right">
                 <h1 style="font-family: 'Roboto', sans-serif;">Crie Novas Emoções</h1> <!-- Título -->
                 <p style="font-family: 'Roboto', sans-serif;">Junte-se ao Quickevent hoje</p> <!-- Subtítulo -->
+                <div class="text-left">
                             <h3 class="mb-5">Esqueci minha senha</h3>
+                </div>
                             {% set mensagens = get_flashed_messages() %}
                             {% if mensagens %}
                             <div class="alert-danger">
                                 <strong>{{mensagens[0]}}</strong>
                             </div>
                             {% endif %}
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="email">E-mail</label>
                                 <input name="email" type="email" id="email" class="form-control form-control-lg"
                                        placeholder="Digite seu e-mail" required/>
-                                <label class="form-label" for="email">E-mail</label>
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="token">Token</label>
                                 <input name="token"  id="token" class="form-control form-control-lg"
                                        placeholder="Digite o token recebido" required/>
-                                <label class="form-label" for="token">Token</label>
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="password">Nova Senha</label>
                                 <input name="senha" type="password" id="password" class="form-control form-control-lg"
                                        placeholder="Digite sua nova senha" required/>
-                                <label class="form-label" for="password">Nova Senha</label>
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label class="form-label" for="confirmaSenhacad">Confirme sua senha</label>
                                 <input name="confirmaSenhacad" type="password" id="confirmaSenhacad"
                                        class="form-control form-control-lg" placeholder="Confirme sua senha" required/>
-                                <label class="form-label" for="confirmaSenhacad">Confirme sua senha</label>
                             </div>
-                            <button class="btn btn-success btn-lg btn-block button" type="submit" value="entrar">Alterar senha</button>
+                            <button class="btn btn-primary" type="submit" value="entrar">Alterar senha</button>
             </div>
         </div>
     </div>
