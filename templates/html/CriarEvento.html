@@ -186,8 +186,8 @@
                                                 </div>
 
                                                 <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="bairro">Bairro</label>
-                                                    <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ bairro }}" readonly/>
+                                                    <label class="form-label" for="cidade">Bairro</label>
+                                                    <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ cidade }}" readonly/>
                                                 </div>
 
                                                 <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
@@ -241,9 +241,6 @@
                                             <script>
                                                 function initializeAutocomplete() {
                                                     var inputEndereco = document.getElementById('endereco');
-                                                    var inputNumeroResidencia = document.getElementById('numero');
-                                                    var inputRua = document.getElementById('rua');
-                                                    var inputBairro = document.getElementById('bairro');
                                                     var inputLatitude = document.getElementById('latitude');
                                                     var inputLongitude = document.getElementById('longitude');
                                                     var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
@@ -255,16 +252,6 @@
                                                             console.error("Localização não encontrada para o endereço informado.");
                                                             return;
                                                         }
-
-                                                        // Preencher o campo de número da residência
-                                                        var numeroResidencia = getAddressComponent(place, 'street_number');
-                                                        inputNumeroResidencia.value = numeroResidencia || '';
-
-                                                        // Preencher o campo da rua
-                                                        inputRua.value = getAddressComponent(place, 'route') || '';
-
-                                                        // Preencher o campo do bairro
-                                                        inputBairro.value = getAddressComponent(place, 'sublocality') || '';
 
                                                         // Atualizar os campos de latitude e longitude
                                                         inputLatitude.value = place.geometry.location.lat();
