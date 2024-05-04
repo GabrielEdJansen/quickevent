@@ -240,12 +240,38 @@
 
                                             <script>
                                                 function initializeAutocomplete() {
-                                                    var inputEndereco = document.getElementById('endereco');
                                                     var inputLatitude = document.getElementById('latitude');
                                                     var inputLongitude = document.getElementById('longitude');
+                                                    var myLatLng = { lat: parseFloat(inputLatitude.value), lng: parseFloat(inputLongitude.value) };
+
+                                                    var map = new google.maps.Map(document.getElementById('map'), {
+                                                        zoom: 15,
+                                                        center: myLatLng
+                                                    });
+
+                                                    var marker = new google.maps.Marker({
+                                                        position: myLatLng,
+                                                        map: map,
+                                                        title: 'Local do evento'
+                                                    });
+
+                                                    // Adicionar um evento de clique no marcador para exibir informações de endereço
+                                                    marker.addListener('click', function() {
+                                                        var infowindow = new google.maps.InfoWindow({
+                                                            content: 'Endereço: ' + document.getElementById('endereco').value
+                                                        });
+                                                        infowindow.open(map, marker);
+                                                    });
+
+                                                    // Atualizar campos de endereço com dados do lugar selecionado
+                                                    var inputEndereco = document.getElementById('endereco');
+                                                    var inputNumeroResidencia = document.getElementById('numero');
+                                                    var inputRua = document.getElementById('rua');
+                                                    var inputBairro = document.getElementById('bairro');
+
                                                     var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
 
-                                                    autocomplete.addListener('place_changed', function () {
+                                                    autocomplete.addListener('place_changed', function() {
                                                         var place = autocomplete.getPlace();
 
                                                         if (!place.geometry) {
@@ -253,12 +279,22 @@
                                                             return;
                                                         }
 
-                                                        // Atualizar os campos de latitude e longitude
+                                                        // Preencher o campo de rua
+                                                        inputRua.value = getAddressComponent(place, 'route') || '';
+
+                                                        // Preencher o campo de número da residência
+                                                        inputNumeroResidencia.value = getAddressComponent(place, 'street_number') || '';
+
+                                                        // Preencher o campo de bairro
+                                                        inputBairro.value = getAddressComponent(place, 'sublocality') || '';
+
+                                                        // Atualizar campos de latitude e longitude
                                                         inputLatitude.value = place.geometry.location.lat();
                                                         inputLongitude.value = place.geometry.location.lng();
 
-                                                        // Inicializar o mapa com a nova localização
-                                                        initMap();
+                                                        // Atualizar o mapa com a nova localização
+                                                        map.setCenter(place.geometry.location);
+                                                        marker.setPosition(place.geometry.location);
                                                     });
                                                 }
 
