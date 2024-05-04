@@ -61,36 +61,70 @@
 
 <div class="container">
     <div class="row">
+        <!-- Filtros à esquerda -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Filtros</h5>
+                    <form>
+                        <div class="mb-4">
+                            <label for="dataInicial" class="form-label">Data Inicial</label>
+                            <input type="date" class="form-control" id="dataInicial" name="dataInicial" value="{{ filtro.dataInicial }}">
+                        </div>
+                        <div class="mb-4">
+                            <label for="dataFinal" class="form-label">Data Final</label>
+                            <input type="date" class="form-control" id="dataFinal" name="dataFinal" value="{{ filtro.dataFinal }}">
+                        </div>
+                        <div class="mb-4">
+                            <label for="categoria" class="form-label">Categoria</label>
+                            <select class="form-select" id="categoria" name="categoria" style="width: 100%;">
+                                <option selected disabled value="" {% if not filtro.categoria %} selected {% endif %}>Todas</option>
+                                <option value="1" {% if filtro.categoria == '1' %} selected {% endif %}>Artes Dramáticas e Visuais</option>
+                                <!-- adicione as outras opções aqui -->
+                            </select>
+                        </div>
+                        <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
+                            <div class="text-center">
+                                <button id="btnFiltrar" class="btn btn-primary" type="submit">Filtrar</button>
+                            </div>
+                        </form>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- Lista de eventos no meio -->
-        <div class="col-md-8">
-            <div class="row">
-                {% if eventos %}
-                    {% for i in range(0, eventos|length, 2) %}
-                        <div class="col-md-6">
+        <div class="col-md-5">
+            <div class="col-md-12">
+                <h1>Eventos participados</h1>
+                <form action="/InformacoesEventos" method="post">
+                    {% if eventos %}
+                        {% for c in eventos %}
                             <div class="row mb-4">
-                                {% for c in eventos[i:i+2] %}
-                                    <div class="col-md-12">
-                                        <div class="event">
-                                            <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
-                                        </div>
+                                <div class="col-md-8">
+                                    <div class="event">
+                                        <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <form id="eventoForm" method="post" action="/InformacoesEventos">
                                         <div class="evento-info">
                                             <h2>{{c[2]}}</h2>
                                             <p>Data: {{c[3].strftime('%d/%m/%Y')}}</p>
                                             {% set hora = datetime.min + c[4] %}
                                             <p>Hora: {{ hora.strftime('%H:%M') }}</p>
                                             <p>Local: {{c[5]}}</p>
-                                            <form id="eventoForm" method="post" action="/InformacoesEventos">
-                                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
-                                                <button class="btn btn-primary" type="submit" name="botaoDetalhes" value="{{c[0]}}">Detalhes</button>
-                                            </form>
+                                            <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
+                                            <button class="btn btn-primary" type="submit" name="botaoDetalhes" value="{{c[0]}}">
+                                                Detalhes
+                                            </button>
                                             <a href="#" class="btn btn-secondary" onclick="showLocation({{c[6]}}, {{c[7]}}); scrollToMap()">Localização</a>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </form>
             </div>
         </div>
         <!-- Mapa à direita -->
