@@ -186,8 +186,8 @@
                                                 </div>
 
                                                 <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="cidade">Bairro</label>
-                                                    <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ cidade }}" readonly/>
+                                                    <label class="form-label" for="bairro">Bairro</label>
+                                                    <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ bairro }}" readonly/>
                                                 </div>
 
                                                 <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
@@ -243,8 +243,6 @@
                                                     var inputEndereco = document.getElementById('endereco');
                                                     var inputNumeroResidencia = document.getElementById('numero');
                                                     var inputRua = document.getElementById('rua');
-                                                    var inputCidade = document.getElementById('cidade');
-                                                    var inputEstado = document.getElementById('estado');
                                                     var inputBairro = document.getElementById('bairro');
                                                     var inputLatitude = document.getElementById('latitude');
                                                     var inputLongitude = document.getElementById('longitude');
@@ -265,19 +263,8 @@
                                                         // Preencher o campo da rua
                                                         inputRua.value = getAddressComponent(place, 'route') || '';
 
-                                                        // Preencher o campo da cidade e desabilitar para edição
-                                                        inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2');
-                                                        inputCidade.setAttribute('readonly', true);
-
-                                                        // Preencher o campo do estado e desabilitar para edição
-                                                        inputEstado.value = getAddressComponent(place, 'administrative_area_level_1') || '';
-                                                        inputEstado.setAttribute('readonly', true);
-
                                                         // Preencher o campo do bairro
                                                         inputBairro.value = getAddressComponent(place, 'sublocality') || '';
-
-                                                        // Preencher o campo do place_id, se necessário
-                                                        document.getElementById('place_id').value = place.place_id;
 
                                                         // Atualizar os campos de latitude e longitude
                                                         inputLatitude.value = place.geometry.location.lat();
