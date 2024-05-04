@@ -1742,7 +1742,7 @@ def processarPresenca():
                     connect_BD = configbanco(db_type='mysql-connector')
                     cursor = connect_BD.cursor(dictionary=True)
 
-                    query = f"SELECT * FROM campo_adicional WHERE id_eventos = '{eventoPresenca}' and nome_campo <> null"
+                    query = f"SELECT * FROM campo_adicional WHERE id_eventos = '{eventoPresenca}' and nome_campo is not null"
                     cursor.execute(query)
 
                     results = cursor.fetchall()
