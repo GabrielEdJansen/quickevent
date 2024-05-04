@@ -68,7 +68,7 @@
                 <div class="col-md-12 col-lg-12 col-xl-12">
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-4 text-center">
-                            <h2 class="card-title text-left">Criar novo evento</h2>
+                            <h1 class="card-title text-left">Criar novo evento</h1>
                                 <div class="card mb-4 rounded">
                                     <div class="card-body">
                                         <h3 class="card-title text-left">Dados gerais</h3>
@@ -241,6 +241,11 @@
                                             <script>
                                                 function initializeAutocomplete() {
                                                     var inputEndereco = document.getElementById('endereco');
+                                                    var inputNumeroResidencia = document.getElementById('numero');
+                                                    var inputRua = document.getElementById('rua');
+                                                    var inputCidade = document.getElementById('cidade');
+                                                    var inputEstado = document.getElementById('estado');
+                                                    var inputBairro = document.getElementById('bairro');
                                                     var inputLatitude = document.getElementById('latitude');
                                                     var inputLongitude = document.getElementById('longitude');
                                                     var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
@@ -252,6 +257,27 @@
                                                             console.error("Localização não encontrada para o endereço informado.");
                                                             return;
                                                         }
+
+                                                        // Preencher o campo de número da residência
+                                                        var numeroResidencia = getAddressComponent(place, 'street_number');
+                                                        inputNumeroResidencia.value = numeroResidencia || '';
+
+                                                        // Preencher o campo da rua
+                                                        inputRua.value = getAddressComponent(place, 'route') || '';
+
+                                                        // Preencher o campo da cidade e desabilitar para edição
+                                                        inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2');
+                                                        inputCidade.setAttribute('readonly', true);
+
+                                                        // Preencher o campo do estado e desabilitar para edição
+                                                        inputEstado.value = getAddressComponent(place, 'administrative_area_level_1') || '';
+                                                        inputEstado.setAttribute('readonly', true);
+
+                                                        // Preencher o campo do bairro
+                                                        inputBairro.value = getAddressComponent(place, 'sublocality') || '';
+
+                                                        // Preencher o campo do place_id, se necessário
+                                                        document.getElementById('place_id').value = place.place_id;
 
                                                         // Atualizar os campos de latitude e longitude
                                                         inputLatitude.value = place.geometry.location.lat();
