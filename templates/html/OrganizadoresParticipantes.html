@@ -97,21 +97,25 @@
                     </div>
                 </div>
 
-        <div class="col-md-9">
-          <h3>Lista de Organizadores</h3>
-          <section id="usuarios-section">
-            <ul>
-              {% for usuario in usuarios %}
-                <li>
-                  <span>{{ usuario[0]|string }} - {{ usuario[1] }} {{ usuario[2] }}</span>
-                </li>
-              {% endfor %}
-            </ul>
-          </section>
+            <div class="col-md-9">
+             <div class="card mb-4 rounded">
+              <div class="card-body">
+              <h3>Lista de Organizadores</h3>
+              <section id="usuarios-section">
+                <ul>
+                  {% for usuario in usuarios %}
+                    <li>
+                      <span>{{ usuario[0]|string }} - {{ usuario[1] }} {{ usuario[2] }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </section>
+            </div>
+          </div>
+           </div>
+         </div>
         </div>
       </div>
-    </div>
-  </div>
 </section>
 
 <!-- JavaScript necessário para o Bootstrap -->
