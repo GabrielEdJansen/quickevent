@@ -97,49 +97,49 @@
         </div>
         <!-- Lista de eventos no meio -->
 <!-- Lista de eventos no meio -->
-    <div class="col-md-6">
-        <h1>Gerenciar eventos</h1>
-        <div class="row">
-            {% if eventos %}
-                {% for c in eventos %}
-                    {% if loop.index % 2 == 1 %}
-                        </div>
-                        <div class="row">
-                    {% endif %}
-                    <div class="col-md-6">
-                        <div class="row mb-4">
-                            <div class="col-md-12">
-                                <div class="event">
-                                    <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
-                                </div>
+<div class="col-md-6">
+    <h1>Gerenciar eventos</h1>
+    <div class="row">
+        {% if eventos %}
+            {% for c in eventos %}
+                {% if loop.index % 2 == 1 %}
+                    </div>
+                    <div class="row">
+                {% endif %}
+                <div class="col-md-8">
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <div class="event">
+                                <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
                             </div>
-                            <div class="col-md-12">
-                                <div class="evento-info">
-                                    <h2>{{c[2]}}</h2>
-                                    <p>Data: {{c[3].strftime('%d/%m/%Y')}}</p>
-                                    {% set hora = datetime.min + c[4] %}
-                                    <p>Hora: {{ hora.strftime('%H:%M') }}</p>
-                                    <p>Local: {{c[5]}}</p>
-                                    <form action="/GerenciarEventos" method="post">
-                                        <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
-                                        <button class="btn btn-primary" type="submit" name="botaoEditar" value="{{c[0]}}">
-                                            Gerenciar
-                                        </button>
-                                        <button class="btn btn-danger" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
-                                            Excluir Evento
-                                        </button>
-                                    </form>
-                                </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="evento-info">
+                                <h2>{{c[2]}}</h2>
+                                <p>Data: {{c[3].strftime('%d/%m/%Y')}}</p>
+                                {% set hora = datetime.min + c[4] %}
+                                <p>Hora: {{ hora.strftime('%H:%M') }}</p>
+                                <p>Local: {{c[5]}}</p>
+                                <form action="/GerenciarEventos" method="post">
+                                    <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
+                                    <button class="btn btn-primary" type="submit" name="botaoEditar" value="{{c[0]}}">
+                                        Gerenciar
+                                    </button>
+                                    <button class="btn btn-danger" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
+                                        Excluir Evento
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    {% if loop.index % 2 == 0 or loop.last %}
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        </div>
+                </div>
+                {% if loop.index % 2 == 0 or loop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
+</div>
 </div>
 
 
