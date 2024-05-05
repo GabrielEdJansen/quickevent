@@ -93,19 +93,19 @@
             </div>
         </div>
         <!-- Lista de eventos no meio -->
-        <div class="col-md-5">
-            <div class="col-md-12">
-                <h1>Eventos participados</h1>
-                <form action="/InformacoesEventos" method="post">
-                    {% if eventos %}
-                        {% for c in eventos %}
+        <div class="col-md-9">
+            <h1>Eventos participados</h1>
+            <div class="row">
+                {% if eventos %}
+                    {% for c in eventos %}
+                        <div class="col-md-6">
                             <div class="row mb-4">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <div class="event">
                                         <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
                                     </div>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <form id="eventoForm" method="post" action="/InformacoesEventos">
                                         <div class="evento-info">
                                             <h2>{{c[2]}}</h2>
@@ -122,16 +122,9 @@
                                     </form>
                                 </div>
                             </div>
-                        {% endfor %}
-                    {% endif %}
-                </form>
-            </div>
-        </div>
-        <!-- Mapa à direita -->
-        <div class="col-md-4" id="mapSection">
-            <div class="map">
-                <h2>Mapa dos Eventos</h2>
-                <div id="mapaDosEventos"></div> <!-- Div para conter o mapa -->
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
