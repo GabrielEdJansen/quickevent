@@ -105,12 +105,13 @@
         <div class="col-md-6">
             <div class="col-md-12">
                 <h1>Gerenciar eventos</h1>
-                 <form action="/GerenciarEventos" method="post">
-                {% if eventos %}
-                    {% for c in eventos %}
-                        {% if loop.index % 2 == 1 %}
-                        <div class="row mb-4">
-                        {% endif %}
+                <div class="row">
+                    {% if eventos %}
+                        {% for c in eventos %}
+                            {% if loop.index % 2 == 1 %}
+                            </div>
+                            <div class="row">
+                            {% endif %}
                             <div class="col-md-6">
                                 <div class="event">
                                     <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem w-100" alt="{{c[8]}}">
@@ -121,21 +122,23 @@
                                     {% set hora = datetime.min + c[4] %}
                                     <p>Hora: {{ hora.strftime('%H:%M') }}</p>
                                     <p>Local: {{c[5]}}</p>
-                                    <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
-                                    <button class="btn btn-primary" type="submit" name="botaoEditar" value="{{c[0]}}">
-                                        Gerenciar
-                                    </button>
-                                    <button class="btn btn-danger" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
-                                        Excluir Evento
-                                    </button>
+                                    <form action="/GerenciarEventos" method="post">
+                                        <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
+                                        <button class="btn btn-primary" type="submit" name="botaoEditar" value="{{c[0]}}">
+                                            Gerenciar
+                                        </button>
+                                        <button class="btn btn-danger" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
+                                            Excluir Evento
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                        {% if loop.index % 2 == 0 or loop.last %}
-                        </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-                </form>
+                            {% if loop.index % 2 == 0 or loop.last %}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
