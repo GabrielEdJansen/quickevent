@@ -63,6 +63,17 @@
 </nav>
 
 <div class="container">
+
+                {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
     <div class="row">
         <!-- Filtros à esquerda -->
         <div class="col-md-3">
@@ -70,6 +81,10 @@
                 <div class="card-body">
                     <h5 class="card-title mb-4">Filtros</h5>
                     <form>
+                        <div class="mb-4">
+                            <label for="nomeEvento" class="form-label">Nome do Evento:</label>
+                            <input type="text" class="form-control" id="nomeEvento" name="nomeEvento" value="{{ filtro.nomeEvento }}">
+                        </div>
                         <div class="mb-4">
                             <label for="dataInicial" class="form-label">Data Inicial</label>
                             <input type="date" class="form-control" id="dataInicial" name="dataInicial" value="{{ filtro.dataInicial }}">
