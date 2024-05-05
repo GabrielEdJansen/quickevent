@@ -83,7 +83,26 @@
                             <select class="form-select" id="categoria" name="categoria" style="width: 100%;">
                                 <option selected disabled value="" {% if not filtro.categoria %} selected {% endif %}>Todas</option>
                                 <option value="1" {% if filtro.categoria == '1' %} selected {% endif %}>Artes Dramáticas e Visuais</option>
-                                <!-- adicione as outras opções aqui -->
+                                  <option value="2" {% if filtro.categoria == '2' %} selected {% endif %}>Atividades Escolares</option>
+                                    <option value="3" {% if filtro.categoria == '3' %} selected {% endif %}>Auto, Náutica e Aéreo</option>
+                                    <option value="4" {% if filtro.categoria == '4' %} selected {% endif %}>Caridade e causas</option>
+                                    <option value="5" {% if filtro.categoria == '5' %} selected {% endif %}>Casa e Estilo de Vida</option>
+                                    <option value="6" {% if filtro.categoria == '6' %} selected {% endif %}>Ciência e Tecnologia</option>
+                                    <option value="7" {% if filtro.categoria == '7' %} selected {% endif %}>Comida e bebida</option>
+                                    <option value="8" {% if filtro.categoria == '8' %} selected {% endif %}>Comunidade e Cultura</option>
+                                    <option value="9" {% if filtro.categoria == '9' %} selected {% endif %}>Esportes e Fitness</option>
+                                    <option value="10" {% if filtro.categoria == '10' %} selected {% endif %}>Família e Educação</option>
+                                    <option value="11" {% if filtro.categoria == '11' %} selected {% endif %}>Feriados e Festas Tradicionais</option>
+                                    <option value="12" {% if filtro.categoria == '12' %} selected {% endif %}>Filmes, Mídia e Entretenimento</option>
+                                    <option value="13" {% if filtro.categoria == '13' %} selected {% endif %}>Governo e Política</option>
+                                    <option value="14" {% if filtro.categoria == '14' %} selected {% endif %}>Moda e Beleza</option>
+                                    <option value="15" {% if filtro.categoria == '15' %} selected {% endif %}>Música</option>
+                                    <option value="16" {% if filtro.categoria == '16' %} selected {% endif %}>Negócios e Profissional</option>
+                                    <option value="17" {% if filtro.categoria == '17' %} selected {% endif %}>Outro</option>
+                                    <option value="18" {% if filtro.categoria == '18' %} selected {% endif %}>Passatempos e Interesses Especiais</option>
+                                    <option value="19" {% if filtro.categoria == '19' %} selected {% endif %}>Religião e Espiritualidade</option>
+                                    <option value="20" {% if filtro.categoria == '20' %} selected {% endif %}>Saúde e bem-estar</option>
+                                    <option value="21" {% if filtro.categoria == '21' %} selected {% endif %}>Viagens e Ao ar livre</option>
                             </select>
                         </div>
                         <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
