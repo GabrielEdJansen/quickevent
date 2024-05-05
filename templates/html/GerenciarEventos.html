@@ -103,26 +103,29 @@
         </div>
         <!-- Lista de eventos no meio -->
         <div class="col-md-6">
-            <div class="col-md-12">
-                <h1>Gerenciar eventos</h1>
-                <div class="row">
-                    {% if eventos %}
-                        {% for c in eventos %}
-                            {% if loop.index % 2 == 1 %}
+            <h1>Eventos participados</h1>
+            <div class="row">
+                {% if eventos %}
+                    {% for c in eventos %}
+                        {% if loop.index % 2 == 1 %}
                             </div>
                             <div class="row">
-                            {% endif %}
-                            <div class="col-md-6">
-                                <div class="event">
-                                    <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem w-100" alt="{{c[8]}}">
+                        {% endif %}
+                        <div class="col-md-6">
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="event">
+                                        <img src="data:image/jpeg;base64,{{c[8]}}" class="img-fluid evento-imagem" alt="{{c[8]}}">
+                                    </div>
                                 </div>
-                                <div class="evento-info">
-                                    <h2>{{c[2]}}</h2>
-                                    <p>Data: {{c[3].strftime('%d/%m/%Y')}}</p>
-                                    {% set hora = datetime.min + c[4] %}
-                                    <p>Hora: {{ hora.strftime('%H:%M') }}</p>
-                                    <p>Local: {{c[5]}}</p>
-                                    <form action="/GerenciarEventos" method="post">
+                                <div class="col-md-12">
+                                        <div class="evento-info">
+                                            <h2>{{c[2]}}</h2>
+                                            <p>Data: {{c[3].strftime('%d/%m/%Y')}}</p>
+                                            {% set hora = datetime.min + c[4] %}
+                                            <p>Hora: {{ hora.strftime('%H:%M') }}</p>
+                                            <p>Local: {{c[5]}}</p>
+                                   <form action="/GerenciarEventos" method="post">
                                         <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
                                         <button class="btn btn-primary" type="submit" name="botaoEditar" value="{{c[0]}}">
                                             Gerenciar
@@ -133,13 +136,11 @@
                                     </form>
                                 </div>
                             </div>
-                            {% if loop.index % 2 == 0 or loop.last %}
-                            </div>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
+        </div>
         </div>
     </div>
 </div>
