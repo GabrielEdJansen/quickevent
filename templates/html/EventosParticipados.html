@@ -12,6 +12,9 @@
         body {
             background-color: #d2d4d6;
         }
+        #mapaDosEventos {
+            height: 400px;
+        }
     </style>
 </head>
 <body>
@@ -93,11 +96,15 @@
             </div>
         </div>
         <!-- Lista de eventos no meio -->
-        <div class="col-md-9">
+        <div class="col-md-6">
             <h1>Eventos participados</h1>
             <div class="row">
                 {% if eventos %}
                     {% for c in eventos %}
+                        {% if loop.index % 2 == 1 %}
+                            </div>
+                            <div class="row">
+                        {% endif %}
                         <div class="col-md-6">
                             <div class="row mb-4">
                                 <div class="col-md-12">
@@ -125,6 +132,13 @@
                         </div>
                     {% endfor %}
                 {% endif %}
+            </div>
+        </div>
+        <!-- Mapa à direita -->
+        <div class="col-md-3">
+            <div class="map">
+                <h2>Mapa dos Eventos</h2>
+                <div id="mapaDosEventos"></div> <!-- Div para conter o mapa -->
             </div>
         </div>
     </div>
