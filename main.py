@@ -3849,6 +3849,7 @@ def InicioGerenciarEventos():
             u.nome
     '''
 
+    print(query)
     # Executa a consulta
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
