@@ -2934,8 +2934,7 @@ def buscar():
             query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
 
         if nome_evento:
-            query += f' AND e.nome_evento LIKE %s'
-            query_params.append(f'%{nome_evento}%')
+            query += f' AND e.nome_evento LIKE "%{nome_evento}%"'
 
         if data_inicial:
             query += f' AND e.data_evento >= "{data_inicial}"'
