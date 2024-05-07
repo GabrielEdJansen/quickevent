@@ -636,9 +636,13 @@
                                              cardBody.appendChild(divNovoIngresso);
                                         }
 
-                                        function removerIngresso(indice) {
-                                            var ingresso = document.getElementById('ingresso' + indice);
-                                            ingresso.parentNode.removeChild(ingresso);
+                                        function removerIngresso(idIngresso) {
+                                            var ingresso = document.getElementById(idIngresso);
+                                            if (ingresso) {
+                                                ingresso.parentNode.removeChild(ingresso);
+                                            } else {
+                                                console.error("Ingresso não encontrado:", idIngresso);
+                                            }
                                         }
 
                                         // Função para formatar o campo de preço como moeda
