@@ -480,8 +480,8 @@
 
                                             <div class="card-body">
                                                 <h3 class="card-title text-left">Ingresso do evento</h3>
+                                                {% for ingresso in ingresso %}
                                                 <div class="row ingresso">
-                                                    {% for ingresso in ingresso %}
                                                     <div class="col-md-6">
                                                         <div class="ingresso">
                                                         <!-- Primeiro ingresso -->
@@ -536,10 +536,11 @@
                                                         <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
                                                         <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.">{{ ingresso.observacao_ingresso }}</textarea>
                                                     </div>
-                                                    {% endfor %}
                                                     <!-- Fim do primeiro ingresso -->
                                                 </div>
+                                                {% endfor %}
                                             </div>
+
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6 text-center">
                                                     <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
