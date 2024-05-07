@@ -115,13 +115,6 @@
                                             <div class="card mb-4 rounded">
                                                 <div class="card-body">
                                                     <h3 class="card-title text-left">Dados gerais</h3>
-                                                    {% set mensagens = get_flashed_messages() %}
-                                                    {% if mensagens %}
-                                                    <div class="alert alert-danger">
-                                                        <strong>{{mensagens[0]}}</strong>
-                                                    </div>
-                                                    {% endif %}
-
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
@@ -484,10 +477,11 @@
                                         </script>
                                         </div>
                                         <div class="card rounded">
-                                            {% for ingresso in ingresso %}
+
                                             <div class="card-body">
                                                 <h3 class="card-title text-left">Ingresso do evento</h3>
                                                 <div class="row ingresso">
+                                                    {% for ingresso in ingresso %}
                                                     <div class="col-md-6">
                                                         <div class="ingresso">
                                                         <!-- Primeiro ingresso -->
@@ -542,10 +536,10 @@
                                                         <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
                                                         <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.">{{ ingresso.observacao_ingresso }}</textarea>
                                                     </div>
+                                                    {% endfor %}
                                                     <!-- Fim do primeiro ingresso -->
                                                 </div>
                                             </div>
-                                                {% endfor %}
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6 text-center">
                                                     <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
