@@ -537,9 +537,11 @@
                                                     </div>
                                                     <!-- Fim do primeiro ingresso -->
                                                 </div>
-                                                    <button type="button" class="btn btn-danger" onclick="removerIngresso({{ loop.index }})">
-                                                         <i class="fas fa-trash-alt"></i>
-                                                    </button>
+                                                    <div class="form-outline mb-4" style="flex-grow: 1;">
+                                                        <button type="button" class="btn btn-danger" onclick="removerIngresso({{ loop.index }})">
+                                                             <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </div>
                                             </div>
                                                 {% endfor %}
                                         </div>
@@ -608,20 +610,20 @@
                                             };
 
                                             // Cria uma div para conter o botão de remover
-                                            var divBotaoRemover = document.createElement('div');
-                                            divBotaoRemover.className = 'form-outline mb-4';
-                                            divBotaoRemover.style.display = 'flex'; // Flex display
-                                            divBotaoRemover.style.justifyContent = 'center'; // Centraliza horizontalmente
-                                            divBotaoRemover.style.alignItems = 'center'; // Centraliza verticalmente
-                                            divBotaoRemover.style.height = '100%'; // Define a altura
-                                            divBotaoRemover.appendChild(botaoRemover);
+                                            //var divBotaoRemover = document.createElement('div');
+                                            //divBotaoRemover.className = 'form-outline mb-4';
+                                            //divBotaoRemover.style.display = 'flex'; // Flex display
+                                            //divBotaoRemover.style.justifyContent = 'center'; // Centraliza horizontalmente
+                                            //divBotaoRemover.style.alignItems = 'center'; // Centraliza verticalmente
+                                            //divBotaoRemover.style.height = '100%'; // Define a altura
+                                            //divBotaoRemover.appendChild(botaoRemover);
 
-                                            // Adiciona o novo ingresso e o botão de remover à div
-                                            divNovoIngresso.appendChild(novoIngresso);
-                                            divNovoIngresso.appendChild(divBotaoRemover);
+                                             //Adiciona o novo ingresso e o botão de remover à div
+                                             divNovoIngresso.appendChild(novoIngresso);
+                                             //divNovoIngresso.appendChild(divBotaoRemover);
 
-                                            // Adiciona a div com o novo ingresso e o botão de remover ao cardBody
-                                            cardBody.appendChild(divNovoIngresso);
+                                             //Adiciona a div com o novo ingresso e o botão de remover ao cardBody
+                                             cardBody.appendChild(divNovoIngresso);
                                         }
 
                                         function removerIngresso(indice) {
