@@ -624,9 +624,9 @@
                                             cardBody.appendChild(divNovoIngresso);
                                         }
 
-                                        function removerIngresso(botao) {
-                                            var ingresso = botao.parentNode.parentNode; // Pegar o elemento pai do pai do botão (que é o div do ingresso)
-                                            ingresso.parentNode.removeChild(ingresso); // Remover o ingresso
+                                        function removerIngresso(indice) {
+                                            var ingresso = document.querySelector('.ingresso:nth-child(' + indice + ')');
+                                            ingresso.parentNode.removeChild(ingresso);
                                         }
 
                                         // Função para formatar o campo de preço como moeda
