@@ -484,8 +484,8 @@
                                         </script>
                                         </div>
                                         <div class="card rounded">
+                                            {% for ingresso in ingresso %}
                                             <div class="card-body">
-                                                {% for ingresso in ingresso %}
                                                 <h3 class="card-title text-left">Ingresso do evento</h3>
                                                 <div class="row ingresso">
                                                     <div class="col-md-6">
@@ -544,8 +544,8 @@
                                                     </div>
                                                     <!-- Fim do primeiro ingresso -->
                                                 </div>
-                                                {% endfor %}
                                             </div>
+                                                {% endfor %}
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6 text-center">
                                                     <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
