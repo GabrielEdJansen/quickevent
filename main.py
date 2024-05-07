@@ -3817,7 +3817,7 @@ def InicioGerenciarEventos():
         LEFT JOIN
             eventos_usuarios AS eu ON eu.id_evento = e.id_eventos
         WHERE
-            e.id_usuario_evento = %s OR eu.id_usuario = %s
+            (e.id_usuario_evento = %s OR eu.id_usuario = %s)
     '''
 
     query_params = [session['idlogado'], session['idlogado']]
@@ -3849,7 +3849,6 @@ def InicioGerenciarEventos():
             u.nome
     '''
 
-    print(query)
     # Executa a consulta
     connect_BD = configbanco(db_type='mysql-connector')
     if connect_BD.is_connected():
