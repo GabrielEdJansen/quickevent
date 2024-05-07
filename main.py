@@ -1279,6 +1279,10 @@ def InicioEventosParticipados():
     data_inicial = request.args.get("dataInicial")
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
+    nome_evento = request.args.get("nomeEvento")
+
+    if nome_evento is None:
+        nome_evento = ''
 
     # Conexão com o banco de dados
     connect_BD = configbanco(db_type='mysql-connector')
@@ -1324,6 +1328,10 @@ def InicioEventosParticipados():
             query += ' AND (e.nome_evento LIKE %s OR e.local_evento LIKE %s)'
             query_params.extend([f'%{filtro}%', f'%{filtro}%'])
 
+        if nome_evento:
+            query += f' AND e.nome_evento LIKE %s'
+            query_params.append(f'%{nome_evento}%')
+
         if data_inicial:
             query += ' AND e.data_evento >= %s'
             query_params.append(data_inicial)
@@ -1345,7 +1353,8 @@ def InicioEventosParticipados():
             filtro_aplicado = {
                 "dataInicial": data_inicial,
                 "dataFinal": data_final,
-                "categoria": categoria
+                "categoria": categoria,
+                "nomeEvento": nome_evento
             }
             flash('Nenhum evento encontrado!')
 
@@ -1353,7 +1362,8 @@ def InicioEventosParticipados():
             "dataInicial": data_inicial,
             "dataFinal": data_final,
             "categoria": categoria,
-            "filtro": filtro
+            "filtro": filtro,
+            "nomeEvento": nome_evento
         }
 
         return render_template("html/EventosParticipados.html", eventos=eventos, foto=foto, filtro=filtro_aplicado)
