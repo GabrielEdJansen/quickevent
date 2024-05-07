@@ -1,315 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quickevent</title>
+  <link href="../static/style/styleNavBarEditarEvento.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmLCHDE0BvppuDOpITU30gt0b5WysTSjE&libraries=places"></script>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <style>
+        body {
+          background-color: #d2d4d6;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+  <a href="destaques" class="navbar-brand" href="#"><img src="../static/LogoFundo.png" alt="Logo do Site" style="max-height: 40px; max-width: 120px;"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
+      <div class="input-group" style="width: 400px;"> <!-- Definindo largura da div -->
+        <input name="filtro" id="searchInput" type="text" class="form-control" placeholder="Buscar eventos">
+        <div class="input-group-append">
+          <button class="btn btn-secondary" type="submit">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="InicioEventosParticipados" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Eventos participados</a>
+        </li>
+        <li class="nav-item">
+          <a href="InicioCriarEvento" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Criar eventos</a>
+        </li>
+        <li class="nav-item">
+          <a href="InicioGerenciarEventos" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Gerenciar eventos</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
+            <div class="d-flex align-items-center">
+              <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
+                <img src="data:image/jpeg;base64,{{ foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
+              </div>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+            <a class="dropdown-item" href="InformacaoConta">Informações da conta</a>
+            <a class="dropdown-item" href="/">Sair</a>
+          </div>
+        </li>
+      </ul>
+  </div>
+</nav>
+
+
 <section class="vh-100">
-    <form action="{{ url_for('CriarEvento') }}" method="post" enctype="multipart/form-data">
-        <div class="container py-5 h-100">
-            <div class="row justify-content-center align-items-center h-100">
-                <div class="col-md-12 col-lg-12 col-xl-12">
-                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                        <div class="card-body p-4 text-center">
-                            <h2 class="card-title text-left">Criar novo evento</h2>
-                                <div class="card mb-4 rounded">
-                                    <div class="card-body">
-                                        <h3 class="card-title text-left">Dados gerais</h3>
-                                        {% set mensagens = get_flashed_messages() %}
-                                        {% if mensagens %}
-                                        <div class="alert alert-danger">
-                                            <strong>{{mensagens[0]}}</strong>
-                                        </div>
-                                        {% endif %}
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="nomeEventocad">Nome do evento</label>
-                                                    <input name="nomeEventocad" type="text" id="nome" class="form-control form-control-lg"
-                                                        placeholder="Digite o nome do evento" required/>
-                                                </div>
-
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="descricaocad">Descrição do evento</label>
-                                                    <textarea rows="5" name="descricaocad" type="text" id="descricaocad"
-                                                        class="form-control form-control-lg"
-                                                        placeholder="Digite a descrição do evento" required></textarea>
-                                                </div>
-
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="totalParticipantescad">Total de Participantes</label>
-                                                    <input name="totalParticipantescad" type="number" id="totalParticipantescad" class="form-control form-control-lg"
-                                                        placeholder="Digite o total de participantes" required min="0" step="1" oninput="validarValor(this)" />
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" >Imagem de divulgação (opcional)</label>
-                                                    <label class="form-label" >Obs: A dimensão recomendada é de 1600 x 838</label>
-                                                    <input type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
-                                                    <input type="hidden" name="existing_photo" value="{{ foto }}">
-                                                </div>
-
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="email">Categoria</label>
-                                                    <select name="categoriacad" class="form-control form-control-lg"
-                                                        aria-label="Default select example" required>
-                                                        <option selected disabled value="">Selecione a categoria</option>
-                                                        <option value="1" >Artes Dramáticas e Visuais</option>
-                                                        <option value="2" >Atividades Escolares</option>
-                                                        <option value="3" >Auto, Náutica e Aéreo</option>
-                                                        <option value="4" >Caridade e causas</option>
-                                                        <option value="5" >Casa e Estilo de Vida</option>
-                                                        <option value="6" >Ciência e Tecnologia</option>
-                                                        <option value="7" >Comida e bebida</option>
-                                                        <option value="8" >Comunidade e Cultura</option>
-                                                        <option value="9" >Esportes e Fitness</option>
-                                                        <option value="10" >Família e Educação</option>
-                                                        <option value="11" >Feriados e Festas Tradicionais</option>
-                                                        <option value="12" >Filmes, Mídia e Entretenimento</option>
-                                                        <option value="13" >Governo e Política</option>
-                                                        <option value="14" >Moda e Beleza</option>
-                                                        <option value="15" >Música</option>
-                                                        <option value="16" >Negócios e Profissional</option>
-                                                        <option value="17" >Outro</option>
-                                                        <option value="18" >Passatempos e Interesses Especiais</option>
-                                                        <option value="19" >Religião e Espiritualidade</option>
-                                                        <option value="20" >Saúde e bem-estar</option>
-                                                        <option value="21" >Viagens e Ao ar livre</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="classificacaocad">Classificação Indicativa</label>
-                                                    <select name="classificacaocad" class="form-control form-control-lg" aria-label="Default select example" required>
-                                                        <option selected disabled value="">Selecione a classificação indicativa</option>
-                                                        <option value="0" >Livre</option>
-                                                        <option value="10" >10 anos</option>
-                                                        <option value="12" >12 anos</option>
-                                                        <option value="14" >14 anos</option>
-                                                        <option value="16" >16 anos</option>
-                                                        <option value="18" >18 anos</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="card mb-4 rounded">
-                                    <div class="card-body">
-                                        <h3 class="card-title text-left">Local do evento</h3>
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="endereco">Endereço</label>
-                                                    <input name="endereco" type="text" id="endereco" class="form-control form-control-lg" placeholder="Digite o endereço" value="{{ endereco }}" required/>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="cidade">Cidade</label>
-                                                    <input name="cidade" type="text" id="cidade" class="form-control form-control-lg" placeholder="Cidade será preenchida automaticamente" value="{{ cidade }}" readonly/>
-                                                </div>
-
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="cidade">Bairro</label>
-                                                    <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ cidade }}" readonly/>
-                                                </div>
-
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="numero">Número da Residência</label>
-                                                    <input name="numero" type="number" id="numero" class="form-control form-control-lg" placeholder="Número da residência será preenchido automaticamente" value="{{ numero }}" readonly/>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="estado">Estado</label>
-                                                    <input name="estado" type="text" id="estado" class="form-control form-control-lg" placeholder="Estado será preenchido automaticamente" value="{{ estado }}" readonly/>
-                                                </div>
-
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="rua">Rua</label>
-                                                    <input name="rua" type="text" id="rua" class="form-control form-control-lg" placeholder="Rua será preenchida automaticamente" value="{{ rua }}" readonly/>
-                                                </div>
-
-                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="complemento">Complemento do endereço</label>
-                                                    <input name="complemento" type="text" id="complemento" class="form-control form-control-lg" placeholder="Digite o complemento do endereço" required/>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <input type="hidden" name="latitude" id="latitude">
-                                        <input type="hidden" name="longitude" id="longitude">
-                                        <input type="hidden" id="place_id" name="place_id">
-                                    </div>
-                                </div>
-
-                        <div class="card mb-4 rounded">
-                            <div class="card-body">
-                                <h3 class="card-title text-left">Data e hora do evento</h3>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="dataCad">Data inicial do evento</label>
-                                            <input name="dataCad" type="date" id="dataCad"
-                                                   class="form-control form-control-lg" placeholder="Digite a data do evento"
-                                                   required/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="horCad">Hora inicial do evento</label>
-                                            <input name="horCad" type="time" id="horCad"
-                                                   class="form-control form-control-lg" placeholder="Digite a hora do evento"
-                                                   required/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="dataCadFin">Data final do evento</label>
-                                            <input name="dataCadFin" type="date" id="dataCadFin"
-                                                   class="form-control form-control-lg" placeholder="Digite a data do evento"
-                                                   required/>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="horCadFin">Hora final do evento</label>
-                                            <input name="horCadFin" type="time" id="horCadFin"
-                                                   class="form-control form-control-lg" placeholder="Digite a hora do evento"
-                                                   required/>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                     <div class="card mb-4 rounded">
-                       <div class="card-body">
-                           <div id="produtor-container">
-                               <h3 class="card-title text-left">Sobre o produtor</h3>
-                                    <!-- Nome do Produtor -->
-                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                        <label class="form-label" for="nome_produtor">Nome do Produtor</label>
-                                        <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor"/>
-                                </div>
-
-                                    <!-- Descrição do Produtor (opcional) -->
-                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                        <label class="form-label" for="descricao_produtor">Descrição do Produtor (Opcional)</label>
-                                        <textarea name="descricao_produtor" class="form-control form-control-lg" placeholder="Descrição do produtor"></textarea>
-                                    </div>
-                           </div>
-                       </div>
-                     </div>
-                     <div class="card mb-4 rounded">
-                       <div class="card-body">
-                                <div id="campos-adicionais-container">
-                                    <h3 class="card-title text-left">Campos adicionais</h3>
-                                    <form id="form-campos" action="/adicionar_campos" method="post">
-                                        <!-- Campos dinâmicos -->
-                                        <div class="campos-dinamicos">
-                                            <!-- Adiciona o campo inicial -->
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="nome_campo">Nome do Campo</label>
-                                                <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo"/>
-                                            </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-6 text-center">
-                                      <button type="button" class="btn btn-primary" onclick="adicionarCampo()">Adicionar Campo</button>
-                                    </div>
-                                </div>
-                                        </div>
-                                </form>
-                            </div>
-                            </div>
-                            </div>
-                            <div class="card rounded">
-                                <div class="card-body">
-                                    <h3 class="card-title text-left">Ingresso do evento</h3>
-                                    <div class="row ingresso">
-                                        <div class="col-md-6">
-                                            <div class="ingresso">
-                                            <!-- Primeiro ingresso -->
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
-                                                <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" style="width: 100%;" required/>
-                                            </div>
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="data_inicio_vendas"> Data início das vendas</label>
-                                                <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required/>
-                                            </div>
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
-                                                <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required/>
-                                            </div>
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="preco_ingresso">Preço</label>
-                                                <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required/>
-                                            </div>
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
-                                            <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
-                                                <option selected disabled value="">Selecione a disponibilidade</option>
-                                                <option value="Publico">Público</option>
-                                                <option value="Privado">Privado</option>
-                                            </select>
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                         <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                             <label class="form-label" for="quantidade_ingresso">Quantidade</label>
-                                             <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required/>
-                                         </div>
-                                         <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                              <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
-                                              <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required/>
-                                         </div>
-                                         <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                              <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
-                                              <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required/>
-                                        </div>
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
-                                            <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required/>
-                                        </div>
-
-
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
-                                            <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
-                                        </div>
-                                        <!-- Fim do primeiro ingresso -->
-                                    </div>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-md-6 text-center">
-                                        <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                         </div>
-
-                            <div class="btn-container btn-criar-evento mb-4 mr-4 ml-4">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
-                                    Criar novo evento
-                                </button>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+ <div class="container py-5 h-100">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+     <div class="container">
+    <div class="row">
+        <!-- Abas à esquerda -->
+        <div class="col-md-3">
+            <div class="nav-container" style="background-color: white;">
+                <form action="/alteraaba" method="post" enctype="multipart/form-data">
+                    <ul class="nav flex-column nav-pills">
+                        <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{evento[0]}}">
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link active btn btn-clean" name="aba" value="dadosEvento">Dados do Evento</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="usuariosOrganizadores">Usuários Organizadores</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="chatOrganizadores">Chat dos Organizadores</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="listaParticipantes">Lista de Participantes</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="nav-link btn btn-clean" name="aba" value="avaliacoes">Avaliações</button>
+                        </li>
+                    </ul>
+                </form>
             </div>
         </div>
-       </div>
-    </form>
+
+        <!-- Conteúdo das abas à direita -->
+        <div class="col-md-9">
+            <section class="vh-100">
+                <form action="{{ url_for('SalvarAlteracoes') }}" method="post" enctype="multipart/form-data">
+                    <div class="container py-5 h-100">
+                        <div class="row justify-content-center align-items-center h-100">
+                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                                    <div class="card-body p-4 text-center">
+                                        <h1 class="card-title text-left">Editar evento</h1>
+                                        <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
+                                            <div class="card mb-4 rounded">
+                                                <div class="card-body">
+                                                    <h3 class="card-title text-left">Dados gerais</h3>
+                                                    {% set mensagens = get_flashed_messages() %}
+                                                    {% if mensagens %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{mensagens[0]}}</strong>
+                                                    </div>
+                                                    {% endif %}
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="nomeEventocad">Nome do evento</label>
+                                                                <input name="nomeEventocad" type="text" id="nome" class="form-control form-control-lg" value="{{eventos[2]}}"
+                                                                    placeholder="Digite o nome do evento" required/>
+                                                            </div>
+
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="descricaocad">Descrição do evento</label>
+                                                                <textarea rows="5" name="descricaocad" type="text" id="descricaocad"
+                                                                    class="form-control form-control-lg"
+                                                                    placeholder="Digite a descrição do evento" required>{{ eventos[1] }}</textarea>
+                                                            </div>
+
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="totalParticipantescad">Total de Participantes</label>
+                                                                <input name="totalParticipantescad" value="{{eventos[9]}}" type="number" id="totalParticipantescad" class="form-control form-control-lg"
+                                                                    placeholder="Digite o total de participantes" required min="0" step="1" oninput="validarValor(this)" />
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" >Imagem de divulgação (opcional)</label>
+                                                                <label class="form-label" >Obs: A dimensão recomendada é de 1600 x 838</label>
+                                                                <input type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
+                                                                <input type="hidden" name="existing_photo" value="{{eventos[21]}}">
+                                                            </div>
+
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="email">Categoria</label>
+                                                                <select name="categoriacad" class="form-control form-control-lg" aria-label="Default select example" required>
+                                                                    <option selected disabled value="" {% if not eventos[4] %} selected {% endif %}>Selecione a categoria</option>
+                                                                    <option value="1" {% if eventos[4] == 1 %} selected {% endif %}>Artes Dramáticas e Visuais</option>
+                                                                    <option value="2" {% if eventos[4] == 2 %} selected {% endif %}>Atividades Escolares</option>
+                                                                    <option value="3" {% if eventos[4] == 3 %} selected {% endif %}>Auto, Náutica e Aéreo</option>
+                                                                    <option value="4" {% if eventos[4] == 4 %} selected {% endif %}>Caridade e causas</option>
+                                                                    <option value="5" {% if eventos[4] == 5 %} selected {% endif %}>Casa e Estilo de Vida</option>
+                                                                    <option value="6" {% if eventos[4] == 6 %} selected {% endif %}>Ciência e Tecnologia</option>
+                                                                    <option value="7" {% if eventos[4] == 7 %} selected {% endif %}>Comida e bebida</option>
+                                                                    <option value="8" {% if eventos[4] == 8 %} selected {% endif %}>Comunidade e Cultura</option>
+                                                                    <option value="9" {% if eventos[4] == 9 %} selected {% endif %}>Esportes e Fitness</option>
+                                                                    <option value="10" {% if eventos[4] == 10 %} selected {% endif %}>Família e Educação</option>
+                                                                    <option value="11" {% if eventos[4] == 11 %} selected {% endif %}>Feriados e Festas Tradicionais</option>
+                                                                    <option value="12" {% if eventos[4] == 12 %} selected {% endif %}>Filmes, Mídia e Entretenimento</option>
+                                                                    <option value="13" {% if eventos[4] == 13 %} selected {% endif %}>Governo e Política</option>
+                                                                    <option value="14" {% if eventos[4] == 14 %} selected {% endif %}>Moda e Beleza</option>
+                                                                    <option value="15" {% if eventos[4] == 15 %} selected {% endif %}>Música</option>
+                                                                    <option value="16" {% if eventos[4] == 16 %} selected {% endif %}>Negócios e Profissional</option>
+                                                                    <option value="17" {% if eventos[4] == 17 %} selected {% endif %}>Outro</option>
+                                                                    <option value="18" {% if eventos[4] == 18 %} selected {% endif %}>Passatempos e Interesses Especiais</option>
+                                                                    <option value="19" {% if eventos[4] == 19 %} selected {% endif %}>Religião e Espiritualidade</option>
+                                                                    <option value="20" {% if eventos[4] == 20 %} selected {% endif %}>Saúde e bem-estar</option>
+                                                                    <option value="21" {% if eventos[4] == 21 %} selected {% endif %}>Viagens e Ao ar livre</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="classificacaocad">Classificação Indicativa</label>
+                                                                <select name="classificacaocad" class="form-control form-control-lg" aria-label="Default select example" required>
+                                                                <option selected disabled value="" {% if not eventos[10] %} selected {% endif %}>Selecione a classificação indicativa</option>
+                                                                <option value="0" {% if eventos[10] == 0 %} selected {% endif %}>Livre</option>
+                                                                <option value="10" {% if eventos[10] == 10 %} selected {% endif %}>10 anos</option>
+                                                                <option value="12" {% if eventos[10] == 12 %} selected {% endif %}>12 anos</option>
+                                                                <option value="14" {% if eventos[10] == 14 %} selected {% endif %}>14 anos</option>
+                                                                <option value="16" {% if eventos[10] == 16 %} selected {% endif %}>16 anos</option>
+                                                                <option value="18" {% if eventos[10] == 18 %} selected {% endif %}>18 anos</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <script>
+                                                        // Função para validar e ajustar o valor digitado
+                                                        function validarValor(input) {
+                                                            // Remove qualquer caractere que não seja número ou ponto
+                                                            input.value = input.value.replace(/[^0-9]/g, '');
+
+                                                            // Verifica se o valor é negativo e o ajusta para zero, se necessário
+                                                            if (input.value < 0) {
+                                                                input.value = 0;
+                                                            }
+                                                        }
+                                                    </script>
+                                                </div>
+                                            </div>
+
+                                            <div class="card mb-4 rounded">
+                                                <div class="card-body">
+                                                    <h3 class="card-title text-left">Local do evento</h3>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="endereco">Endereço</label>
+                                                                <input name="endereco" type="text" id="endereco" class="form-control form-control-lg" placeholder="Digite o endereço" value="{{ eventos[8] }}" required/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="cidade">Cidade</label>
+                                                                <input name="cidade" type="text" id="cidade" class="form-control form-control-lg" placeholder="Cidade será preenchida automaticamente" value="{{ eventos[11] }}" readonly/>
+                                                            </div>
+
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="cidade">Bairro</label>
+                                                                <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ eventos[18] }}" readonly/>
+                                                            </div>
+
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="numero">Número da Residência</label>
+                                                                <input name="numero" type="number" id="numero" class="form-control form-control-lg" placeholder="Número da residência será preenchido automaticamente" value="{{ eventos[12] }}" readonly/>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="estado">Estado</label>
+                                                                <input name="estado" type="text" id="estado" class="form-control form-control-lg" placeholder="Estado será preenchido automaticamente" value="{{ eventos[17] }}" readonly/>
+                                                            </div>
+
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="rua">Rua</label>
+                                                                <input name="rua" type="text" id="rua" class="form-control form-control-lg" placeholder="Rua será preenchida automaticamente" value="{{ eventos[3] }}" readonly/>
+                                                            </div>
+
+                                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                                <label class="form-label" for="complemento">Complemento do endereço</label>
+                                                                <input name="complemento" type="text" id="complemento" class="form-control form-control-lg" value="{{ eventos[19] }}" placeholder="Digite o complemento do endereço" required/>
+                                                            </div>
+
+                                                        </div>
+                                                        <input type="hidden" name="latitude" id="latitude" value="{{ eventos[22] }}">
+
+                                                        <input type="hidden" name="longitude" id="longitude" value="{{ eventos[23] }}">
+
+                                                        <input type="hidden" id="place_id" name="place_id">
+
+                                                        <div id="map" style="height: 400px; width: 100%;"></div>
+
+                                                        <script>
+                                                            function initMap() {
+                                                                var inputLatitude = document.getElementById('latitude');
+                                                                var inputLongitude = document.getElementById('longitude');
+                                                                var myLatLng = { lat: parseFloat(inputLatitude.value), lng: parseFloat(inputLongitude.value) };
+
+                                                                var map = new google.maps.Map(document.getElementById('map'), {
+                                                                    zoom: 15,
+                                                                    center: myLatLng
+                                                                });
+
+                                                                var marker = new google.maps.Marker({
+                                                                    position: myLatLng,
+                                                                    map: map,
+                                                                    title: 'Local do evento'
+                                                                });
+                                                            }
+                                                        </script>
+
+                                                        <script>
+                                                            function initializeAutocomplete() {
+                                                                var inputLatitude = document.getElementById('latitude');
+                                                                var inputLongitude = document.getElementById('longitude');
+                                                                var myLatLng = { lat: parseFloat(inputLatitude.value), lng: parseFloat(inputLongitude.value) };
+
+                                                                var map = new google.maps.Map(document.getElementById('map'), {
+                                                                    zoom: 15,
+                                                                    center: myLatLng
+                                                                });
+
+                                                                var marker = new google.maps.Marker({
+                                                                    position: myLatLng,
+                                                                    map: map,
+                                                                    title: 'Local do evento'
+                                                                });
+
+                                                                // Adicionar um evento de clique no marcador para exibir informações de endereço
+                                                                marker.addListener('click', function() {
+                                                                    var infowindow = new google.maps.InfoWindow({
+                                                                        content: 'Endereço: ' + document.getElementById('endereco').value
+                                                                    });
+                                                                    infowindow.open(map, marker);
+                                                                });
+
+                                                                // Atualizar campos de endereço com dados do lugar selecionado
+                                                                var inputEndereco = document.getElementById('endereco');
+                                                                var inputNumeroResidencia = document.getElementById('numero');
+                                                                var inputRua = document.getElementById('rua');
+                                                                var inputBairro = document.getElementById('bairro');
+                                                                var inputCidade = document.getElementById('cidade');
+                                                                var inputEstado = document.getElementById('estado');
+
+                                                                var autocomplete = new google.maps.places.Autocomplete(inputEndereco, { types: ['geocode'] });
+
+                                                                autocomplete.addListener('place_changed', function() {
+                                                                    var place = autocomplete.getPlace();
+
+                                                                    if (!place.geometry) {
+                                                                        console.error("Localização não encontrada para o endereço informado.");
+                                                                        return;
+                                                                    }
+
+                                                                    // Preencher o campo de rua
+                                                                    inputRua.value = getAddressComponent(place, 'route') || '';
+
+                                                                    // Preencher o campo de número da residência
+                                                                    inputNumeroResidencia.value = getAddressComponent(place, 'street_number') || '';
+
+                                                                    // Preencher o campo de bairro
+                                                                    inputBairro.value = getAddressComponent(place, 'sublocality') || '';
+
+                                                                    // Preencher o campo de cidade
+                                                                    inputCidade.value = getAddressComponent(place, 'locality') || getAddressComponent(place, 'administrative_area_level_2') || '';
+
+                                                                    // Preencher o campo de estado
+                                                                    inputEstado.value = getAddressComponent(place, 'administrative_area_level_1') || '';
+
+                                                                    // Atualizar campos de latitude e longitude
+                                                                    inputLatitude.value = place.geometry.location.lat();
+                                                                    inputLongitude.value = place.geometry.location.lng();
+
+                                                                    // Atualizar o mapa com a nova localização
+                                                                    map.setCenter(place.geometry.location);
+                                                                    marker.setPosition(place.geometry.location);
+                                                                });
+                                                            }
+                                                            function getAddressComponent(place, component) {
+                                                                for (var i = 0; i < place.address_components.length; i++) {
+                                                                    var addressComponent = place.address_components[i];
+                                                                    for (var j = 0; j < addressComponent.types.length; j++) {
+                                                                        if (addressComponent.types[j] === component) {
+                                                                            return addressComponent.long_name;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                return '';
+                                                            }
+                                                            // Chame a função initializeAutocomplete para configurar o Autocomplete
+                                                            initializeAutocomplete();
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                    <div class="card mb-4 rounded">
+                                        <div class="card-body">
+                                            <h3 class="card-title text-left">Data e hora do evento</h3>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                        <label class="form-label" for="dataCad">Data inicial do evento</label>
+                                                        <input name="dataCad" type="date" id="dataCad"
+                                                               class="form-control form-control-lg" placeholder="Digite a data do evento"
+                                                               required value="{{ eventos[5] }}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                        <label class="form-label" for="horCad">Hora inicial do evento</label>
+                                                        <input name="horCad" type="time" id="horCad"
+                                                               class="form-control form-control-lg" placeholder="Digite a hora do evento"
+                                                               required value="{{ eventos[6] }}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                        <label class="form-label" for="dataCadFin">Data final do evento</label>
+                                                        <input name="dataCadFin" type="date" id="dataCadFin"
+                                                               class="form-control form-control-lg" placeholder="Digite a data do evento"
+                                                               required value="{{ eventos[13] }}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                        <label class="form-label" for="horCadFin">Hora final do evento</label>
+                                                        <input name="horCadFin" type="time" id="horCadFin"
+                                                               class="form-control form-control-lg" placeholder="Digite a hora do evento"
+                                                               required value="{{ eventos[14] }}"/>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                 <div class="card mb-4 rounded">
+                                   <div class="card-body">
+                                       <div id="produtor-container">
+                                           <h3 class="card-title text-left">Sobre o produtor</h3>
+                                                <!-- Nome do Produtor -->
+                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                    <label class="form-label" for="nome_produtor">Nome do Produtor</label>
+                                                    <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor" value="{{ eventos[15] }}"/>
+                                            </div>
+
+                                                <!-- Descrição do Produtor (opcional) -->
+                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                    <label class="form-label" for="descricao_produtor">Descrição do Produtor (Opcional)</label>
+                                                    <textarea name="descricao_produtor" class="form-control form-control-lg" placeholder="Descrição do produtor">{{ eventos[16] }}</textarea>
+                                                </div>
+                                       </div>
+                                   </div>
+                                 </div>
+                                 <div class="card mb-4 rounded">
+                                   <div class="card-body">
+                                            <div id="campos-adicionais-container">
+                                                <h3 class="card-title text-left">Campos adicionais</h3>
+                                                <form id="form-campos" action="/adicionar_campos" method="post">
+                                                    <!-- Campos dinâmicos -->
+                                                    <div class="campos-dinamicos">
+                                                        <!-- Adiciona o campo inicial -->
+                                                        {% for campo_adicional in campo_adicional %}
+                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                            <label class="form-label" for="nome_campo">Nome do Campo</label>
+                                                            <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="{{ campo_adicional.id_campo }}"/>
+                                                            <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}"/>
+                                                        </div>
+                                                        {% endfor %}
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-6 text-center">
+                                                  <button type="button" class="btn btn-primary" onclick="adicionarCampo()">Adicionar Campo</button>
+                                                </div>
+                                            </div>
+                                                    </div>
+                                            </form>
+                                        </div>
+                                        </div>
+                                        <script>
+                                            function adicionarCampo() {
+                                                var camposDinamicos = document.querySelector('.campos-dinamicos');
+
+                                                var novoCampo = document.createElement('div');
+                                                novoCampo.className = 'form-outline mb-4';
+                                                novoCampo.innerHTML = `
+                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                        <label class="form-label" for="nome_campo">Nome do Campo</label>
+                                                        <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
+                                                   </div>
+                                                   <div class="form-outline mb-4">
+                                                        <button type="button" class="btn btn-danger remover-campo" onclick="removerCampo(this)"><i class="fas fa-trash-alt"></i></button>
+                                                   </div>`;
+
+                                                camposDinamicos.appendChild(novoCampo);
+                                            }
+
+                                            function removerCampo(botao) {
+                                                var campo = botao.parentNode.parentNode; // Ajuste para acessar o div pai do botao pai
+                                                var camposDinamicos = document.querySelector('.campos-dinamicos');
+
+                                                // Certifica-se de que há mais de um campo antes de remover
+                                                if (camposDinamicos.children.length > 1) {
+                                                    camposDinamicos.removeChild(campo);
+                                                }
+                                            }
+                                        </script>
+                                        </div>
+                                        <div class="card rounded">
+                                            <div class="card-body">
+                                                {% for ingresso in ingresso %}
+                                                <h3 class="card-title text-left">Ingresso do evento</h3>
+                                                <div class="row ingresso">
+                                                    <div class="col-md-6">
+                                                        <div class="ingresso">
+                                                        <!-- Primeiro ingresso -->
+                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                            <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
+                                                            <input name="id_ingresso[]" type="hidden" class="form-control form-control-lg" placeholder="idingresso" required value="{{ ingresso.id_ingresso }}"/>
+                                                            <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" style="width: 100%;" required value="{{ ingresso.titulo_ingresso }}"/>
+                                                        </div>
+                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                            <label class="form-label" for="data_inicio_vendas"> Data início das vendas</label>
+                                                            <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required value="{{ ingresso.data_ini_venda }}"/>
+                                                        </div>
+                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                            <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
+                                                            <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required value="{{ ingresso.data_fim_venda }}"/>
+                                                        </div>
+                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                            <label class="form-label" for="preco_ingresso">Preço</label>
+                                                            <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required value="{{ ingresso.preco }}"/>
+                                                        </div>
+                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                        <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
+                                                        <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
+                                                            <option selected disabled value="">Selecione a disponibilidade</option>
+                                                            <option value="Publico" {% if ingresso.disponibilidade == 'Publico' %} selected {% endif %}>Público</option>
+                                                            <option value="Privado" {% if ingresso.disponibilidade == 'Privado' %} selected {% endif %}>Privado</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                         <label class="form-label" for="quantidade_ingresso">Quantidade</label>
+                                                         <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required value="{{ ingresso.quantidade }}"/>
+                                                     </div>
+                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                          <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
+                                                          <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required value="{{ ingresso.hora_ini_venda }}"/>
+                                                     </div>
+                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                          <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
+                                                          <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required value="{{ ingresso.hora_fim_venda }}"/>
+                                                    </div>
+                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                        <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
+                                                        <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required value="{{ ingresso.quantidade_maxima }}"/>
+                                                    </div>
+
+
+                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                        <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
+                                                        <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.">{{ ingresso.observacao_ingresso }}</textarea>
+                                                    </div>
+                                                    <!-- Fim do primeiro ingresso -->
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-6 text-center">
+                                                    <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                     </div>
+                                    <script>
+                                        // Função para validar e ajustar a quantidade digitada
+                                        function validarQuantidade(input) {
+                                            // Remove qualquer caractere que não seja número
+                                            input.value = input.value.replace(/\D/g, '');
+
+                                            // Verifica se o valor é negativo e o ajusta para zero, se necessário
+                                            if (input.value < 0) {
+                                                input.value = 0;
+                                            }
+                                        }
+
+
+                                        // Função para validar e ajustar a quantidade digitada
+                                        function validarQuantidade(input) {
+                                            // Remove qualquer caractere que não seja número
+                                            input.value = input.value.replace(/\D/g, '');
+
+                                            // Verifica se o valor é negativo e o ajusta para zero, se necessário
+                                            if (input.value < 0) {
+                                                input.value = 0;
+                                            }
+                                        }
+
+                                        function adicionarIngresso() {
+                                            var cardBody = document.querySelector('.card-body');
+                                            var modeloIngresso = cardBody.querySelector('.ingresso');
+
+                                            // Cria o novo ingresso a partir do modelo
+                                            var novoIngresso = modeloIngresso.cloneNode(true);
+
+                                            // Adiciona a classe md-6 ao novo ingresso
+                                            novoIngresso.classList.add('md-6');
+
+                                            // Limpa os valores dos campos do novo ingresso
+                                            novoIngresso.querySelectorAll('input, select, textarea').forEach(function(input) {
+                                                input.value = '';
+                                            });
+
+                                            // Cria uma div para conter o novo ingresso e o botão de remover
+                                            var divNovoIngresso = document.createElement('div');
+                                            divNovoIngresso.className = 'card-body';
+
+                                            // Estilo CSS para a borda do novo ingresso
+                                            divNovoIngresso.style.border = '1px solid #ced4da';
+                                            divNovoIngresso.style.borderRadius = '0.25rem';
+                                            divNovoIngresso.style.marginBottom = '15px'; // Espaçamento inferior entre ingressos
+
+                                            // Cria o botão de remover para o novo ingresso
+                                            var botaoRemover = document.createElement('button');
+                                            botaoRemover.type = 'button';
+                                            botaoRemover.className = 'btn btn-danger';
+                                            botaoRemover.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                                            botaoRemover.onclick = function() {
+                                                removerIngresso(this);
+                                            };
+
+                                            // Cria uma div para conter o botão de remover
+                                            var divBotaoRemover = document.createElement('div');
+                                            divBotaoRemover.className = 'form-outline mb-4';
+                                            divBotaoRemover.style.display = 'flex'; // Flex display
+                                            divBotaoRemover.style.justifyContent = 'center'; // Centraliza horizontalmente
+                                            divBotaoRemover.style.alignItems = 'center'; // Centraliza verticalmente
+                                            divBotaoRemover.style.height = '100%'; // Define a altura
+                                            divBotaoRemover.appendChild(botaoRemover);
+
+                                            // Adiciona o novo ingresso e o botão de remover à div
+                                            divNovoIngresso.appendChild(novoIngresso);
+                                            divNovoIngresso.appendChild(divBotaoRemover);
+
+                                            // Adiciona a div com o novo ingresso e o botão de remover ao cardBody
+                                            cardBody.appendChild(divNovoIngresso);
+                                        }
+
+                                        function removerIngresso(botao) {
+                                            var ingresso = botao.parentNode.parentNode; // Pegar o elemento pai do pai do botão (que é o div do ingresso)
+                                            ingresso.parentNode.removeChild(ingresso); // Remover o ingresso
+                                        }
+
+                                        // Função para formatar o campo de preço como moeda
+                                        String.prototype.reverse = function(){
+                                            return this.split('').reverse().join('');
+                                        };
+
+                                        function mascaraMoeda(campo,evento){
+                                            var tecla = (!evento) ? window.event.keyCode : evento.which;
+                                            var valor  =  campo.value.replace(/[^\d]+/gi,'').reverse();
+                                            var resultado  = "";
+                                            var mascara = "########.##".reverse();
+                                            for (var x=0, y=0; x<mascara.length && y<valor.length;) {
+                                                if (mascara.charAt(x) != '#') {
+                                                    resultado += mascara.charAt(x);
+                                                    x++;
+                                                } else {
+                                                    resultado += valor.charAt(y);
+                                                    y++;
+                                                    x++;
+                                                }
+                                            }
+                                            campo.value = resultado.reverse();
+                                        }
+                                    </script>
+
+                                        <div class="btn-container btn-criar-evento mb-4 mr-4 ml-4">
+                                            <button class="btn btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
+                                                Salvar alterações
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                </form>
+            </section>
+        </div>
+    </div>
+   </div>
+ </div>
 </section>
+<!-- JavaScript necessário para o Bootstrap -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
