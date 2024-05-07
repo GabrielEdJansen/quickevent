@@ -480,9 +480,9 @@
                                             <div class="card-body">
                                                 <h3 class="card-title text-left">Ingresso do evento</h3>
                                                  {% for ingresso in ingresso %}
-                                                <div class="row ingresso">
+                                                <div class="row ingresso" id="ingresso{{ loop.index }}">
                                                     <div class="col-md-6">
-                                                        <div class="ingresso" id="ingresso{{ loop.index }}">
+                                                        <div class="ingresso">
                                                             <!-- Primeiro ingresso -->
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                                                 <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
