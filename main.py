@@ -2894,6 +2894,10 @@ def buscar():
     data_final = request.args.get("dataFinal")
     categoria = request.args.get("categoria")
     acao = request.args.get('acao')
+    nome_evento = request.args.get("nomeEvento")
+
+    if nome_evento is None:
+        nome_evento = ''
 
 
     connect_BD = configbanco(db_type='mysql-connector')
@@ -2929,6 +2933,10 @@ def buscar():
         if filtro:
             query += f' AND (e.nome_evento LIKE "%{filtro}%" OR e.local_evento LIKE "%{filtro}%")'
 
+        if nome_evento:
+            query += f' AND e.nome_evento LIKE %s'
+            query_params.append(f'%{nome_evento}%')
+
         if data_inicial:
             query += f' AND e.data_evento >= "{data_inicial}"'
 
@@ -2953,7 +2961,8 @@ def buscar():
         filtro_aplicado = {
             "dataInicial": data_inicial,
             "dataFinal": data_final,
-            "categoria": categoria
+            "categoria": categoria,
+            "nomeEvento": nome_evento
         }
 
         # Executa a consulta
