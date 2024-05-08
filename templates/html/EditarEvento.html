@@ -585,12 +585,13 @@
                                             // Cria o novo ingresso a partir do modelo
                                             var novoIngresso = modeloIngresso.cloneNode(true);
 
-                                            var novoID;
-                                            do {
-                                                contadorIngressos++;
-                                                novoID = 'ingresso' + contadorIngressos;
-                                            } while (document.getElementById(novoID) !== null); // Verifica se o ID já está em uso
+                                            // Incrementa o contador de ingressos para gerar um ID único
+                                            contadorIngressos++;
 
+                                            // Cria o ID único para o novo ingresso
+                                            var novoID = 'ingresso' + contadorIngressos;
+
+                                            // Define o ID único para o novo ingresso
                                             novoIngresso.id = novoID;
 
                                             // Adiciona a classe md-6 ao novo ingresso
@@ -603,7 +604,7 @@
 
                                             // Cria uma div para conter o novo ingresso e o botão de remover
                                             var divNovoIngresso = document.createElement('div');
-                                            divNovoIngresso.className = 'card-body';
+                                            divNovoIngresso.className = 'row ingresso'; // Adicionei a classe 'row ingresso' aqui para garantir que o novo ingresso tenha a mesma classe
 
                                             // Estilo CSS para a borda do novo ingresso
                                             divNovoIngresso.style.border = '1px solid #ced4da';
@@ -615,25 +616,20 @@
                                             botaoRemover.type = 'button';
                                             botaoRemover.className = 'btn btn-danger';
                                             botaoRemover.innerHTML = '<i class="fas fa-trash-alt"></i>';
-                                            botaoRemover.onclick = function() {
+
+                                            // Configura o evento de clique do botão de remover
+                                            botaoRemover.addEventListener('click', function() {
                                                 removerIngresso(novoID); // Passa o ID único como parâmetro
-                                            };
+                                            });
 
-                                            // Cria uma div para conter o botão de remover
-                                            //var divBotaoRemover = document.createElement('div');
-                                            //divBotaoRemover.className = 'form-outline mb-4';
-                                            //divBotaoRemover.style.display = 'flex'; // Flex display
-                                            //divBotaoRemover.style.justifyContent = 'center'; // Centraliza horizontalmente
-                                            //divBotaoRemover.style.alignItems = 'center'; // Centraliza verticalmente
-                                            //divBotaoRemover.style.height = '100%'; // Define a altura
-                                            //divBotaoRemover.appendChild(botaoRemover);
+                                            // Adiciona o botão de remover ao novo ingresso
+                                            divNovoIngresso.appendChild(botaoRemover);
 
-                                             //Adiciona o novo ingresso e o botão de remover à div
-                                             divNovoIngresso.appendChild(novoIngresso);
-                                             //divNovoIngresso.appendChild(divBotaoRemover);
+                                            // Adiciona o novo ingresso à div
+                                            divNovoIngresso.appendChild(novoIngresso);
 
-                                             //Adiciona a div com o novo ingresso e o botão de remover ao cardBody
-                                             cardBody.appendChild(divNovoIngresso);
+                                            // Adiciona a div com o novo ingresso e o botão de remover ao cardBody
+                                            cardBody.appendChild(divNovoIngresso);
                                         }
 
                                         function removerIngresso(idIngresso) {
