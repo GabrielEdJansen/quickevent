@@ -480,7 +480,7 @@
                                             <div class="card-body">
                                                 <h3 class="card-title text-left">Ingresso do evento</h3>
                                                  {% for ingresso in ingresso %}
-                                                <div class="row ingresso" id="ingresso{{ loop.index }}">
+                                                <div class="row ingresso" id="ingresso{{ ingresso.id }}">
                                                     <div class="col-md-6">
                                                         <div class="ingresso">
                                                             <!-- Primeiro ingresso -->
@@ -538,22 +538,22 @@
                                                     <!-- Fim do primeiro ingresso -->
                                                 </div>
                                                     <div class="form-outline mb-4" style="flex-grow: 1;">
-                                                        <button type="button" class="btn btn-danger" onclick="removerIngresso('{{ novoID }}')">
+                                                        <button type="button" class="btn btn-danger" onclick="removerIngresso('ingresso{{ loop.index }}')">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </div>
                                             </div>
                                                 {% endfor %}
                                         </div>
-                                      </div>
-                                     </div>
-                                    <div class="row justify-content-center">
+                                            <div class="row justify-content-center">
                                                 <div class="col-md-6 text-center">
                                                     <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
                                                 </div>
-                                    </div>
+                                            </div>
+                                      </div>
+                                     </div>
                                     <script>
-                                        var contadorIngressos = 1;
+                                         var contadorIngressos = {{ ingresso|length }};
 
                                         // Função para validar e ajustar a quantidade digitada
                                         function validarQuantidade(input) {
@@ -578,6 +578,7 @@
                                             }
                                         }
 
+                                        // Função para adicionar novo ingresso
                                         function adicionarIngresso() {
                                             var cardBody = document.querySelector('.card-body');
                                             var modeloIngresso = cardBody.querySelector('.ingresso');
@@ -602,15 +603,6 @@
                                                 input.value = '';
                                             });
 
-                                            // Cria uma div para conter o novo ingresso e o botão de remover
-                                            var divNovoIngresso = document.createElement('div');
-                                            divNovoIngresso.className = 'row ingresso'; // Adicionei a classe 'row ingresso' aqui para garantir que o novo ingresso tenha a mesma classe
-
-                                            // Estilo CSS para a borda do novo ingresso
-                                            divNovoIngresso.style.border = '1px solid #ced4da';
-                                            divNovoIngresso.style.borderRadius = '0.25rem';
-                                            divNovoIngresso.style.marginBottom = '15px'; // Espaçamento inferior entre ingressos
-
                                             // Cria o botão de remover para o novo ingresso
                                             var botaoRemover = document.createElement('button');
                                             botaoRemover.type = 'button';
@@ -623,15 +615,13 @@
                                             });
 
                                             // Adiciona o botão de remover ao novo ingresso
-                                            divNovoIngresso.appendChild(botaoRemover);
+                                            novoIngresso.appendChild(botaoRemover);
 
                                             // Adiciona o novo ingresso à div
-                                            divNovoIngresso.appendChild(novoIngresso);
-
-                                            // Adiciona a div com o novo ingresso e o botão de remover ao cardBody
-                                            cardBody.appendChild(divNovoIngresso);
+                                            cardBody.appendChild(novoIngresso);
                                         }
 
+                                        // Função para remover ingresso
                                         function removerIngresso(idIngresso) {
                                             var ingresso = document.getElementById(idIngresso);
                                             if (ingresso) {
