@@ -480,7 +480,7 @@
                                             <div class="card-body">
                                                 <h3 class="card-title text-left">Ingresso do evento</h3>
                                                  {% for ingresso in ingresso %}
-                                                <div class="row ingresso" id="ingresso{{ ingresso.id }}">
+                                                <div class="row ingresso" id="ingresso{{ ingresso.id_ingresso }}">
                                                     <div class="col-md-6">
                                                         <div class="ingresso">
                                                             <!-- Primeiro ingresso -->
@@ -538,7 +538,7 @@
                                                     <!-- Fim do primeiro ingresso -->
                                                 </div>
                                                     <div class="form-outline mb-4" style="flex-grow: 1;">
-                                                        <button type="button" class="btn btn-danger" onclick="removerIngresso('{{ ingresso.id }}')">
+                                                        <button type="button" class="btn btn-danger" onclick="removerIngresso('{{ ingresso.id_ingresso }}')">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </div>
