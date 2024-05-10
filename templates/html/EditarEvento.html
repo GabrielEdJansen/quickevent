@@ -604,6 +604,11 @@
                                                 input.value = '';
                                             });
 
+                                            // Remove os botões de remoção existentes antes de adicionar o novo
+                                            novoIngresso.querySelectorAll('.btn-danger').forEach(function(btn) {
+                                                btn.parentNode.removeChild(btn);
+                                            });
+
                                             // Cria o botão de remover para o novo ingresso
                                             var botaoRemover = document.createElement('button');
                                             botaoRemover.type = 'button';
