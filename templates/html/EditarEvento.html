@@ -579,9 +579,10 @@
                                             }
                                         }
 
-                                        // Função para adicionar novo ingresso
+                                       // Função para adicionar novo ingresso
                                         function adicionarIngresso() {
-                                            var cardBody = document.querySelector('.card-body');
+                                            var card = document.querySelector('.card.rounded');
+                                            var cardBody = card.querySelector('.card-body');
                                             var modeloIngresso = cardBody.querySelector('.ingresso');
 
                                             // Cria o novo ingresso a partir do modelo
