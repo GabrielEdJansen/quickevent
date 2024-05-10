@@ -581,12 +581,24 @@
 
                                        // Função para adicionar novo ingresso
                                         function adicionarIngresso() {
-                                            var card = document.querySelector('.card.rounded');
-                                            var cardBody = card.querySelector('.card-body');
+                                            var cardBody = document.querySelector('.card-body');
+                                            if (!cardBody) {
+                                                console.error("Elemento '.card-body' não encontrado.");
+                                                return;
+                                            }
+
                                             var modeloIngresso = cardBody.querySelector('.ingresso');
+                                            if (!modeloIngresso) {
+                                                console.error("Modelo de ingresso não encontrado.");
+                                                return;
+                                            }
 
                                             // Cria o novo ingresso a partir do modelo
                                             var novoIngresso = modeloIngresso.cloneNode(true);
+                                            if (!novoIngresso) {
+                                                console.error("Erro ao clonar o modelo de ingresso.");
+                                                return;
+                                            }
 
                                             // Incrementa o contador de ingressos para gerar um ID único
                                             contadorIngressos++;
@@ -627,6 +639,7 @@
                                             // Adiciona o novo ingresso à div
                                             cardBody.appendChild(novoIngresso);
                                         }
+
 
                                         // Função para remover ingresso
                                         function removerIngresso(idIngresso) {
