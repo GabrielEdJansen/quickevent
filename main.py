@@ -2890,6 +2890,27 @@ def adicionaringresso():
         return redirect("/login")
     eventoPresenca = request.form.get('eventoPresenca')
 
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
+        )
+        usuario = cursur.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    return render_template("html/AdicionarIngresso.html",foto=foto)
+
+
+
+@app.route("/adicionaringressoadd", methods=['POST'])
+def adicionaringressoadd():
+    if 'idlogado' not in session:
+        return redirect("/login")
+    eventoPresenca = request.form.get('eventoPresenca')
+
     id_ingresso = request.form.getlist('id_ingresso[]')
     titulos = request.form.getlist('titulo_ingresso[]')
     quantidades = request.form.getlist('quantidade_ingresso[]')
