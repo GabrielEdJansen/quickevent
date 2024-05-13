@@ -2938,16 +2938,16 @@ def adicionaringressoadd():
     """
     cursor.execute(sql_insert_ingresso, (
         eventoPresenca,
-        titulos[i],
-        quantidades[i],
-        precos[i],
-        datas_inicio_vendas[i],
-        datas_fim_vendas[i],
-        horas_inicio_vendas[i],
-        horas_fim_vendas[i],
-        disponibilidades[i],
-        quantidades_maximas[i],
-        observacoes[i]
+        titulos,
+        quantidades,
+        precos,
+        datas_inicio_vendas,
+        datas_fim_vendas,
+        horas_inicio_vendas,
+        horas_fim_vendas,
+        disponibilidades,
+        quantidades_maximas,
+        observacoes
     ))
     id_ingresso_inserido = cursor.lastrowid
     ingressos_processados.append(id_ingresso_inserido)
