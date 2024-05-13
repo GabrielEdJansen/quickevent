@@ -479,6 +479,7 @@
                                         <div class="card rounded">
                                             <div class="card-body">
                                                 <h3 class="card-title text-left">Ingresso do evento</h3>
+                                                <form id="formularioIngresso" action="adicionaringresso" method="POST">
                                                  {% for ingresso in ingresso %}
                                                 <div class="row ingresso" id="ingresso{{ ingresso.id_ingresso }}">
                                                     <div class="col-md-6">
@@ -547,9 +548,10 @@
                                         </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6 text-center">
-                                                    <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
+                                                    <button type="submit" class="btn btn-primary">Adicionar ingresso</button>
                                                 </div>
                                             </div>
+                                            </form>
                                       </div>
                                      </div>
                                     <script>
@@ -577,81 +579,6 @@
                                             if (input.value < 0) {
                                                 input.value = 0;
                                             }
-                                        }
-
-                                        // Função para adicionar novo ingresso
-                                        function adicionarIngresso() {
-                                            var cardBody = document.querySelector('.card-body');
-                                            if (!cardBody) {
-                                                console.error("Elemento '.card-body' não encontrado.");
-                                                return;
-                                            }
-
-                                            // Cria o novo ingresso
-                                            var novoIngresso = document.createElement('div');
-                                            novoIngresso.classList.add('row', 'ingresso');
-                                            novoIngresso.id = 'ingresso' + (++contadorIngressos);
-
-                                            // Conteúdo do novo ingresso
-                                            novoIngresso.innerHTML = `
-                                                <div class="col-md-6">
-                                                    <div>
-                                                        <!-- Primeiro ingresso -->
-                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                            <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
-                                                            <input name="id_ingresso[]" type="hidden" class="form-control form-control-lg" placeholder="ID do Ingresso" required value=""/>
-                                                            <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" style="width: 100%;" required value=""/>
-                                                        </div>
-                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                            <label class="form-label" for="data_inicio_vendas"> Data início das vendas</label>
-                                                            <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required value=""/>
-                                                        </div>
-                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                            <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
-                                                            <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required value=""/>
-                                                        </div>
-                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                            <label class="form-label" for="preco_ingresso">Preço</label>
-                                                            <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required value=""/>
-                                                        </div>
-                                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                            <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
-                                                            <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
-                                                                <option selected disabled value="">Selecione a disponibilidade</option>
-                                                                <option value="Publico">Público</option>
-                                                                <option value="Privado">Privado</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="quantidade_ingresso">Quantidade</label>
-                                                        <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required value=""/>
-                                                    </div>
-                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
-                                                        <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required value=""/>
-                                                    </div>
-                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
-                                                        <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required value=""/>
-                                                    </div>
-                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
-                                                        <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required value=""/>
-                                                    </div>
-                                                    <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
-                                                        <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc."></textarea>
-                                                    </div>
-                                                    <!-- Fim do primeiro ingresso -->
-                                                </div>
-                                            `;
-
-                                            // Adiciona o novo ingresso à div "card-body"
-                                            cardBody.appendChild(novoIngresso);
                                         }
 
 

@@ -2884,6 +2884,192 @@ def SalvarAlteracoes():
             conexao.close()
 
 
+@app.route("/adicionaringresso", methods=['POST'])
+def adicionaringresso():
+    if 'idlogado' not in session:
+        return redirect("/login")
+    eventoPresenca = request.form.get('eventoPresenca')
+
+    id_ingresso = request.form.getlist('id_ingresso[]')
+    titulos = request.form.getlist('titulo_ingresso[]')
+    quantidades = request.form.getlist('quantidade_ingresso[]')
+    precos = request.form.getlist('preco_ingresso[]')
+    datas_inicio_vendas = request.form.getlist('data_inicio_vendas[]')
+    datas_fim_vendas = request.form.getlist('data_fim_vendas[]')
+    horas_inicio_vendas = request.form.getlist('hora_inicio_vendas[]')
+    horas_fim_vendas = request.form.getlist('hora_fim_vendas[]')
+    disponibilidades = request.form.getlist('disponibilidade_ingresso[]')
+    quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
+    observacoes = request.form.getlist('observacao_ingresso[]')
+
+    # Converter datas de strings para objetos datetime.date
+    datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in
+                               datas_inicio_vendas]
+    datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
+
+    if id_ingresso:
+        ingressos_processados = []
+
+        for i, id in enumerate(id_ingresso):
+            if id:
+                sql_update_ingresso = """
+                    UPDATE ingressos 
+                    SET 
+                        titulo_ingresso = %s,
+                        quantidade = %s,
+                        preco = %s,
+                        data_ini_venda = %s,
+                        data_fim_venda = %s,
+                        hora_ini_venda = %s,
+                        hora_fim_venda = %s,
+                        disponibilidade = %s,
+                        quantidade_maxima = %s,
+                        observacao_ingresso = %s
+                        WHERE id_ingresso = %s
+                    """
+                cursor.execute(sql_update_ingresso, (
+                    titulos[i],
+                    quantidades[i],
+                    precos[i],
+                    datas_inicio_vendas[i],
+                    datas_fim_vendas[i],
+                    horas_inicio_vendas[i],
+                    horas_fim_vendas[i],
+                    disponibilidades[i],
+                    quantidades_maximas[i],
+                    observacoes[i],
+                    id
+                ))
+                ingressos_processados.append(id)
+            else:
+                # Caso contrário, inserir um novo ingresso
+                sql_insert_ingresso = """
+                    INSERT INTO ingressos 
+                    (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                cursor.execute(sql_insert_ingresso, (
+                    eventoPresenca,
+                    titulos[i],
+                    quantidades[i],
+                    precos[i],
+                    datas_inicio_vendas[i],
+                    datas_fim_vendas[i],
+                    horas_inicio_vendas[i],
+                    horas_fim_vendas[i],
+                    disponibilidades[i],
+                    quantidades_maximas[i],
+                    observacoes[i]
+                ))
+                id_ingresso_inserido = cursor.lastrowid
+                ingressos_processados.append(id_ingresso_inserido)
+
+        # Confirmar as alterações no banco de dados
+        conexao.commit()
+
+        # Deletar os ingressos que não foram processados
+        if ingressos_processados:
+            placeholders = ', '.join(['%s'] * len(ingressos_processados))
+            sql_delete_ingresso = f"""
+                DELETE FROM ingressos
+                WHERE id_eventos = %s AND id_ingresso NOT IN ({placeholders})
+            """
+            cursor.execute(sql_delete_ingresso, [eventoPresenca] + ingressos_processados)
+            conexao.commit()
+
+    print(titulos)
+
+    eventosList = []
+    if eventoPresenca:
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor()
+    cursur.execute(
+        f"SELECT * FROM eventos e, categoria c where e.categoria = c.id_categoria and e.id_eventos = %s;",
+        (eventoPresenca,)
+    )
+    eventos = cursur.fetchall()
+
+    for linha in eventos:
+        horOri = linha[5]
+
+    horAlt = str(horOri)
+    horAlt = horAlt[:2]
+    horAlt = re.sub(r'[^\w\s]', '', horAlt)
+
+    horAlt = int(horAlt)
+    if horAlt < 10:
+        horOri = '0' + str(horOri)
+
+    eventosList.append(linha[0])
+    eventosList.append(linha[1])
+    eventosList.append(linha[2])
+    eventosList.append(linha[10])
+    eventosList.append(linha[3])
+    eventosList.append(linha[4])
+    eventosList.append(horOri)
+    eventosList.append(linha[6])
+    eventosList.append(linha[7])
+    eventosList.append(linha[8])
+    eventosList.append(linha[9])
+    eventosList.append(linha[11])
+    eventosList.append(linha[12])
+    eventosList.append(linha[13])
+    eventosList.append(linha[14])
+    eventosList.append(linha[15])
+    eventosList.append(linha[16])
+    eventosList.append(linha[17])
+    eventosList.append(linha[18])
+    eventosList.append(linha[19])
+    eventosList.append(linha[20])
+    eventosList.append(linha[21])
+    eventosList.append(linha[22])
+    eventosList.append(linha[23])
+    eventosList.append(linha[24])
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    if connect_BD.is_connected():
+        cursur = connect_BD.cursor()
+        cursur.execute(
+            f'SELECT foto FROM usuarios WHERE id_usuario = %s', (session['idlogado'],)
+        )
+        usuario = cursur.fetchone()
+
+        if usuario:
+            foto = usuario[0] if usuario[0] else "Sem foto disponível"
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT i.titulo_ingresso, "
+        f"i.quantidade, "
+        f"i.preco, "
+        f"i.data_ini_venda, "
+        f"i.data_fim_venda, "
+        f"i.hora_ini_venda, "
+        f"i.hora_fim_venda, "
+        f"i.disponibilidade, "
+        f"i.quantidade_maxima, "
+        f"i.observacao_ingresso,"
+        f"i.id_ingresso "
+        f"FROM eventos e, ingressos i "
+        f"WHERE e.id_eventos = i.id_eventos AND e.id_eventos = %s;"
+    )
+
+    cursur.execute(query, (eventoPresenca,))
+    ingresso = cursur.fetchall()
+
+    connect_BD = configbanco(db_type='mysql-connector')
+    cursur = connect_BD.cursor(dictionary=True)
+    query = (
+        f"SELECT c.nome_campo, c.id_campo FROM eventos e, campo_adicional c where e.id_eventos = c.id_eventos and e.id_eventos = %s;")
+
+    cursur.execute(query, (eventoPresenca,))
+    campo_adicional = cursur.fetchall()
+    eventosList2 = []
+    eventosList2 = [eventoPresenca]
+    print(eventosList2)
+    return render_template("html/EditarEvento.html", evento=eventosList2,eventos=eventosList, foto=foto, ingresso=ingresso,campo_adicional=campo_adicional)
+
 @app.route("/buscar", methods=['GET', 'POST'])
 def buscar():
     if 'idlogado' not in session:
