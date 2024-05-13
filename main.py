@@ -2928,6 +2928,8 @@ def adicionaringressoadd():
                                datas_inicio_vendas]
     datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
 
+    conexao = configbanco(db_type='pymysql')
+    cursor = conexao.cursor()
     if id_ingresso:
         ingressos_processados = []
 
