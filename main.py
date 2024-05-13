@@ -2911,17 +2911,17 @@ def adicionaringressoadd():
         return redirect("/login")
     eventoPresenca = request.form.get('eventoPresenca')
 
-    id_ingresso = request.form.getlist('id_ingresso[]')
-    titulos = request.form.getlist('titulo_ingresso[]')
-    quantidades = request.form.getlist('quantidade_ingresso[]')
-    precos = request.form.getlist('preco_ingresso[]')
-    datas_inicio_vendas = request.form.getlist('data_inicio_vendas[]')
-    datas_fim_vendas = request.form.getlist('data_fim_vendas[]')
-    horas_inicio_vendas = request.form.getlist('hora_inicio_vendas[]')
-    horas_fim_vendas = request.form.getlist('hora_fim_vendas[]')
-    disponibilidades = request.form.getlist('disponibilidade_ingresso[]')
-    quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
-    observacoes = request.form.getlist('observacao_ingresso[]')
+    id_ingresso = request.form.getlist('id_ingresso')
+    titulos = request.form.getlist('titulo_ingresso')
+    quantidades = request.form.getlist('quantidade_ingresso')
+    precos = request.form.getlist('preco_ingresso')
+    datas_inicio_vendas = request.form.getlist('data_inicio_vendas')
+    datas_fim_vendas = request.form.getlist('data_fim_vendas')
+    horas_inicio_vendas = request.form.getlist('hora_inicio_vendas')
+    horas_fim_vendas = request.form.getlist('hora_fim_vendas')
+    disponibilidades = request.form.getlist('disponibilidade_ingresso')
+    quantidades_maximas = request.form.getlist('quantidade_maxima_compra')
+    observacoes = request.form.getlist('observacao_ingresso')
 
     # Converter datas de strings para objetos datetime.date
     datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in
