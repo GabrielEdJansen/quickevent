@@ -2933,10 +2933,11 @@ def adicionaringressoadd():
 
     sql_insert_ingresso = """
         INSERT INTO ingressos 
-        (titulo_ingresso, quantidade, preco, data_ini_venda, data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
     cursor.execute(sql_insert_ingresso, (
+        eventoPresenca,
         titulos,
         quantidades,
         precos,
