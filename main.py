@@ -2930,77 +2930,30 @@ def adicionaringressoadd():
 
     conexao = configbanco(db_type='pymysql')
     cursor = conexao.cursor()
-    if id_ingresso:
-        ingressos_processados = []
 
-        for i, id in enumerate(id_ingresso):
-            if id:
-                sql_update_ingresso = """
-                    UPDATE ingressos 
-                    SET 
-                        titulo_ingresso = %s,
-                        quantidade = %s,
-                        preco = %s,
-                        data_ini_venda = %s,
-                        data_fim_venda = %s,
-                        hora_ini_venda = %s,
-                        hora_fim_venda = %s,
-                        disponibilidade = %s,
-                        quantidade_maxima = %s,
-                        observacao_ingresso = %s
-                        WHERE id_ingresso = %s
-                    """
-                cursor.execute(sql_update_ingresso, (
-                    titulos[i],
-                    quantidades[i],
-                    precos[i],
-                    datas_inicio_vendas[i],
-                    datas_fim_vendas[i],
-                    horas_inicio_vendas[i],
-                    horas_fim_vendas[i],
-                    disponibilidades[i],
-                    quantidades_maximas[i],
-                    observacoes[i],
-                    id
-                ))
-                ingressos_processados.append(id)
-            else:
-                # Caso contrário, inserir um novo ingresso
-                sql_insert_ingresso = """
-                    INSERT INTO ingressos 
-                    (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                """
-                cursor.execute(sql_insert_ingresso, (
-                    eventoPresenca,
-                    titulos[i],
-                    quantidades[i],
-                    precos[i],
-                    datas_inicio_vendas[i],
-                    datas_fim_vendas[i],
-                    horas_inicio_vendas[i],
-                    horas_fim_vendas[i],
-                    disponibilidades[i],
-                    quantidades_maximas[i],
-                    observacoes[i]
-                ))
-                id_ingresso_inserido = cursor.lastrowid
-                ingressos_processados.append(id_ingresso_inserido)
+    sql_insert_ingresso = """
+        INSERT INTO ingressos 
+        (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    cursor.execute(sql_insert_ingresso, (
+        eventoPresenca,
+        titulos[i],
+        quantidades[i],
+        precos[i],
+        datas_inicio_vendas[i],
+        datas_fim_vendas[i],
+        horas_inicio_vendas[i],
+        horas_fim_vendas[i],
+        disponibilidades[i],
+        quantidades_maximas[i],
+        observacoes[i]
+    ))
+    id_ingresso_inserido = cursor.lastrowid
+    ingressos_processados.append(id_ingresso_inserido)
 
-        # Confirmar as alterações no banco de dados
-        conexao.commit()
-
-        # Deletar os ingressos que não foram processados
-        if ingressos_processados:
-            placeholders = ', '.join(['%s'] * len(ingressos_processados))
-            sql_delete_ingresso = f"""
-                DELETE FROM ingressos
-                WHERE id_eventos = %s AND id_ingresso NOT IN ({placeholders})
-            """
-            cursor.execute(sql_delete_ingresso, [eventoPresenca] + ingressos_processados)
-            conexao.commit()
-
-    print(titulos)
+    # Confirmar as alterações no banco de dados
+    conexao.commit()
 
     eventosList = []
     if eventoPresenca:
