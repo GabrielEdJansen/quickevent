@@ -2901,7 +2901,18 @@ def adicionaringresso():
         if usuario:
             foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-    return render_template("html/AdicionarIngresso.html",foto=foto)
+    eventosList = []
+    if eventoPresenca:
+        connect_BD = configbanco(db_type='mysql-connector')
+        cursur = connect_BD.cursor()
+    cursur.execute(
+        f"SELECT * FROM eventos e, categoria c where e.categoria = c.id_categoria and e.id_eventos = %s;",
+        (eventoPresenca,)
+    )
+    eventos = cursur.fetchall()
+    eventosList2 = [eventoPresenca]
+
+    return render_template("html/AdicionarIngresso.html",foto=foto,evento=eventosList2)
 
 
 
@@ -2933,12 +2944,11 @@ def adicionaringressoadd():
 
     sql_insert_ingresso = """
         INSERT INTO ingressos 
-        (titulo_ingresso, quantidade, preco, data_ini_venda, data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        (id_eventos, titulo_ingresso, quantidade, preco, data_ini_venda, data_fim_venda, hora_ini_venda, hora_fim_venda, disponibilidade, quantidade_maxima, observacao_ingresso) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """
-
-    # Remova eventoPresenca da tupla de valores
     cursor.execute(sql_insert_ingresso, (
+        eventoPresenca,
         titulos,
         quantidades,
         precos,
