@@ -479,7 +479,6 @@
                                         <div class="card rounded">
                                             <div class="card-body">
                                                 <h3 class="card-title text-left">Ingresso do evento</h3>
-                                                <form id="formularioIngresso" action="adicionaringresso" method="POST">
                                                  {% for ingresso in ingresso %}
                                                 <div class="row ingresso" id="ingresso{{ ingresso.id_ingresso }}">
                                                     <div class="col-md-6">
@@ -547,6 +546,8 @@
                                             </div>
                                                 {% endfor %}
                                         </div>
+                                            <form id="formularioIngresso" action="adicionaringresso" method="POST">
+                                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{evento[0]}}">
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6 text-center">
                                                     <button type="submit" class="btn btn-primary">Adicionar ingresso</button>
