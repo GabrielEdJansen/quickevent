@@ -2961,7 +2961,6 @@ def adicionaringressoadd():
         observacoes
     ))
     id_ingresso_inserido = cursor.lastrowid
-    ingressos_processados.append(id_ingresso_inserido)
 
     # Confirmar as alterações no banco de dados
     conexao.commit()
