@@ -438,7 +438,7 @@
                                                             <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}"/>
                                                         </div>
                                                         <div class="form-outline mb-4 text-center" id="botao{{ campo_adicional.id_campo }}">
-                                                                <button type="button" class="btn btn-danger" onclick="removerCampo('campo{{ campo_adicional.id_campo }}')">
+                                                                <button type="button" class="btn btn-danger" onclick="removerCampo('campo{{ campo_adicional.id_campo }}', 'botao{{ campo_adicional.id_campo }}')">
                                                                     <i class="fas fa-trash-alt"></i>
                                                                 </button>
                                                         </div>
@@ -474,7 +474,7 @@
                                                 camposDinamicos.appendChild(novoCampo);
                                             }
 
-                                            function removerCampo(idCampo) {
+                                            function removerCampo(idCampo, idBotao) {
                                                 var campo = document.getElementById(idCampo);
                                                 var botao = document.getElementById(idBotao);
                                                 if (campo) {
