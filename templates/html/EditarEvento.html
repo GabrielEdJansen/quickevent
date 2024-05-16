@@ -457,27 +457,45 @@
                                                 var camposDinamicos = document.querySelector('.campos-dinamicos');
 
                                                 var novoCampo = document.createElement('div');
-                                                novoCampo.className = 'form-outline mb-4';
+                                                var novoCampoId = Date.now(); // Identificador único para o novo campo
+                                                novoCampo.className = 'form-outline mb-4 campo-dinamico';
+                                                novoCampo.id = 'campo_' + novoCampoId; // Definindo um id único para o novo campo
                                                 novoCampo.innerHTML = `
                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="nome_campo">Nome do Campo</label>
+                                                        <label class="form-label" for="nome_campo_${novoCampoId}">Nome do Campo</label>
                                                         <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="0"/>
-                                                        <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
-                                                   </div>
-                                                   <div class="form-outline mb-4">
-                                                        <button type="button" class="btn btn-danger remover-campo" onclick="removerCampo(this)"><i class="fas fa-trash-alt"></i></button>
-                                                   </div>`;
+                                                        <input name="nome_campo[]" type="text" class="form-control form-control-lg" id="nome_campo_${novoCampoId}" placeholder="Nome do campo" required/>
+                                                    </div>
+                                                    <div class="form-outline mb-4">
+                                                        <button type="button" class="btn btn-danger remover-campo" onclick="removerCampo(${novoCampoId})"><i class="fas fa-trash-alt"></i></button>
+                                                    </div>`;
 
                                                 camposDinamicos.appendChild(novoCampo);
+
+                                                // Oculta o botão de adição se houver apenas um campo
+                                                var botaoAdicao = document.querySelector('#botao-adicao');
+                                                if (camposDinamicos.children.length > 1) {
+                                                    botaoAdicao.style.display = 'block';
+                                                } else {
+                                                    botaoAdicao.style.display = 'none';
+                                                }
                                             }
 
-                                            function removerCampo(botao) {
-                                                var campo = botao.parentNode.parentNode; // Ajuste para acessar o div pai do botao pai
+                                            function removerCampo(idCampo) {
+                                                var campo = document.getElementById('campo_' + idCampo);
                                                 var camposDinamicos = document.querySelector('.campos-dinamicos');
 
                                                 // Certifica-se de que há mais de um campo antes de remover
                                                 if (camposDinamicos.children.length > 1) {
                                                     camposDinamicos.removeChild(campo);
+                                                }
+
+                                                // Exibe o botão de adição se não houver apenas um campo
+                                                var botaoAdicao = document.querySelector('#botao-adicao');
+                                                if (camposDinamicos.children.length > 1) {
+                                                    botaoAdicao.style.display = 'block';
+                                                } else {
+                                                    botaoAdicao.style.display = 'none';
                                                 }
                                             }
                                         </script>
