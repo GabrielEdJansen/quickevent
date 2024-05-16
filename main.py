@@ -1705,7 +1705,7 @@ def processarPresenca():
                     )
                     usuario = cursor.fetchone()
 
-                    if usuario is not None:  # Verifica se a consulta retornou algum resultado
+                    if usuario is not None and usuario[0] is not None:  # Verifica se a consulta retornou algum resultado e se a data de nascimento não é None
                         nascimento = usuario[0]
                         # Calcular a idade do usuário com base na data de nascimento
                         idade_usuario = data_atual.year - nascimento.year - (
