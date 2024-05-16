@@ -1697,9 +1697,39 @@ def processarPresenca():
                     )
                     usuario = cursor.fetchone()
 
-                    # Verifica se o usuário tem uma foto
+                    data_atual = datetime.now()
+
+                    # Consultar a data de nascimento do usuário
+                    cursor.execute(
+                        f'SELECT nascimento FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
+                    )
+                    usuario = cursor.fetchone()
+
                     if usuario:
-                        foto = usuario[0] if usuario[0] else "Sem foto disponível"
+                        nascimento = usuario[0]
+                        # Calcular a idade do usuário com base na data de nascimento
+                        idade_usuario = data_atual.year - nascimento.year - (
+                                    (data_atual.month, data_atual.day) < (nascimento.month, nascimento.day))
+                    else:
+                        flash("Cadastre sua data de nascimento nas 'Informações da conta'")
+                        return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
+
+                    connect_BD = configbanco(db_type='mysql-connector')
+                    cursor = connect_BD.cursor(dictionary=True)
+                    cursor.execute(
+                        "SELECT classificacao_indicativa FROM eventos WHERE id_eventos = %s",
+                        (eventoPresenca,))
+                    claind = cursor.fetchone()['classificacao_indicativa']
+                    cursor.close()
+                    connect_BD.close()
+
+                    # Verificar se a idade do usuário é maior ou igual à classificação indicativa do evento
+                    if idade_usuario >= claind:
+                        x=0
+                    else:
+                        idade_minima = claind  # Idade mínima do evento
+                        flash(f"Você não tem idade para este evento, a idade mínima é {idade_minima} anos.")
+                        return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
                 if not presenca:
                     intquantidadeConvites = int(request.form.get("quantidadeConvites"))  # Converta para inteiro
