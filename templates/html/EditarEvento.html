@@ -457,18 +457,19 @@
                                                 var camposDinamicos = document.querySelector('.campos-dinamicos');
 
                                                 var novoCampo = document.createElement('div');
-                                                novoCampo.className = 'form-outline mb-4';
+                                                var novoCampoId = Date.now(); // Criando um ID único para o novo campo
+                                                novoCampo.className = 'form-outline mb-4 text-center';
                                                 novoCampo.innerHTML = `
                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                                         <label class="form-label" for="nome_campo">Nome do Campo</label>
                                                         <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="0"/>
                                                         <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
-                                                   </div>
-                                                   <div class="form-outline mb-4" style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
-                                                                <button type="button" class="btn btn-danger" onclick="removerCampo(this)">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                </button>
-                                                        </div>`;
+                                                    </div>
+                                                    <div class="form-outline mb-4">
+                                                        <button id="botao${novoCampoId}" type="button" class="btn btn-danger" onclick="removerCampo('campo${novoCampoId}', 'botao${novoCampoId}')">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </div>`;
 
                                                 camposDinamicos.appendChild(novoCampo);
                                             }
