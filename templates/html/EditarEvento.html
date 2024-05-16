@@ -437,6 +437,11 @@
                                                             <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="{{ campo_adicional.id_campo }}"/>
                                                             <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}"/>
                                                         </div>
+                                                        <div class="form-outline mb-4" style="flex-grow: 1;">
+                                                        <button type="button" class="btn btn-danger" onclick="removerCampo('{{ campo_adicional.id_campo }}')">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </div>
                                                         {% endfor %}
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6 text-center">
