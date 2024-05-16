@@ -1697,23 +1697,26 @@ def processarPresenca():
                     )
                     usuario = cursor.fetchone()
 
-                    data_atual = datetime.now()
+                    # Verifica se o usuário tem uma foto
+                    if usuario:
+                        foto = usuario[0] if usuario[0] else "Sem foto disponível"
 
-                    # Consultar a data de nascimento do usuário
+
+
+                    data_atual = datetime.now()
                     cursor.execute(
                         f'SELECT nascimento FROM usuarios WHERE id_usuario = "{session["idlogado"]}"'
                     )
                     usuario = cursor.fetchone()
 
-                    if usuario is not None and usuario[0] is not None:  # Verifica se a consulta retornou algum resultado e se a data de nascimento não é None
+                    if usuario is not None and usuario[0] is not None:
                         nascimento = usuario[0]
-                        # Calcular a idade do usuário com base na data de nascimento
-                        idade_usuario = data_atual.year - nascimento.year - (
-                                    (data_atual.month, data_atual.day) < (nascimento.month, nascimento.day))
+                        idade_usuario = data_atual.year - nascimento.year - ((data_atual.month, data_atual.day) < (nascimento.month, nascimento.day))
                     else:
                         flash("Cadastre sua data de nascimento nas 'Informações da conta'")
                         return render_template("html/InformacoesEventos.html", eventos=eventos, foto=foto, ingresso=ingresso)
 
+                    # Consultar a classificação indicativa do evento
                     connect_BD = configbanco(db_type='mysql-connector')
                     cursor = connect_BD.cursor(dictionary=True)
                     cursor.execute(
@@ -1723,7 +1726,6 @@ def processarPresenca():
                     cursor.close()
                     connect_BD.close()
 
-                    # Verificar se a idade do usuário é maior ou igual à classificação indicativa do evento
                     if idade_usuario >= claind:
                         x=0
                     else:
