@@ -437,7 +437,7 @@
                                                             <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="{{ campo_adicional.id_campo }}"/>
                                                             <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}"/>
                                                         </div>
-                                                        <div class="form-outline mb-4" id="campo{{ campo_adicional.id_campo }}" style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
+                                                        <div class="form-outline mb-4 text-center" id="botao{{ campo_adicional.id_campo }}">
                                                                 <button type="button" class="btn btn-danger" onclick="removerCampo('campo{{ campo_adicional.id_campo }}')">
                                                                     <i class="fas fa-trash-alt"></i>
                                                                 </button>
@@ -475,10 +475,12 @@
 
                                             function removerCampo(idCampo) {
                                                 var campo = document.getElementById(idCampo);
+                                                var botao = document.getElementById(idBotao);
                                                 if (campo) {
                                                     campo.parentNode.removeChild(campo);
+                                                    botao.parentNode.removeChild(botao);
                                                 } else {
-                                                    console.error("Campo não encontrado:", idCampo);
+                                                    console.error("Campo ou botão não encontrado:", idCampo, idBotao);
                                                 }
                                             }
 
