@@ -437,11 +437,11 @@
                                                             <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="{{ campo_adicional.id_campo }}"/>
                                                             <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" value="{{ campo_adicional.nome_campo }}"/>
                                                         </div>
-                                                        <div class="form-outline mb-4" style="flex-grow: 1;">
-                                                        <button type="button" class="btn btn-danger" onclick="removerCampo('campo{{ campo_adicional.id_campo }}')">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </div>
+                                                        <div class="form-outline mb-4" id="campo{{ campo_adicional.id_campo }}" style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
+                                                                <button type="button" class="btn btn-danger" onclick="removerCampo('campo{{ campo_adicional.id_campo }}')">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                        </div>
                                                         {% endfor %}
                                             <div class="row justify-content-center">
                                                 <div class="col-md-6 text-center">
@@ -464,9 +464,11 @@
                                                         <input name="id_campo[]" type="hidden" class="form-control form-control-lg" placeholder="id_campo" value="0"/>
                                                         <input name="nome_campo[]" type="text" class="form-control form-control-lg" placeholder="Nome do campo" required/>
                                                    </div>
-                                                   <div class="form-outline mb-4">
-                                                        <button type="button" class="btn btn-danger remover-campo" onclick="removerCampo(this)"><i class="fas fa-trash-alt"></i></button>
-                                                   </div>`;
+                                                   <div class="form-outline mb-4" style="flex-grow: 1; display: flex; justify-content: center; align-items: center;">
+                                                                <button type="button" class="btn btn-danger" onclick="removerCampo(this)">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                        </div>`;
 
                                                 camposDinamicos.appendChild(novoCampo);
                                             }
