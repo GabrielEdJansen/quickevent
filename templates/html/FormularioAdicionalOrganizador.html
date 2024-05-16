@@ -88,7 +88,7 @@
                                     <form id="form-campos" action="/adicionar_campos" method="post">
                                         <!-- Input para o ID do usuário -->
                                         {% for usuariopresente in usuariopresente %}
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;" id="campo{{ campo_adicional.id_campo }}">
+                                        <div class="form-outline" style="display: flex; flex-direction: column; align-items: flex-start;" id="campo{{ campo_adicional.id_campo }}">
                                             <label class="form-label" for="nome_campo">Id usuário</label>
                                             <input type="text" name="id_usuario" class="form-control form-control-lg" value="{{ usuariopresente.id_usuario }}" disabled>
                                             <!-- Input para o nome completo do usuário -->
