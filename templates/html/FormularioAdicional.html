@@ -93,12 +93,12 @@
                                             <input type="hidden" class="form-control" id="tipoIngresso" name="tipoIngresso" value="{{tipoingresso[0]}}">
                                             <!-- Adiciona o campo inicial -->
                                             {% for campo_adicional in campo_adicional %}
-                                            <div class="form-outline mb-4">
+                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;" id="campo{{ campo_adicional.id_campo }}">
                                                 <!-- Input para o ID do campo adicional -->
                                                 <input type="hidden" name="id_campo[]" value="{{ campo_adicional.id_campo }}">
                                                 <!-- Input para o valor do campo adicional -->
-                                                <input type="text" name="valor_campo[]" class="form-control form-control-lg" placeholder="Insira a informação" required>
                                                 <label class="form-label" for="nome_campo">{{ campo_adicional.nome_campo }}</label>
+                                                <input type="text" name="valor_campo[]" class="form-control form-control-lg" placeholder="Insira a informação" required>
                                             </div>
                                             {% endfor %}
                                         </div>
