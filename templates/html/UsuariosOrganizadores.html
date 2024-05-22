@@ -13,6 +13,27 @@
         body {
           background-color: #d2d4d6;
         }
+        .filled-button {
+            background-color: #00549A;
+            color: white;
+            border: none;
+            border-radius: 5mm;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filled-buttonRed {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5mm;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filled-button:hover {
+            background-color: rgb(45, 85, 26);
+        }
     </style>
 </head>
 <body>
@@ -121,7 +142,7 @@
               {% for usuario in usuarios %}
                 <li>
                   <span>{{ usuario[0]|string }} - {{ usuario[1] }} {{ usuario[2] }}</span>
-                  <button class="remove-button" data-id="{{ usuario[0] }}">Remover</button>
+                  <button class="btn btn-primary filled-buttonRed" data-id="{{ usuario[0] }}">Remover</button>
                 </li>
               {% endfor %}
             </ul>
@@ -157,7 +178,7 @@ function pesquisarUsuarios() {
           alert('Nenhum usuário encontrado.');
         } else {
           $.each(data.usuarios, function(index, usuario) {
-            $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-sm btn-primary float-right" onclick="adicionarOrganizador(' + usuario.id_usuario + ', ' + eventoPresenca + ')">Adicionar</button></li>');
+            $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-primary filled-buttonRed" onclick="adicionarOrganizador(' + usuario.id_usuario + ', ' + eventoPresenca + ')">Adicionar</button></li>');
           });
         }
       },

@@ -32,8 +32,15 @@
             margin-top: 10px;
             border-radius: 30px;
             background-color: transparent;
-            border-color: #DCDCDC;
-            color: #696969;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 1px rgba(0, 0, 0, 0.1); /* Sombra para efeito elevado */
+            color: #00549A;
+            border: none;
+            padding: 8px 20px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+        }
+        .login-button {
+            margin-top: 10px;
         }
         h1, p {
             color: #000;
@@ -76,7 +83,9 @@
 
                 </div>
 
-                <button class="btn btn-primary" type="submit" value="entrar">Login</button>
+                <button class="btn button" type="submit" value="entrar">Login</button>
+                <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
+                <a href="esqueceusenha" class="btn btn-link btn-block login-button" type="button">Esqueceu sua senha?</a>
             </div>
         </div>
     </div>

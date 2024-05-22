@@ -14,6 +14,32 @@
         body {
           background-color: #d2d4d6;
         }
+        .filled-button {
+            background-color: #00549A;
+            color: white;
+            border: none;
+            border-radius: 5mm;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filled-button:hover {
+            background-color: rgb(45, 85, 26);
+        }
+        .tonal-button {
+          margin-top: 10px;
+          border-radius: 30px;
+          background-color: #e0f7fa;
+          color: #00549A;
+          border: none;
+          padding: 8px 20px;
+          font-family: 'Roboto', sans-serif;
+          font-weight: 500;
+          transition: background-color 0.3s ease;
+        }
+        .tonal-button:hover {
+          background-color: #b2ebf2; /* Cor de fundo ao passar o mouse */
+        }
     </style>
 </head>
 <body>
@@ -400,7 +426,7 @@
                                             </div>
                                 <div class="row justify-content-center">
                                     <div class="col-md-6 text-center">
-                                      <button type="button" class="btn btn-primary" onclick="adicionarCampo()">Adicionar Campo</button>
+                                      <button type="button" class="btn tonal-button" onclick="adicionarCampo()">Adicionar Campo</button>
                                     </div>
                                 </div>
                                         </div>
@@ -498,7 +524,7 @@
                                 </div>
                                 <div class="row justify-content-center">
                                     <div class="col-md-6 text-center">
-                                        <button type="button" class="btn btn-primary" onclick="adicionarIngresso()">Adicionar Ingresso</button>
+                                        <button type="button" class="btn tonal-button" onclick="adicionarIngresso()">Adicionar Ingresso</button>
                                     </div>
                                 </div>
                             </div>
@@ -608,7 +634,7 @@
                         </script>
 
                             <div class="btn-container btn-criar-evento mb-4 mr-4 ml-4">
-                                <button class="btn btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
+                                <button class="btn btn-primary filled-button btn-primary btn-lg btn-block" type="submit" value="CriarEvento">
                                     Criar novo evento
                                 </button>
                             </div>

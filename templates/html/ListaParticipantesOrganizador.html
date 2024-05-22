@@ -14,6 +14,18 @@
         body {
           background-color: #d2d4d6;
         }
+        .filled-button {
+            background-color: #00549A;
+            color: white;
+            border: none;
+            border-radius: 5mm;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filled-button:hover {
+            background-color: rgb(45, 85, 26);
+        }
     </style>
 </head>
 <body>
@@ -132,7 +144,7 @@
                                                 <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
                                                 <input type="hidden" id="usuarioPresente" name="usuarioPresente" value="{{ participante.id_usuario_presente }}">
                                                 <p class="mb-1">ID do usuário: {{ participante.id_usuario_presente }}</p>
-                                                <button type="submit" class="btn btn-primary" data-toggle="collapse" data-target="#informacoesAdicionais" aria-expanded="false" aria-controls="informacoesAdicionais">
+                                                <button type="submit" class="btn btn-primary filled-button" data-toggle="collapse" data-target="#informacoesAdicionais" aria-expanded="false" aria-controls="informacoesAdicionais">
                                                     Informações adicionais
                                                 </button>
                                             </div>

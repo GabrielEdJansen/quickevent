@@ -34,10 +34,14 @@
         }
         .button {
             margin-top: 10px;
-            border-radius: 30px; /* Arredondar o botão */
-            background-color: transparent; /* Cor de fundo transparente para o botão */
-            border-color: #DCDCDC; /* Cor da borda cinza para o botão */
-            color: #696969; /* Cor do texto preta para o botão */
+            border-radius: 30px;
+            background-color: transparent;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 1px rgba(0, 0, 0, 0.1); /* Sombra para efeito elevado */
+            color: #00549A;
+            border: none;
+            padding: 8px 20px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
         }
         .login-button {
             margin-top: 10px;
@@ -76,7 +80,7 @@
                                 <input name="email" type="email" id="email" class="form-control form-control-lg"
                                        placeholder="Digite seu e-mail" required/>
                             </div>
-                            <button class="btn btn-primary" type="submit" value="entrar">Enviar e-mail de recuperação</button>
+                            <button class="btn button" type="submit" value="entrar">Enviar e-mail de recuperação</button>
             </div>
         </div>
     </div>

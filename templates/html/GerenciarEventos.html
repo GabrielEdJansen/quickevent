@@ -15,6 +15,18 @@
         #mapaDosEventos {
             height: 400px;
         }
+        .filled-button {
+            background-color: #00549A;
+            color: white;
+            border: none;
+            border-radius: 5mm;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filled-button:hover {
+            background-color: rgb(45, 85, 26);
+        }
     </style>
 </head>
 <body>
@@ -122,7 +134,7 @@
                         </div>
                         <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
                             <div class="text-center">
-                                <button id="btnFiltrar" class="btn btn-primary" type="submit">Filtrar</button>
+                                <button id="btnFiltrar" class="btn btn-primary filled-button" type="submit">Filtrar</button>
                             </div>
                         </form>
                     </form>
@@ -155,10 +167,10 @@
                                             <p>Local: {{c[5]}}</p>
                                             <form action="/GerenciarEventos" method="post">
                                                 <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
-                                                <button class="btn btn-primary" type="submit" name="botaoEditar" value="{{c[0]}}">
+                                                <button class="btn btn-primary filled-button" type="submit" name="botaoEditar" value="{{c[0]}}">
                                                     Gerenciar
                                                 </button>
-                                                <button class="btn btn-danger" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
+                                                <button class="btn btn-primary filled-button" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
                                                     Excluir Evento
                                                 </button>
                                              </form>

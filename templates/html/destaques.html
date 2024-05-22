@@ -9,207 +9,184 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-    <style>
-        body {
-          background-color: #d2d4d6;
-        }
-    </style>
+  <style>
+    body {
+      background-color: #d2d4d6;
+    }
+    .button {
+      margin-top: 10px;
+      border-radius: 30px;
+      background-color: transparent;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 1px rgba(0, 0, 0, 0.1); /* Sombra para efeito elevado */
+      color: #00549A;
+      border: none;
+      padding: 8px 20px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+    }
+    .tonal-button {
+      margin-top: 10px;
+      border-radius: 30px;
+      background-color: #e0f7fa;
+      color: #00549A;
+      border: none;
+      padding: 8px 20px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+    .tonal-button:hover {
+      background-color: #b2ebf2; /* Cor de fundo ao passar o mouse */
+    }
+  </style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-  <a href="destaques" class="navbar-brand" href="#"><img src="../static/LogoFundo.png" alt="Logo do Site" style="max-height: 40px; max-width: 120px;"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
-      <div class="input-group" style="width: 400px;"> <!-- Definindo largura da div -->
-        <input name="filtro" id="searchInput" type="text" class="form-control" placeholder="Buscar eventos">
-        <div class="input-group-append">
-          <button class="btn btn-secondary" type="submit">
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a href="InicioEventosParticipados" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Eventos participados</a>
-        </li>
-        <li class="nav-item">
-          <a href="InicioCriarEvento" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Criar eventos</a>
-        </li>
-        <li class="nav-item">
-          <a href="InicioGerenciarEventos" class="nav-link" style="color: white;" onmouseover="this.style.color='#feb930';" onmouseout="this.style.color='white';">Gerenciar eventos</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a href="#" id="profileDropdown" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
-            <div class="d-flex align-items-center">
-              <div style="width: 30px; height: 30px; border-radius: 50%; overflow: hidden;">
-                <img src="data:image/jpeg;base64,{{ foto }}" alt="User Photo" class="profile-pic" style="max-width: 100%; height: auto;">
-              </div>
-            </div>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-            <a class="dropdown-item" href="InformacaoConta">Informações da conta</a>
-            <a class="dropdown-item" href="/">Sair</a>
+  <!-- ...restante do seu código HTML... -->
+  <div class="container mt-5">
+    <!-- Título e Carrossel: Eventos populares -->
+    <div class="row">
+      <div class="col text-left">
+        <div class="card mb-4 rounded">
+          <div class="card-body">
+            <h2>Eventos populares</h2>
+            <p>Os eventos mais populares entre os usuários</p>
           </div>
-        </li>
-      </ul>
-  </div>
-</nav>
-
-<div class="container mt-5">
-  <!-- Título e Carrossel: Eventos populares -->
-<div class="row">
-  <div class="col text-left">
-    <div class="card mb-4 rounded">
-      <div class="card-body">
-    <h2>Eventos populares</h2>
-    <p>Os eventos mais populares entre os usuários</p>
-  </div>
-  <div class="col-md-12 text-center">
-    <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner">
-        {% for chunk in eventos_populares|batch(3) %}
-        <div class="carousel-item {% if loop.first %}active{% endif %}">
-          <div class="row">
-            {% for evento in chunk %}
-            <div class="col-md-4">
-              <div class="card">
-                <img src="data:image/jpeg;base64,{{ evento.foto_evento }}" class="card-img-top" alt="{{ evento.foto_evento }}">
-                <div class="card-body">
-                  <h5 class="card-title">{{ evento.nome_evento }}</h5>
-                  <p class="card-text">{{ evento.descricao_evento }}</p>
-                  <a href="/InformacoesEventos?eventoPresenca={{ evento.id_evento }}" class="saiba-mais-button">Saiba Mais</a>
+          <div class="col-md-12 text-center">
+            <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                {% for chunk in eventos_populares|batch(3) %}
+                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                  <div class="row">
+                    {% for evento in chunk %}
+                    <div class="col-md-4">
+                      <div class="card">
+                        <img src="data:image/jpeg;base64,{{ evento.foto_evento }}" class="card-img-top" alt="{{ evento.foto_evento }}">
+                        <div class="card-body">
+                          <h5 class="card-title">{{ evento.nome_evento }}</h5>
+                          <p class="card-text">{{ evento.descricao_evento }}</p>
+                          <a href="/InformacoesEventos?eventoPresenca={{ evento.id_evento }}" class="btn tonal-button">Saiba Mais</a>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
                 </div>
+                {% endfor %}
               </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators1" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Anterior</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators1" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Próximo</span>
-      </a>
-    </div>
-    </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Título e Carrossel: Categorias -->
-<div class="row mt-5">
-  <div class="col text-right">
-    <div class="card mb-4 rounded">
-      <div class="card-body">
-    <h2>Categorias</h2>
-    <p>As principais categorias procuradas pelos usuários</p>
-  </div>
-  <div class="col-md-12 text-center">
-    <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="row">
-            <!-- Card 1: Feriados e Festas Tradicionais -->
-            <div class="col-md-4">
-              <div class="card">
-                <img src="../static/img/tradicional.jpg" class="card-img-top" alt="Feriados e Festas Tradicionais">
-                <div class="card-body">
-                  <h5 class="card-title">Feriados e Festas Tradicionais</h5>
-                  <a href="/buscar?dataInicial=&dataFinal=&categoria=11" class="saiba-mais-button">Saiba Mais</a>
-                </div>
-              </div>
-            </div>
-            <!-- Card 2: Família e Educação -->
-            <div class="col-md-4">
-              <div class="card">
-                <img src="../static/img/familia.jpg" class="card-img-top" alt="Família e Educação">
-                <div class="card-body">
-                  <h5 class="card-title">Família e Educação</h5>
-                  <a href="/buscar?dataInicial=&dataFinal=&categoria=10" class="saiba-mais-button">Saiba Mais</a>
-                </div>
-              </div>
-            </div>
-            <!-- Card 3: Viagens e Ao ar livre -->
-            <div class="col-md-4">
-              <div class="card">
-                <img src="../static/img/viagem.jpg" class="card-img-top" alt="Viagens e Ao ar livre">
-                <div class="card-body">
-                  <h5 class="card-title">Viagens e Ao ar livre</h5>
-                  <a href="/buscar?dataInicial=&dataFinal=&categoria=21" class="saiba-mais-button">Saiba Mais</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="row">
-            <!-- Card 4: Ciência e Tecnologia -->
-            <div class="col-md-4">
-              <div class="card">
-                <img src="../static/img/tecnologia.jpg" class="card-img-top" alt="Ciência e Tecnologia">
-                <div class="card-body">
-                  <h5 class="card-title">Ciência e Tecnologia</h5>
-                  <a href="/buscar?dataInicial=&dataFinal=&categoria=6" class="saiba-mais-button">Saiba Mais</a>
-                </div>
-              </div>
-            </div>
-            <!-- Card 5: Religião e Espiritualidade -->
-            <div class="col-md-4">
-              <div class="card">
-                <img src="../static/img/religiao.jpeg" class="card-img-top" alt="Religião e Espiritualidade">
-                <div class="card-body">
-                  <h5 class="card-title">Religião e Espiritualidade</h5>
-                  <a href="/buscar?dataInicial=&dataFinal=&categoria=19" class="saiba-mais-button">Saiba Mais</a>
-                </div>
-              </div>
-            </div>
-            <!-- Card 6: Atividades Escolares -->
-            <div class="col-md-4">
-              <div class="card">
-                <img src="../static/img/escolar.jpeg" class="card-img-top" alt="Atividades Escolares">
-                <div class="card-body">
-                  <h5 class="card-title">Atividades Escolares</h5>
-                  <a href="/buscar?dataInicial=&dataFinal=&categoria=2" class="saiba-mais-button">Saiba Mais</a>
-                </div>
-              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators1" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators1" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Próximo</span>
+              </a>
             </div>
           </div>
         </div>
       </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Anterior</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Próximo</span>
-      </a>
+    </div>
+
+    <!-- Título e Carrossel: Categorias -->
+    <div class="row mt-5">
+      <div class="col text-right">
+        <div class="card mb-4 rounded">
+          <div class="card-body">
+            <h2>Categorias</h2>
+            <p>As principais categorias procuradas pelos usuários</p>
+          </div>
+          <div class="col-md-12 text-center">
+            <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="row">
+                    <!-- Card 1: Feriados e Festas Tradicionais -->
+                    <div class="col-md-4">
+                      <div class="card">
+                        <img src="../static/img/tradicional.jpg" class="card-img-top" alt="Feriados e Festas Tradicionais">
+                        <div class="card-body">
+                          <h5 class="card-title">Feriados e Festas Tradicionais</h5>
+                          <a href="/buscar?dataInicial=&dataFinal=&categoria=11" class="btn tonal-button">Saiba Mais</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card 2: Família e Educação -->
+                    <div class="col-md-4">
+                      <div class="card">
+                        <img src="../static/img/familia.jpg" class="card-img-top" alt="Família e Educação">
+                        <div class="card-body">
+                          <h5 class="card-title">Família e Educação</h5>
+                          <a href="/buscar?dataInicial=&dataFinal=&categoria=10" class="btn tonal-button">Saiba Mais</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card 3: Viagens e Ao ar livre -->
+                    <div class="col-md-4">
+                      <div class="card">
+                        <img src="../static/img/viagem.jpg" class="card-img-top" alt="Viagens e Ao ar livre">
+                        <div class="card-body">
+                          <h5 class="card-title">Viagens e Ao ar livre</h5>
+                          <a href="/buscar?dataInicial=&dataFinal=&categoria=21" class="btn tonal-button">Saiba Mais</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="row">
+                    <!-- Card 4: Ciência e Tecnologia -->
+                    <div class="col-md-4">
+                      <div class="card">
+                        <img src="../static/img/tecnologia.jpg" class="card-img-top" alt="Ciência e Tecnologia">
+                        <div class="card-body">
+                          <h5 class="card-title">Ciência e Tecnologia</h5>
+                          <a href="/buscar?dataInicial=&dataFinal=&categoria=6" class="btn tonal-button">Saiba Mais</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card 5: Religião e Espiritualidade -->
+                    <div class="col-md-4">
+                      <div class="card">
+                        <img src="../static/img/religiao.jpeg" class="card-img-top" alt="Religião e Espiritualidade">
+                        <div class="card-body">
+                          <h5 class="card-title">Religião e Espiritualidade</h5>
+                          <a href="/buscar?dataInicial=&dataFinal=&categoria=19" class="btn tonal-button">Saiba Mais</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card 6: Atividades Escolares -->
+                    <div class="col-md-4">
+                      <div class="card">
+                        <img src="../static/img/escolar.jpeg" class="card-img-top" alt="Atividades Escolares">
+                        <div class="card-body">
+                          <h5 class="card-title">Atividades Escolares</h5>
+                          <a href="/buscar?dataInicial=&dataFinal=&categoria=2" class="btn tonal-button">Saiba Mais</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Próximo</span>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-</div>
 
-<!-- JavaScript necessário para o Bootstrap -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- JavaScript necessário para o Bootstrap -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
-
