@@ -53,6 +53,19 @@
         #buttonDiv {
             border: none;
         }
+
+        .filled-button {
+            background-color: #00549A;
+            color: white;
+            border: none;
+            border-radius: 5mm;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filled-button:hover {
+            background-color: #feb930;
+        }
     </style>
 </head>
 <body>
@@ -80,7 +93,7 @@
                                 <input name="email" type="email" id="email" class="form-control form-control-lg"
                                        placeholder="Digite seu e-mail" required/>
                             </div>
-                            <button class="btn button" type="submit" value="entrar">Enviar e-mail de recuperação</button>
+                            <button class="filled-button" type="submit" value="entrar">Enviar e-mail de recuperação</button>
             </div>
         </div>
     </div>

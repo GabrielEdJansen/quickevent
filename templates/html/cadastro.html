@@ -51,6 +51,18 @@
         #buttonDiv {
             border: none;
         }
+        .filled-button {
+            background-color: #00549A;
+            color: white;
+            border: none;
+            border-radius: 5mm;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filled-button:hover {
+            background-color: #feb930;
+        }
     </style>
 </head>
 <body>
@@ -103,7 +115,7 @@
                                        class="form-control form-control-lg" placeholder="Confirme sua senha" required/>
                             </div>
 
-                            <button class="btn btn-primary" type="submit" value="cadastrar">
+                            <button class="filled-button" type="submit" value="cadastrar">
                                 Cadastrar-se
                             </button>
 

@@ -49,6 +49,18 @@
         #buttonDiv {
             border: none;
         }
+        .filled-button {
+            background-color: #00549A;
+            color: white;
+            border: none;
+            border-radius: 5mm;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filled-button:hover {
+            background-color: #feb930;
+        }
     </style>
 </head>
 <body>
@@ -69,7 +81,7 @@
                 <div id="buttonDiv">
                     <!-- Botão do Google Identity Services será renderizado aqui -->
                 </div>
-                <a href="cadastrar" class="btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
+                <a href="cadastrar" class="filled-button btn btn-success btn-lg btn-block button" type="button">Cadastre-se</a>
                 <a href="logininicio" class="btn btn-link btn-block login-button" type="button">Já tem uma conta? Log in</a>
                 <a href="esqueceusenha" class="btn btn-link btn-block login-button" type="button">Esqueceu sua senha?</a>
             </div>
