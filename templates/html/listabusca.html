@@ -161,10 +161,10 @@
                                             <p>Hora: {{ hora.strftime('%H:%M') }}</p>
                                             <p>Local: {{c[5]}}</p>
                                             <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
-                                            <button class="btn btn-primary filled-button" type="submit" name="botaoDetalhes" value="{{c[0]}}">
+                                            <button class="filled-button" type="submit" name="botaoDetalhes" value="{{c[0]}}">
                                                 Detalhes
                                             </button>
-                                            <a href="#" class="btn btn-primary filled-button" onclick="showLocation({{c[6]}}, {{c[7]}}); scrollToMap()">Localização</a>
+                                            <a href="#" class="filled-button" onclick="showLocation({{c[6]}}, {{c[7]}}); scrollToMap()">Localização</a>
                                         </div>
                                     </form>
                                 </div>
