@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 import os
 import mysql.connector
 from mysql.connector import Error
-import pandas as pd
+#import pandas as pd
 import pymysql
 from datetime import datetime, timedelta
 import re
