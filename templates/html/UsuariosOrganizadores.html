@@ -32,7 +32,7 @@
             transition: background-color 0.3s ease;
         }
         .filled-button:hover {
-            background-color: rgb(45, 85, 26);
+            background-color: #feb930;
         }
     </style>
 </head>
@@ -178,7 +178,7 @@ function pesquisarUsuarios() {
           alert('Nenhum usuário encontrado.');
         } else {
           $.each(data.usuarios, function(index, usuario) {
-            $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-primary filled-buttonRed" onclick="adicionarOrganizador(' + usuario.id_usuario + ', ' + eventoPresenca + ')">Adicionar</button></li>');
+            $('#usuariosList').append('<li class="list-group-item">' + usuario.id_usuario + ' - ' + usuario.nome_completo + '<button type="button" class="btn btn-primary filled-button" onclick="adicionarOrganizador(' + usuario.id_usuario + ', ' + eventoPresenca + ')">Adicionar</button></li>');
           });
         }
       },
