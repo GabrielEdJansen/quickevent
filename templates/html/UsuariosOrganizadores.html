@@ -145,7 +145,7 @@
               {% for usuario in usuarios %}
                 <li>
                   <span>{{ usuario[0]|string }} - {{ usuario[1] }} {{ usuario[2] }}</span>
-                  <button class="btn btn-primary filled-buttonRed" data-id="{{ usuario[0] }}">Remover</button>
+                  <button class="btn btn-primary filled-buttonRed remove-button" data-id="{{ usuario[0] }}">Remover</button>
                 </li>
               {% endfor %}
             </ul>
