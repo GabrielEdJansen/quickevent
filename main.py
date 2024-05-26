@@ -3473,7 +3473,6 @@ def cadastro():
     senhacad = request.form.get('senhacad')
     confirmaSenhacad = request.form.get('confirmaSenhacad')
     subId = request.form.get('subId')
-    senhacad = bcrypt.hashpw(senhacad.encode('utf-8'), bcrypt.gensalt())
 
     if subId is not None:
         conexao = configbanco(db_type='pymysql')
@@ -3506,6 +3505,7 @@ def cadastro():
             flash('Este e-mail já está cadastrado!')
             return render_template("html/cadastro.html")
         else:
+            senhacad = bcrypt.hashpw(senhacad.encode('utf-8'), bcrypt.gensalt())
             connect_BD = configbanco(db_type='pymysql')
 
             cursor = connect_BD.cursor()
