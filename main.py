@@ -3562,7 +3562,7 @@ def login():
                         return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
             flash('Usuário inválido!')
-            return redirect("/")
+            return redirect("/logininicio")
         else:
             return redirect("/")
     elif request.method == 'GET':
@@ -3608,7 +3608,7 @@ def login():
                         return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
             flash('Usuário inválido!')
-            return redirect("/")
+            return redirect("/logininicio")
         else:
             return redirect("/")
 
