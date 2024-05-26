@@ -3539,7 +3539,7 @@ def login():
                             return redirect("/destaques")
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-                elif usuario[4] == senha:
+                elif bcrypt.checkpw(senha.encode('utf-8'), usuario[4].encode('utf-8')):
                     session['idlogado'] = usuario[0]
                     eventoPresenca = request.args.get('eventoPresenca')
                     if eventoPresenca is None or eventoPresenca == 0:
@@ -3585,7 +3585,7 @@ def login():
                             return redirect("/destaques")
                         else:
                             return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
-                elif usuario[4] == senha:
+                elif bcrypt.checkpw(senha.encode('utf-8'), usuario[4].encode('utf-8')):
                     session['idlogado'] = usuario[0]
                     eventoPresenca = request.args.get('eventoPresenca')
                     if eventoPresenca is None or eventoPresenca == 0:
