@@ -16,6 +16,7 @@ from flask_cors import CORS
 from flask_mail import Mail, Message
 import secrets
 import pytz
+import bcrypt
 
 app = Flask(__name__)
 app.jinja_env.globals.update(datetime=datetime)
@@ -3472,6 +3473,7 @@ def cadastro():
     senhacad = request.form.get('senhacad')
     confirmaSenhacad = request.form.get('confirmaSenhacad')
     subId = request.form.get('subId')
+    senhacad = bcrypt.hashpw(senhacad.encode('utf-8'), bcrypt.gensalt())
 
     if subId is not None:
         conexao = configbanco(db_type='pymysql')
