@@ -3438,13 +3438,13 @@ def atualizar_senha():
         cursor = conexao.cursor()
 
         # Verificar se o e-mail existe na tabela usuarios
-        cursor.execute(f"SELECT * FROM usuarios WHERE email = '{email}' and  token_senha = '{token}'")
+        cursor.execute("SELECT * FROM usuarios WHERE email = %s and token_senha = %s", (email, token))
         resultado = cursor.fetchone()  # Retorna None se o e-mail não existir na tabela
 
         if resultado:
-            nova_senha = bcrypt.hashpw(nova_senha.encode('utf-8'), bcrypt.gensalt())
-            # Se o e-mail existe, atualize o token
-            cursor.execute(f"UPDATE usuarios SET senha = '{nova_senha}' WHERE token_senha = '{token}'")
+            nova_senha_hashed = bcrypt.hashpw(nova_senha.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            # Se o e-mail existe, atualize a senha
+            cursor.execute("UPDATE usuarios SET senha = %s WHERE token_senha = %s", (nova_senha_hashed, token))
             conexao.commit()
             conexao.close()
             flash('Senha atualizada com sucesso!')
