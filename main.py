@@ -607,7 +607,6 @@ def adicionar_organizador():
 
     connect_BD.close()  # Fecha a conexão com o banco de dados
 
-    # Retorna uma resposta para o AJAX
     return 'Usuário adicionado com sucesso!.', 200
 
 @app.route('/remover_usuario', methods=['POST'])
