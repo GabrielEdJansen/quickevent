@@ -144,35 +144,35 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="nomeEventocad">Nome do evento</label>
+                                                                <label class="form-label" for="nomeEventocad">*Nome do evento</label>
                                                                 <input name="nomeEventocad" type="text" id="nome" class="form-control form-control-lg" value="{{eventos[2]}}"
                                                                     placeholder="Digite o nome do evento" required/>
                                                             </div>
 
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="descricaocad">Descrição do evento</label>
+                                                                <label class="form-label" for="descricaocad">*Descrição do evento</label>
                                                                 <textarea rows="5" name="descricaocad" type="text" id="descricaocad"
                                                                     class="form-control form-control-lg"
                                                                     placeholder="Digite a descrição do evento" required>{{ eventos[1] }}</textarea>
                                                             </div>
 
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="totalParticipantescad">Total de Participantes</label>
+                                                                <label class="form-label" for="totalParticipantescad">*Total de Participantes</label>
                                                                 <input name="totalParticipantescad" value="{{eventos[9]}}" type="number" id="totalParticipantescad" class="form-control form-control-lg"
-                                                                    placeholder="Digite o total de participantes" required min="0" step="1" oninput="validarValor(this)" />
+                                                                    placeholder="Digite o total de participantes" required min="0" step="1" oninput="validarValor(this)" required/>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" >Imagem de divulgação (opcional)</label>
+                                                                <label class="form-label" >*Imagem de divulgação (opcional)</label>
                                                                 <label class="form-label" >Obs: A dimensão recomendada é de 1600 x 838</label>
                                                                 <input type="file" class="form-control" id="img_divulga-input" name="img_divulga" accept="image/*" onchange="displayImage(this)">
                                                                 <input type="hidden" name="existing_photo" value="{{eventos[21]}}">
                                                             </div>
 
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="email">Categoria</label>
+                                                                <label class="form-label" for="email">*Categoria</label>
                                                                 <select name="categoriacad" class="form-control form-control-lg" aria-label="Default select example" required>
                                                                     <option selected disabled value="" {% if not eventos[4] %} selected {% endif %}>Selecione a categoria</option>
                                                                     <option value="1" {% if eventos[4] == 1 %} selected {% endif %}>Artes Dramáticas e Visuais</option>
@@ -200,7 +200,7 @@
                                                             </div>
 
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="classificacaocad">Classificação Indicativa</label>
+                                                                <label class="form-label" for="classificacaocad">*Classificação Indicativa</label>
                                                                 <select name="classificacaocad" class="form-control form-control-lg" aria-label="Default select example" required>
                                                                 <option selected disabled value="" {% if not eventos[10] %} selected {% endif %}>Selecione a classificação indicativa</option>
                                                                 <option value="0" {% if eventos[10] == 0 %} selected {% endif %}>Livre</option>
@@ -236,41 +236,41 @@
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="endereco">Endereço</label>
+                                                                <label class="form-label" for="endereco">*Endereço</label>
                                                                 <input name="endereco" type="text" id="endereco" class="form-control form-control-lg" placeholder="Digite o endereço" value="{{ eventos[8] }}" required/>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="cidade">Cidade</label>
+                                                                <label class="form-label" for="cidade">*Cidade</label>
                                                                 <input name="cidade" type="text" id="cidade" class="form-control form-control-lg" placeholder="Cidade será preenchida automaticamente" value="{{ eventos[11] }}" readonly/>
                                                             </div>
 
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="cidade">Bairro</label>
+                                                                <label class="form-label" for="cidade">*Bairro</label>
                                                                 <input name="bairro" type="text" id="bairro" class="form-control form-control-lg" placeholder="Bairro será preenchido automaticamente" value="{{ eventos[18] }}" readonly/>
                                                             </div>
 
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="numero">Número da Residência</label>
+                                                                <label class="form-label" for="numero">*Número da Residência</label>
                                                                 <input name="numero" type="number" id="numero" class="form-control form-control-lg" placeholder="Número da residência será preenchido automaticamente" value="{{ eventos[12] }}" readonly/>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="estado">Estado</label>
+                                                                <label class="form-label" for="estado">*Estado</label>
                                                                 <input name="estado" type="text" id="estado" class="form-control form-control-lg" placeholder="Estado será preenchido automaticamente" value="{{ eventos[17] }}" readonly/>
                                                             </div>
 
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="rua">Rua</label>
+                                                                <label class="form-label" for="rua">*Rua</label>
                                                                 <input name="rua" type="text" id="rua" class="form-control form-control-lg" placeholder="Rua será preenchida automaticamente" value="{{ eventos[3] }}" readonly/>
                                                             </div>
 
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
                                                                 <label class="form-label" for="complemento">Complemento do endereço</label>
-                                                                <input name="complemento" type="text" id="complemento" class="form-control form-control-lg" value="{{ eventos[19] }}" placeholder="Digite o complemento do endereço" required/>
+                                                                <input name="complemento" type="text" id="complemento" class="form-control form-control-lg" value="{{ eventos[19] }}" placeholder="Digite o complemento do endereço"/>
                                                             </div>
 
                                                         </div>
@@ -393,7 +393,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="dataCad">Data inicial do evento</label>
+                                                        <label class="form-label" for="dataCad">*Data inicial do evento</label>
                                                         <input name="dataCad" type="date" id="dataCad"
                                                                class="form-control form-control-lg" placeholder="Digite a data do evento"
                                                                required value="{{ eventos[5] }}"/>
@@ -401,7 +401,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="horCad">Hora inicial do evento</label>
+                                                        <label class="form-label" for="horCad">*Hora inicial do evento</label>
                                                         <input name="horCad" type="time" id="horCad"
                                                                class="form-control form-control-lg" placeholder="Digite a hora do evento"
                                                                required value="{{ eventos[6] }}"/>
@@ -412,7 +412,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="dataCadFin">Data final do evento</label>
+                                                        <label class="form-label" for="dataCadFin">*Data final do evento</label>
                                                         <input name="dataCadFin" type="date" id="dataCadFin"
                                                                class="form-control form-control-lg" placeholder="Digite a data do evento"
                                                                required value="{{ eventos[13] }}"/>
@@ -420,7 +420,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="horCadFin">Hora final do evento</label>
+                                                        <label class="form-label" for="horCadFin">*Hora final do evento</label>
                                                         <input name="horCadFin" type="time" id="horCadFin"
                                                                class="form-control form-control-lg" placeholder="Digite a hora do evento"
                                                                required value="{{ eventos[14] }}"/>
@@ -437,8 +437,8 @@
                                            <h3 class="card-title text-left">Sobre o produtor</h3>
                                                 <!-- Nome do Produtor -->
                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                    <label class="form-label" for="nome_produtor">Nome do Produtor</label>
-                                                    <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor" value="{{ eventos[15] }}"/>
+                                                    <label class="form-label" for="nome_produtor">*Nome do Produtor</label>
+                                                    <input name="nome_produtor" type="text" class="form-control form-control-lg" placeholder="Nome do produtor" value="{{ eventos[15] }}" required/>
                                             </div>
 
                                                 <!-- Descrição do Produtor (opcional) -->
@@ -523,24 +523,24 @@
                                                             <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{evento[0]}}">
                                                             <!-- Primeiro ingresso -->
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="titulo_ingresso">Título do Ingresso</label>
+                                                                <label class="form-label" for="titulo_ingresso">*Título do Ingresso</label>
                                                                 <input name="id_ingresso[]" type="hidden" class="form-control form-control-lg" placeholder="ID do Ingresso" required value="{{ ingresso.id_ingresso }}"/>
                                                                 <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" style="width: 100%;" required value="{{ ingresso.titulo_ingresso }}"/>
                                                             </div>
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="data_inicio_vendas"> Data início das vendas</label>
+                                                                <label class="form-label" for="data_inicio_vendas">*Data início das vendas</label>
                                                                 <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required value="{{ ingresso.data_ini_venda }}"/>
                                                             </div>
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="data_fim_vendas">Data fim das vendas</label>
+                                                                <label class="form-label" for="data_fim_vendas">*Data fim das vendas</label>
                                                                 <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required value="{{ ingresso.data_fim_venda }}"/>
                                                             </div>
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="preco_ingresso">Preço</label>
+                                                                <label class="form-label" for="preco_ingresso">*Preço</label>
                                                                 <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required value="{{ ingresso.preco }}"/>
                                                             </div>
                                                             <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                                <label class="form-label" for="disponibilidade_ingresso">Disponibilidade</label>
+                                                                <label class="form-label" for="disponibilidade_ingresso">*Disponibilidade</label>
                                                                 <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
                                                                     <option selected disabled value="">Selecione a disponibilidade</option>
                                                                     <option value="Publico" {% if ingresso.disponibilidade == 'Publico' %} selected {% endif %}>Público</option>
@@ -552,25 +552,25 @@
 
                                                 <div class="col-md-6">
                                                      <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                         <label class="form-label" for="quantidade_ingresso">Quantidade</label>
+                                                         <label class="form-label" for="quantidade_ingresso">*Quantidade</label>
                                                          <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required value="{{ ingresso.quantidade }}"/>
                                                      </div>
                                                      <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                          <label class="form-label" for="hora_inicio_vendas">Hora início das vendas</label>
+                                                          <label class="form-label" for="hora_inicio_vendas">*Hora início das vendas</label>
                                                           <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required value="{{ ingresso.hora_ini_venda }}"/>
                                                      </div>
                                                      <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                          <label class="form-label" for="hora_fim_vendas">Hora fim das vendas</label>
+                                                          <label class="form-label" for="hora_fim_vendas">*Hora fim das vendas</label>
                                                           <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required value="{{ ingresso.hora_fim_venda }}"/>
                                                     </div>
                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="quantidade_maxima_compra">Quantidade Máxima por Compra</label>
+                                                        <label class="form-label" for="quantidade_maxima_compra">*Quantidade Máxima por Compra</label>
                                                         <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required value="{{ ingresso.quantidade_maxima }}"/>
                                                     </div>
 
 
                                                     <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                        <label class="form-label" for="observacao_ingresso">Observação do Ingresso (Opcional)</label>
+                                                        <label class="form-label" for="observacao_ingresso">Observação do Ingresso</label>
                                                         <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.">{{ ingresso.observacao_ingresso }}</textarea>
                                                     </div>
                                                     <!-- Fim do primeiro ingresso -->

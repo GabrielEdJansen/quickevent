@@ -109,7 +109,7 @@
                                                 <!-- Input para o ID do campo adicional -->
                                                 <input type="hidden" name="id_campo[]" value="{{ campo_adicional.id_campo }}">
                                                 <!-- Input para o valor do campo adicional -->
-                                                <label class="form-label" for="nome_campo">{{ campo_adicional.nome_campo }}</label>
+                                                <label class="form-label" for="nome_campo">*{{ campo_adicional.nome_campo }}</label>
                                                 <input type="text" name="valor_campo[]" class="form-control form-control-lg" placeholder="Insira a informação" required>
                                             </div>
                                             {% endfor %}

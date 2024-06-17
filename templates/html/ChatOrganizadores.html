@@ -168,7 +168,7 @@
                             <form id="chat-form" action="/enviar_mensagem" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{eventos[0]}}">
-                                    <textarea class="form-control" id="mensagem" name="mensagem" rows="3" placeholder="Digite sua mensagem"></textarea>
+                                    <textarea class="form-control" id="mensagem" name="mensagem" rows="3" placeholder="*Digite sua mensagem" required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary filled-button">Enviar</button>
                             </form>
