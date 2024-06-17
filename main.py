@@ -3225,6 +3225,8 @@ def salvar_informacoes():
 
     if request.method == "POST":
         # Obtenha o arquivo da imagem do formulário
+        nome = request.form.get("nome")
+        sobrenome= request.form.get("sobrenome")
         foto = request.files["profile_pic"]
         nascimento = request.form.get("nascimento")
         endereco = request.form.get("endereco")
@@ -3240,8 +3242,8 @@ def salvar_informacoes():
 
             # Atualize a foto e o nome do arquivo do usuário com base no idlogado na sessão
             cursor.execute(
-                'UPDATE usuarios SET cidade = %s, rua = %s, nascimento = %s, endereco = %s, numero = %s WHERE id_usuario = %s',
-                (cidade, rua, nascimento, endereco, numero, session['idlogado'])
+                'UPDATE usuarios SET cidade = %s, rua = %s, nascimento = %s, endereco = %s, numero = %s, nome = %s, sobrenome = %s WHERE id_usuario = %s',
+                (cidade, rua, nascimento, endereco, numero, nome, sobrenome,session['idlogado'])
             )
 
             # Commit para salvar as alterações no banco de dados
