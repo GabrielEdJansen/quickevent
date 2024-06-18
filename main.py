@@ -2720,9 +2720,8 @@ def SalvarAlteracoes():
         observacoes = request.form.getlist('observacao_ingresso[]')
 
         # Converter datas de strings para objetos datetime.date
-        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in
-                               datas_inicio_vendas]
-        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
+        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() for data in datas_inicio_vendas]
+        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() for data in datas_fim_vendas]
 
         print(id_ingresso)
         # Validar se id_ingresso tem informações
@@ -3754,11 +3753,10 @@ def CriarEvento():
         quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
         observacoes = request.form.getlist('observacao_ingresso[]')
 
-        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in
-                               datas_inicio_vendas]
+        datas_inicio_vendas = [datetime.strptime(data, "%Y-%m-%d").date() for data in datas_inicio_vendas]
         horas_inicio_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_inicio_vendas]
 
-        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() + timedelta(days=1) for data in datas_fim_vendas]
+        datas_fim_vendas = [datetime.strptime(data, "%Y-%m-%d").date() for data in datas_fim_vendas]
         horas_fim_vendas = [datetime.strptime(hora, "%H:%M").time() for hora in horas_fim_vendas]
 
         for i in range(len(titulos)):
