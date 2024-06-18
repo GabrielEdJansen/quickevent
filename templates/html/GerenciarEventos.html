@@ -75,16 +75,15 @@
 </nav>
 
 <div class="container">
-
-                {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
     <div class="row">
         <!-- Filtros à esquerda -->
@@ -110,26 +109,26 @@
                             <select class="form-select" id="categoria" name="categoria" style="width: 100%;">
                                 <option selected disabled value="" {% if not filtro.categoria %} selected {% endif %}>Todas</option>
                                 <option value="1" {% if filtro.categoria == '1' %} selected {% endif %}>Artes Dramáticas e Visuais</option>
-                                 <option value="2" {% if filtro.categoria == '2' %} selected {% endif %}>Atividades Escolares</option>
+                                <option value="2" {% if filtro.categoria == '2' %} selected {% endif %}>Atividades Escolares</option>
                                 <option value="3" {% if filtro.categoria == '3' %} selected {% endif %}>Auto, Náutica e Aéreo</option>
-                                    <option value="4" {% if filtro.categoria == '4' %} selected {% endif %}>Caridade e causas</option>
-                                    <option value="5" {% if filtro.categoria == '5' %} selected {% endif %}>Casa e Estilo de Vida</option>
-                                    <option value="6" {% if filtro.categoria == '6' %} selected {% endif %}>Ciência e Tecnologia</option>
-                                    <option value="7" {% if filtro.categoria == '7' %} selected {% endif %}>Comida e bebida</option>
-                                    <option value="8" {% if filtro.categoria == '8' %} selected {% endif %}>Comunidade e Cultura</option>
-                                    <option value="9" {% if filtro.categoria == '9' %} selected {% endif %}>Esportes e Fitness</option>
-                                    <option value="10" {% if filtro.categoria == '10' %} selected {% endif %}>Família e Educação</option>
-                                    <option value="11" {% if filtro.categoria == '11' %} selected {% endif %}>Feriados e Festas Tradicionais</option>
-                                    <option value="12" {% if filtro.categoria == '12' %} selected {% endif %}>Filmes, Mídia e Entretenimento</option>
-                                    <option value="13" {% if filtro.categoria == '13' %} selected {% endif %}>Governo e Política</option>
-                                    <option value="14" {% if filtro.categoria == '14' %} selected {% endif %}>Moda e Beleza</option>
-                                    <option value="15" {% if filtro.categoria == '15' %} selected {% endif %}>Música</option>
-                                    <option value="16" {% if filtro.categoria == '16' %} selected {% endif %}>Negócios e Profissional</option>
-                                    <option value="17" {% if filtro.categoria == '17' %} selected {% endif %}>Outro</option>
-                                    <option value="18" {% if filtro.categoria == '18' %} selected {% endif %}>Passatempos e Interesses Especiais</option>
-                                    <option value="19" {% if filtro.categoria == '19' %} selected {% endif %}>Religião e Espiritualidade</option>
-                                    <option value="20" {% if filtro.categoria == '20' %} selected {% endif %}>Saúde e bem-estar</option>
-                                    <option value="21" {% if filtro.categoria == '21' %} selected {% endif %}>Viagens e Ao ar livre</option>
+                                <option value="4" {% if filtro.categoria == '4' %} selected {% endif %}>Caridade e causas</option>
+                                <option value="5" {% if filtro.categoria == '5' %} selected {% endif %}>Casa e Estilo de Vida</option>
+                                <option value="6" {% if filtro.categoria == '6' %} selected {% endif %}>Ciência e Tecnologia</option>
+                                <option value="7" {% if filtro.categoria == '7' %} selected {% endif %}>Comida e bebida</option>
+                                <option value="8" {% if filtro.categoria == '8' %} selected {% endif %}>Comunidade e Cultura</option>
+                                <option value="9" {% if filtro.categoria == '9' %} selected {% endif %}>Esportes e Fitness</option>
+                                <option value="10" {% if filtro.categoria == '10' %} selected {% endif %}>Família e Educação</option>
+                                <option value="11" {% if filtro.categoria == '11' %} selected {% endif %}>Feriados e Festas Tradicionais</option>
+                                <option value="12" {% if filtro.categoria == '12' %} selected {% endif %}>Filmes, Mídia e Entretenimento</option>
+                                <option value="13" {% if filtro.categoria == '13' %} selected {% endif %}>Governo e Política</option>
+                                <option value="14" {% if filtro.categoria == '14' %} selected {% endif %}>Moda e Beleza</option>
+                                <option value="15" {% if filtro.categoria == '15' %} selected {% endif %}>Música</option>
+                                <option value="16" {% if filtro.categoria == '16' %} selected {% endif %}>Negócios e Profissional</option>
+                                <option value="17" {% if filtro.categoria == '17' %} selected {% endif %}>Outro</option>
+                                <option value="18" {% if filtro.categoria == '18' %} selected {% endif %}>Passatempos e Interesses Especiais</option>
+                                <option value="19" {% if filtro.categoria == '19' %} selected {% endif %}>Religião e Espiritualidade</option>
+                                <option value="20" {% if filtro.categoria == '20' %} selected {% endif %}>Saúde e bem-estar</option>
+                                <option value="21" {% if filtro.categoria == '21' %} selected {% endif %}>Viagens e Ao ar livre</option>
                             </select>
                         </div>
                         <form id="searchForm" class="form-inline ml-right" action="buscar" style="position: relative; display: inline-block;">
@@ -159,22 +158,22 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                        <div class="evento-info">
-                                            <h2>{{c[2]}}</h2>
-                                            <p>Data: {{c[3].strftime('%d/%m/%Y')}}</p>
-                                            {% set hora = datetime.min + c[4] %}
-                                            <p>Hora: {{ hora.strftime('%H:%M') }}</p>
-                                            <p>Local: {{c[5]}}</p>
-                                            <form action="/GerenciarEventos" method="post">
-                                                <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
-                                                <button class="filled-button" type="submit" name="botaoEditar" value="{{c[0]}}">
-                                                    Gerenciar
-                                                </button>
-                                                <button class="filled-button" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
-                                                    Excluir Evento
-                                                </button>
-                                             </form>
-                                        </div>
+                                    <div class="evento-info">
+                                        <h2>{{c[2]}}</h2>
+                                        <p>Data: {{c[3].strftime('%d/%m/%Y')}}</p>
+                                        {% set hora = datetime.min + c[4] %}
+                                        <p>Hora: {{ hora.strftime('%H:%M') }}</p>
+                                        <p>Local: {{c[5]}}</p>
+                                        <form action="/GerenciarEventos" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este evento?');">
+                                            <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
+                                            <button class="filled-button" type="submit" name="botaoEditar" value="{{c[0]}}">
+                                                Gerenciar
+                                            </button>
+                                            <button class="filled-button" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
+                                                Excluir Evento
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -190,7 +189,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
