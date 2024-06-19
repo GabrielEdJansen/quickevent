@@ -32,7 +32,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-    <a href="destaques" class="navbar-brand" href="#"><img src="../static/LogoFundo.png" alt="Logo do Site" style="max-height: 40px; max-width: 120px;"></a>
+    <a href="destaques" class="navbar-brand"><img src="../static/LogoFundo.png" alt="Logo do Site" style="max-height: 40px; max-width: 120px;"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -164,12 +164,12 @@
                                         {% set hora = datetime.min + c[4] %}
                                         <p>Hora: {{ hora.strftime('%H:%M') }}</p>
                                         <p>Local: {{c[5]}}</p>
-                                        <form action="/GerenciarEventos" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este evento?');">
+                                        <form action="/GerenciarEventos" method="post">
                                             <input type="hidden" id="eventoPresenca" name="eventoPresenca" value="{{c[0]}}">
                                             <button class="filled-button" type="submit" name="botaoEditar" value="{{c[0]}}">
                                                 Gerenciar
                                             </button>
-                                            <button class="filled-button" type="submit" name="botaoExcluirEvento" value="{{c[0]}}">
+                                            <button class="filled-button" type="submit" name="botaoExcluirEvento" value="{{c[0]}}" onclick="return confirm('Tem certeza que deseja excluir este evento?');">
                                                 Excluir Evento
                                             </button>
                                         </form>
