@@ -485,6 +485,8 @@
                                     {% set quantidades_maximas = quantidades_maximas if quantidades_maximas is defined else [] %}
                                     {% set observacoes = observacoes if observacoes is defined else [] %}
 
+                                    {% set max_length = [titulos|length, datas_inicio_vendas|length, datas_fim_vendas|length, precos|length, disponibilidades|length, quantidades|length, horas_inicio_vendas|length, horas_fim_vendas|length, quantidades_maximas|length, observacoes|length]|max %}
+
                                     {% for i in range(0, max_length) %}
                                         <div class="col-md-6">
                                             <div class="ingresso">
