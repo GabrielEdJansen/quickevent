@@ -3678,6 +3678,22 @@ def CriarEvento():
     dataCadFin = request.form.get('dataCadFin')
     horCad = request.form.get('horCad')
     horCadFin = request.form.get('horCadFin')
+    nome_produtor = request.form.get('nome_produtor')
+    descricao_produtor = request.form.get('descricao_produtor')
+
+    titulos = request.form.getlist('titulo_ingresso[]')
+    quantidades = request.form.getlist('quantidade_ingresso[]')
+    precos = request.form.getlist('preco_ingresso[]')
+    datas_inicio_vendas = request.form.getlist('data_inicio_vendas[]')
+    datas_fim_vendas = request.form.getlist('data_fim_vendas[]')
+    horas_inicio_vendas = request.form.getlist('hora_inicio_vendas[]')
+    horas_fim_vendas = request.form.getlist('hora_fim_vendas[]')
+    disponibilidades = request.form.getlist('disponibilidade_ingresso[]')
+    quantidades_maximas = request.form.getlist('quantidade_maxima_compra[]')
+    observacoes = request.form.getlist('observacao_ingresso[]')
+
+    campos_adicionais = request.form.getlist('nome_campo[]')
+
     data_atual = datetime.now().date()
     hora_atual = datetime.now().time()
     dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date()
@@ -3685,7 +3701,18 @@ def CriarEvento():
 
     if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
         flash("A data fornecida é menor que a data atual.")
-        return render_template("html/CriarEvento.html")
+        return render_template("html/CriarEvento.html",
+                               nomeEventocad=nomeEventocad, descricaocad=descricaocad, categoriacad=categoriacad,
+                               classificacaocad=classificacaocad, totalParticipantescad=totalParticipantescad,
+                               endereco=endereco, rua=rua, cidade=cidade, numero=numero, estado=estado,
+                               bairro=bairro, complemento=complemento, latitude=latitude, longitude=longitude,
+                               dataCad=dataCad, dataCadFin=dataCadFin, horCad=horCad, horCadFin=horCadFin,
+                               nome_produtor=nome_produtor, descricao_produtor=descricao_produtor,
+                               titulos=titulos, quantidades=quantidades, precos=precos,
+                               datas_inicio_vendas=datas_inicio_vendas, datas_fim_vendas=datas_fim_vendas,
+                               horas_inicio_vendas=horas_inicio_vendas, horas_fim_vendas=horas_fim_vendas,
+                               disponibilidades=disponibilidades, quantidades_maximas=quantidades_maximas,
+                               observacoes=observacoes, campos_adicionais=campos_adicionais)
 
     dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date()
     horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
