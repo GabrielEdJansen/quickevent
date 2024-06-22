@@ -474,59 +474,70 @@
                                 <div class="card-body">
                                     <h3 class="card-title text-left">Ingresso do evento</h3>
                                     <div class="row ingresso">
-                                    {% for titulo in titulos %}
-                                    <div class="col-md-6">
-                                        <div class="ingresso">
-                                            <!-- Ingresso -->
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="titulo_ingresso">*Título do Ingresso</label>
-                                                <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" style="width: 100%;" required value="{{ titulos[loop.index0] }}"/>
-                                            </div>
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="data_inicio_vendas">*Data início das vendas</label>
-                                                <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required value="{{ datas_inicio_vendas[loop.index0] }}"/>
-                                            </div>
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="data_fim_vendas">*Data fim das vendas</label>
-                                                <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required value="{{ datas_fim_vendas[loop.index0] }}"/>
-                                            </div>
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="preco_ingresso">*Preço</label>
-                                                <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required value="{{ precos[loop.index0] }}"/>
-                                            </div>
-                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                                <label class="form-label" for="disponibilidade_ingresso">*Disponibilidade</label>
-                                                <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
-                                                    <option selected disabled value="">Selecione a disponibilidade</option>
-                                                    <option value="Publico" {% if disponibilidades[loop.index0] == 'Publico' %}selected{% endif %}>Público</option>
-                                                    <option value="Privado" {% if disponibilidades[loop.index0] == 'Privado' %}selected{% endif %}>Privado</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% set titulos = titulos if titulos is defined else [] %}
+                                    {% set datas_inicio_vendas = datas_inicio_vendas if datas_inicio_vendas is defined else [] %}
+                                    {% set datas_fim_vendas = datas_fim_vendas if datas_fim_vendas is defined else [] %}
+                                    {% set precos = precos if precos is defined else [] %}
+                                    {% set disponibilidades = disponibilidades if disponibilidades is defined else [] %}
+                                    {% set quantidades = quantidades if quantidades is defined else [] %}
+                                    {% set horas_inicio_vendas = horas_inicio_vendas if horas_inicio_vendas is defined else [] %}
+                                    {% set horas_fim_vendas = horas_fim_vendas if horas_fim_vendas is defined else [] %}
+                                    {% set quantidades_maximas = quantidades_maximas if quantidades_maximas is defined else [] %}
+                                    {% set observacoes = observacoes if observacoes is defined else [] %}
 
-                                    <div class="col-md-6">
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="quantidade_ingresso">*Quantidade</label>
-                                            <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required value="{{ quantidades[loop.index0] }}"/>
+                                    {% for i in range(0, 1) %}
+                                        <div class="col-md-6">
+                                            <div class="ingresso">
+                                                <!-- Ingresso -->
+                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                    <label class="form-label" for="titulo_ingresso">*Título do Ingresso</label>
+                                                    <input name="titulo_ingresso[]" type="text" class="form-control form-control-lg" placeholder="Título do ingresso" style="width: 100%;" required value="{{ titulos[i] if titulos|length > i else '' }}"/>
+                                                </div>
+                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                    <label class="form-label" for="data_inicio_vendas">*Data início das vendas</label>
+                                                    <input name="data_inicio_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data início das vendas" required value="{{ datas_inicio_vendas[i] if datas_inicio_vendas|length > i else '' }}"/>
+                                                </div>
+                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                    <label class="form-label" for="data_fim_vendas">*Data fim das vendas</label>
+                                                    <input name="data_fim_vendas[]" type="date" class="form-control form-control-lg" placeholder="Data fim das vendas" required value="{{ datas_fim_vendas[i] if datas_fim_vendas|length > i else '' }}"/>
+                                                </div>
+                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                    <label class="form-label" for="preco_ingresso">*Preço</label>
+                                                    <input name="preco_ingresso[]" id="preco_ingresso" type="text" class="form-control form-control-lg" placeholder="Preço" onKeyUp="mascaraMoeda(this, event)" required value="{{ precos[i] if precos|length > i else '' }}"/>
+                                                </div>
+                                                <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                    <label class="form-label" for="disponibilidade_ingresso">*Disponibilidade</label>
+                                                    <select name="disponibilidade_ingresso[]" class="form-control form-control-lg" required>
+                                                        <option selected disabled value="">Selecione a disponibilidade</option>
+                                                        <option value="Publico" {% if disponibilidades|length > i and disponibilidades[i] == 'Publico' %}selected{% endif %}>Público</option>
+                                                        <option value="Privado" {% if disponibilidades|length > i and disponibilidades[i] == 'Privado' %}selected{% endif %}>Privado</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="hora_inicio_vendas">*Hora início das vendas</label>
-                                            <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required value="{{ horas_inicio_vendas[loop.index0] }}"/>
+
+                                        <div class="col-md-6">
+                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                <label class="form-label" for="quantidade_ingresso">*Quantidade</label>
+                                                <input name="quantidade_ingresso[]" type="number" class="form-control form-control-lg" placeholder="Quantidade" oninput="validarQuantidade(this)" required value="{{ quantidades[i] if quantidades|length > i else '' }}"/>
+                                            </div>
+                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                <label class="form-label" for="hora_inicio_vendas">*Hora início das vendas</label>
+                                                <input name="hora_inicio_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora início das vendas" required value="{{ horas_inicio_vendas[i] if horas_inicio_vendas|length > i else '' }}"/>
+                                            </div>
+                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                <label class="form-label" for="hora_fim_vendas">*Hora fim das vendas</label>
+                                                <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required value="{{ horas_fim_vendas[i] if horas_fim_vendas|length > i else '' }}"/>
+                                            </div>
+                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                <label class="form-label" for="quantidade_maxima_compra">*Quantidade Máxima por Compra</label>
+                                                <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required value="{{ quantidades_maximas[i] if quantidades_maximas|length > i else '' }}"/>
+                                            </div>
+                                            <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
+                                                <label class="form-label" for="observacao_ingresso">Observação do Ingresso</label>
+                                                <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.">{{ observacoes[i] if observacoes|length > i else '' }}</textarea>
+                                            </div>
                                         </div>
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="hora_fim_vendas">*Hora fim das vendas</label>
-                                            <input name="hora_fim_vendas[]" type="time" class="form-control form-control-lg" placeholder="Hora fim das vendas" required value="{{ horas_fim_vendas[loop.index0] }}"/>
-                                        </div>
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="quantidade_maxima_compra">*Quantidade Máxima por Compra</label>
-                                            <input name="quantidade_maxima_compra[]" type="number" class="form-control form-control-lg" placeholder="Quantidade máxima por compra" oninput="validarQuantidade(this)" required value="{{ quantidades_maximas[loop.index0] }}"/>
-                                        </div>
-                                        <div class="form-outline mb-4" style="display: flex; flex-direction: column; align-items: flex-start;">
-                                            <label class="form-label" for="observacao_ingresso">Observação do Ingresso</label>
-                                            <textarea name="observacao_ingresso[]" class="form-control form-control-lg" placeholder="Ex: Esse ingresso garante uma bebida, acesso ao camarote, etc.">{{ observacoes[loop.index0] }}</textarea>
-                                        </div>
-                                    </div>
                                     {% endfor %}
                                 </div>
                                 <div class="row justify-content-center">
