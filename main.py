@@ -3697,6 +3697,9 @@ def CriarEvento():
     data_atual = datetime.now().date()
     hora_atual = datetime.now().time()
 
+    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date()
+    horCad = datetime.strptime(horCad, "%H:%M").time()
+
     if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
         flash("A data fornecida é menor que a data atual.")
         return render_template("html/CriarEvento.html",
@@ -3713,8 +3716,6 @@ def CriarEvento():
                                observacoes=observacoes, campos_adicionais=campos_adicionais)
 
 
-    dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date()
-    horCad = datetime.strptime(horCad, "%H:%M").time()
 
     dataCadFin = datetime.strptime(dataCadFin, "%Y-%m-%d").date()
     horCadFin = datetime.strptime(horCadFin, "%H:%M").time()
