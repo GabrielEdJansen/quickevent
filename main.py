@@ -3697,7 +3697,10 @@ def CriarEvento():
     data_atual = datetime.now().date()
     hora_atual = datetime.now().time()
     dataCad = datetime.strptime(dataCad, "%Y-%m-%d").date()
-    horCad = datetime.strptime(horCad, "%H:%M").time()
+    horCad = horCad.strip()  # Remove espaços em branco extras nas extremidades
+    horCad = horCad.split(":")[:2]  # Mantém apenas os primeiros dois componentes (HH:MM)
+    horCad = ":".join(horCad)  # Reconstrói a string no formato HH:MM
+    #horCad = datetime.strptime(horCad, "%H:%M").time()
 
     if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
         flash("A data fornecida é menor que a data atual.")
