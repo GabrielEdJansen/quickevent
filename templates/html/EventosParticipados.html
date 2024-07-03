@@ -97,7 +97,7 @@
                         <div class="mb-4">
                             <label for="categoria" class="form-label">Categoria</label>
                             <select class="form-select" id="categoria" name="categoria" style="width: 100%;">
-                                <option selected disabled value="" {% if not filtro.categoria %} selected {% endif %}>Todas</option>
+                                <option selected value="" {% if not filtro.categoria %} selected {% endif %}>Todas</option>
                                 <option value="1" {% if filtro.categoria == '1' %} selected {% endif %}>Artes Dramáticas e Visuais</option>
                                   <option value="2" {% if filtro.categoria == '2' %} selected {% endif %}>Atividades Escolares</option>
                                     <option value="3" {% if filtro.categoria == '3' %} selected {% endif %}>Auto, Náutica e Aéreo</option>
