@@ -3702,18 +3702,19 @@ def CriarEvento():
 
     if dataCad < data_atual or (dataCad == data_atual and horCad < hora_atual):
         flash("A data fornecida é menor que a data atual.")
-        return render_template("html/CriarEvento.html",
-                               nomeEventocad=nomeEventocad, descricaocad=descricaocad, categoriacad=categoriacad,
-                               classificacaocad=classificacaocad, totalParticipantescad=totalParticipantescad,
-                               endereco=endereco, rua=rua, cidade=cidade, numero=numero, estado=estado,
-                               bairro=bairro, complemento=complemento, latitude=latitude, longitude=longitude,
-                               dataCad=dataCad, dataCadFin=dataCadFin, horCad=horCad, horCadFin=horCadFin,
-                               nome_produtor=nome_produtor, descricao_produtor=descricao_produtor,
-                               titulos=titulos, quantidades=quantidades, precos=precos,
-                               datas_inicio_vendas=datas_inicio_vendas, datas_fim_vendas=datas_fim_vendas,
-                               horas_inicio_vendas=horas_inicio_vendas, horas_fim_vendas=horas_fim_vendas,
-                               disponibilidades=disponibilidades, quantidades_maximas=quantidades_maximas,
-                               observacoes=observacoes, campos_adicionais=campos_adicionais)
+        return render_template("html/CriarEvento.html")
+        #return render_template("html/CriarEvento.html",
+        #                       nomeEventocad=nomeEventocad, descricaocad=descricaocad, categoriacad=categoriacad,
+        #                      classificacaocad=classificacaocad, totalParticipantescad=totalParticipantescad,
+        #                       endereco=endereco, rua=rua, cidade=cidade, numero=numero, estado=estado,
+        #                       bairro=bairro, complemento=complemento, latitude=latitude, longitude=longitude,
+        #                       dataCad=dataCad, dataCadFin=dataCadFin, horCad=horCad, horCadFin=horCadFin,
+        #                       nome_produtor=nome_produtor, descricao_produtor=descricao_produtor,
+        #                       titulos=titulos, quantidades=quantidades, precos=precos,
+        #                       datas_inicio_vendas=datas_inicio_vendas, datas_fim_vendas=datas_fim_vendas,
+        #                       horas_inicio_vendas=horas_inicio_vendas, horas_fim_vendas=horas_fim_vendas,
+        #                       disponibilidades=disponibilidades, quantidades_maximas=quantidades_maximas,
+        #                       observacoes=observacoes, campos_adicionais=campos_adicionais)
 
 
 
