@@ -3609,7 +3609,7 @@ def login():
                     else:
                         return redirect(url_for('InformacoesEventos', eventoPresenca=eventoPresenca))
 
-            flash('Usuário inválido!')
+            #flash('Usuário inválido!')
             return redirect("/logininicio")
         else:
             return redirect("/")
