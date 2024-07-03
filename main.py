@@ -4258,15 +4258,15 @@ def ExcluirEvento():
         conexao.commit()
 
         cursor.execute(
+            f"DELETE FROM formulario_adicional WHERE ID_EVENTOS = '{eventoPresenca}';")
+        conexao.commit()
+
+        cursor.execute(
             f"DELETE FROM campo_adicional WHERE id_eventos = '{eventoPresenca}';")
         conexao.commit()
 
         cursor.execute(
             f"DELETE FROM ingressos WHERE id_eventos =  '{eventoPresenca}';")
-        conexao.commit()
-
-        cursor.execute(
-            f"DELETE FROM eventos WHERE ID_EVENTOS = '{eventoPresenca}';")
         conexao.commit()
 
         cursor.execute(
@@ -4282,7 +4282,7 @@ def ExcluirEvento():
         conexao.commit()
 
         cursor.execute(
-            f"DELETE FROM formulario_adicional WHERE ID_EVENTOS = '{eventoPresenca}';")
+            f"DELETE FROM eventos WHERE ID_EVENTOS = '{eventoPresenca}';")
         conexao.commit()
 
         conexao.close()
