@@ -4043,6 +4043,7 @@ def InicioGerenciarEventos():
     data_inicial = request.args.get("dataInicial")
     data_final = request.args.get("dataFinal")
     nome_evento = request.args.get("nomeEvento")
+    categoria = request.args.get("categoria")
 
     if nome_evento is None:
         nome_evento = ''
@@ -4089,6 +4090,9 @@ def InicioGerenciarEventos():
     if data_final:
         query += f' AND e.data_evento <= %s'
         query_params.append(data_final)
+
+    if categoria:
+        query += f' AND e.categoria = "{categoria}"'
 
     query += '''
         GROUP BY
