@@ -4119,7 +4119,8 @@ def InicioGerenciarEventos():
     filtro_aplicado = {
         "dataInicial": data_inicial,
         "dataFinal": data_final,
-        "nomeEvento": nome_evento
+        "nomeEvento": nome_evento,
+        "categoria": categoria
     }
     if not eventos:
         flash('Nenhum evento encontrado.', 'warning')
